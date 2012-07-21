@@ -29,7 +29,7 @@
 //database name
 #define STORE_DBNAME            @"TaskModel.sqlite"
 
-#define DEFAULT_DOMAIN           @"TAOBAO-HZ"
+#define DEFAULT_DOMAIN           @"xxxxxx"
 
 #define APP_BACKGROUNDCOLOR     [UIColor colorWithRed:29.0/255 green:105.0/255 blue:202.0/255 alpha:1]
 
@@ -38,4 +38,4 @@
 #define LOGIN_URL                   @"/account/arklogin"
 #define LOGOUT_URL                  @"/account/logout"
 
-#define ENV_PATH                @"https://cooper.wf.taobao.org"
+#define ENV_PATH                @"https://cooper.icodesharp.com"

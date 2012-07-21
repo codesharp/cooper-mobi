@@ -82,7 +82,7 @@
             {
                 cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"AccountCell"] autorelease];
                 
-                cell.textLabel.text = @"Ark帐号设置";
+                cell.textLabel.text = @"帐号设置";
                 
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.editingAccessoryType = UITableViewCellAccessoryNone;

@@ -18,7 +18,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = NSLocalizedString(@"Ark帐号设置", @"Ark帐号设置");
+        self.title = NSLocalizedString(@"帐号设置", @"帐号设置");
     }
     return self;
 }

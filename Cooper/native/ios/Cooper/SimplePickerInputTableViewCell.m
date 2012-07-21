@@ -18,9 +18,9 @@
 {
     values = [[NSMutableArray array] retain];
     [values addObject:DEFAULT_DOMAIN];
-    [values addObject:@"HZ"];
-    [values addObject:@"ALIPAY"];
-    [values addObject:@"SP"];
+    [values addObject:@"XXXXXX"];
+    [values addObject:@"XXXXXX"];
+    [values addObject:@"XXXXXX"];
 
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
