@@ -1,0 +1,41 @@
+//
+// Prefix header for all source files of the 'Cooper' target in the 'Cooper' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_4_0
+#warning "This project uses features only available in iOS SDK 4.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import <CoreData/CoreData.h>
+#endif
+
+#ifdef DEBUG
+#   define NSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#   define NSLog(...)
+#endif
+
+#import "Constant.h"
+#import "Tools.h"
+#import "MBProgressHUD.h"
+
+#define MAXLENGTH               8
+#define AES_KEY                 @""
+//database name
+#define STORE_DBNAME            @"TaskModel.sqlite"
+
+#define DEFAULT_DOMAIN           @"TAOBAO-HZ"
+
+#define APP_BACKGROUNDCOLOR     [UIColor colorWithRed:29.0/255 green:105.0/255 blue:202.0/255 alpha:1]
+
+#define TASK_URL_GETBYPRIORITY      @"/Personal/GetByPriority"
+#define TASK_URL_SYNC               @"/Personal/Sync"
+#define LOGIN_URL                   @"/account/arklogin"
+#define LOGOUT_URL                  @"/account/logout"
+
+#define ENV_PATH                @"https://cooper.wf.taobao.org"
