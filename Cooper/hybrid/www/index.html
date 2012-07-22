@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cooper Task</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+        <meta charset="utf-8">
+            <!-- iPad/iPhone specific css below, add after your main css >
+             <link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
+             <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
+             -->
+            <!-- If your application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
+            <link rel="Stylesheet" href="./scripts/jquerymobile/jquery.mobile-1.1.1.min.css" />
+            
+            <script src="./scripts/jquery-1.7.2.min.js"></script>
+            <script src="./scripts/jquery.tmpl.min.js"></script>
+            <script type="text/javascript" charset="utf-8" src="./scripts/cordova-1.9.0.js"></script>        
+            <script src="./scripts/plugins/httprequest.js"></script>
+            <script src="./scripts/plugins/taskService.js"></script>
+            <script>
+            $( document ).bind( "mobileinit", function() {
+                $.support.cors = true;
+                $.mobile.allowCrossDomainPages = true;
+            });
+            </script>
+            <script src="./scripts/jquerymobile/jquery.mobile-1.1.1.min.js"></script>
+            
+            <script src="./scripts/pages/index.js"></script>       
+            <script type="text/javascript">
+                // If you want to prevent dragging, uncomment this section
+                /*
+                 function preventBehavior(e) 
+                 { 
+                 e.preventDefault(); 
+                 };
+                 document.addEventListener("touchmove", preventBehavior, false);
+                 */
+                
+                /* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
+                 see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
+                 for more details -jm */
+                /*
+                 function handleOpenURL(url)
+                 {
+                 // TODO: do something with the url passed in.
+                 }
+                 */
+			</script> 
+            <style>
+			.nav-glyphish-example .ui-btn .ui-btn-inner { padding-top: 40px !important; }
+			.nav-glyphish-example .ui-btn .ui-icon { width: 30px!important; height: 30px!important; margin-left: -15px !important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }
+			#chat .ui-icon { background:  url(glyphish-icons/09-chat2.png) 50% 50% no-repeat; background-size: 24px 22px; }
+			#email .ui-icon { background:  url(glyphish-icons/18-envelope.png) 50% 50% no-repeat; background-size: 24px 16px;  }
+			#login .ui-icon { background:  url(glyphish-icons/30-key.png) 50% 50% no-repeat;  background-size: 12px 26px; }
+			#beer .ui-icon { background:  url(glyphish-icons/88-beermug.png) 50% 50% no-repeat;  background-size: 22px 27px; }
+			#coffee .ui-icon { background:  url(glyphish-icons/100-coffee.png) 50% 50% no-repeat;  background-size: 20px 24px; }
+			#skull .ui-icon { background:  url(glyphish-icons/21-skull.png) 50% 50% no-repeat;  background-size: 22px 24px; }
+			</style>
+           
+            </head>
+    <body>
+    	<script id="taskTemplate" type="text/x-jquery-tmpl">
+			<li><a href="#" data-transition="slide">
+				<i class="icon-ok"></i>
+				${Subject}
+				&nbsp;
+				<span class="ui-li-count">7-12</span>
+			</a></li>
+        </script>
+        <div data-role="page">
+          <div data-role="header" data-position="fixed" data-theme="b">
+            <a class="link_account ui-btn-left" data-icon="gear">Edit</a>
+            <h1 style="margin-top:5px;" ><a style="height:28px;" class="link_sync" data-role="button">同步</a></h1>   
+            <a class="link_append ui-btn-right" data-icon="plus">New</a>
+       	  </div>
+  		  <div data-role="scrollwrapper">
+          	<div data-role="content" id="content">
+               <ul id="list" data-role="listview" data-filter="true" data-theme="d" data-divider-theme="d">
+                
+                    <!--<li data-role="list-divider">
+                        Today
+                        <span class="ui-li-count">7</span> </li>
+                    <li><a href="#" id="467" data-transition="slide">
+                        <i class="icon-ok"></i>
+                        将iphone 3gs升级ios 4.1版本
+                        &nbsp;
+                        <span class="ui-li-count">7-12</span>
+                    </a></li>
+                    <li><a href="#" id="468" data-transition="slide">
+                        &nbsp;&nbsp;&nbsp;                    ios异常处理解决方案
+                        &nbsp;
+                    </a></li>
+                    <li><a href="#" id="469" data-transition="slide">
+                        <i class="icon-ok"></i>
+                        cooper ios - 设置页面添加 环境配置
+                        &nbsp;
+                        <span class="ui-li-count">7-11</span>
+                    </a></li>
+                    <li><a href="#" id="585" data-transition="slide">
+                        <i class="icon-ok"></i>
+                        ios应用程序兼容性测试，打算测试ios 4.0版本以上的模拟器以及真机
+                        &nbsp;
+                        <span class="ui-li-count">7-11</span>
+                    </a></li>
+                    <li><a href="#" id="587" data-transition="slide">
+                        <i class="icon-ok"></i>
+                        功能上，在设置栏，1)增加开发/正式环境设置，2) 账户在设置进行切换，3)ios应用程序版本检测，达到可自动升级
+                        &nbsp;
+                        <span class="ui-li-count">7-11</span>
+                    </a></li>
+                    <li><a href="#" id="887" data-transition="slide">
+                        &nbsp;&nbsp;&nbsp;                    phonegap方案研究jshtml+部分native的方案
+                        &nbsp;
+                    </a></li>
+                    <li><a href="#" id="925" data-transition="slide">
+                        <i class="icon-ok"></i>
+                        iOS App打包
+                        &nbsp;
+                    </a></li>
+                    <li data-role="list-divider">
+                        Upcoming
+                        <span class="ui-li-count">2</span> </li>
+                    <li><a href="#" id="470" data-transition="slide">
+                        <i class="icon-tag"></i>
+                        cooper ios - 应用程序版本升级解决方案
+                        &nbsp;
+                    </a></li>
+                    <li><a href="#" id="584" data-transition="slide">
+                        <i class="icon-ok"></i>
+                        cooper ios打包
+                        &nbsp;
+                        <span class="ui-li-count">7-11</span>
+                    </a></li>
+                    <li data-role="list-divider">
+                        Later
+                        <span class="ui-li-count">4</span> </li>
+                    <li><a href="#" id="472" data-transition="slide">
+                        <i class="icon-inbox"></i>
+                        iOS性能测试以及自动化测试研究
+                        &nbsp;
+                    </a></li>
+                    <li><a href="#" id="475" data-transition="slide">
+                        <i class="icon-inbox"></i>
+                        联系人ios功能确定
+                        &nbsp;
+                    </a></li>
+                    <li><a href="#" id="588" data-transition="slide">
+                        <i class="icon-inbox"></i>
+                        参考Any.do进行UI设计
+                        &nbsp;
+                    </a></li>
+                    <li><a href="#" id="589" data-transition="slide">
+                        <i class="icon-inbox"></i>
+                        iOS开发分享
+                        &nbsp;
+                    </a></li>-->
+                </ul>
+            	</div>
+            </div>
+            <div data-role="footer" data-position="fixed">
+				<div data-role="navbar">
+					<ul>
+                        <li><a href="#task" class="ui-btn-active" data-iconpos="top" data-icon="features">个人任务</a></li>
+                        <li><a href="#complete" data-iconpos="top" data-icon="brands">已完成<!--<span class="ui-li-count">10</span>--></a></li>
+                        <li><a href="#uncomplete" data-iconpos="top" data-icon="fees">未完成</a></li>
+                        <li><a href="#setting" data-iconpos="top" data-icon="contact">设置</a></li>
+                    </ul>
+                </div>
+                </div>
+        </div>
+    </body>
+</html>

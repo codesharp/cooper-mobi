@@ -1,0 +1,47 @@
+//
+// Prefix header for all source files of the 'CooperGap' target in the 'CooperGap' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_4_0
+#warning "This project uses features only available in iOS SDK 4.0 and later."
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+#endif
+
+#ifdef DEBUG
+#   define NSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#   define NSLog(...)
+#endif
+
+//#import "Constant.h"
+//#import "Tools.h"
+//#import "MBProgressHUD.h"
+
+#define MAXLENGTH               8
+#define AES_KEY                 @"tbtbkfckfcgoogle"
+//database name
+#define STORE_DBNAME            @"TaskModel.sqlite"
+
+#define APP_BACKGROUNDCOLOR     [UIColor colorWithRed:0.0/255 green:136.0/255 blue:204/255.0 alpha:1]
+
+//#define TASK_URL                @"http://10.13.25.111:100/Personal/GetByPriority"
+//#define TASK_SYNC_URL           @"http://10.13.25.111:100/Personal/Sync"
+//#define LOGIN_URL               @"http://10.13.25.111:100/account/arklogin"
+
+//#define TASK_URL                @"http://open.wf.taobao.org/cooper/Personal/GetByPriority"
+//#define TASK_SYNC_URL           @"http://open.wf.taobao.org/cooper/Personal/Sync"
+//#define LOGIN_URL               @"http://open.wf.taobao.org/cooper/account/arklogin"
+
+#define TASK_URL_GETBYPRIORITY      @"/Personal/GetByPriority"
+#define TASK_URL_SYNC               @"/Personal/Sync"
+#define LOGIN_URL                   @"/account/arklogin"
+#define LOGOUT_URL                  @"/account/logout"
+
+#define ENV_PATH                @"https://cooper.wf.taobao.org"
