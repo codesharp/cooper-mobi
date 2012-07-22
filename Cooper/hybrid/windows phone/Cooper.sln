@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010 Express for Windows Phone
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cooper", "Cooper\Cooper.csproj", "{4630B122-75D2-448A-8415-088E79D9D1F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cooper.Www", "Cooper.Www\Cooper.Www.csproj", "{7D768FC5-7A7E-4BB3-A58B-D3BA5598B1D5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4630B122-75D2-448A-8415-088E79D9D1F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4630B122-75D2-448A-8415-088E79D9D1F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4630B122-75D2-448A-8415-088E79D9D1F1}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{4630B122-75D2-448A-8415-088E79D9D1F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4630B122-75D2-448A-8415-088E79D9D1F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4630B122-75D2-448A-8415-088E79D9D1F1}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{7D768FC5-7A7E-4BB3-A58B-D3BA5598B1D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D768FC5-7A7E-4BB3-A58B-D3BA5598B1D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D768FC5-7A7E-4BB3-A58B-D3BA5598B1D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D768FC5-7A7E-4BB3-A58B-D3BA5598B1D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

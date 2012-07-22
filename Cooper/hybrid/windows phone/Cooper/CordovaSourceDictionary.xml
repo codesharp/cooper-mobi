@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is auto-generated, do not edit! -jm -->
+<CordovaSourceDictionary>
+    <FilePath Value="www\detail.html"/>
+    <FilePath Value="www\index.html"/>
+    <FilePath Value="www\scripts\cordova-1.9.0.js"/>
+    <FilePath Value="www\scripts\pages\index.css"/>
+    <FilePath Value="www\scripts\pages\index.js"/>
+    <FilePath Value="www\scripts\plugins\deviceInfo.js"/>
+    <FilePath Value="www\scripts\plugins\httprequest.js"/>
+    <FilePath Value="www\scripts\plugins\NavigationBar.js"/>
+    <FilePath Value="www\scripts\plugins\TabBar.js"/>
+    <FilePath Value="www\scripts\plugins\taskService.js"/>
+    <FilePath Value="www\scripts\jquerymobile\images\ajax-loader.gif"/>
+    <FilePath Value="www\scripts\jquerymobile\images\ajax-loader.png"/>
+    <FilePath Value="www\scripts\jquerymobile\images\icons-18-black.png"/>
+    <FilePath Value="www\scripts\jquerymobile\images\icons-18-white.png"/>
+    <FilePath Value="www\scripts\jquerymobile\images\icons-36-black.png"/>
+    <FilePath Value="www\scripts\jquerymobile\images\icons-36-white.png"/>
+    <FilePath Value="www\scripts\jquerymobile\jquery.mobile-1.1.1.css"/>
+    <FilePath Value="www\scripts\jquerymobile\jquery.mobile-1.1.1.js"/>
+    <FilePath Value="www\scripts\jquerymobile\jquery.mobile-1.1.1.min.css"/>
+    <FilePath Value="www\scripts\jquerymobile\jquery.mobile-1.1.1.min.js"/>
+    <FilePath Value="www\scripts\jquerymobile\jquery.mobile.structure-1.1.1.css"/>
+    <FilePath Value="www\scripts\jquerymobile\jquery.mobile.structure-1.1.1.min.css"/>
+    <FilePath Value="www\scripts\jquerymobile\jquery.mobile.theme-1.1.1.css"/>
+    <FilePath Value="www\scripts\jquerymobile\jquery.mobile.theme-1.1.1.min.css"/>
+    <FilePath Value="www\scripts\images\sprite_hi-res.png"/>
+    <FilePath Value="www\scripts\images\sprite_lo-res.png"/>
+    <FilePath Value="www\scripts\jquery-1.7.2.min.js"/>
+    <FilePath Value="www\scripts\jquery.mobile.scrollfixed.js"/>
+    <FilePath Value="www\scripts\jquery.tmpl.js"/>
+    <FilePath Value="www\scripts\jquery.tmpl.min.js"/>
+    <FilePath Value="www\scripts\jquery.tmplPlus.js"/>
+    <FilePath Value="www\scripts\jquery.tmplPlus.min.js"/>
+</CordovaSourceDictionary>
