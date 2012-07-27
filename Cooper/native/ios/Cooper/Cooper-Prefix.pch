@@ -12,8 +12,10 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import <CoreData/CoreData.h>
+    #import <QuartzCore/QuartzCore.h>
+    #import <CoreGraphics/CoreGraphics.h>
 #endif
-
+    
 #ifdef DEBUG
 #   define NSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
@@ -23,19 +25,51 @@
 #import "Constant.h"
 #import "Tools.h"
 #import "MBProgressHUD.h"
+#import "SysConfig.h"
 
-#define MAXLENGTH               8
-#define AES_KEY                 @""
-//database name
-#define STORE_DBNAME            @"TaskModel.sqlite"
+//HACK:设置当前是否为codesharp版本，1为是，其他值为否
+#define IS_CODESHARP_VERSION 1
 
-#define DEFAULT_DOMAIN           @"xxxxxx"
+#if IS_CODESHARP_VERSION == 1
+    #define CODESHARP_VERSION
+#endif
 
-#define APP_BACKGROUNDCOLOR     [UIColor colorWithRed:29.0/255 green:105.0/255 blue:202.0/255 alpha:1]
+//默认环境路径
+//#define ENV_PATH                        @"https://cooper.wf.taobao.org"
+//#define ENV_PATH                        @"https://cooper.wf.taobao.org"
+//#define ENT_PATH                        @"http://10.13.25.111:9005"
 
-#define TASK_URL_GETBYPRIORITY      @"/Personal/GetByPriority"
-#define TASK_URL_SYNC               @"/Personal/Sync"
-#define LOGIN_URL                   @"/account/arklogin"
-#define LOGOUT_URL                  @"/account/logout"
+#define RELEASE(_ptr_) if((_ptr_) != nil) {[_ptr_ release]; _ptr_ = nil;}  
 
-#define ENV_PATH                @"https://cooper.icodesharp.com"
+//模拟器/设备名称
+#define MODEL_NAME                      [[UIDevice currentDevice] model]
+#define MODEL_VERSION                   [[[UIDevice currentDevice] systemVersion] floatValue]
+
+//背景图片（条纹）
+#define APP_BACKGROUNDIMAGE             @"bg-line.png"
+//背景主色调
+#define APP_BACKGROUNDCOLOR             [UIColor colorWithRed:47.0/255 green:157.0/255 blue:216.0/255 alpha:1]
+//导航背景图片
+#define NAVIGATIONBAR_BG_IMAGE          @"navigationbar_bg.png"
+
+//本地数据库名称
+#define STORE_DBNAME                    @"TaskModel.sqlite"
+//默认域名
+#define DEFAULT_DOMAIN                  @"TAOBAO-HZ"
+
+//优先级获取路径
+#define TASK_URL_GETBYPRIORITY          @"/Personal/GetByPriority"
+//同步路径
+#define TASK_URL_SYNC                   @"/Personal/Sync"
+#ifndef CODESHARP_VERSION
+    //登录路径
+    #define LOGIN_URL                       @"/account/arklogin"
+#else
+    #define LOGIN_URL                       @"/account/login"
+#endif
+//注销路径
+#define LOGOUT_URL                      @"/account/logout"
+
+#define MAXLENGTH                       8
+#define AES_KEY                         @""
+
