@@ -232,6 +232,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		18E2973E15BCD72900DCED79 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		8C25D38A15B65D530030DB09 = {
 			isa = PBXGroup;
 			children = (
@@ -278,6 +285,7 @@
 		8C25D3B615B65D540030DB09 /* Cooper */ = {
 			isa = PBXGroup;
 			children = (
+				18E2973E15BCD72900DCED79 /* Models */,
 				8C25D3C115B65D540030DB09 /* Resources */,
 				8C25D3E215B65D540030DB09 /* Classes */,
 				8C25D3EB15B65D540030DB09 /* Plugins */,
