@@ -34,4 +34,6 @@
 
 + (void)failed:(MBProgressHUD*)HUD;
 
++ (NSString*)stringWithUUID;
+
 @end

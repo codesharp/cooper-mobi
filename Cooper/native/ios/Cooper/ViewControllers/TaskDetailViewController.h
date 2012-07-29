@@ -29,6 +29,8 @@
 @property (retain, nonatomic) UILabel *subjectLabel;
 @property (retain, nonatomic) UILabel *bodyLabel;
 @property (retain, nonatomic) CommentTextField *commentTextField;
+@property (retain, nonatomic) NSString* currentTasklistId;
+
 - (void) initContentView;
 
 @end

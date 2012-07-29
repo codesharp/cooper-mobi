@@ -2,8 +2,8 @@
 //  Task.m
 //  Cooper
 //
-//  Created by sunleepy on 12-7-5.
-//  Copyright (c) 2012年 codesharp. All rights reserved.
+//  Created by sunleepy on 12-7-29.
+//  Copyright (c) 2012年 Alibaba. All rights reserved.
 //
 
 #import "Task.h"
@@ -17,9 +17,10 @@
 @dynamic dueDate;
 @dynamic id;
 @dynamic isPublic;
+@dynamic lastUpdateDate;
 @dynamic priority;
 @dynamic status;
 @dynamic subject;
-@dynamic lastUpdateDate;
+@dynamic tasklistId;
 
 @end

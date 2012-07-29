@@ -11,8 +11,9 @@
 #import "LoginViewDelegate.h"
 #import "CustomButton.h"
 #import "DomainLabel.h"
+#import "BaseViewController.h"
 
-@interface LoginViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, MBProgressHUDDelegate,NetworkDelegate>
+@interface LoginViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource, MBProgressHUDDelegate,NetworkDelegate>
 {
     MBProgressHUD *HUD;
 }

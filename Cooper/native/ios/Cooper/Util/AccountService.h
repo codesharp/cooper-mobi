@@ -6,8 +6,6 @@
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
-#import "NetworkManager.h"
-
 @interface AccountService : NSObject
 
 + (void)login:(NSString*)username password:(NSString*)password delegate:(id)delegate;

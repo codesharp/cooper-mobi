@@ -77,11 +77,11 @@
 
 + (void)alert:(NSString *)title 
 {
-    [[[UIAlertView alloc] initWithTitle:title
+    [[[[UIAlertView alloc] initWithTitle:title
                                 message:nil  
                                delegate:nil 
-                      cancelButtonTitle:@"取消" 
-                      otherButtonTitles:nil] show];
+                      cancelButtonTitle:@"ok" 
+                      otherButtonTitles:nil] autorelease] show];
 }
 
 + (MBProgressHUD*)process:(NSString*)title view:(UIView*)view
@@ -110,6 +110,14 @@
     HUD.labelText = @"请求失败";
     HUD.mode = MBProgressHUDModeCustomView;
 	[HUD hide:YES afterDelay:0.3];
+}
+
++ (NSString*) stringWithUUID {
+    CFUUIDRef    uuidObj = CFUUIDCreate(nil);//create a new UUID
+    //get the string representation of the UUID
+    NSString    *uuidString = (NSString*)CFUUIDCreateString(nil, uuidObj);
+    CFRelease(uuidObj);
+    return [uuidString autorelease];
 }
 
 @end

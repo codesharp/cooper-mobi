@@ -12,26 +12,32 @@
 #import "PriorityButton.h"
 #import "CommentTextField.h"
 #import "TaskViewDelegate.h"
+#import "BaseViewController.h"
 
 @class TaskDao;
 @class TaskIdxDao;
 @class ChangeLogDao;
 
-@interface TaskDetailEditViewController : UIViewController<UITableViewDelegate, UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate>
+@interface TaskDetailEditViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate>
 {
     UITableView *detailView;
+     NSString *oldPriority;
     
     TaskDao *taskDao;
     TaskIdxDao *taskIdxDao;
     ChangeLogDao *changeLogDao;
 }
 
-@property(nonatomic,assign) id<TaskViewDelegate> delegate;
+@property (nonatomic,assign) id<TaskViewDelegate> delegate;
 @property (retain, nonatomic) Task *task;
 @property (retain, nonatomic) UITextField   *subjectTextField;
 @property (retain, nonatomic) UITextView    *bodyTextView;
+@property (assign, nonatomic) BOOL currentIsCompleted;
+@property (retain, nonatomic) NSDate *currentDueDate;
 @property (retain, nonatomic) DateLabel *dueDateLabel;
+@property (retain, nonatomic) NSString *currentPriority;
 @property (retain, nonatomic) PriorityButton *priorityButton;
 @property (retain, nonatomic) CustomButton *statusButton;
+@property (retain, nonatomic) NSString* currentTasklistId;
 
 @end

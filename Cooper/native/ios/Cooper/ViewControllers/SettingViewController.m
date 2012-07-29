@@ -9,6 +9,7 @@
 #import "SettingViewController.h"
 #import "PathViewController.h"
 #import "AccountViewController.h"
+#import "NoticeViewController.h"
 #import "CustomTabBarController.h"
 #import "UIImage+Scale.h"
 
@@ -35,6 +36,22 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.tabBarController.navigationItem.leftBarButtonItem = nil;
+    self.tabBarController.navigationItem.rightBarButtonItem = nil;
+    
+//    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [backBtn setFrame:CGRectMake(5, 5, 25, 25)];
+//    [backBtn setBackgroundImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+//    [backBtn addTarget: self action: @selector(goBack:) forControlEvents: UIControlEventTouchUpInside];
+//    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+//    self.navigationItem.leftBarButtonItem = backButtonItem;
+//    [backButtonItem release];
+    
+    self.tabBarController.title = @"系统设置";
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -59,7 +76,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -80,6 +97,12 @@
                 
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.editingAccessoryType = UITableViewCellAccessoryNone;
+
+                UIView *selectedView = [[UIView alloc] initWithFrame:cell.frame];
+                selectedView.backgroundColor = [UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0];
+                //设置选中后cell的背景颜色
+                cell.selectedBackgroundView = selectedView;
+                [selectedView release];
             }
         }
         else if(indexPath.row == 1)
@@ -93,9 +116,34 @@
                 
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.editingAccessoryType = UITableViewCellAccessoryNone;
+                
+                UIView *selectedView = [[UIView alloc] initWithFrame:cell.frame];
+                selectedView.backgroundColor = [UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0];
+                //设置选中后cell的背景颜色
+                cell.selectedBackgroundView = selectedView;
+                [selectedView release];
             }
         }
         else if(indexPath.row == 2)
+        {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"NoticeCell"];
+            if(!cell)
+            {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"NoticeCell"] autorelease];
+                
+                cell.textLabel.text = @"提醒设置";
+                
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.editingAccessoryType = UITableViewCellAccessoryNone;
+                
+                UIView *selectedView = [[UIView alloc] initWithFrame:cell.frame];
+                selectedView.backgroundColor = [UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0];
+                //设置选中后cell的背景颜色
+                cell.selectedBackgroundView = selectedView;
+                [selectedView release];
+            }
+        }
+        else if(indexPath.row == 3)
         {
             cell = [tableView dequeueReusableCellWithIdentifier:@"ApplicationCell"];
             if(!cell)
@@ -135,19 +183,17 @@
         if(indexPath.row == 0)
         {
             PathViewController *pathViewController = [[[PathViewController alloc] initWithNibName:@"PathViewController" bundle:nil] autorelease];
-            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
             [self.navigationController pushViewController:pathViewController animated:NO];
         }
         else if(indexPath.row == 1)
         {
-            AccountViewController *accountViewController = [[[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:nil] autorelease];
-            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
- 
+            AccountViewController *accountViewController = [[[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:nil] autorelease]; 
             [self.navigationController pushViewController:accountViewController animated:NO];
         }
         else if(indexPath.row == 2)
         {
-            
+            NoticeViewController *noticeViewController = [[[NoticeViewController alloc] init] autorelease];
+            [self.navigationController pushViewController:noticeViewController animated:NO];
         }
     }
 }

@@ -23,8 +23,6 @@
 {
     [super viewDidLoad];
     
-    //初始化背景和尺寸
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];  
     self.loginTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
     [self.loginTableView setAllowsSelection:NO];
     CGRect rect = self.loginTableView.frame;
@@ -96,25 +94,37 @@
     [Tools close:HUD];
     //TODO:暂时采用字符串包含来判断是否登录成功
     NSLog(@"请求响应数据: %@, %d", [request responseString], [request responseStatusCode]);
-    if([request responseStatusCode] == 200 
-       //&& [[request responseString] rangeOfString:@"loginSuccess"].length > 0
-       )
+    if([request responseStatusCode] == 200)
     {
-        NSLog(@"请求响应数据: %@", request.responseString);
+        NSArray* array = [request responseCookies];
+        NSLog(@"array:%d",  array.count);
+
+        NSDictionary *dict = [NSHTTPCookie requestHeaderFieldsWithCookies:array];
+        NSString *s = [array objectAtIndex:0];
+        NSHTTPCookie *cookieA = [NSHTTPCookie cookieWithProperties:dict];
+        NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+        
+        [sharedHTTPCookie setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+        [sharedHTTPCookie setCookie:cookieA];
+        
+        //NSLog(@"请求响应数据: %@", request.responseString);
 #ifndef CODESHARP_VERSION
         [[Constant instance] setDomain:domainLabel.text];
 #endif
         [[Constant instance] setUsername:textUsername.text];
         //TODO:自动保存用户登录
         [[Constant instance] setIsSaveUser:YES];
-        
-        [Constant saveToCache];
         [self dismissModalViewControllerAnimated:NO];
-        [delegate loginExit];        
+        [Constant saveToCache];
+        [delegate loginExit]; 
+    }
+    else if([request responseStatusCode] == 400)
+    {
+        [Tools alert:[request responseString]];
     }
     else
     {
-        [Tools alert:@"用户名或密码错误"];
+        [Tools alert:@"未知异常"];
     }
 }
 - (void)requestFailed:(ASIHTTPRequest *)request

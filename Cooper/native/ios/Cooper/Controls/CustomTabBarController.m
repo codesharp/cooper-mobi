@@ -41,7 +41,7 @@
 
 @implementation UIToolbar (CustomImage2)   
 - (void)drawRect:(CGRect)rect {   
-    UIImage *image = [UIImage imageNamed: @"tabbar_bg.png"];   
+    UIImage *image = [UIImage imageNamed: TABBAR_BG_IMAGE];   
     [image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];   
 }   
 @end

@@ -7,7 +7,16 @@
 //
 
 #import "RootDao.h"
+#import "Tasklist.h"
 
 @interface TasklistDao : RootDao
+
+- (NSMutableArray*)getAllTasklist;
+
+- (void)deleteTasklist:(Tasklist*)tasklist;
+
+- (void)deleteAll;
+
+- (void)addTasklist:(NSString*)id :(NSString*)name :(NSString*)type;
 
 @end

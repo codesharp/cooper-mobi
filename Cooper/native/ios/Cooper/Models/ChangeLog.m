@@ -2,8 +2,8 @@
 //  ChangeLog.m
 //  Cooper
 //
-//  Created by sunleepy on 12-7-9.
-//  Copyright (c) 2012年 codesharp. All rights reserved.
+//  Created by sunleepy on 12-7-29.
+//  Copyright (c) 2012年 Alibaba. All rights reserved.
 //
 
 #import "ChangeLog.h"
@@ -11,11 +11,12 @@
 
 @implementation ChangeLog
 
-@dynamic id;
 @dynamic changeType;
 @dynamic dataid;
+@dynamic id;
+@dynamic isSend;
 @dynamic name;
 @dynamic value;
-@dynamic isSend;
+@dynamic tasklistId;
 
 @end

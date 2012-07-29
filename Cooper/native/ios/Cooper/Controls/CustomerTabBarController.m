@@ -38,7 +38,7 @@
 //	NSLog(@"view did load")
 
     
-    UIImageView* image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tabbar_bg.png"]];
+    UIImageView* image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:TABBAR_BG_IMAGE]];
 	//image.frame = CGRectOffset(image.frame, 0, 5);
 	image.frame = CGRectMake(0, 0, 320,49);
 	[self.tabBar insertSubview:image atIndex:0];

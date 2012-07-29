@@ -18,6 +18,7 @@
 @synthesize bodyLabel;
 @synthesize commentTextField;
 @synthesize delegate;
+@synthesize currentTasklistId;
 
 - (id)init
 {
@@ -27,6 +28,17 @@
         //[self initContentView];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [super dealloc];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [detailView reloadData];
+    
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -44,15 +56,14 @@
     [backBtn setFrame:CGRectMake(5, 5, 25, 25)];
     [backBtn setBackgroundImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
     [backBtn addTarget: self action: @selector(goBack:) forControlEvents: UIControlEventTouchUpInside];
-    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    UIBarButtonItem *backButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtn] autorelease];
     self.navigationItem.leftBarButtonItem = backButtonItem;
-    [backButtonItem release];
     
     UIButton *editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [editBtn setFrame:CGRectMake(0, 10, 31, 25)];
+    [editBtn setFrame:CGRectMake(0, 10, 27, 27)];
     [editBtn setBackgroundImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
     [editBtn addTarget: self action: @selector(editTask:) forControlEvents: UIControlEventTouchUpInside];
-    UIBarButtonItem *editButtonItem = [[UIBarButtonItem alloc] initWithCustomView:editBtn];
+    UIBarButtonItem *editButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:editBtn] autorelease];
     self.navigationItem.rightBarButtonItem = editButtonItem;
     
     CGRect tableViewRect = CGRectMake(0, 0, 320, 380);
@@ -76,17 +87,17 @@
     detailView.delegate = self;
     detailView.dataSource = self;
     
-    UIView *tabbar = [[UIView alloc] initWithFrame:CGRectMake(0, 376, 320, 40)];
-    [tabbar setBackgroundColor:APP_BACKGROUNDCOLOR];
-    commentTextField = [[[CommentTextField alloc] init] autorelease];
-    [commentTextField setFrame:CGRectMake(5, 5, 310, 30)];
-    [commentTextField setBackgroundColor:[UIColor whiteColor]];
-    [commentTextField setPlaceholder:@"发表评论"];
-    [commentTextField setFont:[UIFont systemFontOfSize:14]];
-    [commentTextField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-    commentTextField.delegate = self;
-    [tabbar addSubview:commentTextField];
-    [self.view addSubview:tabbar];
+//    UIView *tabbar = [[UIView alloc] initWithFrame:CGRectMake(0, 376, 320, 40)];
+//    [tabbar setBackgroundColor:APP_BACKGROUNDCOLOR];
+//    commentTextField = [[[CommentTextField alloc] init] autorelease];
+//    [commentTextField setFrame:CGRectMake(5, 5, 310, 30)];
+//    [commentTextField setBackgroundColor:[UIColor whiteColor]];
+//    [commentTextField setPlaceholder:@"发表评论"];
+//    [commentTextField setFont:[UIFont systemFontOfSize:14]];
+//    [commentTextField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+//    commentTextField.delegate = self;
+//    [tabbar addSubview:commentTextField];
+//    [self.view addSubview:tabbar];
 }
 
 - (void)goBack:(id)sender
@@ -101,7 +112,6 @@
     
     [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
     [self.navigationController popViewControllerAnimated:NO];
-    
 }
 
 - (void) sendComment:(NSString *)value
@@ -111,22 +121,23 @@
 
 - editTask:(id)sender
 {
-    TaskDetailEditViewController *editController = [[TaskDetailEditViewController alloc] init];
+    TaskDetailEditViewController *editController = [[[TaskDetailEditViewController alloc] init] autorelease];
     editController.delegate = self;
     editController.task = task;
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:editController];
+    editController.currentTasklistId = currentTasklistId;
+    UINavigationController *navigationController = [[[UINavigationController alloc] autorelease] initWithRootViewController:editController];
     if(MODEL_VERSION >= 5.0)
     {
         [navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE] forBarMetrics:UIBarMetricsDefault];
     }
     else {
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE]];
+        UIImageView *imageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE]] autorelease];
         [imageView setFrame:CGRectMake(0, 0, 320, 44)];
         [navigationController.navigationBar addSubview:imageView];
-        [imageView release];
+        //[imageView release];
     }
     
-    [self.navigationController presentModalViewController:navigationController animated:YES];
+    [self.navigationController presentModalViewController:navigationController animated:NO];
 }
 
 - (void)viewDidLoad
@@ -144,6 +155,9 @@
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+    RELEASE(taskDao);
+    RELEASE(taskIdxDao);
+    RELEASE(changeLogDao);
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -246,7 +260,7 @@
                 priorityButton.delegate = self;
                 [recog release];
                 
-                [priorityButton setTitle:@"今天    >" forState:UIControlStateNormal];
+                [priorityButton setTitle:[NSString stringWithFormat:@"%@    >",PRIORITY_TITLE_1] forState:UIControlStateNormal];
             }
             
             if(self.task != nil)
@@ -341,7 +355,11 @@
     
     task.dueDate = value;
     
-    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] dataid:self.task.id name:@"duetime" value:[Tools ShortNSDateToNSString:value]];
+    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                           dataid:self.task.id 
+                             name:@"duetime" 
+                            value:[Tools ShortNSDateToNSString:value]
+                       tasklistId:currentTasklistId];
     
     [taskDao commitData];
     
@@ -357,8 +375,15 @@
     [self.priorityButton setTitle:[NSString stringWithFormat:@"%@    >", value] forState:UIControlStateNormal];
     
     task.priority = [self getPriorityKey:value];
-    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] dataid:self.task.id name:@"priority" value:task.priority];
-    [taskIdxDao updateTaskIdx:self.task.id byKey:self.task.priority isCommit:NO];
+    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                           dataid:self.task.id 
+                             name:@"priority" 
+                            value:task.priority 
+                       tasklistId:currentTasklistId];
+    [taskIdxDao updateTaskIdx:self.task.id 
+                        byKey:self.task.priority 
+                   tasklistId:currentTasklistId
+                     isCommit:NO];
     
     [taskDao commitData];
     
@@ -400,9 +425,12 @@
         isfinish = NO;
     }
     
-    self.task.status = [Tools BOOLToNSNumber:isfinish];
+    self.task.status = [NSNumber numberWithInt: isfinish ? 1 : 0];
     
-    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] dataid:self.task.id name:@"iscompleted" value:isfinish ? @"true" : @"false"];
+    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                           dataid:self.task.id name:@"iscompleted" 
+                            value:isfinish ? @"true" : @"false"
+                       tasklistId:currentTasklistId];
     
     [taskDao commitData];
     
@@ -420,23 +448,23 @@
 
 - (NSString*)getPriorityKey:(NSString*)priorityValue
 {
-    if([priorityValue isEqualToString:@"今天"])
+    if([priorityValue isEqualToString:PRIORITY_TITLE_1])
         return @"0";
-    else if([priorityValue isEqualToString:@"稍后完成"])
+    else if([priorityValue isEqualToString:PRIORITY_TITLE_2])
         return @"1";
-    else if([priorityValue isEqualToString:@"迟些再说"])
+    else if([priorityValue isEqualToString:PRIORITY_TITLE_3])
         return @"2";
     return @"0";
 }
 - (NSString*)getPriorityValue:(NSString*)priorityKey
 {
     if([priorityKey isEqualToString:@"0"])
-        return @"今天";
+        return PRIORITY_TITLE_1;
     else if([priorityKey isEqualToString:@"1"])
-        return @"稍后完成";
+        return PRIORITY_TITLE_2;
     else if([priorityKey isEqualToString:@"2"])
-        return @"迟些再说";
-    return @"今天";
+        return PRIORITY_TITLE_3;
+    return PRIORITY_TITLE_1;
 }
 
 @end

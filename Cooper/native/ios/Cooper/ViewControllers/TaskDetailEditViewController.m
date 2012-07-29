@@ -21,6 +21,10 @@
 @synthesize statusButton;
 @synthesize bodyTextView;
 @synthesize delegate;
+@synthesize currentTasklistId;
+@synthesize currentIsCompleted;
+@synthesize currentDueDate;
+@synthesize currentPriority;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,16 +41,19 @@
     [backBtn setFrame:CGRectMake(5, 5, 25, 25)];
     [backBtn setBackgroundImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
     [backBtn addTarget: self action: @selector(goBack:) forControlEvents: UIControlEventTouchUpInside];
-    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    UIBarButtonItem *backButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtn] autorelease];
     self.navigationItem.leftBarButtonItem = backButtonItem;
-    [backButtonItem release];
-    
-    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(saveTask:)];
+
+    CustomButton *saveTaskBtn = [[[CustomButton alloc] initWithFrame:CGRectMake(5,5,50,30) image:[UIImage imageNamed:@"btn_center.png"]] autorelease];
+    saveTaskBtn.layer.cornerRadius = 6.0f;
+    [saveTaskBtn.layer setMasksToBounds:YES];
+    [saveTaskBtn addTarget:self action:@selector(saveTask:) forControlEvents:UIControlEventTouchUpInside];
+    [saveTaskBtn setTitle:@"确认" forState:UIControlStateNormal];
+    UIBarButtonItem *saveButton = [[[UIBarButtonItem alloc] initWithCustomView:saveTaskBtn] autorelease];
     self.navigationItem.rightBarButtonItem = saveButton;
-    [saveButton release];
     
-    CGRect tableViewRect = CGRectMake(0, 0, 320, 380);
-    UITableView* tempTableView = [[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStylePlain];
+    CGRect tableViewRect = CGRectMake(0, 0, 320, 480);
+    UITableView* tempTableView = [[[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStylePlain] autorelease];
     //[tempTableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLineEtched];
     //tempTableView.scrollEnabled = NO;
     tempTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -54,9 +61,8 @@
     
     //去掉底部空白
     UIView *footer =
-    [[UIView alloc] initWithFrame:CGRectZero];
+    [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
     tempTableView.tableFooterView = footer;
-    [footer release];
     
     detailView = tempTableView;
     
@@ -69,12 +75,121 @@
 
 - (void)goBack:(id)sender
 {
-    [self.navigationController dismissModalViewControllerAnimated:YES];
+    if(self.task == nil)
+        [self.navigationController dismissModalViewControllerAnimated:YES];
+    else {
+        [self.navigationController dismissModalViewControllerAnimated:NO];
+    }
 }
 
 - (void)saveTask:(id)sender
 {
+    if(self.task == nil)
+    {
+        //TODO:日期格式
+        NSString *guid = [Tools stringWithUUID];
+        
+        NSString *id = [NSString stringWithFormat:@"temp_%@_%@", self.currentPriority, guid];
+        
+        NSDate *currentDate = [NSDate date];
+        
+        [taskDao addTask:subjectTextField.text 
+              createDate:currentDate
+          lastUpdateDate:currentDate
+                    body:bodyTextView.text 
+                isPublic:[Tools BOOLToNSNumber:YES] 
+                  status:[Tools BOOLToNSNumber:self.currentIsCompleted] 
+                priority:self.currentPriority 
+                  taskid:id
+                 dueDate:self.currentDueDate
+              tasklistId:currentTasklistId
+                isCommit:NO];
+        
+        [taskIdxDao addTaskIdx:id 
+                         byKey:self.currentPriority 
+                    tasklistId:self.currentTasklistId 
+                      isCommit:NO];
+        
+        //insert changelog
+        [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                               dataid:id 
+                                 name:@"subject" 
+                                value:subjectTextField.text 
+                           tasklistId:self.currentTasklistId];
+        [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                               dataid:id name:@"body" 
+                                value:bodyTextView.text 
+                           tasklistId:self.currentTasklistId];
+        [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                               dataid:id 
+                                 name:@"priority" 
+                                value:self.currentPriority 
+                           tasklistId:self.currentTasklistId];
+        [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                               dataid:id 
+                                 name:@"duetime" 
+                                value:[Tools NSDateToNSString:self.currentDueDate] 
+                           tasklistId:self.currentTasklistId];
+        [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                               dataid:id 
+                                 name:@"iscompleted" 
+                                value:self.currentIsCompleted ? @"true" : @"false" 
+                           tasklistId:self.currentTasklistId];
+        
+        [taskDao commitData];
+    }
+    else 
+    {
+        [taskDao updateTask:self.task 
+                    subject:subjectTextField.text 
+             lastUpdateDate:[NSDate date] 
+                       body:bodyTextView.text 
+                   isPublic:[Tools BOOLToNSNumber:YES] 
+                     status:[Tools BOOLToNSNumber:self.currentIsCompleted] 
+                   priority:self.currentPriority 
+                    dueDate:self.currentDueDate
+                 tasklistId:self.currentTasklistId
+                   isCommit:NO];
+        
+        if(![oldPriority isEqualToString:self.currentPriority])
+            [taskIdxDao updateTaskIdx:self.task.id 
+                                byKey:self.task.priority 
+                           tasklistId:self.currentTasklistId
+                             isCommit:NO];
+        
+        //update changelog
+        [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                               dataid:self.task.id 
+                                 name:@"subject" 
+                                value:subjectTextField.text
+                           tasklistId:currentTasklistId];
+        [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                               dataid:self.task.id 
+                                 name:@"body" 
+                                value:bodyTextView.text 
+                           tasklistId:currentTasklistId];
+        [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                               dataid:self.task.id 
+                                 name:@"priority" 
+                                value:self.currentPriority
+                           tasklistId:currentTasklistId];
+        [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                               dataid:self.task.id 
+                                 name:@"duetime" 
+                                value:[Tools NSDateToNSString:self.currentDueDate]
+                           tasklistId:currentTasklistId];
+        [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                               dataid:self.task.id 
+                                 name:@"iscompleted" 
+                                value:self.currentIsCompleted ? @"true" : @"false"
+                           tasklistId:currentTasklistId];
+        
+        [taskDao commitData];
+    }
     
+    [self goBack:nil];
+    //[self.navigationController dismissModalViewControllerAnimated:YES];
+    //[delegate loadTaskData];
 }
 
 - (void)viewDidLoad
@@ -84,6 +199,10 @@
     taskDao = [[TaskDao alloc] init];
     taskIdxDao = [[TaskIdxDao alloc] init];
     changeLogDao = [[ChangeLogDao alloc] init];
+    
+    self.currentDueDate = nil;
+    self.currentIsCompleted = NO;
+    self.currentPriority = @"0";
     
     [self initContentView];
 }
@@ -179,7 +298,11 @@
                     [self.dueDateLabel setTitle:@"          >" forState:UIControlStateNormal];
                 }
                 else
+                {
                     [self.dueDateLabel setTitle:[NSString stringWithFormat:@"%@    >", [Tools ShortNSDateToNSString:task.dueDate]] forState:UIControlStateNormal];
+                    
+                    self.currentDueDate = task.dueDate;
+                }
             }
             
             CGSize size = CGSizeMake(320,10000);
@@ -204,12 +327,13 @@
                 priorityButton.delegate = self;
                 [recog release];
                 
-                [priorityButton setTitle:@"今天    >" forState:UIControlStateNormal];
+                [priorityButton setTitle:[NSString stringWithFormat:@"%@    >", PRIORITY_TITLE_1] forState:UIControlStateNormal];
             }
             
             if(self.task != nil)
             {   
                 [priorityButton setTitle: [NSString stringWithFormat:@"%@    >", [self getPriorityValue:task.priority]] forState:UIControlStateNormal];
+                oldPriority = [task.priority copy];
             }
             
             CGSize size = CGSizeMake(320,10000);
@@ -223,7 +347,7 @@
             if(!cell)
             {
                 cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"SubjectCell"] autorelease];
-                cell.textLabel.text = @"主题:";
+                cell.textLabel.text = @"标题:";
                 [cell.textLabel setTextColor:[UIColor grayColor]];[cell.textLabel setFont:[UIFont boldSystemFontOfSize:16]];
                 
                 subjectTextField = [[UITextField alloc] initWithFrame:CGRectMake(110, 10, 200, 25)];
@@ -232,8 +356,8 @@
                 [subjectTextField setTextAlignment:UITextAlignmentLeft];
                 [subjectTextField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
                 [subjectTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
-                [subjectTextField setPlaceholder:@"主题"];
-                [subjectTextField addTarget:self action:@selector(textFieldDoneEditing:) forControlEvents:UIControlEventTouchUpInside];
+                [subjectTextField setPlaceholder:@"标题"];
+                [subjectTextField addTarget:self action:@selector(textFieldDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
                 [cell.contentView addSubview:subjectTextField];
             }
             
@@ -244,19 +368,20 @@
         }
         else if(indexPath.row == 4)
         {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"SubjectCell"];
+            cell = [tableView dequeueReusableCellWithIdentifier:@"BodayCell"];
             if(!cell)
             {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"SubjectCell"] autorelease];
-                cell.textLabel.text = @"备注:";
-                [cell.textLabel setTextColor:[UIColor grayColor]];[cell.textLabel setFont:[UIFont boldSystemFontOfSize:16]];
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"BodayCell"] autorelease];
                 
-                bodyTextView = [[UITextView alloc] initWithFrame:CGRectMake(5, 40, 320, 25)];
+                bodyTextView = [[UITextView alloc] initWithFrame:self.view.frame];
                 bodyTextView.userInteractionEnabled = YES;
                 [bodyTextView setAutocapitalizationType:UITextAutocapitalizationTypeNone];
                 [bodyTextView setAutocorrectionType:UITextAutocorrectionTypeNo];
                 [bodyTextView setReturnKeyType:UIReturnKeyDone];
                 [bodyTextView setTextAlignment:UITextAlignmentLeft];
+                bodyTextView.scrollEnabled = YES;//是否可以拖动  
+                bodyTextView.delegate = self;
+                bodyTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
                 [cell.contentView addSubview:bodyTextView];
             }
             
@@ -265,58 +390,6 @@
                 bodyTextView.text = task.body;
             }
         }
-//        else if(indexPath.row == 3)
-//        {
-//            cell = [tableView dequeueReusableCellWithIdentifier:@"SubjectBodyCell"];
-//            if(!cell)
-//            {
-//                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"SubjectBodyCell"] autorelease];                
-//                
-//                self.subjectLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//                subjectLabel.userInteractionEnabled = YES;
-//                [subjectLabel setLineBreakMode:UILineBreakModeWordWrap];
-//                [subjectLabel setFont:[UIFont boldSystemFontOfSize:16]];
-//                [cell addSubview:subjectLabel];     
-//                
-//                self.bodyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//                bodyLabel.userInteractionEnabled = YES;
-//                [bodyLabel setTextColor:[UIColor grayColor]];
-//                [bodyLabel setFont:[UIFont systemFontOfSize:14]];
-//                [subjectLabel setLineBreakMode:UILineBreakModeWordWrap];
-//                [cell addSubview:bodyLabel];
-//            }
-//            
-//            if(task.subject != nil)
-//            {
-//                subjectLabel.text = task.subject;
-//            } 
-//            if(task.body != nil)
-//            {
-//                bodyLabel.text = task.body;
-//            }
-//            
-//            CGSize subjectLabelSize = [subjectLabel.text sizeWithFont:subjectLabel.font 
-//                                                    constrainedToSize:CGSizeMake(280, 10000) 
-//                                                        lineBreakMode:UILineBreakModeWordWrap];
-//            
-//            CGFloat subjectLabelHeight = subjectLabelSize.height;
-//            
-//            int subjectlines = subjectLabelHeight / 16;
-//            [subjectLabel setFrame:CGRectMake(20, 5, 280, subjectLabelHeight)];
-//            [subjectLabel setNumberOfLines:subjectlines];
-//            
-//            CGSize bodyLabelSize = [bodyLabel.text sizeWithFont:bodyLabel.font 
-//                                              constrainedToSize:CGSizeMake(320, 10000) 
-//                                                  lineBreakMode:UILineBreakModeWordWrap];
-//            
-//            CGFloat bodyLabelHeight = bodyLabelSize.height;
-//            
-//            int bodylines = bodyLabelHeight / 16;
-//            [bodyLabel setFrame:CGRectMake(20, bodyLabelHeight + 10, 280, bodyLabelHeight)];
-//            [bodyLabel setNumberOfLines:bodylines];
-//            
-//            [cell setFrame:CGRectMake(0, 0, 320, bodyLabelHeight + subjectLabelHeight + 15)];
-//        }
         else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"UnknownCell"];
             
@@ -345,34 +418,51 @@
 {
     [self.dueDateLabel setTitle:[NSString stringWithFormat:@"%@    >", [Tools ShortNSDateToNSString:value]] forState:UIControlStateNormal];
     
-    task.dueDate = value;
-    
-    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] dataid:self.task.id name:@"duetime" value:[Tools ShortNSDateToNSString:value]];
-    
-    [taskDao commitData];
+    self.currentDueDate = value;
+    if(task != nil)
+    {
+        task.dueDate = value;
+        [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                               dataid:self.task.id 
+                                 name:@"duetime" 
+                                value:[Tools ShortNSDateToNSString:value] 
+                           tasklistId:currentTasklistId];   
+        [taskDao commitData];  
+        //[delegate loadTaskData];
+    }
     
     CGSize size = CGSizeMake(320,10000);
     CGSize labelsize = [dueDateLabel.titleLabel.text sizeWithFont:[dueDateLabel font] constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
     [dueDateLabel setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
-    
-    [delegate loadTaskData];
 }
 
 - (void)tableViewCell:(PriorityButton *)button didEndEditingWithValue:(NSString *)value
 {
     [self.priorityButton setTitle:[NSString stringWithFormat:@"%@    >", value] forState:UIControlStateNormal];
     
-    task.priority = [self getPriorityKey:value];
-    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] dataid:self.task.id name:@"priority" value:task.priority];
-    [taskIdxDao updateTaskIdx:self.task.id byKey:self.task.priority isCommit:NO];
-    
-    [taskDao commitData];
+    self.currentPriority = [self getPriorityKey:value];
+    if(task != nil)
+    {
+        task.priority = self.currentPriority;
+        [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                               dataid:self.task.id 
+                                 name:@"priority" 
+                                value:task.priority 
+                           tasklistId:currentTasklistId];
+        [taskIdxDao updateTaskIdx:self.task.id 
+                            byKey:self.task.priority
+                       tasklistId:currentTasklistId 
+                         isCommit:NO];
+        
+        [taskDao commitData];
+        //[delegate loadTaskData];
+    }
     
     CGSize size = CGSizeMake(320,10000);
     CGSize labelsize = [priorityButton.titleLabel.text sizeWithFont:[priorityButton font] constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
     [priorityButton setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
     
-    [delegate loadTaskData];
+    
 }
 
 -(void)textFieldDoneEditing:(id)sender
@@ -410,17 +500,25 @@
         isfinish = NO;
     }
     
-    self.task.status = [Tools BOOLToNSNumber:isfinish];
-    
-    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] dataid:self.task.id name:@"iscompleted" value:isfinish ? @"true" : @"false"];
-    
-    [taskDao commitData];
+    self.currentIsCompleted = isfinish;
+    if(task != nil)
+    {
+        self.task.status = [NSNumber numberWithInt: isfinish ? 1 : 0];
+        
+        [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                               dataid:self.task.id 
+                                 name:@"iscompleted" 
+                                value:isfinish ? @"true" : @"false" 
+                           tasklistId:currentTasklistId];
+        
+        [taskDao commitData];
+        
+        //[delegate loadTaskData];
+    }
     
     CGSize size = CGSizeMake(320,10000);
     CGSize labelsize = [statusButton.titleLabel.text sizeWithFont:[statusButton font] constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
-    [statusButton setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
-    
-    [delegate loadTaskData];
+    [statusButton setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)]; 
 }
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
@@ -435,23 +533,23 @@
 
 - (NSString*)getPriorityKey:(NSString*)priorityValue
 {
-    if([priorityValue isEqualToString:@"今天"])
+    if([priorityValue isEqualToString:PRIORITY_TITLE_1])
         return @"0";
-    else if([priorityValue isEqualToString:@"稍后完成"])
+    else if([priorityValue isEqualToString:PRIORITY_TITLE_2])
         return @"1";
-    else if([priorityValue isEqualToString:@"迟些再说"])
+    else if([priorityValue isEqualToString:PRIORITY_TITLE_3])
         return @"2";
     return @"0";
 }
 - (NSString*)getPriorityValue:(NSString*)priorityKey
 {
     if([priorityKey isEqualToString:@"0"])
-        return @"今天";
+        return PRIORITY_TITLE_1;
     else if([priorityKey isEqualToString:@"1"])
-        return @"稍后完成";
+        return PRIORITY_TITLE_2;
     else if([priorityKey isEqualToString:@"2"])
-        return @"迟些再说";
-    return @"今天";
+        return PRIORITY_TITLE_3;
+    return PRIORITY_TITLE_1;
 }
 
 @end

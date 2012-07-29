@@ -39,9 +39,9 @@
     {
         self.priorityList = [NSMutableArray array];
         
-        [self.priorityList addObject:@"今天"];
-        [self.priorityList addObject:@"稍后完成"];
-        [self.priorityList addObject:@"迟些再说"];
+        [self.priorityList addObject:PRIORITY_TITLE_1];
+        [self.priorityList addObject:PRIORITY_TITLE_2];
+        [self.priorityList addObject:PRIORITY_TITLE_3];
     }
     
     NSLog(@"%d", priorityList.count);

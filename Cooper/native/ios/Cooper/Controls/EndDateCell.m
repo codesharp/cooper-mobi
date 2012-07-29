@@ -172,7 +172,8 @@
 - (void)dateChanged:(id)sender {
 	self.dateValue = ((UIDatePicker *)sender).date;
     
-	if (delegate && self.dateValue && [delegate respondsToSelector:@selector(tableViewCell:didEndEditingWithDate:)]) {
+	if (delegate && self.dateValue && [delegate respondsToSelector:@selector(tableViewCell:didEndEditingWithDate:)])
+    {
 		[delegate tableViewCell:self didEndEditingWithDate:self.dateValue];
 	}
 }

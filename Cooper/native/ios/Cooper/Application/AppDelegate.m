@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "Task.h"
+
+@class TaskDao;
 
 @implementation AppDelegate
 
@@ -20,6 +23,8 @@
 {
     //load from cache to get user info
     [Constant loadFromCache]; 
+    
+    NSManagedObjectContext *c = [self managedObjectContext];
     
 #ifdef CODESHARP_VERSION
     NSLog(@"当前版本: codesharp");
@@ -37,20 +42,23 @@
     [self.window setBackgroundColor:[UIColor whiteColor]];
     
     //the controller of first load page
-    self.mainViewController = [[MainViewController alloc] init];
+    self.mainViewController = [[[MainViewController alloc] init] autorelease];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.mainViewController];
-    if (MODEL_VERSION >= 5.0) {
-        [navController.navigationBar setBackgroundImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE] forBarMetrics:UIBarMetricsDefault];
-    }
-    else {
-        UIImageView *imageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE]] autorelease];
-        [imageView setFrame:CGRectMake(0, 0, 320, 44)];
-        [navController.navigationBar insertSubview:imageView atIndex:0];
-    }
+//    if (MODEL_VERSION >= 5.0) {
+//        [navController.navigationBar setBackgroundImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE] forBarMetrics:UIBarMetricsDefault];
+//    }
+//    else {
+//        UIImageView *imageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE]] autorelease];
+//        [imageView setFrame:CGRectMake(0, 0, 320, 44)];
+//        [navController.navigationBar insertSubview:imageView atIndex:0];
+//    }
 
     self.window.rootViewController = navController;
     
     [self.window makeKeyAndVisible];
+    
+    //应用徽章数字置零
+    application.applicationIconBadgeNumber = 0; 
     
 //    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];  
 //    NSString *name = [infoDictionary objectForKey:@"CFBundleDisplayName"];  
@@ -61,9 +69,11 @@
 //    NSLog(@"version:%@", label);
     
     //init timer
-    //self.timer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(handleTimer:) userInfo:nil repeats:YES];
-    
+//    self.timer = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector(handleTimer:) userInfo:nil repeats:YES];
+//    [self.timer fire];
     //NSSetUncaughtExceptionHandler(handleRootException);
+    
+    //[self localPush];
     
     return YES;
 }
@@ -90,6 +100,8 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     NSLog(@"重新激活程序");
+    
+    [self localPush];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -104,9 +116,10 @@
     }
 }
 
-//处理提交同步，每30秒
+//处理提交同步,本地通知等等
 //- (void)handleTimer:(NSTimer*)timer
 //{
+//    [self localPush];
 //}
 
 - (void)dealloc
@@ -114,8 +127,50 @@
     [managedObjectModel release];
     [managedObjectContext release];
     [persistentStoreCoordinator release];
+    [mainViewController release];
+    NSLog(@"dealloc app");
     //[timer release];
     [super dealloc];
+}
+
+//本地推送通知
+- (void)localPush
+{
+    NSLog(@"开始执行本地推送通知");
+    
+    TaskDao *taskDao = [[[TaskDao alloc] init] autorelease];
+    
+    NSMutableArray *tasks = [taskDao getTaskByToday];
+    
+    NSString *todayString = [Tools ShortNSDateToNSString:[NSDate date]];
+    NSDate *today = [Tools NSStringToShortNSDate:todayString];
+    NSLog(@"当前日期: %@", [Tools NSDateToNSString:today]);
+    NSLog(@"今天有 %d 个未完成的任务", tasks.count);
+    
+    if(tasks.count == 0)
+        return;
+    
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    
+    int interval = LOCALPUSH_TIME;
+    //interval = (2 * 60 * 60 + 25 * 60 + 0);
+    
+    NSDate *fireDate = [[NSDate alloc] initWithTimeInterval: interval sinceDate:today];
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+    if(localNotification == nil)
+    {
+        NSLog(@"localNotification创建为空");
+        return nil;
+    }
+    localNotification.fireDate = fireDate;
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    localNotification.alertBody = [NSString stringWithFormat:@"您有%d条未完成的任务即将过期，请及时处理", tasks.count]; 
+    localNotification.alertAction = @"查看详情";
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    localNotification.applicationIconBadgeNumber = tasks.count;
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];  
+    [localNotification release];  
 }
 
 #pragma mark - Core Data 相关
@@ -151,7 +206,7 @@
     }
 	
     NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: STORE_DBNAME]];
-    NSLog(@"当前sqlite数据库存储路径: %@", [storeUrl relativeString]);
+    NSLog(@"storeurl: %@", [storeUrl relativeString]);
     //HACK:可以保持数据库自动兼容
     NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],NSMigratePersistentStoresAutomaticallyOption,[NSNumber numberWithBool:YES],NSInferMappingModelAutomaticallyOption, nil];
 	NSError *error = nil;
@@ -160,6 +215,7 @@
 		NSLog(@"sqlite数据库异常解析： %@, %@", error, [error userInfo]);
 		abort();
     }    
+    
     return persistentStoreCoordinator;
 }
 //应用程序的Documents目录路径

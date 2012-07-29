@@ -19,13 +19,21 @@
 
 }
 
-+ (void)getTasks:(id)delegate {
++ (void)getTasks:(NSString*)tasklistId delegate:(id)delegate 
+{
     NSString *url = [[[Constant instance] path] stringByAppendingFormat:TASK_URL_GETBYPRIORITY];
-    NSLog(@"url:%@", url);
-    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:nil WithInfo:nil addHeaders:nil];
+    NSLog(@"获取按优先级任务数据URL:%@", url);
+    
+    NSMutableDictionary *data = [NSMutableDictionary dictionary];
+    [data setObject:tasklistId forKey:@"tasklistId"];
+    
+    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:nil addHeaders:nil];
 }
 
-+ (void)syncTasks:(NSMutableArray *)changeLogs taskIdxs:(NSMutableArray *)taskIdxs delegate:(id)delegate
++ (void)syncTasks:(NSString*)tasklistId 
+       changeLogs:(NSMutableArray *)changeLogs 
+         taskIdxs:(NSMutableArray *)taskIdxs 
+         delegate:(id)delegate
 {
     NSMutableArray *changeLogsArray = [NSMutableArray array];
     for(ChangeLog *changeLog in changeLogs)
@@ -71,26 +79,29 @@
     [writer release];
     
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
+    [data setObject:tasklistId forKey:@"tasklistId"];
     [data setObject:changeLogsJson forKey:@"changes"];
+    //TODO:list
     [data setObject:@"ByPriority" forKey:@"by"];
     [data setObject:taskIdxsJson forKey:@"sorts"];
     
+    
     NSString *url = [[[Constant instance] path] stringByAppendingFormat:TASK_URL_SYNC];
-    NSLog(@"urlsync:%@", url);
+    NSLog(@"同步数据路径:%@", url);
     [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:nil addHeaders:nil];
 }
 
-+ (void)syncTask:(id)delegate
++ (void)syncTask:(NSString*)tasklistId delegate:(id)delegate
 {
+    //TODO:...
     ChangeLogDao *changeLogDao = [[ChangeLogDao alloc] init];
     TaskIdxDao *taskIdxDao = [[TaskIdxDao alloc] init];
-    NSMutableArray *changeLogs = [changeLogDao getAllChangeLog];
+    NSMutableArray *changeLogs = [changeLogDao getAllChangeLog:tasklistId];
     NSLog("changeLog count: %d", changeLogs.count);
     
-    NSMutableArray *taskIdxs = [taskIdxDao getAllTaskIdx];
+    NSMutableArray *taskIdxs = [taskIdxDao getAllTaskIdx:tasklistId];
     
-    //sync data to server.
-    [TaskService syncTasks:changeLogs taskIdxs:taskIdxs delegate:delegate];
+    [TaskService syncTasks:tasklistId changeLogs:changeLogs taskIdxs:taskIdxs delegate:delegate];
     
     //[changeLogDao release];
     //[taskIdxDao release];

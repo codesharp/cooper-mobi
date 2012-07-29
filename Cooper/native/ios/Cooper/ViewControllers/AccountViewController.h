@@ -7,10 +7,17 @@
 //
 
 #import "SimplePickerInputTableViewCell.h"
+#import "BaseTableViewController.h"
+#import "DomainLabel.h"
 
-@interface AccountViewController : UITableViewController<SimplePickerInputTableViewCellDelegate>
+@interface AccountViewController : BaseTableViewController<SimplePickerInputTableViewCellDelegate>
 {
     MBProgressHUD *HUD;
     int requestType;
 }
+
+#ifndef CODESHARP_VERSION
+@property (retain, nonatomic) DomainLabel *domainLabel;
+#endif
+
 @end

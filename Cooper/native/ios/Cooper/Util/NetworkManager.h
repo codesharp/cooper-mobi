@@ -10,7 +10,7 @@
 #import "ASIFormDataRequest.h"
 #import "Reachability.h"
 
-#define SYSTEM_REQUEST_TIMEOUT 30.0f
+//#define SYSTEM_REQUEST_TIMEOUT 1.0f
 
 @protocol NetworkDelegate;
 

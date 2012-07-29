@@ -6,8 +6,6 @@
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
-#import "NetworkManager.h"
-
 @class TaskDao;
 @class TaskIdxDao;
 @class ChangeLogDao;
@@ -16,10 +14,10 @@
 
 + (void)testUrl:(id)delegate;
 
-+ (void)getTasks:(id)delegate;
++ (void)getTasks:(NSString*)tasklistId delegate:(id)delegate;
 
-+ (void)syncTasks:(NSMutableArray*)changeLogs taskIdxs:(NSMutableArray*)taskIdxs delegate:(id)delegate;
++ (void)syncTasks:(NSString*)tasklistId changeLogs:(NSMutableArray*)changeLogs taskIdxs:(NSMutableArray*)taskIdxs delegate:(id)delegate;
 
-+ (void)syncTask:(id)delegate;
++ (void)syncTask:(NSString*)tasklistId delegate:(id)delegate;
 
 @end

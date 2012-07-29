@@ -10,8 +10,11 @@
 #import "LoginViewController.h"
 #import "SettingViewController.h"
 #import "LoginViewDelegate.h"
+#import "TasklistViewController.h"
+#import "BaseViewController.h"
+#import "BaseNavigationController.h"
 
-@interface MainViewController : UIViewController<LoginViewDelegate,UITabBarControllerDelegate>
+@interface MainViewController : BaseViewController<LoginViewDelegate,UITabBarControllerDelegate>
 {
     //是否可登录
     bool _launching;

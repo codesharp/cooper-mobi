@@ -22,7 +22,7 @@
 - (void)drawRect:(CGRect)rect
 {
     CGRect bounds=[self bounds];
-    UIImage *image = [UIImage imageNamed:@"navigationbar_bg.png"];   
+    UIImage *image = [UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE];   
     [image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     [image drawInRect:bounds];
 }

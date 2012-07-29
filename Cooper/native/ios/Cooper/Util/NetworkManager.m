@@ -48,6 +48,9 @@
 		[request setUserInfo:[NSDictionary dictionaryWithDictionary:info]];
 	}
     
+//    NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+//    if(sharedHTTPCookie.cookies != nil)
+//        [request setRequestCookies:[NSMutableArray arrayWithObject:sharedHTTPCookie.cookies]];
     [request setValidatesSecureCertificate:NO];
     [request setTimeOutSeconds:SYSTEM_REQUEST_TIMEOUT];
 	[request setCachePolicy:ASIAskServerIfModifiedCachePolicy];
@@ -89,6 +92,11 @@
 		[request setUserInfo:[NSDictionary dictionaryWithDictionary:info]];
 	}
     
+    NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    //[request setUseCookiePersistence:YES];
+    
+    [request setRequestCookies: [NSMutableArray arrayWithArray:sharedHTTPCookie.cookies]];
+        
     [request setTimeOutSeconds:SYSTEM_REQUEST_TIMEOUT];
 	[request setCachePolicy:ASIAskServerIfModifiedCachePolicy];
 
@@ -101,7 +109,7 @@
     if(headers)
     {
         for (NSString *key in headers.allKeys) {
-            [request.requestHeaders setObject:[headers objectForKey:key] forKey:key];
+            [request addRequestHeader:key value:[headers objectForKey:key]];
         }
     }
     

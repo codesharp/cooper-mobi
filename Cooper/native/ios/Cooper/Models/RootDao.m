@@ -4,7 +4,7 @@
 //
 //  Created by sunleepy on 12-7-6.
 //  Copyright (c) 2012年 codesharp. All rights reserved.
-//22
+//
 
 #import "RootDao.h"
 
@@ -21,7 +21,7 @@
         NSLog(@"error:%@", [error description]);
 }
 
-- (void)dealloc{
-    [super release];
-}
+//- (void)dealloc{
+//    [super release];
+//}
 @end

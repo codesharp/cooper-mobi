@@ -7,6 +7,7 @@
 //
 
 #import "PathViewController.h"
+#import "CustomButton.h"
 
 @interface PathViewController ()
 
@@ -27,8 +28,13 @@
 {
     [super viewDidLoad];
 
-    UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveSetting:)] autorelease];    
-    self.navigationItem.rightBarButtonItem = doneButton;
+    CustomButton *saveTaskBtn = [[[CustomButton alloc] initWithFrame:CGRectMake(5,5,50,30) image:[UIImage imageNamed:@"btn_center.png"]] autorelease];
+    saveTaskBtn.layer.cornerRadius = 6.0f;
+    [saveTaskBtn.layer setMasksToBounds:YES];
+    [saveTaskBtn addTarget:self action:@selector(saveSetting:) forControlEvents:UIControlEventTouchUpInside];
+    [saveTaskBtn setTitle:@"确认" forState:UIControlStateNormal];
+    UIBarButtonItem *saveButton = [[[UIBarButtonItem alloc] initWithCustomView:saveTaskBtn] autorelease];
+    self.navigationItem.rightBarButtonItem = saveButton;
     
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [backBtn setFrame:CGRectMake(5, 5, 25, 25)];

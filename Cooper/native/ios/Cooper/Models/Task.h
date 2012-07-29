@@ -2,8 +2,8 @@
 //  Task.h
 //  Cooper
 //
-//  Created by sunleepy on 12-7-5.
-//  Copyright (c) 2012年 codesharp. All rights reserved.
+//  Created by sunleepy on 12-7-29.
+//  Copyright (c) 2012年 Alibaba. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -18,9 +18,10 @@
 @property (nonatomic, retain) NSDate * dueDate;
 @property (nonatomic, retain) NSString * id;
 @property (nonatomic, retain) NSNumber * isPublic;
+@property (nonatomic, retain) NSDate * lastUpdateDate;
 @property (nonatomic, retain) NSString * priority;
 @property (nonatomic, retain) NSNumber * status;
 @property (nonatomic, retain) NSString * subject;
-@property (nonatomic, retain) NSDate * lastUpdateDate;
+@property (nonatomic, retain) NSString * tasklistId;
 
 @end

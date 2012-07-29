@@ -14,6 +14,10 @@
 
 @implementation AccountViewController
 
+#ifndef CODESHARP_VERSION
+@synthesize domainLabel;
+#endif
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -83,25 +87,27 @@
     
     if(indexPath.section == 0)
     {
+#ifndef CODESHARP_VERSION 
         if(indexPath.row == 0)
-        {
-            SimplePickerInputTableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"SimplePickerInputTableViewCell"];
-            if(!cell1)
+        {   
+            cell = [tableView dequeueReusableCellWithIdentifier:@"DomainCell"];
+            if(!cell)
             {
-                cell1 = [[[SimplePickerInputTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"SimplePickerInputTableViewCell"] autorelease];
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"DomainCell"] autorelease];
                 
-                cell1.delegate = self;
-                cell1.detailTextLabel.textColor = [UIColor blackColor];
-                cell1.textLabel.text = @"域名";
+                domainLabel = [[DomainLabel alloc] initWithFrame:CGRectMake(0, 0, 210, 30)];
+                domainLabel.text = DEFAULT_DOMAIN;
+                [domainLabel setBackgroundColor:[UIColor clearColor]];
+                domainLabel.userInteractionEnabled = YES;
+                UITapGestureRecognizer *recoginzer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectDomain)];
+                [domainLabel addGestureRecognizer:recoginzer];
+                domainLabel.delegate = self;
+                [recoginzer release];
+                
+                cell.textLabel.text = @"域名";
+                cell.accessoryView = domainLabel;
             }
-            
-            if([[[Constant instance] domain] length] == 0)
-                cell1.detailTextLabel.text = DEFAULT_DOMAIN;
-            else
-                cell1.detailTextLabel.text = [[Constant instance] domain];
-            return cell1;
         }
-        
         else if(indexPath.row == 1)
         {
             cell = [tableView dequeueReusableCellWithIdentifier:@"UserNameCell"];
@@ -143,6 +149,50 @@
             UITextField *currentTextField = [cell accessoryView];
             currentTextField.text = [[Constant instance] password];
         }
+        
+#else
+        if(indexPath.row == 0)
+        {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"UserNameCell"];
+            if(!cell)
+            {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UserNameCell"] autorelease];
+                
+                cell.textLabel.text = @"用户名";
+                
+                UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 200, 20)];
+                textField.placeholder = @"请填写内容";
+                [textField setReturnKeyType:UIReturnKeyDone];
+                [textField addTarget:self action:@selector(textFieldDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
+                [textField setTextAlignment:UITextAlignmentRight];
+                cell.accessoryView = textField;
+            }
+            
+            UITextField *currentTextField = [cell accessoryView];
+            currentTextField.text = [[Constant instance] username];
+        }
+        else if(indexPath.row == 1)
+        {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"PasswordCell"];
+            if(!cell)
+            {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"PasswordCell"] autorelease];
+                
+                cell.textLabel.text = @"密码";
+                
+                UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 200, 20)];
+                textField.placeholder = @"填写密码来验证";
+                [textField setReturnKeyType:UIReturnKeyDone];
+                [textField setSecureTextEntry:YES];
+                [textField setTextAlignment:UITextAlignmentRight];
+                [textField addTarget:self action:@selector(textFieldDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
+                cell.accessoryView = textField;
+            }
+            
+            UITextField *currentTextField = [cell accessoryView];
+            currentTextField.text = [[Constant instance] password];
+        }
+#endif
     }
     else if(indexPath.section == 1)
     {

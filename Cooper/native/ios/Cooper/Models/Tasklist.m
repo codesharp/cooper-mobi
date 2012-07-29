@@ -2,7 +2,7 @@
 //  Tasklist.m
 //  Cooper
 //
-//  Created by sunleepy on 12-7-27.
+//  Created by sunleepy on 12-7-29.
 //  Copyright (c) 2012年 Alibaba. All rights reserved.
 //
 
@@ -11,10 +11,10 @@
 
 @implementation Tasklist
 
-@dynamic id;
-@dynamic name;
 @dynamic createTime;
-@dynamic listType;
 @dynamic extensions;
+@dynamic id;
+@dynamic listType;
+@dynamic name;
 
 @end

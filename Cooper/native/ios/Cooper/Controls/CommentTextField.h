@@ -9,7 +9,7 @@
 
 @class CommentTextField;
 
-@protocol CommentTextFieldDelegate <NSObject>
+@protocol CommentTextFieldDelegate <UITextFieldDelegate>
 @optional
 - (void)sendComment:(NSString *)value;
 @end

@@ -21,7 +21,7 @@
     
     NSString* url = [[[Constant instance] path] stringByAppendingFormat:LOGIN_URL];
     NSLog(@"正在进行登录请求: %@", url);
-    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:nil addHeaders:nil];
+    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:nil addHeaders:headers];
 }
 + (void) login:(NSString *)domain username:(NSString *)username password:(NSString *)password delegate:(id)delegate
 {

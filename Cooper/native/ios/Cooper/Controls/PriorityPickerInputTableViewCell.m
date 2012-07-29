@@ -16,9 +16,9 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     values = [[NSMutableArray array] retain];
-    [values addObject:@"今天"];
-    [values addObject:@"稍后完成"];
-    [values addObject:@"迟些再说"];
+    [values addObject:PRIORITY_TITLE_1];
+    [values addObject:PRIORITY_TITLE_2];
+    [values addObject:PRIORITY_TITLE_3];
     
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {

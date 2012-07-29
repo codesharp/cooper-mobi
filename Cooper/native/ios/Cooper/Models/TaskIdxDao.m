@@ -10,6 +10,7 @@
 #import "SBJsonParser.h"
 #import "SBJsonWriter.h"
 #import "ModelHelper.h"
+#import "TaskIdx.h"
 
 @implementation TaskIdxDao
 
@@ -22,13 +23,16 @@
     return self;
 }
 
-- (NSMutableArray*)getAllTaskIdx
+- (NSMutableArray*)getAllTaskIdx:(NSString*)tasklistId
 {
     NSLog(@"context retaincount: %d", [context retainCount]);
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskIdx" inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@)", tasklistId];
+    [fetchRequest setPredicate:predicate];
     
     NSSortDescriptor *sortDescriptor =  [[NSSortDescriptor alloc] initWithKey:@"key" ascending:YES];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
@@ -42,14 +46,14 @@
     return [taskIdxs autorelease];
 }
 
-- (TaskIdx*)getTaskIdxByKey:(NSString*)key
+- (TaskIdx*)getTaskIdxByKey:(NSString*)key tasklistId:(NSString *)tasklistId
 {
     NSLog(@"context retaincount: %d", [context retainCount]);
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskIdx" inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(key = %@)", key];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(key = %@ and tasklistId = %@)", key, tasklistId];
     [fetchRequest setPredicate:predicate];
 
     TaskIdx *idxs = nil;
@@ -72,12 +76,18 @@
     return idxs;
 }
 
-- (void)updateTaskIdx:(NSString *)taskId byKey:(NSString *)key isCommit:(BOOL)isCommit
+- (void)updateTaskIdx:(NSString *)taskId 
+                byKey:(NSString *)key 
+           tasklistId:(NSString*)tasklistId
+             isCommit:(BOOL)isCommit
 {
     NSLog(@"context retaincount: %d", [context retainCount]);
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskIdx" inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@)", tasklistId];
+    [fetchRequest setPredicate:predicate];
     
     NSError *error = nil; 
     NSMutableArray *taskIdxs = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
@@ -113,14 +123,17 @@
     [parser release];
 }
 
-- (void)addTaskIdx:(NSString *)tid byKey:(NSString *)key isCommit:(BOOL)isCommit
+- (void)addTaskIdx:(NSString *)tid 
+             byKey:(NSString *)key 
+        tasklistId:(NSString*)tasklistId
+          isCommit:(BOOL)isCommit
 {
     NSLog(@"context retaincount: %d", [context retainCount]);
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskIdx" inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(key = %@)", key];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(key = %@ and tasklistId = %@)", key, tasklistId];
     [fetchRequest setPredicate:predicate];
     
     SBJsonParser *parser = [[SBJsonParser alloc] init];
@@ -136,7 +149,7 @@
         taskIdx = [ModelHelper create:@"TaskIdx" context:context];
         taskIdx.by = @"priority";
         taskIdx.key = key;
-        taskIdx.name = [key isEqualToString:@"0"] ? (@"今天") : ([key isEqualToString:@"1"] ? @"稍后完成" : @"迟些再说");
+        taskIdx.name = [key isEqualToString:@"0"] ? (PRIORITY_TITLE_1) : ([key isEqualToString:@"1"] ?PRIORITY_TITLE_2 : PRIORITY_TITLE_3);
         NSLog(@"taskIdx.name:%@", taskIdx.name);
         indexesArray = [NSMutableArray array];
     }
@@ -161,21 +174,30 @@
     [parser release];
 }
 
-- (void)addTaskIdx:(NSString *)by key:(NSString *)key name:(NSString *)name indexes:(NSString *)indexes
+- (void)addTaskIdx:(NSString *)by 
+               key:(NSString *)key 
+              name:(NSString *)name 
+           indexes:(NSString *)indexes
+        tasklistId:(NSString *)tasklistId
 {
     TaskIdx *taskIdx = [ModelHelper create:@"TaskIdx" context:context];
-    [taskIdx setKey:key];
-    [taskIdx setBy:by];
-    [taskIdx setName:name];
-    [taskIdx setIndexes:indexes];
+    taskIdx.key = key;
+    taskIdx.by = by;
+    taskIdx.name = name;
+    taskIdx.indexes = indexes;
+    taskIdx.tasklistId = tasklistId;
 }
 
-- (void)deleteTaskIndexsByTaskId:(NSString *)taskId
+- (void)deleteTaskIndexsByTaskId:(NSString *)taskId 
+                      tasklistId:(NSString *)tasklistId
 {
     NSLog(@"context retaincount: %d", [context retainCount]);
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskIdx" inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@)", tasklistId];
+    [fetchRequest setPredicate:predicate];
     
     NSError *error = nil; 
     NSMutableArray *taskIdxs = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
@@ -203,12 +225,15 @@
     [parser release];
 }
 
-- (void)deleteAllTaskIdx
+- (void)deleteAllTaskIdx:(NSString*)tasklistId
 {
     NSLog(@"context retaincount: %d", [context retainCount]);
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskIdx" inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@)", tasklistId];
+    [fetchRequest setPredicate:predicate];
     
     NSError *error = nil; 
     NSMutableArray *taskIdxs = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
@@ -219,7 +244,12 @@
     }
 }
 
-- (void) adjustIndex:(NSString *)taskId sourceTaskIdx:(TaskIdx *)sTaskIdx destinationTaskIdx:(TaskIdx *)dTaskIdx sourceIndexRow:(NSNumber*)sourceIndexRow destIndexRow:(NSNumber *)destIndexRow
+- (void) adjustIndex:(NSString *)taskId 
+       sourceTaskIdx:(TaskIdx *)sTaskIdx 
+  destinationTaskIdx:(TaskIdx *)dTaskIdx 
+      sourceIndexRow:(NSNumber*)sourceIndexRow 
+        destIndexRow:(NSNumber *)destIndexRow
+          tasklistId:(NSString*)tasklistId
 {
     SBJsonParser *parser = [[SBJsonParser alloc] init];
     SBJsonWriter *writer = [[SBJsonWriter alloc] init];
@@ -239,12 +269,14 @@
     [parser release];
 }
 
-- (void)saveIndex:(TaskIdx *)taskIdx newIndex:(NSMutableArray *)indexArray
+- (void)saveIndex:(TaskIdx *)taskIdx 
+         newIndex:(NSMutableArray *)indexArray
+       tasklistId:(NSString *)tasklistId
 {
     SBJsonParser *parser = [[SBJsonParser alloc] init];
     SBJsonWriter *writer = [[SBJsonWriter alloc] init];
     
-    NSMutableArray *allTaskIdxs = [self getAllTaskIdx];
+    NSMutableArray *allTaskIdxs = [self getAllTaskIdx:tasklistId];
     
     if(taskIdx.indexes)
     {
@@ -295,12 +327,15 @@
     [parser release];
 }
 
-- (void)updateTaskIdxByNewId:(NSString *)oldId newId:(NSString *)newId
+- (void)updateTaskIdxByNewId:(NSString *)oldId 
+                       newId:(NSString *)newId
+                  tasklistId:(NSString *)tasklistId
+
 {
     SBJsonParser *parser = [[SBJsonParser alloc] init];
     SBJsonWriter *writer = [[SBJsonWriter alloc] init];
     
-    NSMutableArray *array = [self getAllTaskIdx];
+    NSMutableArray *array = [self getAllTaskIdx:tasklistId];
     for(TaskIdx *taskIdx in array)
     {
         NSMutableArray *sIndexesArray = [parser objectWithString: taskIdx.indexes];

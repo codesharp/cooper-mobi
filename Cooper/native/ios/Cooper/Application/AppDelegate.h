@@ -6,8 +6,7 @@
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
-
-#import "MainViewController.h"
+@class MainViewController;
 
 @interface AppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate>
 {  
@@ -16,8 +15,8 @@
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
 }
 
-@property (strong, nonatomic) MainViewController *mainViewController;
-@property (strong, nonatomic) UIWindow *window;
+@property (retain, nonatomic) MainViewController *mainViewController;
+@property (retain, nonatomic) UIWindow *window;
 @property (retain, nonatomic, readonly) NSManagedObjectModel *managedObjectModel;
 @property (retain, nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
 @property (retain, nonatomic, readonly) NSPersistentStoreCoordinator *persistantStoreCoordiantor;

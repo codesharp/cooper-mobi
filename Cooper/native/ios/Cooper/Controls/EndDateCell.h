@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class DateInputTableViewCell;
+@class EndDateCell;
 
 @protocol DateInputTableViewCellDelegate <NSObject>
 @optional
-- (void)tableViewCell:(DateInputTableViewCell *)cell didEndEditingWithDate:(NSDate *)value;
+- (void)tableViewCell:(EndDateCell *)cell didEndEditingWithDate:(NSDate *)value;
 @end
 
 @interface EndDateCell : UITableViewCell<UIPopoverControllerDelegate>

@@ -20,7 +20,7 @@
     return self;
 }
 
-- (NSMutableArray*) getAllChangeLog
+- (NSMutableArray*) getAllChangeLog:(NSString*)tasklistId
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"ChangeLog" inManagedObjectContext:context];
@@ -29,7 +29,7 @@
     
     [fetchRequest setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isSend = 0)"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@)", tasklistId];
     [fetchRequest setPredicate:predicate];
     
     NSMutableArray *changeLogs = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
@@ -43,15 +43,20 @@
     return changeLogs;
 }
 
-- (void)insertChangeLog:(NSNumber *)type dataid:(NSString *)dataid name:(NSString *)name value:(NSString *)value
+- (void)insertChangeLog:(NSNumber *)type 
+                 dataid:(NSString *)dataid 
+                   name:(NSString *)name 
+                  value:(NSString *)value
+             tasklistId:(NSString *)tasklistId
 {
     ChangeLog *changeLog = [ModelHelper create:@"ChangeLog" context:context];
 
-    [changeLog setChangeType:type];
-    [changeLog setDataid:dataid];
-    [changeLog setName:name];
-    [changeLog setValue:value];
-    [changeLog setIsSend:[NSNumber numberWithInt:0]];
+    changeLog.changeType = type;
+    changeLog.dataid = dataid;
+    changeLog.name = name;
+    changeLog.value = value;
+    changeLog.isSend = [NSNumber numberWithInt:0];
+    changeLog.tasklistId = tasklistId;
 }
 
 - (void)updateIsSend:(ChangeLog *)changeLog
@@ -59,9 +64,9 @@
     [changeLog setIsSend:[NSNumber numberWithInt:1]];
 }
 
-- (void)updateAllToSend
+- (void)updateAllToSend:(NSString*)tasklistId
 {
-    NSMutableArray *changeLogs = [self getAllChangeLog];
+    NSMutableArray *changeLogs = [self getAllChangeLog:tasklistId];
     for(ChangeLog *changeLog in changeLogs)
     {
         //[self updateIsSend:changeLog];

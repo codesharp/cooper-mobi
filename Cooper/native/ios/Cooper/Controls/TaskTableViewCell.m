@@ -93,7 +93,7 @@
 
 - (void)setCompletedAction:(id)sender
 {
-    if(task.status == [NSNumber numberWithInt:1])
+    if([[task.status stringValue] isEqualToString:@"1"])
     {
         UIButton *button = statusButton;
         [button setBackgroundImage:[UIImage imageNamed:@"incomplete-small.png"] forState:UIControlStateNormal];
@@ -105,7 +105,7 @@
         task.status = [NSNumber numberWithInt:1];  
     }
     
-    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] dataid:task.id name:@"iscompleted" value:task.status == [NSNumber numberWithInt:1] ? @"true" : @"false"];
+    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] dataid:task.id name:@"iscompleted" value:task.status == [NSNumber numberWithInt:1] ? @"true" : @"false" tasklistId:task.tasklistId];
     
     
     [taskDao commitData];
@@ -117,8 +117,10 @@
     taskDao = [[TaskDao alloc] init];
     changeLogDao = [[ChangeLogDao alloc] init];
     
-    if(task.status == [NSNumber numberWithInt:1])
+    NSLog(@"task.status:%@", [task.status stringValue]);
+    if([[task.status stringValue] isEqualToString:@"1"])
     {
+        NSLog(@"complete");
         [statusButton setBackgroundImage:[UIImage imageNamed:@"complete-small.png"] forState:UIControlStateNormal];
     }
     else {

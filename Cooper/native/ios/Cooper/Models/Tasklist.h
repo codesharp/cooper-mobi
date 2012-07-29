@@ -2,7 +2,7 @@
 //  Tasklist.h
 //  Cooper
 //
-//  Created by sunleepy on 12-7-27.
+//  Created by sunleepy on 12-7-29.
 //  Copyright (c) 2012年 Alibaba. All rights reserved.
 //
 
@@ -12,10 +12,10 @@
 
 @interface Tasklist : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * id;
-@property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSDate * createTime;
-@property (nonatomic, retain) NSString * listType;
 @property (nonatomic, retain) NSString * extensions;
+@property (nonatomic, retain) NSString * id;
+@property (nonatomic, retain) NSString * listType;
+@property (nonatomic, retain) NSString * name;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "TaskDao.h"
 #import "ModelHelper.h"
+#import "Task.h"
 
 @implementation TaskDao
 
@@ -20,7 +21,31 @@
     return self;
 }
 
-- (NSMutableArray*)getAllTask
+- (NSMutableArray*)getTaskByToday
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Task" inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    
+    NSString* todayString = [Tools ShortNSDateToNSString:[NSDate date]];
+    
+    NSDate* today = [Tools NSStringToShortNSDate:todayString];
+    NSDate* tomorrow = [[NSDate alloc] initWithTimeInterval:24 * 60 * 60 sinceDate:today];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(status = 0) and ((dueDate != nil) and (dueDate >= %@) and (dueDate < %@))", today, tomorrow];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSMutableArray *tasks = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    if(error != nil)
+        NSLog(@"error: %@", [error description]);
+    
+    [fetchRequest release];
+    
+    return [tasks autorelease];
+}
+
+- (NSMutableArray*)getAllTask:(NSString*)tasklistId
 {
     NSLog(@"context retaincount: %d", [context retainCount]);
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -29,11 +54,17 @@
     NSError *error = nil;
     
     [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@)", [NSString stringWithFormat:@"%@", tasklistId]];
+    [fetchRequest setPredicate:predicate];
+    
     NSMutableArray *tasks = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
     if(error != nil)
     {
         NSLog(@"error: %@", [error description]);
     }
+    
+    NSLog(@"task count: %d", tasks.count);
     
     [fetchRequest release];
     
@@ -81,9 +112,9 @@
     [context deleteObject:task];
 }
 
-- (void)deleteAll
+- (void)deleteAll:(NSString*)tasklistId
 {
-    NSMutableArray *array = [self getAllTask];
+    NSMutableArray *array = [self getAllTask:tasklistId];
     
     if(array.count > 0)
     {
@@ -95,41 +126,61 @@
 }
 
 - (void)addTask:(NSString *)subject 
-     createDate:(NSData*)createDate 
- lastUpdateDate:(NSData*)lastUpdateDate 
-           body:(NSString *)body isPublic:(NSNumber *)isPublic status:(NSNumber *)status priority:(NSString *)priority taskid:(NSString *)tid dueDate:(NSDate *)dueDate isCommit:(BOOL)isCommit
+     createDate:(NSDate*)createDate 
+ lastUpdateDate:(NSDate*)lastUpdateDate 
+           body:(NSString *)body 
+       isPublic:(NSNumber *)isPublic 
+         status:(NSNumber *)status 
+       priority:(NSString *)priority 
+         taskid:(NSString *)tid 
+        dueDate:(NSDate *)dueDate
+     tasklistId:(NSString*)tasklistId
+       isCommit:(BOOL)isCommit
 {
     Task *task = [ModelHelper create:@"Task" context:context];
     //TODO:...
-    [task setSubject:subject];
-    [task setCreateDate:createDate];
-    [task setLastUpdateDate:lastUpdateDate];
-    [task setBody:body];
-    [task setIsPublic:isPublic];
-    [task setStatus:status];
-    [task setPriority:priority];
-    [task setId:tid];
-    [task setDueDate:dueDate];
+    task.subject = subject;
+    task.createDate = createDate;
+    task.lastUpdateDate = lastUpdateDate;
+    task.body = body;
+    task.isPublic = isPublic;
+    task.status = status;
+    task.priority = priority;
+    task.id = tid;
+    task.dueDate = dueDate;
+    task.tasklistId = tasklistId;
     
     if(isCommit)
         [super commitData];
 }
 
-- (void)updateTask:(Task*)task subject:(NSString *)subject lastUpdateDate:(NSData *)lastUpdateDate body:(NSString *)body isPublic:(NSNumber *)isPublic status:(NSNumber *)status priority:(NSString *)priority dueDate:(NSDate *)dueDate isCommit:(BOOL)isCommit
+- (void)updateTask:(Task*)task 
+           subject:(NSString *)subject 
+    lastUpdateDate:(NSData *)lastUpdateDate 
+              body:(NSString *)body 
+          isPublic:(NSNumber *)isPublic
+            status:(NSNumber *)status
+          priority:(NSString *)priority 
+           dueDate:(NSDate *)dueDate
+        tasklistId:(NSString*)tasklistId
+          isCommit:(BOOL)isCommit
 {
-    [task setSubject:subject];
-    [task setLastUpdateDate:lastUpdateDate];
-    [task setBody:body];
-    [task setIsPublic:isPublic];
-    [task setStatus:status];
-    [task setPriority:priority];
-    [task setDueDate:dueDate];
+    task.subject = subject;
+    task.lastUpdateDate = lastUpdateDate;
+    task.body = body;
+    task.isPublic = isPublic;
+    task.status = status;
+    task.priority = priority;
+    task.dueDate = dueDate;
+    task.tasklistId = tasklistId;
     
     if(isCommit)
         [super commitData];
 }
 
-- (void)updateTaskIdByNewId:(NSString *)oldId newId:(NSString *)newId
+- (void)updateTaskIdByNewId:(NSString *)oldId
+                      newId:(NSString *)newId 
+                 tasklistId:(NSString *)tasklistId
 {
     Task *task = [self getTaskById:oldId];
     if(task == nil)

@@ -6,8 +6,8 @@
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseTableViewController.h"
 
-@interface SettingViewController : UITableViewController<UITextFieldDelegate>
+@interface SettingViewController : BaseTableViewController<UITextFieldDelegate>
 
 @end

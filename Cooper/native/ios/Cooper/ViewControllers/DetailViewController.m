@@ -186,7 +186,7 @@
                 cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"PriorityCell"] autorelease];
             }
             cell.textLabel.text = @"优先级";
-            cell.detailTextLabel.text = @"今天";
+            cell.detailTextLabel.text = PRIORITY_TITLE_1;
             
             if(self.task != nil)
             {
@@ -299,7 +299,6 @@ NSManagedObjectContext *context =nil;
         
         //TODO:日期格式
         NSString *dateString = [Tools NSDateToNSString:[NSDate date]];
-
         
         NSString *id = [NSString stringWithFormat:@"temp_%@_%@", priorityKey, dateString];
         
@@ -378,23 +377,23 @@ NSManagedObjectContext *context =nil;
 }
 - (NSString*)getPriorityKey:(NSString*)priorityValue
 {
-    if([priorityValue isEqualToString:@"今天"])
+    if([priorityValue isEqualToString:PRIORITY_TITLE_1])
         return @"0";
-    else if([priorityValue isEqualToString:@"稍后完成"])
+    else if([priorityValue isEqualToString:PRIORITY_TITLE_2])
         return @"1";
-    else if([priorityValue isEqualToString:@"迟些再说"])
+    else if([priorityValue isEqualToString:PRIORITY_TITLE_3])
         return @"2";
     return @"0";
 }
 - (NSString*)getPriorityValue:(NSString*)priorityKey
 {
     if([priorityKey isEqualToString:@"0"])
-        return @"今天";
+        return PRIORITY_TITLE_1;
     else if([priorityKey isEqualToString:@"1"])
-        return @"稍后完成";
+        return PRIORITY_TITLE_2;
     else if([priorityKey isEqualToString:@"2"])
-        return @"迟些再说";
-    return @"今天";
+        return PRIORITY_TITLE_3;
+    return PRIORITY_TITLE_1;
 }
 
 @end

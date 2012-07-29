@@ -7,26 +7,30 @@
 //
 
 #import "RootDao.h"
+#import "Task.h"
 
 @interface TaskDao : RootDao
 
-- (NSMutableArray*)getAllTask;
+- (NSMutableArray*)getTaskByToday;
+
+- (NSMutableArray*)getAllTask:(NSString*)tasklistId;
 
 - (Task*)getTaskById:(NSString*)taskId;
 
 - (void)deleteTask:(Task*)task;
 
-- (void)deleteAll;
+- (void)deleteAll:(NSString*)tasklistId;
 
 - (void)addTask:(NSString*)subject 
-     createDate:(NSData*)createDate 
- lastUpdateDate:(NSData*)lastUpdateDate 
+     createDate:(NSDate*)createDate 
+ lastUpdateDate:(NSDate*)lastUpdateDate 
            body:(NSString*)body 
        isPublic:(NSNumber*)isPublic 
          status:(NSNumber*)status 
        priority:(NSString*)priority 
          taskid:(NSString*)tid 
         dueDate:(NSDate*)dueDate 
+     tasklistId:(NSString*)tasklistId
        isCommit:(BOOL)isCommit;
 
 - (void)updateTask:(Task*)task
@@ -37,8 +41,9 @@
             status:(NSNumber*)status 
           priority:(NSString*)priority 
            dueDate:(NSDate*)dueDate 
+        tasklistId:(NSString*)tasklistId
           isCommit:(BOOL)isCommit;
 
-- (void)updateTaskIdByNewId:(NSString*)oldId newId:(NSString*)newId;
+- (void)updateTaskIdByNewId:(NSString*)oldId newId:(NSString*)newId tasklistId:(NSString*)tasklistId;
 
 @end

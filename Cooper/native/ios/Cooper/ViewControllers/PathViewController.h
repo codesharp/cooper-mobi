@@ -6,8 +6,8 @@
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseTableViewController.h"
 
-@interface PathViewController : UITableViewController
+@interface PathViewController : BaseTableViewController
 
 @end

@@ -14,11 +14,15 @@
 @property (nonatomic,retain) NSString *token;
 @property (nonatomic,assign) bool isSaveUser;
 @property (nonatomic,retain) NSString *path;
+@property (nonatomic,retain) NSMutableArray *recentlyIds;
+@property (nonatomic,assign) bool isLocalPush;
 
 + (id)instance;
 
 + (void)saveToCache;
 + (void)loadFromCache;
 + (void)savePathToCache;
++ (void)saveRecentlyIdsToCache;
++ (void)saveIsLocalPushToCache;
 
 @end
