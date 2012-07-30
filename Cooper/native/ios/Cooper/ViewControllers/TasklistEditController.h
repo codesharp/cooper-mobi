@@ -12,11 +12,14 @@
 
 @interface TasklistEditController : BaseViewController<UITableViewDataSource, UITableViewDelegate>
 {
+    MBProgressHUD *HUD;
+    
     UITableView *tasklistTableView;
     
     TasklistDao *tasklistDao;
 }
 
 @property (retain, nonatomic) UITextField *nameTextField;
+@property (strong, nonatomic) NSString *tempTasklistId;
 
 @end

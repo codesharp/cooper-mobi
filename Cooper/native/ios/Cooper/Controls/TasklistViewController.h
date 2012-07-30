@@ -23,6 +23,6 @@
 
 @property (nonatomic,retain) NSMutableArray *tasklists;
 @property (nonatomic,retain) TasklistDao *tasklistDao;
-@property (nonatomic,retain) UITableView *tasklistTableView;  
+@property (nonatomic,retain) UITableView *tasklistTableView; 
 
 @end

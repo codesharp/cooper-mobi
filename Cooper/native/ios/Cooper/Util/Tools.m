@@ -95,6 +95,7 @@
 
 + (void)msg:(NSString*)title HUD:(MBProgressHUD*)HUD
 {
+    [HUD show:YES];
     HUD.labelText = title;
     [HUD hide:YES afterDelay:1];
 }

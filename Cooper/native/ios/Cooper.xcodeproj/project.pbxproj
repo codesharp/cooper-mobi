@@ -37,8 +37,6 @@
 		181014E215C04A3D00D67C06 /* ModelHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 181014DD15C04A3D00D67C06 /* ModelHelper.m */; };
 		181014E315C04A3D00D67C06 /* NSString+decode.m in Sources */ = {isa = PBXBuildFile; fileRef = 181014DF15C04A3D00D67C06 /* NSString+decode.m */; };
 		181014E415C04A3D00D67C06 /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 181014E115C04A3D00D67C06 /* Tools.m */; };
-		1810150615C04B5B00D67C06 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 181014FE15C04B5800D67C06 /* AccountViewController.m */; };
-		1810150715C04B5B00D67C06 /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 181014FF15C04B5900D67C06 /* AccountViewController.xib */; };
 		1810150815C04B5B00D67C06 /* PathViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810150115C04B5900D67C06 /* PathViewController.m */; };
 		1810150915C04B5B00D67C06 /* PathViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1810150215C04B5A00D67C06 /* PathViewController.xib */; };
 		1810150A15C04B5B00D67C06 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810150415C04B5A00D67C06 /* SettingViewController.m */; };
@@ -102,6 +100,7 @@
 		18A41EB915C5B8E300D49298 /* NoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A41EB815C5B8E300D49298 /* NoticeViewController.m */; };
 		18B99F2D15C3C67000B219E3 /* TaskModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 18B99F2B15C3C67000B219E3 /* TaskModel.xcdatamodeld */; };
 		18D3DC8C15C39DD800A276F7 /* ChangeLogDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D3DC8515C39DD800A276F7 /* ChangeLogDao.m */; };
+		18DECB4015C6396700A51305 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DECB3F15C6396700A51305 /* AccountViewController.m */; };
 		18E2974815BCE99400DCED79 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18E2974715BCE99400DCED79 /* Config.plist */; };
 		18E2975815BD12F500DCED79 /* cooper.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E2975715BD12F500DCED79 /* cooper.png */; };
 		18E2975A15BD151800DCED79 /* loginbtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E2975915BD151800DCED79 /* loginbtn.png */; };
@@ -193,9 +192,6 @@
 		181014DF15C04A3D00D67C06 /* NSString+decode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+decode.m"; path = "Util/NSString+decode.m"; sourceTree = "<group>"; };
 		181014E015C04A3D00D67C06 /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tools.h; path = Util/Tools.h; sourceTree = "<group>"; };
 		181014E115C04A3D00D67C06 /* Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Tools.m; path = Util/Tools.m; sourceTree = "<group>"; };
-		181014FD15C04B5800D67C06 /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountViewController.h; path = ViewControllers/AccountViewController.h; sourceTree = "<group>"; };
-		181014FE15C04B5800D67C06 /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccountViewController.m; path = ViewControllers/AccountViewController.m; sourceTree = "<group>"; };
-		181014FF15C04B5900D67C06 /* AccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AccountViewController.xib; path = ViewControllers/AccountViewController.xib; sourceTree = "<group>"; };
 		1810150015C04B5900D67C06 /* PathViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PathViewController.h; path = ViewControllers/PathViewController.h; sourceTree = "<group>"; };
 		1810150115C04B5900D67C06 /* PathViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PathViewController.m; path = ViewControllers/PathViewController.m; sourceTree = "<group>"; };
 		1810150215C04B5A00D67C06 /* PathViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PathViewController.xib; path = ViewControllers/PathViewController.xib; sourceTree = "<group>"; };
@@ -289,6 +285,8 @@
 		18B99F2C15C3C67000B219E3 /* TaskModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskModel.xcdatamodel; sourceTree = "<group>"; };
 		18D3DC8415C39DD800A276F7 /* ChangeLogDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeLogDao.h; sourceTree = "<group>"; };
 		18D3DC8515C39DD800A276F7 /* ChangeLogDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeLogDao.m; sourceTree = "<group>"; };
+		18DECB3E15C6396700A51305 /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountViewController.h; path = ViewControllers/AccountViewController.h; sourceTree = "<group>"; };
+		18DECB3F15C6396700A51305 /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccountViewController.m; path = ViewControllers/AccountViewController.m; sourceTree = "<group>"; };
 		18E2974715BCE99400DCED79 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		18E2975715BD12F500DCED79 /* cooper.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cooper.png; sourceTree = "<group>"; };
 		18E2975915BD151800DCED79 /* loginbtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginbtn.png; sourceTree = "<group>"; };
@@ -776,9 +774,6 @@
 		EEF30E8215A556DB00506A79 /* SettingViewController */ = {
 			isa = PBXGroup;
 			children = (
-				181014FD15C04B5800D67C06 /* AccountViewController.h */,
-				181014FE15C04B5800D67C06 /* AccountViewController.m */,
-				181014FF15C04B5900D67C06 /* AccountViewController.xib */,
 				1810150015C04B5900D67C06 /* PathViewController.h */,
 				1810150115C04B5900D67C06 /* PathViewController.m */,
 				1810150215C04B5A00D67C06 /* PathViewController.xib */,
@@ -787,6 +782,8 @@
 				1810150515C04B5B00D67C06 /* SettingViewController.xib */,
 				18A41EB715C5B8E300D49298 /* NoticeViewController.h */,
 				18A41EB815C5B8E300D49298 /* NoticeViewController.m */,
+				18DECB3E15C6396700A51305 /* AccountViewController.h */,
+				18DECB3F15C6396700A51305 /* AccountViewController.m */,
 			);
 			name = SettingViewController;
 			sourceTree = "<group>";
@@ -883,7 +880,6 @@
 				181014B215C048B500D67C06 /* CustomTextViewCell.xib in Resources */,
 				181014B615C048B500D67C06 /* EndDateCell.xib in Resources */,
 				181014BC15C048B500D67C06 /* TaskViewCell.xib in Resources */,
-				1810150715C04B5B00D67C06 /* AccountViewController.xib in Resources */,
 				1810150915C04B5B00D67C06 /* PathViewController.xib in Resources */,
 				1810150B15C04B5B00D67C06 /* SettingViewController.xib in Resources */,
 				1810151015C04B6D00D67C06 /* CommentViewController.xib in Resources */,
@@ -966,7 +962,6 @@
 				181014E215C04A3D00D67C06 /* ModelHelper.m in Sources */,
 				181014E315C04A3D00D67C06 /* NSString+decode.m in Sources */,
 				181014E415C04A3D00D67C06 /* Tools.m in Sources */,
-				1810150615C04B5B00D67C06 /* AccountViewController.m in Sources */,
 				1810150815C04B5B00D67C06 /* PathViewController.m in Sources */,
 				1810150A15C04B5B00D67C06 /* SettingViewController.m in Sources */,
 				1810150F15C04B6D00D67C06 /* CommentViewController.m in Sources */,
@@ -997,6 +992,7 @@
 				18A3D48315C50DBB002C8C0E /* ChangeLog.m in Sources */,
 				18FDFBAC15C531310000E9EB /* TasklistEditController.m in Sources */,
 				18A41EB915C5B8E300D49298 /* NoticeViewController.m in Sources */,
+				18DECB4015C6396700A51305 /* AccountViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -45,6 +45,23 @@
     return [tasklists autorelease];
 }
 
+//- (NSMutableArray*)getAllLocalTasklist
+//{
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Tasklist" inManagedObjectContext:context];
+//    [fetchRequest setEntity:entity];
+//
+//    
+//    NSError *error = nil; 
+//
+//    NSMutableArray *tasklists = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+//    if(error != nil)
+//    {
+//        NSLog(@"error: %@", [error description]);
+//    }
+//    
+//}
+
 - (void)deleteTasklist:(Tasklist *)tasklist
 {
     NSLog(@"context retaincount: %d", [context retainCount]);
@@ -72,6 +89,36 @@
     tasklist.listType = type;
 
     //[super commitData];
+}
+
+- (void)adjustId:(NSString *)oldId withNewId:(NSString *)newId
+{
+    NSLog(@"context retaincount: %d", [context retainCount]);
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Tasklist" inManagedObjectContext:context];
+    
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(id = %@)", oldId];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil; 
+    
+    NSMutableArray *tasklists = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    if(error != nil)
+    {
+        NSLog(@"error: %@", [error description]);
+    }
+    
+    if(tasklists.count > 0)
+    {
+        Tasklist *tasklist = [tasklists objectAtIndex:0];
+        tasklist.id = newId;
+    }
+    
+    [super commitData];
+    
+    [fetchRequest release];
 }
 
 @end

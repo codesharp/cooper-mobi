@@ -101,7 +101,10 @@
 {
     NSLog(@"重新激活程序");
     
-    [self localPush];
+    if([[Constant instance] isLocalPush])
+    {
+        [self localPush];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -153,7 +156,7 @@
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     
     int interval = LOCALPUSH_TIME;
-    //interval = (2 * 60 * 60 + 25 * 60 + 0);
+    interval = (9 * 60 * 60 + 9 * 60 + 0);
     
     NSDate *fireDate = [[NSDate alloc] initWithTimeInterval: interval sinceDate:today];
     UILocalNotification *localNotification = [[UILocalNotification alloc] init];

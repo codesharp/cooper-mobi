@@ -187,7 +187,7 @@
         }
         else if(indexPath.row == 1)
         {
-            AccountViewController *accountViewController = [[[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:nil] autorelease]; 
+            AccountViewController *accountViewController = [[[AccountViewController alloc] init] autorelease]; 
             [self.navigationController pushViewController:accountViewController animated:NO];
         }
         else if(indexPath.row == 2)

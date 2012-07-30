@@ -73,7 +73,13 @@
     self.tabBarController.title = APP_TITLE;
     self.tableView.backgroundColor = [UIColor whiteColor];
     
-    [self loadTaskData];
+//    NSThread* myThread = [[NSThread alloc] initWithTarget:self
+//                                                 selector:@selector(loadTaskData)
+//                                                   object:nil];
+//    [myThread start];
+//    [myThread release];
+    
+    //[self loadTaskData];
 }
 
 - (void)viewDidLoad
@@ -317,12 +323,12 @@
     cell.selectedBackgroundView = selectedView;   
     [selectedView release];
     
-    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
-    longPressRecognizer.minimumPressDuration = 1;
-    [cell addGestureRecognizer:longPressRecognizer];
-//    longPressRecognizer.allowableMovement = NO;
-//    longPressRecognizer.minimumPressDuration = 0.2;
-    [longPressRecognizer release];
+//    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+//    longPressRecognizer.minimumPressDuration = 1;
+//    [cell addGestureRecognizer:longPressRecognizer];
+////    longPressRecognizer.allowableMovement = NO;
+////    longPressRecognizer.minimumPressDuration = 0.2;
+//    [longPressRecognizer release];
     
     return cell;
 }

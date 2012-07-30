@@ -9,8 +9,8 @@
 
 @interface TasklistService : NSObject
 
-+ (void)getTasklists:(id)delegate;
++ (NSString*)syncTasklist:(NSString*)name :(NSString*)type :(id)delegate;
 
-+ (void)syncTasklist:(id)delegate;
++ (void)getTasklists:(id)delegate;
 
 @end

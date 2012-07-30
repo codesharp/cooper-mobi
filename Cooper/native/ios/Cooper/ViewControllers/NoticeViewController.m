@@ -18,6 +18,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.title = NSLocalizedString(@"提醒设置", @"提醒设置");
     }
     return self;
 }
@@ -26,13 +27,13 @@
 {
     [super viewDidLoad];
     
-    CustomButton *saveTaskBtn = [[[CustomButton alloc] initWithFrame:CGRectMake(5,5,50,30) image:[UIImage imageNamed:@"btn_center.png"]] autorelease];
-    saveTaskBtn.layer.cornerRadius = 6.0f;
-    [saveTaskBtn.layer setMasksToBounds:YES];
-    [saveTaskBtn addTarget:self action:@selector(saveSetting:) forControlEvents:UIControlEventTouchUpInside];
-    [saveTaskBtn setTitle:@"确认" forState:UIControlStateNormal];
-    UIBarButtonItem *saveButton = [[[UIBarButtonItem alloc] initWithCustomView:saveTaskBtn] autorelease];
-    self.navigationItem.rightBarButtonItem = saveButton;
+//    CustomButton *saveTaskBtn = [[[CustomButton alloc] initWithFrame:CGRectMake(5,5,50,30) image:[UIImage imageNamed:@"btn_center.png"]] autorelease];
+//    saveTaskBtn.layer.cornerRadius = 6.0f;
+//    [saveTaskBtn.layer setMasksToBounds:YES];
+//    [saveTaskBtn addTarget:self action:@selector(saveSetting:) forControlEvents:UIControlEventTouchUpInside];
+//    [saveTaskBtn setTitle:@"确认" forState:UIControlStateNormal];
+//    UIBarButtonItem *saveButton = [[[UIBarButtonItem alloc] initWithCustomView:saveTaskBtn] autorelease];
+//    self.navigationItem.rightBarButtonItem = saveButton;
     
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [backBtn setFrame:CGRectMake(5, 5, 25, 25)];
@@ -76,7 +77,7 @@
 {
     [[Constant instance] setPath:localPushSwitch.on];
     
-    [Constant savePathToCache];
+    [Constant saveIsLocalPushToCache];
     
     [self goBack:nil];
 }

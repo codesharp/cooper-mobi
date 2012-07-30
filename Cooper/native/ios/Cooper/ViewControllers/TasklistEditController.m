@@ -8,10 +8,12 @@
 
 #import "TasklistEditController.h"
 #import "CustomButton.h"
+#import "TasklistService.h"
 
 @implementation TasklistEditController
 
 @synthesize nameTextField;
+@synthesize tempTasklistId;
 
 - (void)initContentView
 {
@@ -65,15 +67,31 @@
     
     NSString *dateString = [Tools NSDateToNSString:[NSDate date]];
     NSString *guid = [Tools stringWithUUID];
+    tempTasklistId = [NSString stringWithFormat:@"temp_%@", guid];
     
-    NSString *id = [NSString stringWithFormat:@"temp_%@", guid];
-    [tasklistDao addTasklist:id :nameTextField.text :@"per"];
+    [Tools process:@"同步任务列表" view:self.view];
     
-    //TODO:add changelog
+    NSString* responseString = [TasklistService syncTasklist:nameTextField.text :@"personal" :self];
     
-    [tasklistDao commitData];
+    if(responseString != nil)
+    {
+        NSLog(@"服务端处理CreateTaskList完毕，返回ID:%@", responseString);
+        
+        [tasklistDao addTasklist:tempTasklistId :nameTextField.text :@"per"];
+        
+        NSString* newId = responseString;
+        [tasklistDao adjustId:tempTasklistId withNewId:newId];
+        
+        //TODO:add changelog
+        
+        [tasklistDao commitData];
+    }
+    else {
+        [Tools alert:@"无法同步到服务端，请检查网络"];
+    }
     
-    [self.navigationController dismissModalViewControllerAnimated:YES];
+    [Tools close:HUD];
+    [self.navigationController dismissModalViewControllerAnimated:YES];;
 }
 
 - (void)viewDidLoad
@@ -99,6 +117,40 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+    NSLog(@"请求响应数据: %@, %d",[request responseString], [request responseStatusCode]);
+    
+    if([request responseStatusCode] == 200)
+    {
+        [Tools close:HUD];
+        
+        NSString* newId = [request responseString];
+        [tasklistDao adjustId:tempTasklistId withNewId:newId];
+        
+        [self.navigationController dismissModalViewControllerAnimated:YES];
+    }
+    else 
+    {
+        [Tools failed:HUD];
+        
+        [self.navigationController dismissModalViewControllerAnimated:YES];
+    }
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    [Tools close:HUD];
+    NSLog(@"错误异常: %@", request.error);
+    
+    [self.navigationController dismissModalViewControllerAnimated:YES];
+}
+
+- (void)addRequstToPool:(ASIHTTPRequest *)request
+{
+    NSLog(@"发送请求URL: %@", request.url);
 }
 
 -(void)textFieldDoneEditing:(id)sender

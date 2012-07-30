@@ -19,4 +19,6 @@
 
 - (void)addTasklist:(NSString*)id :(NSString*)name :(NSString*)type;
 
+- (void)adjustId:(NSString *)oldId withNewId:(NSString *)newId;
+
 @end

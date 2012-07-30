@@ -63,11 +63,41 @@
 	return request;
 }
 
-+ (NSString *)doSynchronousRequest:(NSString *)url {
++ (NSString *)doSynchronousRequest:(NSString *)url 
+                              data:(NSMutableDictionary*)data 
+{
 	ASIHTTPRequest *request = [self getRequest:url];
 	if (nil == request) {
 		return nil;
 	}
+    
+	[request startSynchronous];
+	NSError *error = [request error];
+	if (!error) {
+		return [request responseString];
+	}
+	return nil;
+}
+
++ (NSString *)doSynchronousPostRequest:(NSString *)url 
+                              data:(NSMutableDictionary*)data 
+{
+	ASIFormDataRequest *request = [self getPostRequest:url];
+    
+    if (nil == request) {
+		return nil;
+	}
+    
+    NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    //[request setUseCookiePersistence:YES];
+    
+    [request setRequestCookies: [NSMutableArray arrayWithArray:sharedHTTPCookie.cookies]];
+    
+    if(data)
+    {
+        for(NSString *key in data.allKeys)
+            [request setPostValue:[data objectForKey:key] forKey:key];
+    }
     
 	[request startSynchronous];
 	NSError *error = [request error];

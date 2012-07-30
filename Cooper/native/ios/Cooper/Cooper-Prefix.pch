@@ -62,7 +62,7 @@
 #define PRIORITY_TITLE_2                @"稍后完成"
 #define PRIORITY_TITLE_3                @"迟些再说"
 
-#define SYSTEM_REQUEST_TIMEOUT          1.0f
+#define SYSTEM_REQUEST_TIMEOUT          30.0f
 //TODO:半个小时定时器更新一次
 #define TIMER_INTERVAL                  0.5 * 60 * 60
 //TODO:默认每天早上8点钟推送通知
@@ -75,6 +75,8 @@
 
 //获取任务列表路径
 #define GETTASKLISTS_URL                @"/Per/GetTasklists"
+//同步任务列表路径
+#define TASKLIST_URL_SYNC               @"/Per/CreateTasklist"
 //优先级获取路径
 #define TASK_URL_GETBYPRIORITY          @"/Per/GetByPriority"
 //同步路径

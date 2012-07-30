@@ -45,7 +45,7 @@
 
 + (void)loadFromCache {
     [[Constant instance] setIsSaveUser:[[Cache getCacheByKey:@"isSaveUser"] intValue]];
-    [[Constant instance] setIsSaveUser:[[Cache getCacheByKey:@"isLocalPush"] intValue]];
+    [[Constant instance] setIsLocalPush:[[Cache getCacheByKey:@"isLocalPush"] intValue]];
     [[Constant instance] setDomain:[Cache getCacheByKey:@"domain"]];
     [[Constant instance] setUsername:[Cache getCacheByKey:@"username"]];
     [[Constant instance] setPath:[Cache getCacheByKey:@"path"]];
@@ -83,7 +83,7 @@
 
 + (void)saveIsLocalPushToCache
 {
-    [Cache setCacheObject:[NSNumber numberWithFloat:[[Constant instance] isSaveUser]] ForKey:@"isLocalPush"];
+    [Cache setCacheObject:[NSNumber numberWithFloat:[[Constant instance] isLocalPush]] ForKey:@"isLocalPush"];
     [Cache saveToDisk];
 }
 

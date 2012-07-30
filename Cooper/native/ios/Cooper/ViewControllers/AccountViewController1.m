@@ -1,156 +1,107 @@
 //
-//  LoginViewController.m
+//  AccountViewController.m
 //  Cooper
 //
-//  Created by sunleepy on 12-7-4.
+//  Created by 磊 李 on 12-7-12.
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
-#import "LoginViewController.h"
-#import "TaskViewController.h"
+#import "AccountViewController.h"
+#import "AccountService.h"
+@interface AccountViewController ()
 
-@implementation LoginViewController
+@end
+
+@implementation AccountViewController
+
 @synthesize textUsername;
 @synthesize textPassword;
 @synthesize loginTableView;
-@synthesize delegate;
-@synthesize btnLogin;
+@synthesize accountView;
 #ifndef CODESHARP_VERSION
 @synthesize domainLabel;
 #endif
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.title = NSLocalizedString(@"帐号设置", @"帐号设置");
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backBtn setFrame:CGRectMake(5, 5, 25, 25)];
+    [backBtn setBackgroundImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+    [backBtn addTarget: self action: @selector(goBack:) forControlEvents: UIControlEventTouchUpInside];
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    self.navigationItem.leftBarButtonItem = backButtonItem;
+    [backButtonItem release];
+    
+    self.accountView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
+    
+    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(5, 10, 80, 30)] autorelease];
+    label.text = @"当前登录账户：%@";
+    [self.accountView addSubview:label];
     
     self.loginTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
     [self.loginTableView setAllowsSelection:NO];
+    self.loginTableView.scrollEnabled = NO;
     CGRect rect = self.loginTableView.frame;
-    [self.loginTableView setFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, 120)];
+    [self.loginTableView setFrame:CGRectMake(rect.origin.x, rect.origin.y + 400, rect.size.width, 120)];
     loginTableView.delegate = self;
     loginTableView.dataSource = self;
     
-    btnLogin = [[CustomButton alloc] initWithFrame:CGRectMake(240, 230, 70, 40) image:[UIImage imageNamed:@"btn_center.png"]];
-    btnLogin.layer.cornerRadius = 6.0f;
-    [btnLogin.layer setMasksToBounds:YES];
-    [btnLogin addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
-    [btnLogin setTitle:@"登录" forState:UIControlStateNormal];
-    [btnLogin setFont:[UIFont boldSystemFontOfSize:20]];
-    [self.view addSubview:btnLogin];
+    
+    [self.view addSubview:loginTableView];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (void)goBack:(id)sender
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    CATransition* transition = [CATransition animation];
+    transition.duration = 0.3;
+    transition.type = kCATransitionPush;
+    transition.subtype = kCATransitionFromLeft;
+    [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+    
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
-- (void)dealloc 
+- (void)viewDidUnload
 {
+    [super viewDidUnload];
+}
+
+- (void)dealloc
+{
+    [super dealloc];
+    
 #ifndef CODESHARP_VERSION
     [domainLabel release];
 #endif
     [textUsername release];
     [textPassword release];
     [loginTableView release];
-    [btnLogin release];
-    [super dealloc];
 }
 
-- (void)login 
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-#ifndef CODESHARP_VERSION
-    if ([domainLabel.text length] > 0 
-        && [textUsername.text length] > 0
-        && [textPassword.text length] > 0) 
-#else
-      if([textUsername.text length] > 0
-         && [textPassword.text length] > 0)
-#endif
-    {
-        HUD = [Tools process:@"登录中" view:self.view];
-        
-#ifndef CODESHARP_VERSION
-        [AccountService login:domainLabel.text 
-                     username:textUsername.text 
-                     password:textPassword.text 
-                     delegate:self];
-#else
-        [AccountService login:textUsername.text
-                     password:textPassword.text
-                     delegate:self];
-#endif
-    }
-    else 
-    {
-        [Tools alert:@"输入不全"];
-    }
-    
-    //[self dismissModalViewControllerAnimated:NO];
-    //[delegate ];
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)requestFinished:(ASIHTTPRequest *)request
-{
-    [Tools close:HUD];
-    //TODO:暂时采用字符串包含来判断是否登录成功
-    NSLog(@"请求响应数据: %@, %d", [request responseString], [request responseStatusCode]);
-    if([request responseStatusCode] == 200)
-    {
-        NSArray* array = [request responseCookies];
-        NSLog(@"array:%d",  array.count);
+#pragma mark - Table view data source
 
-        NSDictionary *dict = [NSHTTPCookie requestHeaderFieldsWithCookies:array];
-        NSHTTPCookie *cookieA = [NSHTTPCookie cookieWithProperties:dict];
-        NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-        
-        [sharedHTTPCookie setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-        [sharedHTTPCookie setCookie:cookieA];
-        
-        //NSLog(@"请求响应数据: %@", request.responseString);
-#ifndef CODESHARP_VERSION
-        [[Constant instance] setDomain:domainLabel.text];
-#endif
-        [[Constant instance] setUsername:textUsername.text];
-        //TODO:自动保存用户登录
-        [[Constant instance] setIsSaveUser:YES];
-        [self dismissModalViewControllerAnimated:NO];
-        [Constant saveToCache];
-        [delegate loginExit]; 
-    }
-    else if([request responseStatusCode] == 400)
-    {
-        [Tools alert:[request responseString]];
-    }
-    else
-    {
-        [Tools alert:@"未知异常"];
-    }
-}
-- (void)requestFailed:(ASIHTTPRequest *)request
-{
-    //[self removeRequstFromPool:request];
-    [Tools failed:HUD];
-    NSLog(@"请求异常: %@",request.error);
-}
-- (void)addRequstToPool:(ASIHTTPRequest *)request
-{
-//    [requestPool addObject:request];
-    NSLog(@"发送请求路径：%@",request.url);
-}
-
--(IBAction)textFieldDoneEditing:(id)sender
-{
-    [sender resignFirstResponder];
-}
-
-# pragma mark login table view
-
-//获取TableView的分区数
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
-//获取在制定的分区编号下的纪录数
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 #ifndef CODESHARP_VERSION
@@ -159,7 +110,7 @@
     return 2;
 #endif
 }
-//填充单元格
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
@@ -271,6 +222,22 @@
     return cell;
 }
 
+- (void)tableViewCell:(SimplePickerInputTableViewCell *)cell didEndEditingWithValue:(NSString *)value {
+	NSLog(@"%@ changed to: %@", cell.textLabel.text, value);
+    cell.detailTextLabel.text = value;
+}
+
+#pragma mark - Table view delegate
+
+- (BOOL)checkAccount:(NSString*)domain username:(NSString*)username password:(NSString*)password
+{
+    if([domain length] == 0 || [username length] == 0 || [password length] == 0)
+    {
+        return NO;
+    }
+    return YES;
+}
+
 #ifndef CODESHARP_VERSION
 - (void)selectDomain
 {
@@ -278,9 +245,94 @@
 }
 #endif
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)saveSetting:(id)sender
 {
-    return 35.0f;
+//    UITableView *tv = self.tableView;
+//    UITableViewCell *cell1 = [tv cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+//    UITableViewCell *cell2 = [tv cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+//    UITableViewCell *cell3 = [tv cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+//    
+//    UITextField *textUsername = (UITextField*)cell2.accessoryView;
+//    UITextField *textPassword = (UITextField*)cell3.accessoryView;
+//    
+//    NSString *domain = cell1.detailTextLabel.text;
+//    NSString *username = textUsername.text;
+//    NSString *password = textPassword.text;
+//    
+//    if (![self checkAccount:domain username:username password:password]) {
+//        [Tools alert:@"域帐号／用户名／密码不可为空"];
+//        return;
+//    }
+//    
+//    HUD = [Tools process:@"正在登录" view:self.view];
+//    
+//    requestType = 0;
+//    [AccountService logout:self];
+}
+
+-(void)goBack
+{
+    [self.navigationController popViewControllerAnimated:YES];  
+}
+
+-(void)textFieldDoneEditing:(id)sender
+{
+    [sender resignFirstResponder];
+}
+
+- (void)addRequstToPool:(ASIHTTPRequest *)request {
+    //    [requestPool addObject:request];
+    NSLog(@"发送请求：%@",request.url);
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+//    NSLog(@"response:%@, %d", [request responseString], [request responseStatusCode]);
+//    
+//    //TODO:...
+//    if([request responseStatusCode] == 200 && [[request responseString] rangeOfString:@"loginSuccess"].length > 0)
+//    {
+//        if(requestType == 0)
+//        {
+//            requestType = 1;
+//            
+//            UITableView *tv = self.tableView;
+//            UITableViewCell *cell1 = [tv cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+//            UITableViewCell *cell2 = [tv cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+//            UITableViewCell *cell3 = [tv cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+//            
+//            UITextField *textUsername = (UITextField*)cell2.accessoryView;
+//            UITextField *textPassword = (UITextField*)cell3.accessoryView;
+//            
+//            NSString *domain = cell1.detailTextLabel.text;
+//            NSString *username = textUsername.text;
+//            NSString *password = textPassword.text;
+//            
+//            if (![self checkAccount:domain username:username password:password]) {
+//                [Tools alert:@"域帐号／用户名／密码不可为空"];
+//                return;
+//            }
+//            
+//            [[Constant instance] setDomain:domain];
+//            [[Constant instance] setUsername:username];
+//            //[[Constant instance] setPassword:password];
+//            
+//            [Constant saveToCache];
+//            
+//            [AccountService login:domain username:username password:password delegate:self];
+//        }
+//        else
+//            [Tools msg:@"登录成功" HUD:HUD];     
+//    }
+//    else{
+//        [Tools msg:@"登录失败" HUD:HUD];
+//    }
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    NSLog(@"request error %@",request.error);
+    [Tools failed:HUD];
 }
 
 @end

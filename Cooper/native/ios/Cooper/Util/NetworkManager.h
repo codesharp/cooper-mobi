@@ -25,7 +25,9 @@
 //post method
 + (ASIFormDataRequest*)getPostRequest:(NSString*)url;
 + (ASIHTTPRequest *)doAsynchronousGetRequest:(NSString *)url Delegate:(id)delegate WithInfo:(NSDictionary *)info;
-+ (NSString *)doSynchronousRequest:(NSString *)url;
++ (NSString *)doSynchronousRequest:(NSString *)url data:(NSMutableDictionary*)data;
++ (NSString *)doSynchronousPostRequest:(NSString *)url 
+                                  data:(NSMutableDictionary*)data;
 
 + (ASIFormDataRequest*)doAsynchronousPostRequest:(NSString *)url Delegate:(id)delegate data:(NSMutableDictionary*)data WithInfo:(NSDictionary *)info addHeaders:(NSMutableDictionary*)headers;
 @end

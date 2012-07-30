@@ -80,7 +80,7 @@
     HUD = [Tools process:@"同步列表中" view:self.view];
     
     requestType = 0;
-    [TasklistService syncTasklist:self];
+    //[TasklistService syncTasklist:self];
     [TasklistService getTasklists:self];
 
     //[self loadTasklistData];
@@ -108,7 +108,7 @@
     [HUD show:YES];
     
     requestType = 0;
-    [TasklistService syncTasklist:self];
+    //[TasklistService syncTasklist:self];
     [TasklistService getTasklists:self];
     
     [self loadTasklistData];
@@ -218,6 +218,8 @@
                 //TODO:这里处理个人
                 [tasklistDao addTasklist:key:value:@"per"];
             }
+            
+            [tasklistDao addTasklist:@"0" :@"默认列表" :@"列表"];
             
             [tasklistDao commitData];
             
