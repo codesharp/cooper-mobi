@@ -25,18 +25,22 @@
 @synthesize currentIsCompleted;
 @synthesize currentDueDate;
 @synthesize currentPriority;
+@synthesize bodyCell;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
     }
     return self;
 }
 
 - (void)initContentView
 {
+    self.title = @"任务编辑";
+    
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [backBtn setFrame:CGRectMake(5, 5, 25, 25)];
     [backBtn setBackgroundImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
@@ -48,7 +52,7 @@
     saveTaskBtn.layer.cornerRadius = 6.0f;
     [saveTaskBtn.layer setMasksToBounds:YES];
     [saveTaskBtn addTarget:self action:@selector(saveTask:) forControlEvents:UIControlEventTouchUpInside];
-    [saveTaskBtn setTitle:@"确认" forState:UIControlStateNormal];
+    [saveTaskBtn setTitle:@"确定" forState:UIControlStateNormal];
     UIBarButtonItem *saveButton = [[[UIBarButtonItem alloc] initWithCustomView:saveTaskBtn] autorelease];
     self.navigationItem.rightBarButtonItem = saveButton;
     
@@ -73,12 +77,41 @@
     detailView.dataSource = self;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    viewCenter = self.view.center;
+        
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillShowNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
+}
+
 - (void)goBack:(id)sender
 {
     if(self.task == nil)
         [self.navigationController dismissModalViewControllerAnimated:YES];
     else {
-        [self.navigationController dismissModalViewControllerAnimated:NO];
+        [self.navigationController dismissModalViewControllerAnimated:YES];
     }
 }
 
@@ -221,6 +254,7 @@
     [priorityButton release];
     [statusButton release];
     [dueDateLabel release];
+    [bodyCell release];
     [task release];
 }
 
@@ -258,16 +292,17 @@
                 statusButton = [[CustomButton alloc] initWithFrame:CGRectZero image:[UIImage imageNamed:@"btn_bg_green.png"]];
                 statusButton.userInteractionEnabled = YES;
                 
+                [statusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                 [statusButton addTarget:self action:@selector(switchStatus) forControlEvents:UIControlEventTouchUpInside];
                 
-                [statusButton setTitle:@"Open    >" forState:UIControlStateNormal];
+                [statusButton setTitle:@"未完成    >" forState:UIControlStateNormal];
             }
             
             if(self.task != nil)
             {   
-                [statusButton setTitle: self.task.status == [NSNumber numberWithInt:1] ? @"Close    >" : @"Open    >" forState:UIControlStateNormal];
-                [statusButton setBackgroundImage:[UIImage imageNamed:self.task.status == [NSNumber numberWithInt:1] ? @"btn_bg_gray.png" : @"btn_bg_green.png"] forState:UIControlStateNormal];
-                [statusButton setTitleColor: self.task.status == [NSNumber numberWithInt:1] ?[UIColor blackColor] : [UIColor whiteColor] forState:UIControlStateNormal];
+                [statusButton setTitle: self.task.status == [NSNumber numberWithInt:1] ? @"完成    >" : @"未完成    >" forState:UIControlStateNormal];
+                [statusButton setBackgroundImage:[UIImage imageNamed:self.task.status == [NSNumber numberWithInt:1] ? @"btn_bg_green.png" : @"btn_bg_gray.png"] forState:UIControlStateNormal];
+                [statusButton setTitleColor: self.task.status == [NSNumber numberWithInt:1] ?[UIColor whiteColor] : [UIColor blackColor] forState:UIControlStateNormal];
             }
             
             CGSize size = CGSizeMake(320,10000);
@@ -295,7 +330,7 @@
             if(self.task != nil)
             {   
                 if (task.dueDate == nil) {
-                    [self.dueDateLabel setTitle:@"          >" forState:UIControlStateNormal];
+                    [self.dueDateLabel setTitle:@"请选择    >" forState:UIControlStateNormal];
                 }
                 else
                 {
@@ -303,6 +338,10 @@
                     
                     self.currentDueDate = task.dueDate;
                 }
+            }
+            else
+            {
+                [self.dueDateLabel setTitle:@"请选择    >" forState:UIControlStateNormal];
             }
             
             CGSize size = CGSizeMake(320,10000);
@@ -368,27 +407,37 @@
         }
         else if(indexPath.row == 4)
         {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"BodayCell"];
+            cell = [tableView dequeueReusableCellWithIdentifier:@"BodyCell"];
             if(!cell)
             {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"BodayCell"] autorelease];
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"BodyCell"] autorelease];
                 
-                bodyTextView = [[UITextView alloc] initWithFrame:self.view.frame];
+                bodyTextView = [[BodyTextView alloc] initWithFrame:self.view.frame];
                 bodyTextView.userInteractionEnabled = YES;
                 [bodyTextView setAutocapitalizationType:UITextAutocapitalizationTypeNone];
                 [bodyTextView setAutocorrectionType:UITextAutocorrectionTypeNo];
-                [bodyTextView setReturnKeyType:UIReturnKeyDone];
-                [bodyTextView setTextAlignment:UITextAlignmentLeft];
-                bodyTextView.scrollEnabled = YES;//是否可以拖动  
+                bodyTextView.returnKeyType = UIReturnKeyDefault;  
+                bodyTextView.keyboardType = UIKeyboardTypeDefault;  
+                bodyTextView.scrollEnabled = YES;  
+                bodyTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight; 
                 bodyTextView.delegate = self;
-                bodyTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+                [bodyTextView setFont:[UIFont systemFontOfSize:16]];
                 [cell.contentView addSubview:bodyTextView];
+                
+                bodyCell = cell;
             }
             
             if(task != nil)
             {
                 bodyTextView.text = task.body;
             }
+            
+            int totalheight = bodyTextView.contentSize.height;
+            if(bodyTextView.contentSize.height < 300)
+            {
+                totalheight = 300;
+            }
+            [cell setFrame:CGRectMake(0, 0, 320, totalheight)];
         }
         else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"UnknownCell"];
@@ -406,11 +455,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if(indexPath.row == 3)
-//    {
-//        UITableViewCell *cell = (UITableViewCell*)[self tableView:tableView cellForRowAtIndexPath:indexPath];
-//        return cell.frame.size.height;
-//    }
+    if(indexPath.row == 4)
+    {
+        UITableViewCell *cell = (UITableViewCell*)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        return cell.frame.size.height;
+    }
     return 44.0f;
 }
 
@@ -483,19 +532,19 @@
 - (void)switchStatus
 {
     bool isfinish;
-    if([statusButton.titleLabel.text isEqualToString:@"Open    >"])
+    if([statusButton.titleLabel.text isEqualToString:@"未完成    >"])
     {
-        [statusButton setTitle:@"Close    >" forState:UIControlStateNormal];
-        [statusButton setBackgroundImage:[UIImage imageNamed:@"btn_bg_gray.png"] forState:UIControlStateNormal];
-        [statusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [statusButton setTitle:@"完成    >" forState:UIControlStateNormal];
+        [statusButton setBackgroundImage:[UIImage imageNamed:@"btn_bg_green.png"] forState:UIControlStateNormal];
+        [statusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
         isfinish = YES; 
     }
     else
     {
-        [statusButton setTitle:@"Open    >" forState:UIControlStateNormal];
-        [statusButton setBackgroundImage:[UIImage imageNamed:@"btn_bg_green.png"] forState:UIControlStateNormal];
-        [statusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [statusButton setTitle:@"未完成    >" forState:UIControlStateNormal];
+        [statusButton setBackgroundImage:[UIImage imageNamed:@"btn_bg_gray.png"] forState:UIControlStateNormal];
+        [statusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         
         isfinish = NO;
     }
@@ -523,12 +572,53 @@
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    if([text isEqualToString:@"\n"])
+    NSLog(@"height:%f",textView.contentSize.height);
+    
+    CGFloat totalheight = bodyTextView.contentSize.height;
+    
+    CGPoint center = viewCenter;
+
+    if(totalheight > 116.0)
     {
-        [textView resignFirstResponder];
-        return NO;
+        CGFloat line = (totalheight - 116.0) / 50.0;
+        
+                
+        center.y -= 256 + 50 * line;
+        center.y += 120.0f;
+        self.view.center = center;
     }
+    else {
+        center.y -= 256;
+        center.y += 120.0f;
+        self.view.center = center;
+    }
+    
     return YES;
+}
+
+- (void)keyboardWillShow:(NSNotification *)aNotification 
+{
+	CGRect keyboardRect = [[[aNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    NSTimeInterval animationDuration =
+	[[[aNotification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    CGPoint center = viewCenter;
+    NSLog(@"key:%f", keyboardRect.size.height);
+    center.y -= keyboardRect.size.height;
+    center.y += 120.0f;
+    self.view.center = center;
+    [UIView setAnimationDuration:animationDuration];
+    [UIView commitAnimations];
+}
+
+- (void)keyboardWillHide:(NSNotification *)aNotification
+{
+    NSTimeInterval animationDuration =
+	[[[aNotification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    self.view.center = viewCenter;
+    [UIView setAnimationDuration:animationDuration];
+    [UIView commitAnimations];
 }
 
 - (NSString*)getPriorityKey:(NSString*)priorityValue

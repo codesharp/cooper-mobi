@@ -36,4 +36,6 @@
 
 + (NSString*)stringWithUUID;
 
++ (BOOL)isPad;
+
 @end

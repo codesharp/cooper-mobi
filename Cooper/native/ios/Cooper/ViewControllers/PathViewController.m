@@ -32,7 +32,7 @@
     saveTaskBtn.layer.cornerRadius = 6.0f;
     [saveTaskBtn.layer setMasksToBounds:YES];
     [saveTaskBtn addTarget:self action:@selector(saveSetting:) forControlEvents:UIControlEventTouchUpInside];
-    [saveTaskBtn setTitle:@"确认" forState:UIControlStateNormal];
+    [saveTaskBtn setTitle:@"确定" forState:UIControlStateNormal];
     UIBarButtonItem *saveButton = [[[UIBarButtonItem alloc] initWithCustomView:saveTaskBtn] autorelease];
     self.navigationItem.rightBarButtonItem = saveButton;
     

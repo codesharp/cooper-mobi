@@ -48,7 +48,7 @@
 //    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
 //    self.navigationItem.leftBarButtonItem = backButtonItem;
 //    [backButtonItem release];
-    
+    [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
     self.tabBarController.title = @"系统设置";
 }
 
@@ -76,7 +76,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -85,27 +85,27 @@
     
     if(indexPath.section == 0)
     {
+//        if(indexPath.row == 0)
+//        {
+//            cell = [tableView dequeueReusableCellWithIdentifier:@"PathEnvironmentCell"];
+//            if(!cell)
+//            {
+//                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"PathEnvironmentCell"] autorelease];
+//                
+//                cell.textLabel.text = @"同步设置";
+//                //cell.detailTextLabel.text = [[Constant instance] path];
+//                
+//                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//                cell.editingAccessoryType = UITableViewCellAccessoryNone;
+//
+//                UIView *selectedView = [[UIView alloc] initWithFrame:cell.frame];
+//                selectedView.backgroundColor = [UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0];
+//                //设置选中后cell的背景颜色
+//                cell.selectedBackgroundView = selectedView;
+//                [selectedView release];
+//            }
+//        }
         if(indexPath.row == 0)
-        {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"PathEnvironmentCell"];
-            if(!cell)
-            {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"PathEnvironmentCell"] autorelease];
-                
-                cell.textLabel.text = @"同步设置";
-                //cell.detailTextLabel.text = [[Constant instance] path];
-                
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.editingAccessoryType = UITableViewCellAccessoryNone;
-
-                UIView *selectedView = [[UIView alloc] initWithFrame:cell.frame];
-                selectedView.backgroundColor = [UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0];
-                //设置选中后cell的背景颜色
-                cell.selectedBackgroundView = selectedView;
-                [selectedView release];
-            }
-        }
-        else if(indexPath.row == 1)
         {
             cell = [tableView dequeueReusableCellWithIdentifier:@"AccountCell"];
             if(!cell)
@@ -117,46 +117,47 @@
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.editingAccessoryType = UITableViewCellAccessoryNone;
                 
-                UIView *selectedView = [[UIView alloc] initWithFrame:cell.frame];
+                UIView *selectedView = [[UIView alloc] initWithFrame:cell.frame];   
                 selectedView.backgroundColor = [UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0];
+                cell.backgroundColor = [UIColor whiteColor];
                 //设置选中后cell的背景颜色
                 cell.selectedBackgroundView = selectedView;
                 [selectedView release];
             }
         }
-        else if(indexPath.row == 2)
-        {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"NoticeCell"];
-            if(!cell)
-            {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"NoticeCell"] autorelease];
-                
-                cell.textLabel.text = @"提醒设置";
-                
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.editingAccessoryType = UITableViewCellAccessoryNone;
-                
-                UIView *selectedView = [[UIView alloc] initWithFrame:cell.frame];
-                selectedView.backgroundColor = [UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0];
-                //设置选中后cell的背景颜色
-                cell.selectedBackgroundView = selectedView;
-                [selectedView release];
-            }
-        }
-        else if(indexPath.row == 3)
-        {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"ApplicationCell"];
-            if(!cell)
-            {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"applicationCell"] autorelease];
-                
-                cell.textLabel.text = @"版本检测";
-                cell.detailTextLabel.text = @"v1.0";
-                
-                //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                //cell.editingAccessoryType = UITableViewCellAccessoryNone;
-            }
-        }
+//        else if(indexPath.row == 2)
+//        {
+//            cell = [tableView dequeueReusableCellWithIdentifier:@"NoticeCell"];
+//            if(!cell)
+//            {
+//                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"NoticeCell"] autorelease];
+//                
+//                cell.textLabel.text = @"提醒设置";
+//                
+//                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//                cell.editingAccessoryType = UITableViewCellAccessoryNone;
+//                
+//                UIView *selectedView = [[UIView alloc] initWithFrame:cell.frame];
+//                selectedView.backgroundColor = [UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0];
+//                //设置选中后cell的背景颜色
+//                cell.selectedBackgroundView = selectedView;
+//                [selectedView release];
+//            }
+//        }
+//        else if(indexPath.row == 3)
+//        {
+//            cell = [tableView dequeueReusableCellWithIdentifier:@"ApplicationCell"];
+//            if(!cell)
+//            {
+//                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"applicationCell"] autorelease];
+//                
+//                cell.textLabel.text = @"版本检测";
+//                cell.detailTextLabel.text = @"v1.0";
+//                
+//                //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//                //cell.editingAccessoryType = UITableViewCellAccessoryNone;
+//            }
+//        }
     }
                                                                                   
     return cell;
@@ -171,30 +172,38 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if(indexPath.section == 0)
     {
-        CATransition* transition = [CATransition animation];
-        transition.duration = 0.3;
-        transition.type = kCATransitionPush;
-        transition.subtype = kCATransitionFromRight;
-        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+//        CATransition* transition = [CATransition animation];
+//        transition.duration = 0.3;
+//        transition.type = kCATransitionPush;
+//        transition.subtype = kCATransitionFromRight;
+//        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
 
-        
+//        if(indexPath.row == 0)
+//        {
+//            PathViewController *pathViewController = [[[PathViewController alloc] initWithNibName:@"PathViewController" bundle:nil] autorelease];
+//            [self.navigationController pushViewController:pathViewController animated:NO];
+//        }
         if(indexPath.row == 0)
         {
-            PathViewController *pathViewController = [[[PathViewController alloc] initWithNibName:@"PathViewController" bundle:nil] autorelease];
-            [self.navigationController pushViewController:pathViewController animated:NO];
-        }
-        else if(indexPath.row == 1)
-        {
             AccountViewController *accountViewController = [[[AccountViewController alloc] init] autorelease]; 
+            
+            CATransition* transition = [CATransition animation];
+            transition.duration = 0.3;
+            transition.type = kCATransitionPush;
+            transition.subtype = kCATransitionFromRight;
+            [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+            
             [self.navigationController pushViewController:accountViewController animated:NO];
         }
-        else if(indexPath.row == 2)
-        {
-            NoticeViewController *noticeViewController = [[[NoticeViewController alloc] init] autorelease];
-            [self.navigationController pushViewController:noticeViewController animated:NO];
-        }
+//        else if(indexPath.row == 2)
+//        {
+//            NoticeViewController *noticeViewController = [[[NoticeViewController alloc] init] autorelease];
+//            [self.navigationController pushViewController:noticeViewController animated:NO];
+//        }
     }
 }
 

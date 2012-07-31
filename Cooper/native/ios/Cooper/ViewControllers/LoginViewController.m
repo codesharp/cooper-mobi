@@ -82,11 +82,8 @@
     }
     else 
     {
-        [Tools alert:@"输入不全"];
+        [Tools alert:@"请输入用户名和密码"];
     }
-    
-    //[self dismissModalViewControllerAnimated:NO];
-    //[delegate ];
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request

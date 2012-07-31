@@ -46,6 +46,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.title = @"任务查看";
     }
     return self;
 }
@@ -72,7 +73,28 @@
     //tempTableView.scrollEnabled = NO;
     tempTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [tempTableView setBackgroundColor:[UIColor whiteColor]];
+    tempTableView.scrollEnabled = NO;
     
+    
+    
+//    UIScrollView *tempScrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+//    tempScrollView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+//    tempScrollView.backgroundColor = [UIColor blueColor];
+//    scrollView = tempScrollView;
+//    
+//    [self.view addSubview:tempScrollView];
+//    
+//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 150, 100)];
+//    label.text = @"test";
+//    
+//    scrollView.scrollEnabled = YES;
+//    scrollView.showsVerticalScrollIndicator = YES;
+//    NSLog(@"height:%d",self.view.bounds.size.height);
+//    scrollView.contentSize = self.view.bounds.size;
+//    
+//    [scrollView addSubview:label];
+    
+
     //去掉底部空白
     UIView *footer =
     [[UIView alloc] initWithFrame:CGRectZero];
@@ -87,6 +109,12 @@
     detailView.delegate = self;
     detailView.dataSource = self;
     
+    NSArray *array = tempTableView.subviews;
+    
+    UIView *tempView = [tempTableView.subviews objectAtIndex:0];
+    
+    tempTableView.layer.masksToBounds = NO;
+
 //    UIView *tabbar = [[UIView alloc] initWithFrame:CGRectMake(0, 376, 320, 40)];
 //    [tabbar setBackgroundColor:APP_BACKGROUNDCOLOR];
 //    commentTextField = [[[CommentTextField alloc] init] autorelease];
@@ -137,12 +165,14 @@
         //[imageView release];
     }
     
-    [self.navigationController presentModalViewController:navigationController animated:NO];
+    [self.navigationController presentModalViewController:navigationController animated:YES];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSLog(@"view:%d",self.view.frame.size.height);
     
     taskDao = [[TaskDao alloc] init];
     taskIdxDao = [[TaskIdxDao alloc] init];
@@ -150,6 +180,8 @@
     
     [self initContentView];
 }
+
+
 
 - (void)viewDidUnload
 {
@@ -192,19 +224,21 @@
                 cell.textLabel.text = @"状态:";
                 [cell.textLabel setTextColor:[UIColor grayColor]];[cell.textLabel setFont:[UIFont boldSystemFontOfSize:16]];
                 
-                statusButton = [[CustomButton alloc] initWithFrame:CGRectZero image:[UIImage imageNamed:@"btn_bg_green.png"]];
+                statusButton = [[CustomButton alloc] initWithFrame:CGRectZero image:[UIImage imageNamed:@"btn_bg_gray.png"]];
                 statusButton.userInteractionEnabled = YES;
+                
+                [statusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                 
                 [statusButton addTarget:self action:@selector(switchStatus) forControlEvents:UIControlEventTouchUpInside];
                 
-                [statusButton setTitle:@"Open    >" forState:UIControlStateNormal];
+                [statusButton setTitle:@"未完成    >" forState:UIControlStateNormal];
             }
             
             if(self.task != nil)
             {   
-                [statusButton setTitle: self.task.status == [NSNumber numberWithInt:1] ? @"Close    >" : @"Open    >" forState:UIControlStateNormal];
-                [statusButton setBackgroundImage:[UIImage imageNamed:self.task.status == [NSNumber numberWithInt:1] ? @"btn_bg_gray.png" : @"btn_bg_green.png"] forState:UIControlStateNormal];
-                [statusButton setTitleColor: self.task.status == [NSNumber numberWithInt:1] ?[UIColor blackColor] : [UIColor whiteColor] forState:UIControlStateNormal];
+                [statusButton setTitle: self.task.status == [NSNumber numberWithInt:1] ? @"完成    >" : @"未完成    >" forState:UIControlStateNormal];
+                [statusButton setBackgroundImage:[UIImage imageNamed:self.task.status == [NSNumber numberWithInt:1] ? @"btn_bg_green.png" : @"btn_bg_gray.png"] forState:UIControlStateNormal];
+                [statusButton setTitleColor: self.task.status == [NSNumber numberWithInt:1] ?[UIColor whiteColor] : [UIColor blackColor] forState:UIControlStateNormal];
             }
             
             CGSize size = CGSizeMake(320,10000);
@@ -232,7 +266,7 @@
             if(self.task != nil)
             {   
                 if (task.dueDate == nil) {
-                    [self.dueDateLabel setTitle:@"          >" forState:UIControlStateNormal];
+                    [self.dueDateLabel setTitle:@"请选择    >" forState:UIControlStateNormal];
                 }
                 else
                     [self.dueDateLabel setTitle:[NSString stringWithFormat:@"%@    >", [Tools ShortNSDateToNSString:task.dueDate]] forState:UIControlStateNormal];
@@ -310,8 +344,10 @@
             CGFloat subjectLabelHeight = subjectLabelSize.height;
             
             int subjectlines = subjectLabelHeight / 16;
-            [subjectLabel setFrame:CGRectMake(20, 5, 280, subjectLabelHeight)];
+            int totalLabelHeight = subjectLabelHeight + 20;
+            [subjectLabel setFrame:CGRectMake(20, 5, 280, totalLabelHeight)];
             [subjectLabel setNumberOfLines:subjectlines];
+            
             
             CGSize bodyLabelSize = [bodyLabel.text sizeWithFont:bodyLabel.font 
                                                     constrainedToSize:CGSizeMake(320, 10000) 
@@ -320,10 +356,12 @@
             CGFloat bodyLabelHeight = bodyLabelSize.height;
             
             int bodylines = bodyLabelHeight / 16;
-            [bodyLabel setFrame:CGRectMake(20, bodyLabelHeight + 10, 280, bodyLabelHeight)];
+            [bodyLabel setFrame:CGRectMake(20, totalLabelHeight + 10, 280, bodyLabelHeight)];
             [bodyLabel setNumberOfLines:bodylines];
             
-            [cell setFrame:CGRectMake(0, 0, 320, bodyLabelHeight + subjectLabelHeight + 15)];
+            totalLabelHeight += bodyLabelHeight + 300;
+            
+            [cell setFrame:CGRectMake(0, 0, 320, totalLabelHeight)];
         }
         else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"UnknownCell"];
@@ -407,20 +445,20 @@
 - (void)switchStatus
 {
     bool isfinish;
-    if([statusButton.titleLabel.text isEqualToString:@"Open    >"])
+    if([statusButton.titleLabel.text isEqualToString:@"未完成    >"])
     {
-        [statusButton setTitle:@"Close    >" forState:UIControlStateNormal];
-        [statusButton setBackgroundImage:[UIImage imageNamed:@"btn_bg_gray.png"] forState:UIControlStateNormal];
-        [statusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [statusButton setTitle:@"完成    >" forState:UIControlStateNormal];
+        [statusButton setBackgroundImage:[UIImage imageNamed:@"btn_bg_green.png"] forState:UIControlStateNormal];
+        [statusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
         isfinish = YES;
         
     }
     else
     {
-        [statusButton setTitle:@"Open    >" forState:UIControlStateNormal];
-        [statusButton setBackgroundImage:[UIImage imageNamed:@"btn_bg_green.png"] forState:UIControlStateNormal];
-        [statusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [statusButton setTitle:@"未完成    >" forState:UIControlStateNormal];
+        [statusButton setBackgroundImage:[UIImage imageNamed:@"btn_bg_gray.png"] forState:UIControlStateNormal];
+        [statusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         
         isfinish = NO;
     }

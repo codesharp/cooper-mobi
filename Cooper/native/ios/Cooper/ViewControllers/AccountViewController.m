@@ -38,20 +38,7 @@
 
 - (void)loadView
 {
-    
-//    self.loginTableView = [[[UITableView alloc] init] autorelease];
-//    self.loginTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
-//    [self.loginTableView setAllowsSelection:NO];
-//    CGRect rect = self.loginTableView.frame;
-//    [self.loginTableView setFrame:rect];
-//    loginTableView.delegate = self;
-//    loginTableView.dataSource = self;
-//    
-//    [self.view addSubview:loginTableView];
-//    
-//    [super loadView];
-    
-
+    NSLog(@"loadView");
     UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
     contentView.autoresizesSubviews = YES;
     contentView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
@@ -62,37 +49,38 @@
     
     CGRect rect = self.view.frame;
     
-    if([[[Constant instance] username] length] > 0)
-    {
-        accountView = [[UIView alloc] initWithFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, 50)];
-        
-        
-        UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 120, 30)] autorelease];
-        label.text = @"当前登录账户：";
-        label.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        label.backgroundColor = [UIColor clearColor];
-        
-        UILabel *accountLabel = [[[UILabel alloc] initWithFrame:CGRectMake(130, 10, 190, 30)] autorelease];
-        accountLabel.text = [[Constant instance] username];
-        accountLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        accountLabel.backgroundColor = [UIColor clearColor];
-        
-        [accountView addSubview:label];
-        [accountView addSubview:accountLabel];
-        
-        [self.view addSubview:accountView];
-    }
-    else
-    {
-    loginTableView = [[UITableView alloc] initWithFrame:CGRectMake(rect.origin.x, rect.origin.y + 100, rect.size.width, rect.size.height) style:UITableViewStyleGrouped];
+//    if([[[Constant instance] username] length] > 0)
+//    {
+//        accountView = [[UIView alloc] initWithFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, 50)];
+//        
+//        
+//        UILabel *label = [[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 120, 30)] autorelease];
+//        label.text = @"当前登录账户：";
+//        label.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+//        label.backgroundColor = [UIColor clearColor];
+//        
+//        UILabel *accountLabel = [[[UILabel alloc] initWithFrame:CGRectMake(130, 10, 190, 30)] autorelease];
+//        accountLabel.text = [[Constant instance] username];
+//        accountLabel.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+//        accountLabel.backgroundColor = [UIColor clearColor];
+//        
+//        [accountView addSubview:label];
+//        [accountView addSubview:accountLabel];
+//        
+//        [self.view addSubview:accountView];
+//    }
+//    else
+//    {
+    loginTableView = [[UITableView alloc] initWithFrame:CGRectMake(rect.origin.x, rect.origin.y + 20, rect.size.width, rect.size.height) style:UITableViewStyleGrouped];
     [loginTableView setAutoresizesSubviews:YES];
     [loginTableView setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
     loginTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
+    [loginTableView setAllowsSelection:NO];
     [loginTableView setDataSource:self];
     [loginTableView setDelegate:self];
     
     [[self view] addSubview:loginTableView];
-    }
+//    }
 }
 
 - (void)goBack:(id)sender
@@ -114,6 +102,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"viewDidLoad");
     
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [backBtn setFrame:CGRectMake(5, 5, 25, 25)];
@@ -123,11 +112,11 @@
     self.navigationItem.leftBarButtonItem = backButtonItem;
     [backButtonItem release];
     
-    CustomButton *saveTaskBtn = [[[CustomButton alloc] initWithFrame:CGRectMake(5,5,50,30) image:[UIImage imageNamed:@"btn_center.png"]] autorelease];
+    CustomButton *saveTaskBtn = [[[CustomButton alloc] initWithFrame:CGRectMake(5,5,70,30) image:[UIImage imageNamed:@"btn_center.png"]] autorelease];
     saveTaskBtn.layer.cornerRadius = 6.0f;
     [saveTaskBtn.layer setMasksToBounds:YES];
-    [saveTaskBtn addTarget:self action:@selector(logout:) forControlEvents:UIControlEventTouchUpInside];
-    [saveTaskBtn setTitle:@"注销" forState:UIControlStateNormal];
+    [saveTaskBtn addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
+    [saveTaskBtn setTitle:@"保存" forState:UIControlStateNormal];
     UIBarButtonItem *saveButton = [[[UIBarButtonItem alloc] initWithCustomView:saveTaskBtn] autorelease];
     self.navigationItem.rightBarButtonItem = saveButton;
     
@@ -176,46 +165,11 @@
     [super dealloc];
 }
 
-- (void)logout:(id)sender
-{
-    requestType = 0;
-    HUD = [Tools process:@"正在注销" view:self.view];
-
-    [AccountService logout:self];
-}
-
 - (void)login:(id)sender 
 {
-#ifndef CODESHARP_VERSION
-    if ([domainLabel.text length] > 0 
-        && [textUsername.text length] > 0
-        && [textPassword.text length] > 0) 
-#else
-        if([textUsername.text length] > 0
-           && [textPassword.text length] > 0)
-#endif
-        {
-            [Tools msg:@"登录中" HUD:HUD];
-            //HUD = [Tools process:@"登录中" view:self.view];
-            
-#ifndef CODESHARP_VERSION
-            [AccountService login:domainLabel.text 
-                         username:textUsername.text 
-                         password:textPassword.text 
-                         delegate:self];
-#else
-            [AccountService login:textUsername.text
-                         password:textPassword.text
-                         delegate:self];
-#endif
-        }
-        else 
-        {
-            [Tools alert:@"输入不全"];
-        }
+    requestType = 0;
     
-    //[self dismissModalViewControllerAnimated:NO];
-    //[delegate ];
+    [AccountService logout:self];
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request
@@ -229,31 +183,33 @@
             
             requestType = 1;
             
-            [[Constant instance] setIsSaveUser:NO];
-            [[Constant instance] setUsername:@""];
-            [Constant saveToCache];
-            
-            CGRect rect = self.view.frame;
-            loginTableView = [[UITableView alloc] initWithFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height) style:UITableViewStyleGrouped];
-            [loginTableView setAutoresizesSubviews:YES];
-            [loginTableView setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
-            loginTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
-            [loginTableView setDataSource:self];
-            [loginTableView setDelegate:self];
-            
-            [[self view] addSubview:loginTableView];
-            
-            [accountView setHidden:YES];
-            
-            CustomButton *loginTaskBtn = [[[CustomButton alloc] initWithFrame:CGRectMake(5,5,50,30) image:[UIImage imageNamed:@"btn_center.png"]] autorelease];
-            loginTaskBtn.layer.cornerRadius = 6.0f;
-            [loginTaskBtn.layer setMasksToBounds:YES];
-            [loginTaskBtn addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
-            [loginTaskBtn setTitle:@"登录" forState:UIControlStateNormal];
-            UIBarButtonItem *loginButton = [[[UIBarButtonItem alloc] initWithCustomView:loginTaskBtn] autorelease];
-            self.navigationItem.rightBarButtonItem = loginButton;
-            
-            [Tools alert:@"注销成功"];
+#ifndef CODESHARP_VERSION
+            if ([domainLabel.text length] > 0 
+                && [textUsername.text length] > 0
+                && [textPassword.text length] > 0) 
+#else
+                if([textUsername.text length] > 0
+                   && [textPassword.text length] > 0)
+#endif
+                {
+                    [Tools msg:@"登录中" HUD:HUD];
+                    //HUD = [Tools process:@"登录中" view:self.view];
+                    
+#ifndef CODESHARP_VERSION
+                    [AccountService login:domainLabel.text 
+                                 username:textUsername.text 
+                                 password:textPassword.text 
+                                 delegate:self];
+#else
+                    [AccountService login:textUsername.text
+                                 password:textPassword.text
+                                 delegate:self];
+#endif
+                }
+                else 
+                {
+                    [Tools alert:@"请输入用户名和密码"];
+                }      
         }
         else if(requestType == 1)
         {
@@ -281,7 +237,7 @@
             requestType = 2;
             [TasklistService getTasklists:self];
             
-            [Tools alert:@"登录成功"];
+            [Tools alert:@"保存成功"];
         }     
         else if(requestType == 2) {
             //[Tools close:HUD];
@@ -300,7 +256,7 @@
                 [tasklistDao addTasklist:key:value:@"per"];
             }
             
-            [tasklistDao addTasklist:@"0" :@"默认列表" :@"列表"];
+            [tasklistDao addTasklist:@"0" :@"默认列表" :@"per"];
             
             [tasklistDao commitData];
             
@@ -380,6 +336,11 @@
                 domainLabel.delegate = self;
                 [recoginzer release];
                 
+                if([[[Constant instance] domain] length] > 0)
+                {
+                    domainLabel.text = [[Constant instance] domain];
+                }
+                
                 cell.textLabel.text = @"域名";
                 cell.accessoryView = domainLabel;
             }
@@ -399,6 +360,12 @@
                 [self.textUsername setAutocorrectionType:UITextAutocorrectionTypeNo];
                 [self.textUsername setReturnKeyType:UIReturnKeyDone];
                 [self.textUsername addTarget:self action:@selector(textFieldDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
+                
+                if([[[Constant instance] username] length] > 0)
+                {
+                    textUsername.text = [[Constant instance] username];
+                }
+                
                 cell.accessoryView = self.textUsername;
                 
                 
@@ -417,6 +384,8 @@
                 [self.textPassword setPlaceholder:@"密码"];
                 [self.textPassword setAutocapitalizationType:UITextAutocapitalizationTypeNone];
                 [self.textPassword setAutocorrectionType:UITextAutocorrectionTypeNo];
+                self.textPassword.text = @"**********";
+                
                 [self.textPassword setReturnKeyType:UIReturnKeyDone];
                 [self.textPassword addTarget:self action:@selector(textFieldDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
                 
@@ -439,9 +408,13 @@
                 [self.textUsername setAutocorrectionType:UITextAutocorrectionTypeNo];
                 [self.textUsername setReturnKeyType:UIReturnKeyDone];
                 [self.textUsername addTarget:self action:@selector(textFieldDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
+                
+                if([[[Constant instance] username] length] > 0)
+                {
+                    textUsername.text = [[Constant instance] username];
+                }
+                
                 cell.accessoryView = self.textUsername;
-                
-                
             }
         }
         else if(indexPath.row == 1)
@@ -455,10 +428,19 @@
                 self.textPassword = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, width, 20)]; 
                 [self.textPassword setSecureTextEntry:YES];
                 [self.textPassword setPlaceholder:@"密码"];
+                
+                self.textPassword.text = @"**********";
+                
                 [self.textPassword setAutocapitalizationType:UITextAutocapitalizationTypeNone];
                 [self.textPassword setAutocorrectionType:UITextAutocorrectionTypeNo];
                 [self.textPassword setReturnKeyType:UIReturnKeyDone];
                 [self.textPassword addTarget:self action:@selector(textFieldDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
+                
+                
+                if([[[Constant instance] password] length] > 0)
+                {
+                    textPassword.text = [[Constant instance] password];
+                }
                 
                 cell.accessoryView = self.textPassword;
             }

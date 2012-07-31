@@ -12,13 +12,15 @@
 //#import "TasklistService.h"
 #import "TaskViewController.h"
 #import "TasklistEditController.h"
+#import "InputPickerButton.h"
 
 @class TasklistDao;
 
-@interface TasklistViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource,UITabBarControllerDelegate>
+@interface TasklistViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource,UITabBarControllerDelegate, InputPickerDelegate>
 {
     MBProgressHUD *HUD;
     int requestType;
+    InputPickerButton *editBtn;
 }
 
 @property (nonatomic,retain) NSMutableArray *tasklists;

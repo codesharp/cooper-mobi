@@ -80,7 +80,7 @@
     [[[[UIAlertView alloc] initWithTitle:title
                                 message:nil  
                                delegate:nil 
-                      cancelButtonTitle:@"ok" 
+                      cancelButtonTitle:@"确定" 
                       otherButtonTitles:nil] autorelease] show];
 }
 
@@ -119,6 +119,11 @@
     NSString    *uuidString = (NSString*)CFUUIDCreateString(nil, uuidObj);
     CFRelease(uuidObj);
     return [uuidString autorelease];
+}
+
++ (BOOL)isPad
+{
+    return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
 }
 
 @end

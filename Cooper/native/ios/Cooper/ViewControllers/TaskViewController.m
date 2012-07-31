@@ -112,7 +112,7 @@
         }
         else
         {
-            [self addHUD:@"同步任务"];
+            [self addHUD:@"加载中"];
             
             NSLog(@"开始同步任务数据");
             requestType = 0;
@@ -145,7 +145,7 @@
         [Tools alert:@"请先设置帐号才可以同步"];
     }
     else {
-        [self addHUD:@"同步任务"];
+        [self addHUD:@"加载中"];
         requestType = 0;
         [TaskService syncTask:currentTasklistId delegate:self];
     }
@@ -319,9 +319,17 @@
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     UIView *selectedView = [[UIView alloc] initWithFrame:cell.frame];
     selectedView.backgroundColor = [UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0];
+    cell.backgroundColor = [UIColor whiteColor];
+    
+//    CALayer *layer = [cell layer];  
+//    [layer setMasksToBounds:YES];  
+//    [layer setCornerRadius:16.0];  
+//    [layer setBorderWidth:2.0];  
+//    [layer setBorderColor:[[UIColor clearColor] CGColor]]; 
+    
     //设置选中后cell的背景颜色
     cell.selectedBackgroundView = selectedView;   
-    [selectedView release];
+    //[selectedView release];
     
 //    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
 //    longPressRecognizer.minimumPressDuration = 1;
@@ -381,13 +389,12 @@
     [titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
     [titleLabel setTextColor:[UIColor grayColor]];
     
-    
     if(section == 0)
-        titleLabel.text = [NSString stringWithFormat:@"%@  ", PRIORITY_TITLE_1];
+        titleLabel.text = [NSString stringWithFormat:@"  %@", PRIORITY_TITLE_1];
     else if(section == 1)
-        titleLabel.text = [NSString stringWithFormat:@"%@  ", PRIORITY_TITLE_2];
+        titleLabel.text = [NSString stringWithFormat:@"  %@", PRIORITY_TITLE_2];
     else if(section == 2)
-        titleLabel.text = [NSString stringWithFormat:@"%@  ", PRIORITY_TITLE_3];
+        titleLabel.text = [NSString stringWithFormat:@"  %@", PRIORITY_TITLE_3];
     
     return titleLabel;
 }
@@ -487,11 +494,11 @@
     
     //TODO:...
     if(section == 0)
-        return PRIORITY_TITLE_1;
+        return [NSString stringWithFormat:@"  %@", PRIORITY_TITLE_1];
     else if(section == 1)
-        return PRIORITY_TITLE_2;
+        return [NSString stringWithFormat:@"  %@", PRIORITY_TITLE_2];
     else if(section == 2)
-        return PRIORITY_TITLE_3;
+        return [NSString stringWithFormat:@"  %@", PRIORITY_TITLE_3];
     
     return @"";
 }
@@ -519,6 +526,8 @@
 //点击单元格事件
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     TaskDetailViewController *detailController = [[[TaskDetailViewController alloc] init] autorelease];
     Task *task = [[self.taskGroup objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     detailController.task = task;

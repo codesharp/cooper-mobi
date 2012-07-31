@@ -32,12 +32,17 @@
     [self.view addSubview:self.tasklistTableView];
     
     CustomToolbar *toolBar = [[[CustomToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 80.0f, 45.0f)] autorelease];
-    UIButton *editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    editBtn = [InputPickerButton buttonWithType:UIButtonTypeCustom];
     [editBtn setFrame:CGRectMake(5, 10, 27, 27)];
     editBtn.contentMode = UIViewContentModeScaleToFill;
     editBtn.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [editBtn setBackgroundImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
-    [editBtn addTarget: self action: @selector(addTasklist:) forControlEvents: UIControlEventTouchUpInside];
+    //[editBtn addTarget: self action: @selector(addTasklist:) forControlEvents: UIControlEventTouchUpInside];
+    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(beginAddTasklist:)];
+    [editBtn addGestureRecognizer:recognizer];
+    editBtn.delegate = self;
+    [recognizer release];
+    
     [toolBar addSubview:editBtn];
     
     UIButton *syncBtn = [UIButton buttonWithType:UIButtonTypeCustom]; 
@@ -69,6 +74,45 @@
     return self;
 }
 
+- (void)beginAddTasklist:(id)sender
+{
+    NSLog(@"beginAddTasklist");
+    [editBtn becomeFirstResponder];
+}
+
+- (void)send:(NSString *)value
+{
+    NSString *dateString = [Tools NSDateToNSString:[NSDate date]];
+    NSString *guid = [Tools stringWithUUID];
+    NSString *tempTasklistId = [NSString stringWithFormat:@"temp_%@", guid];
+    
+    HUD = [Tools process:@"加载中" view:self.view];
+    
+    NSString* responseString = [TasklistService syncTasklist:value :@"personal" :self];
+    
+    if(responseString != nil)
+    {
+        NSLog(@"服务端处理CreateTaskList完毕，返回ID:%@", responseString);
+        
+        [tasklistDao addTasklist:tempTasklistId :value :@"per"];
+        
+        NSString* newId = responseString;
+        [tasklistDao adjustId:tempTasklistId withNewId:newId];
+        
+        //TODO:add changelog
+        
+        [tasklistDao commitData];
+        
+        [self loadTasklistData];
+        
+    }
+    else {
+        [Tools alert:@"无法同步到服务端，请检查网络"];
+    }
+    
+    [Tools close:HUD];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -77,7 +121,7 @@
     
     tasklistDao = [[TasklistDao alloc] init];
 	
-    HUD = [Tools process:@"同步列表中" view:self.view];
+    HUD = [Tools process:@"加载中" view:self.view];
     
     requestType = 0;
     //[TasklistService syncTasklist:self];
@@ -99,12 +143,13 @@
     RELEASE(self.tasklists);
     RELEASE(self.tasklistTableView);
     RELEASE(tasklistDao);
+    RELEASE(editBtn);
     [super dealloc];
 }
 
 - (void)syncTasklist:(id)sender
 {
-    HUD.labelText = @"同步列表中";
+    HUD.labelText = @"加载中";
     [HUD show:YES];
     
     requestType = 0;
@@ -287,7 +332,7 @@
     {
         if(section == 0)
         {
-            return @"最近查阅";
+            return @"最近查看";
         }
         else 
         {
@@ -320,6 +365,7 @@
         UIView *selectedView = [[UIView alloc] initWithFrame:cell.frame];
         selectedView.backgroundColor = [UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0];
         //设置选中后cell的背景颜色
+        cell.backgroundColor = [UIColor whiteColor];
         cell.selectedBackgroundView = selectedView;
         [selectedView release];
     }
@@ -357,6 +403,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [editBtn resignFirstResponder];
+    
     NSString *tasklistId;
     NSMutableArray *recentlyIds = (NSMutableArray*)[[Constant instance] recentlyIds];
     

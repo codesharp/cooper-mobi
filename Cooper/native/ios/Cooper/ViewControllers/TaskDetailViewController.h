@@ -16,6 +16,8 @@
 {
     UITableView *detailView;
     
+    UIScrollView *scrollView;
+    
     TaskDao *taskDao;
     TaskIdxDao *taskIdxDao;
     ChangeLogDao *changeLogDao;
