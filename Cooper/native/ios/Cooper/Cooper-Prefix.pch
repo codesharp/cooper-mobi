@@ -36,11 +36,6 @@
     #define CODESHARP_VERSION
 #endif
 
-//默认环境路径
-//#define ENV_PATH                        @"https://cooper.wf.taobao.org"
-//#define ENV_PATH                        @"https://cooper.wf.taobao.org"
-//#define ENT_PATH                        @"http://10.13.25.111:9005"
-
 #define RELEASE(_ptr_) if((_ptr_) != nil) {[_ptr_ release]; _ptr_ = nil;}  
 
 //模拟器/设备名称
@@ -71,7 +66,7 @@
 //本地数据库名称
 #define STORE_DBNAME                    @"TaskModel.sqlite"
 //默认域名
-#define DEFAULT_DOMAIN                  @"TAOBAO-HZ"
+#define DEFAULT_DOMAIN                  @""
 
 //获取任务列表路径
 #define GETTASKLISTS_URL                @"/Per/GetTasklists"

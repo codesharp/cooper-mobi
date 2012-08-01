@@ -713,7 +713,6 @@
 				1810151415C04B8700D67C06 /* LoginViewController.h */,
 				1810151515C04B8700D67C06 /* LoginViewController.m */,
 				1810151615C04B8800D67C06 /* LoginViewController.xib */,
-				1810151715C04B8800D67C06 /* LoginViewDelegate.h */,
 			);
 			name = LoginViewController;
 			sourceTree = "<group>";
@@ -805,6 +804,7 @@
 		EEF30E8215A556DB00506A79 /* SettingViewController */ = {
 			isa = PBXGroup;
 			children = (
+				1810151715C04B8800D67C06 /* LoginViewDelegate.h */,
 				1810150015C04B5900D67C06 /* PathViewController.h */,
 				1810150115C04B5900D67C06 /* PathViewController.m */,
 				1810150215C04B5A00D67C06 /* PathViewController.xib */,
