@@ -11,7 +11,7 @@
 #import "CustomButton.h"
 #import "DomainLabel.h"
 
-@interface AccountViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource>
+@interface AccountViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource,DomainLabelDelegate>
 {
     MBProgressHUD *HUD;
     

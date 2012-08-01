@@ -30,7 +30,7 @@
 //#import "RootDao.h"
 
 //HACK:设置当前是否为codesharp版本，1为是，其他值为否
-#define IS_CODESHARP_VERSION 1
+#define IS_CODESHARP_VERSION 0
 
 #if IS_CODESHARP_VERSION == 1
     #define CODESHARP_VERSION

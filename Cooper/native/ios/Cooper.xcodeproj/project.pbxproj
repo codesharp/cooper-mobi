@@ -856,7 +856,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0430;
-				ORGANIZATIONNAME = Alibaba;
+				ORGANIZATIONNAME = codesharp;
 			};
 			buildConfigurationList = EE39625B159D34380018B9EC /* Build configuration list for PBXProject "Cooper" */;
 			compatibilityVersion = "Xcode 3.2";

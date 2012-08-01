@@ -13,7 +13,7 @@
 #import "DomainLabel.h"
 #import "BaseViewController.h"
 
-@interface LoginViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource, MBProgressHUDDelegate,NetworkDelegate>
+@interface LoginViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource, MBProgressHUDDelegate,NetworkDelegate,DomainLabelDelegate>
 {
     MBProgressHUD *HUD;
 }

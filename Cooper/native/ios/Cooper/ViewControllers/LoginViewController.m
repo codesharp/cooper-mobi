@@ -268,6 +268,11 @@
     return cell;
 }
 
+- (void)tableViewCell:(DomainLabel *)label didEndEditingWithValue:(NSString *)value
+{
+    label.text = value;
+}
+
 #ifndef CODESHARP_VERSION
 - (void)selectDomain
 {
