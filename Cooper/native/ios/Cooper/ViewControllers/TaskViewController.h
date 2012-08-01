@@ -37,4 +37,9 @@
 
 - (void) loadTaskData;
 
+- (id)initWithNibName:(NSString *)nibNameOrNil 
+               bundle:(NSBundle *)nibBundleOrNil 
+             setTitle:(NSString *)title 
+             setImage:(NSString*)imageName;
+
 @end

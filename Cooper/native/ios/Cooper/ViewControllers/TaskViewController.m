@@ -191,7 +191,7 @@
                 
                 if(dict)
                 {
-                    NSArray *editable = [dict objectForKey:@"Editable"];
+//                    NSArray *tasklist_editable = [dict objectForKey:@"Editable"];
                     NSArray *tasks = [dict objectForKey:@"List"]; 
                     NSArray *taskIdxs =[dict objectForKey:@"Sorts"];
                 
@@ -204,32 +204,25 @@
                     {
                         NSString *taskId = [NSString stringWithFormat:@"%@", (NSString*)[taskDict objectForKey:@"ID"]];  
                         
-                        NSString *s = [taskDict objectForKey:@"Subject"];
-                        NSString* subject = s == [NSNull null] ? @"" : s;
-                        
-                        
-                        NSString *b = [taskDict objectForKey:@"Body"];
-                        NSString *body = b == [NSNull null] ? @"" : b;
+                        NSString* subject = [taskDict objectForKey:@"Subject"] == [NSNull null] ? @"" : [taskDict objectForKey:@"Subject"];
+                        NSString *body = [taskDict objectForKey:@"Body"] == [NSNull null] ? @"" : [taskDict objectForKey:@"Body"];
                         NSString *isCompleted = (NSString*)[taskDict objectForKey:@"IsCompleted"];
-                        NSString *status = [NSNumber numberWithInteger:[isCompleted integerValue]];    
+                        NSNumber *status = [NSNumber numberWithInt:[isCompleted integerValue]];    
                         NSString *priority = [NSString stringWithFormat:@"%@", [taskDict objectForKey:@"Priority"]];
                         
                         NSString *editable = (NSString*)[taskDict objectForKey:@"Editable"];
                         
-                        NSString *dueTime = (NSString*)[taskDict objectForKey:@"DueTime"];
+
                         NSDate *due = nil;
-                        if(dueTime != [NSNull null])
-                        {
-                            due = [Tools NSStringToShortNSDate:dueTime];
-                        }
+                        if([taskDict objectForKey:@"DueTime"] != [NSNull null])
+                            due = [Tools NSStringToShortNSDate:[taskDict objectForKey:@"DueTime"]];
                         
-                        NSLog(@"%@,%@,%@,%@,%@,%@,%@,", taskId, subject, body, isCompleted, status, priority, dueTime);
                         [taskDao addTask:subject 
                               createDate:[NSDate date] 
                           lastUpdateDate:[NSDate date] 
                                     body:body 
                                 isPublic:[NSNumber numberWithInt:1] 
-                                  status:[NSNumber numberWithInt:[isCompleted integerValue]] 
+                                  status:status
                                 priority:priority 
                                   taskid:taskId 
                                  dueDate:due
@@ -363,7 +356,7 @@
 
 -(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Task *task = [[self.taskGroup objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    //Task *task = [[self.taskGroup objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 
     [[self.tableView cellForRowAtIndexPath:indexPath] setSelected:YES animated:YES];
     
@@ -426,8 +419,13 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         Task *t = [[self.taskGroup objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        [changeLogDao insertChangeLog:[NSNumber numberWithInt:1] dataid:t.id name:@"" value:@""];      
-        [taskIdxDao deleteTaskIndexsByTaskId:t.id];      
+        [changeLogDao insertChangeLog:[NSNumber numberWithInt:1] 
+                               dataid:t.id 
+                                 name:@"" 
+                                value:@""
+                           tasklistId:currentTasklistId];      
+        [taskIdxDao deleteTaskIndexsByTaskId:t.id
+                                  tasklistId:currentTasklistId];      
         [taskDao deleteTask:t];
         
         [taskDao commitData];
@@ -463,11 +461,20 @@
         if(sTaskIdx != dTaskIdx)
         {
             NSLog(@"sTaskIdx != dTaskIdx");
-            [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] dataid:task.id name:@"priority" value:task.priority];
+            [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                                   dataid:task.id 
+                                     name:@"priority" 
+                                    value:task.priority 
+                               tasklistId:currentTasklistId];
         } 
         NSLog(@"sourceIndexPath:%d, toIndexPath:%d", sourceIndexPath.row, destinationIndexPath.row);
         
-        [taskIdxDao adjustIndex:task.id sourceTaskIdx: sTaskIdx destinationTaskIdx: dTaskIdx sourceIndexRow:sourceIndexPath.row destIndexRow:destinationIndexPath.row];
+        [taskIdxDao adjustIndex:task.id 
+                  sourceTaskIdx: sTaskIdx 
+             destinationTaskIdx: dTaskIdx 
+                 sourceIndexRow:[NSNumber numberWithInteger:sourceIndexPath.row]
+                   destIndexRow:[NSNumber numberWithInteger:destinationIndexPath.row]
+                     tasklistId:currentTasklistId];
         
         [taskDao commitData];
     }

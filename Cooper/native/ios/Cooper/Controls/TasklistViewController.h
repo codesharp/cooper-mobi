@@ -10,10 +10,9 @@
 #import "Tasklist.h"
 #import "InputPickerButton.h"
 #import "BaseViewController.h"
+#import "TasklistDao.h"
 
 #define RECENTLYTASKLIST_COUNT  4
-
-@class TasklistDao;
 
 @interface TasklistViewController : BaseViewController<UITableViewDelegate
     , UITableViewDataSource

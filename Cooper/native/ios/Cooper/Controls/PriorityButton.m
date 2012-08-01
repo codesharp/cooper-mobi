@@ -123,13 +123,13 @@
     return YES;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-	if (selected) {
-		[self becomeFirstResponder];
-	}
-}
+//- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+//{
+//    [super setSelected:selected animated:animated];
+//	if (selected) {
+//		[self becomeFirstResponder];
+//	}
+//}
 
 - (BOOL)hasText {
     return YES;

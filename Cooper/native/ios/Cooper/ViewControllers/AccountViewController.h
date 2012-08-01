@@ -42,5 +42,4 @@
 @property (retain, nonatomic) DomainLabel *domainLabel;
 #endif
 
-- (void)loginAction;
 @end

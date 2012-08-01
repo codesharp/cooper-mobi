@@ -6,7 +6,7 @@
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
-@class MainViewController;
+#import "MainViewController.h"
 
 @interface AppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate>
 {  

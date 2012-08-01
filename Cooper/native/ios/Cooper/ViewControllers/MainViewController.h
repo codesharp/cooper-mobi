@@ -6,13 +6,9 @@
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
-#import "TaskViewController.h"
-#import "LoginViewController.h"
-#import "SettingViewController.h"
+
 #import "LoginViewDelegate.h"
-#import "TasklistViewController.h"
 #import "BaseViewController.h"
-#import "BaseNavigationController.h"
 
 @interface MainViewController : BaseViewController<LoginViewDelegate,UITabBarControllerDelegate>
 {

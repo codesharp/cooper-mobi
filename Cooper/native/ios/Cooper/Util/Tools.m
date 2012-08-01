@@ -28,7 +28,7 @@
     //dateFormatter.dateStyle = NSDateFormatterMediumStyle;
     [dateFormatter setDateFormat:@"yyyy-M-dd HH:mm:ss"];
     
-    NSDate *date = [dateFormatter stringFromDate:input];
+    NSString* date = [dateFormatter stringFromDate:input];
     
     [dateFormatter release];
     
@@ -40,7 +40,7 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-M-dd"];
     
-    NSDate *date = [dateFormatter stringFromDate:input];
+    NSString *date = [dateFormatter stringFromDate:input];
     
     [dateFormatter release];
     
@@ -52,7 +52,7 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-M-dd HH:mm:ss"];
     
-    NSData *date = [dateFormatter dateFromString:input];
+    NSDate *date = [dateFormatter dateFromString:input];
     
     [dateFormatter release];
     
@@ -64,7 +64,7 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-M-dd"];
     
-    NSData *date = [dateFormatter dateFromString:input];
+    NSDate *date = [dateFormatter dateFromString:input];
     
     [dateFormatter release];
     

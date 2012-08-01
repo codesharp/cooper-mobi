@@ -19,8 +19,6 @@
 		181014B715C048B500D67C06 /* PickerInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 181014A115C048A500D67C06 /* PickerInputTableViewCell.m */; };
 		181014B815C048B500D67C06 /* PriorityPickerInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 181014A315C048AE00D67C06 /* PriorityPickerInputTableViewCell.m */; };
 		181014BA15C048B500D67C06 /* TaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 181014A715C048B000D67C06 /* TaskTableViewCell.m */; };
-		181014BB15C048B500D67C06 /* TaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 181014A915C048B200D67C06 /* TaskViewCell.m */; };
-		181014BC15C048B500D67C06 /* TaskViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 181014AA15C048B200D67C06 /* TaskViewCell.xib */; };
 		181014BD15C048B500D67C06 /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = 181014AC15C048B400D67C06 /* UIImage+Scale.m */; };
 		181014C015C0492900D67C06 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 181014BF15C0492900D67C06 /* AppDelegate.m */; };
 		181014C515C049E200D67C06 /* AES.m in Sources */ = {isa = PBXBuildFile; fileRef = 181014C215C049E200D67C06 /* AES.m */; };
@@ -39,8 +37,6 @@
 		1810150915C04B5B00D67C06 /* PathViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1810150215C04B5A00D67C06 /* PathViewController.xib */; };
 		1810150A15C04B5B00D67C06 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810150415C04B5A00D67C06 /* SettingViewController.m */; };
 		1810150B15C04B5B00D67C06 /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1810150515C04B5B00D67C06 /* SettingViewController.xib */; };
-		1810150F15C04B6D00D67C06 /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810150D15C04B6D00D67C06 /* CommentViewController.m */; };
-		1810151015C04B6D00D67C06 /* CommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1810150E15C04B6D00D67C06 /* CommentViewController.xib */; };
 		1810151315C04B7B00D67C06 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810151215C04B7B00D67C06 /* MainViewController.m */; };
 		1810151815C04B8800D67C06 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810151515C04B8700D67C06 /* LoginViewController.m */; };
 		1810151915C04B8800D67C06 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1810151615C04B8800D67C06 /* LoginViewController.xib */; };
@@ -65,7 +61,6 @@
 		18409FAC15C199D700639DEE /* Test.m in Sources */ = {isa = PBXBuildFile; fileRef = 18409FAB15C199D700639DEE /* Test.m */; };
 		1842238E15C924AB003C674F /* AliConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1842238D15C924AB003C674F /* AliConstant.m */; };
 		1842239815C92B8B003C674F /* DomainLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1842239715C92B8B003C674F /* DomainLabel.m */; };
-		1842239B15C9353E003C674F /* Cooper-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1842239915C9353E003C674F /* Cooper-Info.plist */; };
 		184223A515C962D1003C674F /* ChangeLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 184223A415C962D1003C674F /* ChangeLog.m */; };
 		184223A915C962D3003C674F /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 184223A815C962D2003C674F /* Task.m */; };
 		184223AC15C962D3003C674F /* TaskIdx.m in Sources */ = {isa = PBXBuildFile; fileRef = 184223AB15C962D3003C674F /* TaskIdx.m */; };
@@ -160,9 +155,6 @@
 		181014A315C048AE00D67C06 /* PriorityPickerInputTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PriorityPickerInputTableViewCell.m; path = Controls/PriorityPickerInputTableViewCell.m; sourceTree = "<group>"; };
 		181014A615C048B000D67C06 /* TaskTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskTableViewCell.h; path = Controls/TaskTableViewCell.h; sourceTree = "<group>"; };
 		181014A715C048B000D67C06 /* TaskTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskTableViewCell.m; path = Controls/TaskTableViewCell.m; sourceTree = "<group>"; };
-		181014A815C048B100D67C06 /* TaskViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskViewCell.h; path = Controls/TaskViewCell.h; sourceTree = "<group>"; };
-		181014A915C048B200D67C06 /* TaskViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskViewCell.m; path = Controls/TaskViewCell.m; sourceTree = "<group>"; };
-		181014AA15C048B200D67C06 /* TaskViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TaskViewCell.xib; path = Controls/TaskViewCell.xib; sourceTree = "<group>"; };
 		181014AB15C048B300D67C06 /* UIImage+Scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Scale.h"; path = "Controls/UIImage+Scale.h"; sourceTree = "<group>"; };
 		181014AC15C048B400D67C06 /* UIImage+Scale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Scale.m"; path = "Controls/UIImage+Scale.m"; sourceTree = "<group>"; };
 		181014BE15C0492900D67C06 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Application/AppDelegate.h; sourceTree = "<group>"; };
@@ -197,9 +189,6 @@
 		1810150315C04B5A00D67C06 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingViewController.h; path = ViewControllers/SettingViewController.h; sourceTree = "<group>"; };
 		1810150415C04B5A00D67C06 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingViewController.m; path = ViewControllers/SettingViewController.m; sourceTree = "<group>"; };
 		1810150515C04B5B00D67C06 /* SettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingViewController.xib; path = ViewControllers/SettingViewController.xib; sourceTree = "<group>"; };
-		1810150C15C04B6D00D67C06 /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentViewController.h; path = ViewControllers/CommentViewController.h; sourceTree = "<group>"; };
-		1810150D15C04B6D00D67C06 /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentViewController.m; path = ViewControllers/CommentViewController.m; sourceTree = "<group>"; };
-		1810150E15C04B6D00D67C06 /* CommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CommentViewController.xib; path = ViewControllers/CommentViewController.xib; sourceTree = "<group>"; };
 		1810151115C04B7B00D67C06 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = ViewControllers/MainViewController.h; sourceTree = "<group>"; };
 		1810151215C04B7B00D67C06 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = ViewControllers/MainViewController.m; sourceTree = "<group>"; };
 		1810151415C04B8700D67C06 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = ViewControllers/LoginViewController.h; sourceTree = "<group>"; };
@@ -392,9 +381,6 @@
 				181014A315C048AE00D67C06 /* PriorityPickerInputTableViewCell.m */,
 				181014A615C048B000D67C06 /* TaskTableViewCell.h */,
 				181014A715C048B000D67C06 /* TaskTableViewCell.m */,
-				181014A815C048B100D67C06 /* TaskViewCell.h */,
-				181014A915C048B200D67C06 /* TaskViewCell.m */,
-				181014AA15C048B200D67C06 /* TaskViewCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -565,7 +551,6 @@
 			children = (
 				1872E82415C2676000A8EA41 /* TasklistViewController */,
 				EEF30E8215A556DB00506A79 /* SettingViewController */,
-				EEF30E5815A533CD00506A79 /* CommentViewController */,
 				EE87F7D215A40C2900DA8E7F /* MainViewController */,
 				EE87F7CC15A40A1E00DA8E7F /* LoginViewController */,
 				EE87F77E15A3211600DA8E7F /* PriorityViewController */,
@@ -779,16 +764,6 @@
 			name = AESEncrypt;
 			sourceTree = "<group>";
 		};
-		EEF30E5815A533CD00506A79 /* CommentViewController */ = {
-			isa = PBXGroup;
-			children = (
-				1810150C15C04B6D00D67C06 /* CommentViewController.h */,
-				1810150D15C04B6D00D67C06 /* CommentViewController.m */,
-				1810150E15C04B6D00D67C06 /* CommentViewController.xib */,
-			);
-			name = CommentViewController;
-			sourceTree = "<group>";
-		};
 		EEF30E6515A5569100506A79 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -936,10 +911,8 @@
 				181014B115C048B500D67C06 /* CustomTextFieldCell.xib in Resources */,
 				181014B215C048B500D67C06 /* CustomTextViewCell.xib in Resources */,
 				181014B615C048B500D67C06 /* EndDateCell.xib in Resources */,
-				181014BC15C048B500D67C06 /* TaskViewCell.xib in Resources */,
 				1810150915C04B5B00D67C06 /* PathViewController.xib in Resources */,
 				1810150B15C04B5B00D67C06 /* SettingViewController.xib in Resources */,
-				1810151015C04B6D00D67C06 /* CommentViewController.xib in Resources */,
 				1810151915C04B8800D67C06 /* LoginViewController.xib in Resources */,
 				1810151E15C04B9A00D67C06 /* PriorityViewController.xib in Resources */,
 				1810152C15C04BC100D67C06 /* TaskViewController.xib in Resources */,
@@ -952,7 +925,6 @@
 				18409FA615C196BD00639DEE /* complete-small.png in Resources */,
 				18409FA715C196BD00639DEE /* incomplete-small.png in Resources */,
 				18409FA815C196BD00639DEE /* setting-small.png in Resources */,
-				1842239B15C9353E003C674F /* Cooper-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1003,7 +975,6 @@
 				181014B715C048B500D67C06 /* PickerInputTableViewCell.m in Sources */,
 				181014B815C048B500D67C06 /* PriorityPickerInputTableViewCell.m in Sources */,
 				181014BA15C048B500D67C06 /* TaskTableViewCell.m in Sources */,
-				181014BB15C048B500D67C06 /* TaskViewCell.m in Sources */,
 				181014BD15C048B500D67C06 /* UIImage+Scale.m in Sources */,
 				181014C015C0492900D67C06 /* AppDelegate.m in Sources */,
 				181014C515C049E200D67C06 /* AES.m in Sources */,
@@ -1020,7 +991,6 @@
 				181014E415C04A3D00D67C06 /* Tools.m in Sources */,
 				1810150815C04B5B00D67C06 /* PathViewController.m in Sources */,
 				1810150A15C04B5B00D67C06 /* SettingViewController.m in Sources */,
-				1810150F15C04B6D00D67C06 /* CommentViewController.m in Sources */,
 				1810151315C04B7B00D67C06 /* MainViewController.m in Sources */,
 				1810151815C04B8800D67C06 /* LoginViewController.m in Sources */,
 				1810151D15C04B9A00D67C06 /* PriorityViewController.m in Sources */,

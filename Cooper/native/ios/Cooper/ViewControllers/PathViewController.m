@@ -28,7 +28,8 @@
 {
     [super viewDidLoad];
 
-    CustomButton *saveTaskBtn = [[[CustomButton alloc] initWithFrame:CGRectMake(5,5,50,30) image:[UIImage imageNamed:@"btn_center.png"]] autorelease];
+    CustomButton *saveTaskBtn = [[[CustomButton alloc] initWithFrame:CGRectMake(5,5,50,30) 
+                                                               image:[UIImage imageNamed:@"btn_center.png"]] autorelease];
     saveTaskBtn.layer.cornerRadius = 6.0f;
     [saveTaskBtn.layer setMasksToBounds:YES];
     [saveTaskBtn addTarget:self action:@selector(saveSetting:) forControlEvents:UIControlEventTouchUpInside];
@@ -106,7 +107,7 @@
                 cell.accessoryView = textField;
             }
             
-            UITextField *currentTextField = [cell accessoryView];
+            UITextField *currentTextField = (UITextField*)cell.accessoryView;
             currentTextField.text = [[ConstantClass instance] rootPath];
         }
     }
@@ -169,7 +170,7 @@
 
 - (void)saveSetting:(id)sender
 {
-    UITableView *tv = self.view;
+    UITableView *tv = self.tableView;
     UITableViewCell *cell = [tv cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     UITextField *textPath = (UITextField *)cell.accessoryView;
  

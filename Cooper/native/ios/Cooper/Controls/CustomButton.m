@@ -8,6 +8,10 @@
 
 #import "CustomButton.h"
 
+@interface CustomButton()
+
+@end
+
 @implementation CustomButton
 
 - (id)initWithFrame:(CGRect)frame image:(UIImage*)image
@@ -20,8 +24,8 @@
         //[self addSubview:imageView];
         
         self.layer.cornerRadius = 14.0f;
-        [self.layer setMasksToBounds:YES];
-        [self setFont:[UIFont boldSystemFontOfSize:14]];
+        self.layer.masksToBounds = YES;
+        self.titleLabel.font = [UIFont boldSystemFontOfSize:14];
         [self setBackgroundImage:image forState:UIControlStateNormal];     
     }
     return self;

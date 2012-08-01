@@ -7,6 +7,9 @@
 //
 
 #import "TaskDetailViewController.h"
+#import "TaskDao.h"
+#import "TaskIdxDao.h"
+#import "ChangeLogDao.h"
 
 @implementation TaskDetailViewController
 
@@ -107,12 +110,6 @@
     [self.view addSubview: detailView];
     detailView.delegate = self;
     detailView.dataSource = self;
-    
-    NSArray *array = tempTableView.subviews;
-    
-    UIView *tempView = [tempTableView.subviews objectAtIndex:0];
-    
-    tempTableView.layer.masksToBounds = NO;
 
 //    UIView *tabbar = [[UIView alloc] initWithFrame:CGRectMake(0, 376, 320, 40)];
 //    [tabbar setBackgroundColor:APP_BACKGROUNDCOLOR];
@@ -146,7 +143,7 @@
     [Tools alert:value];
 }
 
-- editTask:(id)sender
+- (void) editTask:(id)sender
 {
     TaskDetailEditViewController *editController = [[[TaskDetailEditViewController alloc] init] autorelease];
     editController.delegate = self;
@@ -176,8 +173,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    NSLog(@"view:%d",self.view.frame.size.height);
     
     taskDao = [[TaskDao alloc] init];
     taskIdxDao = [[TaskIdxDao alloc] init];
@@ -247,7 +242,7 @@
             }
             
             CGSize size = CGSizeMake(320,10000);
-            CGSize labelsize = [statusButton.titleLabel.text sizeWithFont:[statusButton font] constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
+            CGSize labelsize = [statusButton.titleLabel.text sizeWithFont:statusButton.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
             [statusButton setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
             [cell.contentView addSubview:statusButton];
         }
@@ -278,7 +273,7 @@
             }
             
             CGSize size = CGSizeMake(320,10000);
-            CGSize labelsize = [dueDateLabel.titleLabel.text sizeWithFont:[dueDateLabel font] constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
+            CGSize labelsize = [dueDateLabel.titleLabel.text sizeWithFont:dueDateLabel.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
             [dueDateLabel setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
             [cell.contentView addSubview:dueDateLabel];
         }
@@ -308,7 +303,7 @@
             }
             
             CGSize size = CGSizeMake(320,10000);
-            CGSize labelsize = [priorityButton.titleLabel.text sizeWithFont:[priorityButton font] constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
+            CGSize labelsize = [priorityButton.titleLabel.text sizeWithFont:priorityButton.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
             [priorityButton setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
             [cell.contentView addSubview:priorityButton];
         }
@@ -407,7 +402,7 @@
     [taskDao commitData];
     
     CGSize size = CGSizeMake(320,10000);
-    CGSize labelsize = [dueDateLabel.titleLabel.text sizeWithFont:[dueDateLabel font] constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
+    CGSize labelsize = [dueDateLabel.titleLabel.text sizeWithFont:dueDateLabel.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
     [dueDateLabel setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
     
     [delegate loadTaskData];
@@ -431,7 +426,7 @@
     [taskDao commitData];
     
     CGSize size = CGSizeMake(320,10000);
-    CGSize labelsize = [priorityButton.titleLabel.text sizeWithFont:[priorityButton font] constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
+    CGSize labelsize = [priorityButton.titleLabel.text sizeWithFont:priorityButton.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
     [priorityButton setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
     
     [delegate loadTaskData];
@@ -478,7 +473,7 @@
     [taskDao commitData];
     
     CGSize size = CGSizeMake(320,10000);
-    CGSize labelsize = [statusButton.titleLabel.text sizeWithFont:[statusButton font] constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
+    CGSize labelsize = [statusButton.titleLabel.text sizeWithFont:statusButton.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
     [statusButton setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
     
     [delegate loadTaskData];

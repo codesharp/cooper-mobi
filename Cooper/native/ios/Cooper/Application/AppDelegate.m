@@ -8,14 +8,16 @@
 
 #import "AppDelegate.h"
 #import "Task.h"
-
-@class TaskDao;
+#import "TaskDao.h"
 
 @implementation AppDelegate
 
 @synthesize window;
 @synthesize mainViewController;
 @synthesize timer;
+@synthesize managedObjectModel;
+@synthesize managedObjectContext;
+@synthesize persistantStoreCoordiantor;
 
 #pragma mark - 应用程序生命周期
 
@@ -148,7 +150,7 @@
     if(localNotification == nil)
     {
         NSLog(@"localNotification创建为空");
-        return nil;
+        return;
     }
     localNotification.fireDate = fireDate;
     localNotification.timeZone = [NSTimeZone defaultTimeZone];

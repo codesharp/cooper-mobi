@@ -10,10 +10,10 @@
 
 @interface BodyTextView : UITextView
 {
-    UIToolbar *inputAccessoryView;
+    UIView *inputAccessoryView;
     
     UITextField *textField;
 }
-@property (nonatomic, strong) UIPickerView *picker;
+//@property (nonatomic, strong) UIPickerView *picker;
 
 @end

@@ -38,12 +38,12 @@
 
 - (void)deleteAllTaskIdx:(NSString*)tasklistId;
 
-- (void)adjustIndex:(NSString*)taskId 
-      sourceTaskIdx:(TaskIdx*)sTaskIdx 
- destinationTaskIdx:(TaskIdx*) dTaskIdx 
-     indexSourceRow:(NSNumber*)sourceIndexRow 
-       destIndexRow:(NSNumber*)destIndexRow 
-         tasklistId:(NSString*)tasklistId;
+- (void) adjustIndex:(NSString *)taskId 
+       sourceTaskIdx:(TaskIdx *)sTaskIdx 
+  destinationTaskIdx:(TaskIdx *)dTaskIdx 
+      sourceIndexRow:(NSNumber*)sourceIndexRow 
+        destIndexRow:(NSNumber*)destIndexRow
+          tasklistId:(NSString*)tasklistId;
 
 - (void)saveIndex:(TaskIdx*)taskIdx 
          newIndex:(NSMutableArray*)indexArray 

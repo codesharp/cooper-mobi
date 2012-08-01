@@ -11,6 +11,9 @@
 #import "TaskIdx.h"
 #import "SBJsonParser.h"
 #import "SBJsonWriter.h"
+#import "TaskDao.h"
+#import "TaskIdxDao.h"
+#import "ChangeLogDao.h"
 
 @implementation TaskService
 

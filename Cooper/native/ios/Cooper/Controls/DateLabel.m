@@ -170,14 +170,14 @@
 	}
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-    
-	if (selected) {
-		[self becomeFirstResponder];
-	}
-}
+//- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+//{
+//    [super setSelected:selected animated:animated];
+//    
+//	if (selected) {
+//		[self becomeFirstResponder];
+//	}
+//}
 
 - (void)deviceDidRotate:(NSNotification*)notification {
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -197,11 +197,11 @@
 #pragma mark UIPopoverControllerDelegate Protocol Methods
 
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-		UITableView *tableView = (UITableView *)self.superview;
-		[tableView deselectRowAtIndexPath:[tableView indexPathForCell:self] animated:YES];
-		[self resignFirstResponder];
-	}
+//	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+//		UITableView *tableView = (UITableView *)self.superview;
+//		[tableView deselectRowAtIndexPath:[tableView indexPathForCell:self] animated:YES];
+//		[self resignFirstResponder];
+//	}
 }
 
 - (void)dealloc {

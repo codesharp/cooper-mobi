@@ -105,15 +105,19 @@
         task.status = [NSNumber numberWithInt:1];  
     }
     
-    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] dataid:task.id name:@"iscompleted" value:task.status == [NSNumber numberWithInt:1] ? @"true" : @"false" tasklistId:task.tasklistId];
+    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
+                           dataid:task.id 
+                             name:@"iscompleted" 
+                            value:task.status == [NSNumber numberWithInt:1] ? @"true" : @"false" 
+                       tasklistId:task.tasklistId];
     
     
     [taskDao commitData];
 }
 
-- (void)setTaskInfo:(Task *)task
+- (void)setTaskInfo:(Task *)taskInfo
 {
-    self.task = task;
+    self.task = taskInfo;
     taskDao = [[TaskDao alloc] init];
     changeLogDao = [[ChangeLogDao alloc] init];
     

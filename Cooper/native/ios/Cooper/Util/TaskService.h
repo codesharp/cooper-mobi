@@ -6,10 +6,6 @@
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
-@class TaskDao;
-@class TaskIdxDao;
-@class ChangeLogDao;
-
 @interface TaskService : NSObject
 
 + (void)testUrl:(id)delegate;

@@ -7,9 +7,9 @@
 //
 
 #import "LoginViewController.h"
-#import "TaskViewController.h"
 
 @implementation LoginViewController
+
 @synthesize textUsername;
 @synthesize textPassword;
 @synthesize loginTableView;
@@ -47,7 +47,7 @@
             forControlEvents:UIControlEventTouchUpInside];
     [self.btnLogin setTitle:login_btn_text 
               forState:UIControlStateNormal];
-    [self.btnLogin setFont:[UIFont boldSystemFontOfSize:20]];
+    self.btnLogin.titleLabel.font = [UIFont boldSystemFontOfSize:20];
     [self.view addSubview:self.btnLogin];
     
     //跳过按钮
@@ -61,7 +61,7 @@
             forControlEvents:UIControlEventTouchUpInside];
     [self.btnSkip setTitle:skip_btn_text 
                    forState:UIControlStateNormal];
-    [self.btnSkip setFont:[UIFont boldSystemFontOfSize:20]];
+    self.btnSkip.titleLabel.font = [UIFont boldSystemFontOfSize:20];
     [self.view addSubview:self.btnSkip];
 }
 

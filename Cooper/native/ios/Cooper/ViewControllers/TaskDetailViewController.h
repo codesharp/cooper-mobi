@@ -8,11 +8,7 @@
 
 #import "TaskDetailEditViewController.h"
 
-@class TaskDao;
-@class TaskIdxDao;
-@class ChangeLogDao;
-
-@interface TaskDetailViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, CommentTextFieldDelegate, TaskViewDelegate>
+@interface TaskDetailViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, CommentTextFieldDelegate, TaskViewDelegate, DateLabelDelegate, PriorityButtonDelegate>
 {
     UITableView *detailView;
     

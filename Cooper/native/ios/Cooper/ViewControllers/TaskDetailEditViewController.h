@@ -14,12 +14,11 @@
 #import "TaskViewDelegate.h"
 #import "BaseViewController.h"
 #import "BodyTextView.h"
+#import "TaskDao.h"
+#import "TaskIdxDao.h"
+#import "ChangeLogDao.h"
 
-@class TaskDao;
-@class TaskIdxDao;
-@class ChangeLogDao;
-
-@interface TaskDetailEditViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate>
+@interface TaskDetailEditViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate,DateLabelDelegate,PriorityButtonDelegate>
 {
     UITableView *detailView;
      NSString *oldPriority;

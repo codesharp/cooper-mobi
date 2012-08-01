@@ -8,4 +8,6 @@
 
 @interface CustomButton : UIButton
 
+- (id)initWithFrame:(CGRect)frame image:(UIImage*)image;
+
 @end

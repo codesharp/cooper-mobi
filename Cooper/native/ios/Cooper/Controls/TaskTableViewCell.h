@@ -7,10 +7,9 @@
 //
 
 #import "Task.h"
-
-@class TaskDao;
-@class TaskIdxDao;
-@class ChangeLogDao;
+#import "TaskDao.h"
+#import "TaskIdxDao.h"
+#import "ChangeLogDao.h"
 
 @protocol TaskTableViewCellDelegate <NSObject>
 

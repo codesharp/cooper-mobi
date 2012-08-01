@@ -10,7 +10,6 @@
 #import "SBJsonParser.h"
 #import "SBJsonWriter.h"
 #import "ModelHelper.h"
-#import "TaskIdx.h"
 
 @implementation TaskIdxDao
 
@@ -283,7 +282,7 @@
        sourceTaskIdx:(TaskIdx *)sTaskIdx 
   destinationTaskIdx:(TaskIdx *)dTaskIdx 
       sourceIndexRow:(NSNumber*)sourceIndexRow 
-        destIndexRow:(NSNumber *)destIndexRow
+        destIndexRow:(NSNumber*)destIndexRow
           tasklistId:(NSString*)tasklistId
 {
     SBJsonParser *parser = [[SBJsonParser alloc] init];
@@ -296,7 +295,7 @@
         sTaskIdx.indexes = [writer stringWithObject:sIndexesArray];  
         
         NSMutableArray *dIndexesArray = [parser objectWithString: dTaskIdx.indexes];
-        [dIndexesArray insertObject:taskId atIndex:destIndexRow];
+        [dIndexesArray insertObject:taskId atIndex:[destIndexRow integerValue]];
         dTaskIdx.indexes = [writer stringWithObject:dIndexesArray];
         
 

@@ -14,11 +14,11 @@
 @end
 @interface InputPickerButton : UIButton
 {
-    UIToolbar *inputAccessoryView;
+    UIView *inputAccessoryView;
     
     UITextField *textField;
 }
-@property (nonatomic, strong) UIPickerView *picker;
+//@property (nonatomic, strong) UIPickerView *picker;
 @property (nonatomic, assign) id <InputPickerDelegate> delegate;
 
 @end
