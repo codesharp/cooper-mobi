@@ -2,7 +2,7 @@
 //  ChangeLog.m
 //  Cooper
 //
-//  Created by sunleepy on 12-7-29.
+//  Created by sunleepy on 12-8-1.
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
@@ -11,12 +11,13 @@
 
 @implementation ChangeLog
 
+@dynamic accountId;
 @dynamic changeType;
 @dynamic dataid;
 @dynamic id;
 @dynamic isSend;
 @dynamic name;
-@dynamic value;
 @dynamic tasklistId;
+@dynamic value;
 
 @end

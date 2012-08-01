@@ -22,7 +22,7 @@
     {
         _launching = NO;
         
-        if ([[Constant instance] isSaveUser]) 
+        if ([[ConstantClass instance] isSaveUser]) 
         {
             [self loginExit];
         }
@@ -100,7 +100,7 @@
 //    }
 //    
 //    //设置
-//    SettingViewController *settingViewController = [[SettingViewController alloc] initWithNibName:@"SettingViewController" bundle:nil setTitle:@"设置" setImage:@"setting.png"];
+//    SettingViewController *settingViewController = [[SettingViewController alloc] initWithNibName:@"SettingViewController" bundle:nil setTitle:@"设置" setImage:SETTING_IMAGE];
 //    UINavigationController *setting_navViewController = [[UINavigationController alloc] initWithRootViewController:settingViewController];
 //    if (MODEL_VERSION >= 5.0) 
 //    {

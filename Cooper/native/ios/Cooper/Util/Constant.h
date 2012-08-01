@@ -6,14 +6,16 @@
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
+#import "Cache.h"
+
 @interface Constant : NSObject
 
-@property (nonatomic,retain) NSString *domain;
+//@property (nonatomic,retain) NSString *domain;
 @property (nonatomic,retain) NSString *username;
 @property (nonatomic,retain) NSString *password;
 @property (nonatomic,retain) NSString *token;
 @property (nonatomic,assign) bool isSaveUser;
-@property (nonatomic,retain) NSString *path;
+@property (nonatomic,retain) NSString *rootPath;
 @property (nonatomic,retain) NSMutableArray *recentlyIds;
 @property (nonatomic,assign) bool isLocalPush;
 

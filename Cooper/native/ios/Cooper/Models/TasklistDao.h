@@ -10,8 +10,12 @@
 #import "Tasklist.h"
 
 @interface TasklistDao : RootDao
-
+{
+    NSString* tableName;
+}
 - (NSMutableArray*)getAllTasklist;
+
+- (NSMutableArray*)getAllTasklistByGuest;
 
 - (void)deleteTasklist:(Tasklist*)tasklist;
 

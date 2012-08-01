@@ -2,7 +2,7 @@
 //  TaskIdx.m
 //  Cooper
 //
-//  Created by sunleepy on 12-7-29.
+//  Created by sunleepy on 12-8-1.
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
@@ -11,6 +11,7 @@
 
 @implementation TaskIdx
 
+@dynamic accountId;
 @dynamic by;
 @dynamic indexes;
 @dynamic key;

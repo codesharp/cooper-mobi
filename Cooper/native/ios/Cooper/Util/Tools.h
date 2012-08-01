@@ -38,4 +38,8 @@
 
 + (BOOL)isPad;
 
++ (void)layerTransition:(UIView*)view from:(NSString*)from;
+
++ (void)clearFootBlank:(UITableView*)tableView;
+
 @end

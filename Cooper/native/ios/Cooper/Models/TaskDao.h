@@ -10,7 +10,9 @@
 #import "Task.h"
 
 @interface TaskDao : RootDao
-
+{
+    NSString* tableName;
+}
 - (NSMutableArray*)getTaskByToday;
 
 - (NSMutableArray*)getAllTask:(NSString*)tasklistId;
@@ -30,12 +32,13 @@
        priority:(NSString*)priority 
          taskid:(NSString*)tid 
         dueDate:(NSDate*)dueDate 
+       editable:(NSNumber*)editable
      tasklistId:(NSString*)tasklistId
        isCommit:(BOOL)isCommit;
 
 - (void)updateTask:(Task*)task
            subject:(NSString*)subject 
-    lastUpdateDate:(NSData*)lastUpdateDate 
+    lastUpdateDate:(NSDate*)lastUpdateDate 
               body:(NSString*)body 
           isPublic:(NSNumber*)isPublic 
             status:(NSNumber*)status 
@@ -44,6 +47,8 @@
         tasklistId:(NSString*)tasklistId
           isCommit:(BOOL)isCommit;
 
-- (void)updateTaskIdByNewId:(NSString*)oldId newId:(NSString*)newId tasklistId:(NSString*)tasklistId;
+- (void)updateTaskIdByNewId:(NSString*)oldId 
+                      newId:(NSString*)newId 
+                 tasklistId:(NSString*)tasklistId;
 
 @end

@@ -6,5 +6,9 @@
 	<string>用户名</string>
 	<key>env_path</key>
 	<string>https://cooper.wf.taobao.org</string>
+	<key>skip_btn_text</key>
+	<string>跳过</string>
+	<key>login_btn_text</key>
+	<string>登录</string>
 </dict>
 </plist>

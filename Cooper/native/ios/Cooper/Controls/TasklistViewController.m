@@ -7,23 +7,27 @@
 //
 
 #import "TasklistViewController.h"
-//#import "TasklistDao.h"
 #import "TasklistService.h"
 #import "SettingViewController.h"
 #import "BaseNavigationController.h"
+#import "TaskViewController.h"
 
 @implementation TasklistViewController
 
 @synthesize tasklists;
 @synthesize tasklistTableView;
-@synthesize tasklistDao;
+
+# pragma mark - UI相关
 
 - (void)loadView
 {
     [super loadView];
     
-    self.title = @"cooper:task";
+    tasklistDao = [[TasklistDao alloc] init];
     
+    self.title = APP_TITLE;
+    
+    //任务列表View
     self.tasklistTableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped] autorelease];
     self.tasklistTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
     self.tasklistTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -31,34 +35,35 @@
     self.tasklistTableView.delegate = self;
     [self.view addSubview:self.tasklistTableView];
     
+    //左上自定义导航
     CustomToolbar *toolBar = [[[CustomToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 80.0f, 45.0f)] autorelease];
+    
+    //左上编辑按钮
     editBtn = [InputPickerButton buttonWithType:UIButtonTypeCustom];
-    [editBtn setFrame:CGRectMake(5, 10, 27, 27)];
+    editBtn.frame = CGRectMake(5, 10, 27, 27);
     editBtn.contentMode = UIViewContentModeScaleToFill;
     editBtn.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    [editBtn setBackgroundImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
-    //[editBtn addTarget: self action: @selector(addTasklist:) forControlEvents: UIControlEventTouchUpInside];
-    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(beginAddTasklist:)];
+    [editBtn setBackgroundImage:[UIImage imageNamed:EDIT_IMAGE] forState:UIControlStateNormal];
+    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addTasklist:)];
     [editBtn addGestureRecognizer:recognizer];
     editBtn.delegate = self;
     [recognizer release];
-    
     [toolBar addSubview:editBtn];
     
-    UIButton *syncBtn = [UIButton buttonWithType:UIButtonTypeCustom]; 
-    [syncBtn setFrame:CGRectMake(45, 10, 27, 27)];
-    [syncBtn setBackgroundImage:[UIImage imageNamed:@"refresh.png"] forState:UIControlStateNormal];
+    //左上同步按钮
+    syncBtn = [UIButton buttonWithType:UIButtonTypeCustom]; 
+    syncBtn.frame = CGRectMake(45, 10, 27, 27);
+    [syncBtn setBackgroundImage:[UIImage imageNamed:REFRESH_IMAGE] forState:UIControlStateNormal];
     [syncBtn addTarget: self action: @selector(syncTasklist:) forControlEvents: UIControlEventTouchUpInside];
     [toolBar addSubview:syncBtn];
     
     UIBarButtonItem *barButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:toolBar] autorelease]; 
-    
     self.navigationItem.leftBarButtonItem = barButtonItem;
     
     //设置右选项卡中的按钮
     UIButton *settingBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [settingBtn setFrame:CGRectMake(0, 10, 27, 27)];
-    [settingBtn setBackgroundImage:[UIImage imageNamed:@"setting.png"] forState:UIControlStateNormal];
+    [settingBtn setBackgroundImage:[UIImage imageNamed:SETTING_IMAGE] forState:UIControlStateNormal];
     [settingBtn addTarget: self action: @selector(settingAction:) forControlEvents: UIControlEventTouchUpInside];
     UIBarButtonItem *settingButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:settingBtn] autorelease];
     
@@ -74,68 +79,28 @@
     return self;
 }
 
-- (void)beginAddTasklist:(id)sender
-{
-    NSLog(@"beginAddTasklist");
-    [editBtn becomeFirstResponder];
-}
-
-- (void)send:(NSString *)value
-{
-    NSString *dateString = [Tools NSDateToNSString:[NSDate date]];
-    NSString *guid = [Tools stringWithUUID];
-    NSString *tempTasklistId = [NSString stringWithFormat:@"temp_%@", guid];
-    
-    HUD = [Tools process:@"加载中" view:self.view];
-    
-    NSString* responseString = [TasklistService syncTasklist:value :@"personal" :self];
-    
-    if(responseString != nil)
-    {
-        NSLog(@"服务端处理CreateTaskList完毕，返回ID:%@", responseString);
-        
-        [tasklistDao addTasklist:tempTasklistId :value :@"per"];
-        
-        NSString* newId = responseString;
-        [tasklistDao adjustId:tempTasklistId withNewId:newId];
-        
-        //TODO:add changelog
-        
-        [tasklistDao commitData];
-        
-        [self loadTasklistData];
-        
-    }
-    else {
-        [Tools alert:@"无法同步到服务端，请检查网络"];
-    }
-    
-    [Tools close:HUD];
-}
-
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    
+    [super viewDidLoad];    
     NSLog(@"viewDidLoad");
     
-    tasklistDao = [[TasklistDao alloc] init];
-	
-    HUD = [Tools process:@"加载中" view:self.view];
-    
-    requestType = 0;
-    //[TasklistService syncTasklist:self];
-    [TasklistService getTasklists:self];
-
-    //[self loadTasklistData];
+    //登录用户进行同步
+    if([[ConstantClass instance] username].length > 0)
+    {
+        HUD = [Tools process:@"加载中" view:self.view];
+        requestType = GetTasklistsValue;
+        [TasklistService getTasklists:self];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     NSLog(@"viewWillAppear");
-    [self loadTasklistData];
     
-    //[self.tasklistTableView reloadData];
+    //如果未登录用户隐藏同步按钮
+    syncBtn.hidden = [[ConstantClass instance] username].length == 0;
+
+    [self loadTasklistData];
 }
 
 - (void)dealloc
@@ -147,59 +112,6 @@
     [super dealloc];
 }
 
-- (void)syncTasklist:(id)sender
-{
-    HUD.labelText = @"加载中";
-    [HUD show:YES];
-    
-    requestType = 0;
-    //[TasklistService syncTasklist:self];
-    [TasklistService getTasklists:self];
-    
-    [self loadTasklistData];
-}
-
-- (void)settingAction:(id)sender
-{
-    //设置
-    SettingViewController *settingViewController = [[SettingViewController alloc] initWithNibName:@"SettingViewController" bundle:nil setTitle:@"设置" setImage:@"setting.png"];
-    
-    BaseNavigationController *setting_navViewController = [[[BaseNavigationController alloc] initWithRootViewController:settingViewController] autorelease];
-    
-    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setFrame:CGRectMake(5, 5, 25, 25)];
-    [backBtn setBackgroundImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
-    [backBtn addTarget: self action: @selector(goBack:) forControlEvents: UIControlEventTouchUpInside];
-    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
-    settingViewController.navigationItem.leftBarButtonItem = backButtonItem;
-    [backButtonItem release];
-    
-    [self.navigationController presentModalViewController:setting_navViewController animated:YES];
-}
-
-- (void)addTasklist:(id)sender
-{
-    //设置
-    TasklistEditController *tasklistEditController = [[[TasklistEditController alloc] init] autorelease];
-    
-    BaseNavigationController *tasklistEdit_navViewController = [[[BaseNavigationController alloc] initWithRootViewController:tasklistEditController] autorelease];
-    
-    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setFrame:CGRectMake(5, 5, 25, 25)];
-    [backBtn setBackgroundImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
-    [backBtn addTarget: self action: @selector(goBack:) forControlEvents: UIControlEventTouchUpInside];
-    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
-    tasklistEditController.navigationItem.leftBarButtonItem = backButtonItem;
-    [backButtonItem release];
-    
-    [self.navigationController presentModalViewController:tasklistEdit_navViewController animated:YES];
-}
-
-- (void)goBack:(id)sender
-{
-    [self.navigationController dismissModalViewControllerAnimated:YES];
-}
-
 - (void) loadTasklistData
 {
     NSLog(@"开始初始化任务列表数据");
@@ -208,15 +120,22 @@
     
     NSMutableArray *tasklistsArray = [tasklistDao getAllTasklist];
     
-    NSMutableArray *recentlyIds = (NSMutableArray*)[[Constant instance] recentlyIds];
+    //如果未登录用户并且无列表增加一条默认列表
+    if(tasklistsArray.count == 0 
+       && [[ConstantClass instance] username].length == 0)
+    {
+        [tasklistDao addTasklist:@"0" :@"默认列表" :@"列表"];
+        [tasklistDao commitData];
+        
+        //TODO:添加再重新查询
+        tasklistsArray = [tasklistDao getAllTasklist];
+    }
     
     for(Tasklist *tasklist in tasklistsArray)
-    { 
         [self.tasklists addObject:tasklist];
-    }
 
     NSMutableArray *newRecentlyIds = [NSMutableArray array];
-    for(NSString *recentlyId in [[Constant instance] recentlyIds])
+    for(NSString *recentlyId in [[ConstantClass instance] recentlyIds])
     {
         int i = 0;
         for(i = 0; i < tasklists.count; i++)
@@ -233,37 +152,113 @@
         }
     }
     
-    [[Constant instance] setRecentlyIds:newRecentlyIds];
-    [Constant saveRecentlyIdsToCache];
+    [[ConstantClass instance] setRecentlyIds:newRecentlyIds];
+    [ConstantClass saveRecentlyIdsToCache];
     
     [self.tasklistTableView reloadData];
 }
 
-# pragma mark request callback
+# pragma mark - 相关动作事件
+
+- (void)syncTasklist:(id)sender
+{
+    HUD.labelText = LOADING_TITLE;
+    [HUD show:YES];
+    
+    requestType = GetTasklistsValue;
+    [TasklistService getTasklists:self];
+    
+    [self loadTasklistData];
+}
+
+- (void)settingAction:(id)sender
+{
+    //设置
+    SettingViewController *settingViewController = [[SettingViewController alloc] initWithNibName:@"SettingViewController" 
+                                                                                           bundle:nil 
+                                                                                         setTitle:@"设置" 
+                                                                                         setImage:SETTING_IMAGE];
+    
+    BaseNavigationController *setting_navViewController = [[[BaseNavigationController alloc] initWithRootViewController:settingViewController] autorelease];
+    
+    //后退按钮
+    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    backBtn.frame = CGRectMake(5, 5, 25, 25);
+    [backBtn setBackgroundImage:[UIImage imageNamed:BACK_IMAGE] forState:UIControlStateNormal];
+    [backBtn addTarget: self action: @selector(goBack:) forControlEvents: UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    settingViewController.navigationItem.leftBarButtonItem = backButtonItem;
+    [backButtonItem release];
+    
+    [self.navigationController presentModalViewController:setting_navViewController animated:YES];
+}
+
+- (void)goBack:(id)sender
+{
+    [self.navigationController dismissModalViewControllerAnimated:YES];
+}
+
+- (void)addTasklist:(id)sender
+{
+    [editBtn becomeFirstResponder];
+}
+
+- (void)send:(NSString *)value
+{
+    NSString *guid = [Tools stringWithUUID];
+    NSString *tempTasklistId = [NSString stringWithFormat:@"temp_%@", guid];
+    
+    HUD = [Tools process:LOADING_TITLE view:self.view];
+    
+    //TODO:同步请求创建任务列表
+    NSString* responseString = [TasklistService syncTasklist:value :@"personal" :self];
+    
+    if(responseString != nil)
+    {
+        NSLog(@"服务端处理CreateTaskList完毕，返回ID:%@", responseString);
+        
+        [tasklistDao addTasklist:tempTasklistId :value :@"per"];
+        
+        NSString* newId = responseString;
+        [tasklistDao adjustId:tempTasklistId withNewId:newId];
+        
+        [tasklistDao commitData];
+        
+        [self loadTasklistData];
+    }
+    else 
+    {
+        [Tools alert:@"无法同步到服务端，请检查网络"];
+    }
+    
+    [Tools close:HUD];
+}
 
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
     NSLog(@"请求响应数据: %@, %d",[request responseString], [request responseStatusCode]);
     
-    if(requestType == 0)
+    if(requestType == GetTasklistsValue)
     {
         if([request responseStatusCode] == 200)
         {
             [Tools close:HUD];
             
             NSMutableDictionary *tasklistsDict = [[request responseString] JSONValue];
-            NSLog(@"dict count:%d",tasklistsDict.count);
             
+            //删除当前账户所有任务列表
             [tasklistDao deleteAll];
             
             for(NSString* key in tasklistsDict.allKeys)
             {
                 NSString *value = [tasklistsDict objectForKey:key];
                 
-                //TODO:这里处理个人
+                //TODO:暂时只添加个人任务列表
                 [tasklistDao addTasklist:key:value:@"per"];
             }
             
+            //TODO:加上默认列表，判断下未登录用户的默认列表
             [tasklistDao addTasklist:@"0" :@"默认列表" :@"列表"];
             
             [tasklistDao commitData];
@@ -288,23 +283,22 @@
     NSLog(@"发送请求URL: %@", request.url);
 }
 
-# pragma mark tableview
+# pragma mark - 任务列表相关委托事件
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    NSLog(@"numberOfSectionsInTableView");
-    if([[[Constant instance] recentlyIds] count] > 0)
+    if([[[ConstantClass instance] recentlyIds] count] > 0)
         return 2;
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if([[[Constant instance] recentlyIds] count] > 0)
+    if([[[ConstantClass instance] recentlyIds] count] > 0)
     {
         if(section == 0)
         {
-            NSMutableArray *recentlyIds = (NSMutableArray*)[[Constant instance] recentlyIds];
+            NSMutableArray *recentlyIds = (NSMutableArray*)[[ConstantClass instance] recentlyIds];
             
             int count = 0;
             for(int i = 0; i < tasklists.count; i++)
@@ -328,7 +322,7 @@
 
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if([[[Constant instance] recentlyIds] count] > 0)
+    if([[[ConstantClass instance] recentlyIds] count] > 0)
     {
         if(section == 0)
         {
@@ -353,7 +347,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"cellForRowAtIndexPath");
     UITableViewCell *cell;
     cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     if(!cell)
@@ -370,11 +363,12 @@
         [selectedView release];
     }
     
-    if([[[Constant instance] recentlyIds] count] > 0)
+    //如果包含最近点击的任务列表
+    if([[[ConstantClass instance] recentlyIds] count] > 0)
     {
         if(indexPath.section == 0)
         {
-            NSMutableArray *recentlyIds = (NSMutableArray*)[[Constant instance] recentlyIds];
+            NSMutableArray *recentlyIds = (NSMutableArray*)[[ConstantClass instance] recentlyIds];
             
             NSString* tasklistId = [recentlyIds objectAtIndex:indexPath.row];
             for(int i = 0; i < tasklists.count; i++)
@@ -405,8 +399,9 @@
 {
     [editBtn resignFirstResponder];
     
+    //TODO:点击产生的最近任务列表记录，目前只保留4条记录，算法需要优化
     NSString *tasklistId;
-    NSMutableArray *recentlyIds = (NSMutableArray*)[[Constant instance] recentlyIds];
+    NSMutableArray *recentlyIds = (NSMutableArray*)[[ConstantClass instance] recentlyIds];
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSString* name = cell.textLabel.text;
@@ -432,28 +427,54 @@
         }
         [recentlyIds insertObject:tasklistId atIndex:0];
     }
-    [[Constant instance] setRecentlyIds:recentlyIds];
-    [Constant saveRecentlyIdsToCache];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    int i = 0;
+    for(NSString* r in recentlyIds)
+    {
+        [array addObject:r];
+        i++;
+        if(i > RECENTLYTASKLIST_COUNT - 1)
+            break;
+    }
+    
+    [[ConstantClass instance] setRecentlyIds:array];
+    [ConstantClass saveRecentlyIdsToCache];
 
+    ///////////////////////////////////////////////
+    
     NSLog(@"当前选择的任务列表编号: %@", tasklistId);
     
+    //切换到任务界面
+    
     //个人任务
-    TaskViewController *taskViewController = [[[TaskViewController alloc] initWithNibName:@"TaskViewController" bundle:nil setTitle:@"个人任务" setImage:@"task.png"] autorelease];
+    TaskViewController *taskViewController = [[[TaskViewController alloc] initWithNibName:@"TaskViewController" 
+                                                                                   bundle:nil 
+                                                                                 setTitle:@"个人任务" 
+                                                                                 setImage:@"task.png"] autorelease];
     taskViewController.currentTasklistId = tasklistId;
     
     //已完成
-    TaskViewController *completeTaskViewController = [[[TaskViewController alloc] initWithNibName:@"TaskViewController" bundle:nil setTitle:@"已完成" setImage:@"complete.png"] autorelease];
-    completeTaskViewController.filterStatus = @"1";
+    TaskViewController *completeTaskViewController = [[[TaskViewController alloc] initWithNibName:@"TaskViewController" 
+                                                                                           bundle:nil 
+                                                                                         setTitle:@"已完成" 
+                                                                                         setImage:@"complete.png"] autorelease];
+    completeTaskViewController.filterStatus = @"1";         //完成状态设置为1
     completeTaskViewController.currentTasklistId = tasklistId;
     
     //未完成
-    TaskViewController *incompleteTaskViewController = [[[TaskViewController alloc] initWithNibName:@"TaskViewController" bundle:nil setTitle:@"未完成" setImage:@"incomplete.png"] autorelease];
-    incompleteTaskViewController.filterStatus = @"0";
+    TaskViewController *incompleteTaskViewController = [[[TaskViewController alloc] initWithNibName:@"TaskViewController" 
+                                                                                             bundle:nil 
+                                                                                           setTitle:@"未完成" 
+                                                                                           setImage:@"incomplete.png"] autorelease];
+    incompleteTaskViewController.filterStatus = @"0";       //未完成状态设置为0
     incompleteTaskViewController.currentTasklistId = tasklistId;
     
     //设置
-    SettingViewController *settingViewController = [[SettingViewController alloc] initWithNibName:@"SettingViewController" bundle:nil setTitle:@"设置" setImage:@"setting.png"];
-        
+    SettingViewController *settingViewController = [[SettingViewController alloc] initWithNibName:@"SettingViewController" 
+                                                                                           bundle:nil 
+                                                                                         setTitle:@"设置" 
+                                                                                         setImage:SETTING_IMAGE];    
     
     UITabBarController *tabBarController = [[[UITabBarController alloc] init] autorelease];
 
@@ -470,9 +491,6 @@
     
     tabBarController.viewControllers = [NSArray arrayWithObjects:taskViewController, completeTaskViewController, incompleteTaskViewController, settingViewController, nil];
     tabBarController.delegate = self;
-    
-//    UIColor *color = [UIColor colorWithRed:208.0/255 green:58.0/255 blue:64.0/255 alpha:1.0];
-//    [tabBarController.tabBar setSelectionIndicatorImage:[UIImage imageNamed:@"edit.png"]];
    
     for (UIView *view in tabBarController.tabBar.subviews)
     {      
@@ -490,11 +508,7 @@
         }
     } 
     
-    CATransition* transition = [CATransition animation];
-    transition.duration = 0.3;
-    transition.type = kCATransitionPush;
-    transition.subtype = kCATransitionFromRight;
-    [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+    [Tools layerTransition:self.navigationController.view from:@"right"];
     [self.navigationController pushViewController:tabBarController animated:NO];
 }
 
@@ -509,8 +523,7 @@
                 if ([subview isKindOfClass:[UILabel class]])
                 {
                     UILabel *label = (UILabel *)subview;
-                    
-                    [label setTextColor:[UIColor whiteColor]];
+                    label.textColor = [UIColor whiteColor];
                 }
             }
         }

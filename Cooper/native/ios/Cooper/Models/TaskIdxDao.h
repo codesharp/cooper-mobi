@@ -9,7 +9,9 @@
 #import "TaskIdx.h"
 
 @interface TaskIdxDao : RootDao
-
+{
+    NSString* tableName;
+}
 - (NSMutableArray*)getAllTaskIdx:(NSString*)tasklistId;
 
 - (TaskIdx*)getTaskIdxByKey:(NSString*)key 

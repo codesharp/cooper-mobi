@@ -1,0 +1,22 @@
+//
+// Prefix header for all source files of the 'Cooper' target in the 'Cooper' project
+//
+
+
+#import "Util.h"
+
+#define __ALI_VERSION__
+
+//当前版本为ALI版本
+#import "AliConstant.h"
+
+typedef AliConstant ConstantClass;
+
+//默认域名
+#define DEFAULT_DOMAIN                  @"TAOBAO-HZ"
+
+//Ark登录入口
+#define LOGIN_URL                       @"/account/arklogin"
+
+
+

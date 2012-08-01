@@ -75,9 +75,8 @@
 
 - (void)saveSetting:(id)sender
 {
-    [[Constant instance] setPath:localPushSwitch.on];
-    
-    [Constant saveIsLocalPushToCache];
+   [[ConstantClass instance] setIsLocalPush: localPushSwitch.on];    
+    [ConstantClass saveIsLocalPushToCache];
     
     [self goBack:nil];
 }
@@ -114,7 +113,7 @@
                 cell.accessoryView = localPushSwitch;
             }
             
-            if([[Constant instance] isLocalPush])
+            if([[ConstantClass instance] isLocalPush])
             {
                 [localPushSwitch setOn:YES];
             }
@@ -130,8 +129,8 @@
 
 - (void)localPushChanged:(id)sender
 {
-    [[Constant instance] setIsLocalPush:localPushSwitch.on];
-    [Constant saveIsLocalPushToCache];
+    [[ConstantClass instance] setIsLocalPush: localPushSwitch.on];
+    [ConstantClass saveIsLocalPushToCache];
 }
 
 - (void)dealloc

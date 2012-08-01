@@ -108,6 +108,8 @@
 
 - (void)goBack:(id)sender
 {
+    [delegate loadTaskData];
+    
     if(self.task == nil)
         [self.navigationController dismissModalViewControllerAnimated:YES];
     else {
@@ -134,7 +136,8 @@
                   status:[Tools BOOLToNSNumber:self.currentIsCompleted] 
                 priority:self.currentPriority 
                   taskid:id
-                 dueDate:self.currentDueDate
+                 dueDate:self.currentDueDate 
+                editable:[NSNumber numberWithInt:1]
               tasklistId:currentTasklistId
                 isCommit:NO];
         
@@ -222,7 +225,7 @@
     
     [self goBack:nil];
     //[self.navigationController dismissModalViewControllerAnimated:YES];
-    //[delegate loadTaskData];
+    ;
 }
 
 - (void)viewDidLoad
@@ -289,7 +292,7 @@
                 cell.textLabel.text = @"状态:";
                 [cell.textLabel setTextColor:[UIColor grayColor]];[cell.textLabel setFont:[UIFont boldSystemFontOfSize:16]];
                 
-                statusButton = [[CustomButton alloc] initWithFrame:CGRectZero image:[UIImage imageNamed:@"btn_bg_green.png"]];
+                statusButton = [[CustomButton alloc] initWithFrame:CGRectZero image:[UIImage imageNamed:@"btn_bg_gray.png"]];
                 statusButton.userInteractionEnabled = YES;
                 
                 [statusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -504,7 +507,8 @@
                          isCommit:NO];
         
         [taskDao commitData];
-        //[delegate loadTaskData];
+        
+        [delegate loadTaskData];
     }
     
     CGSize size = CGSizeMake(320,10000);
@@ -562,7 +566,7 @@
         
         [taskDao commitData];
         
-        //[delegate loadTaskData];
+        [delegate loadTaskData];
     }
     
     CGSize size = CGSizeMake(320,10000);

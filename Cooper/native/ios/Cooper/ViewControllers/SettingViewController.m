@@ -26,7 +26,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"cooper:task";
+        self.title = APP_TITLE;
         CustomTabBarItem *tabBarItem = [[CustomTabBarItem alloc] init];
         [tabBarItem setTitle:title];
         [tabBarItem setCustomImage:[UIImage imageNamed:imageName]];
@@ -93,7 +93,7 @@
 //                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"PathEnvironmentCell"] autorelease];
 //                
 //                cell.textLabel.text = @"同步设置";
-//                //cell.detailTextLabel.text = [[Constant instance] path];
+//                //cell.detailTextLabel.text = [[ConstantClass instance] rootPath];
 //                
 //                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 //                cell.editingAccessoryType = UITableViewCellAccessoryNone;

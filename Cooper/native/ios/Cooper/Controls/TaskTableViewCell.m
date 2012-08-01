@@ -117,10 +117,8 @@
     taskDao = [[TaskDao alloc] init];
     changeLogDao = [[ChangeLogDao alloc] init];
     
-    NSLog(@"task.status:%@", [task.status stringValue]);
     if([[task.status stringValue] isEqualToString:@"1"])
     {
-        NSLog(@"complete");
         [statusButton setBackgroundImage:[UIImage imageNamed:@"complete-small.png"] forState:UIControlStateNormal];
     }
     else {

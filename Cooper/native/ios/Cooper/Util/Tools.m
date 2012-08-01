@@ -17,7 +17,8 @@
 
 + (NSNumber*) BOOLToNSNumber:(BOOL)input
 {
-    return [NSNumber numberWithBool:input];
+    return [NSNumber numberWithInt:input ? 1 : 0];
+    //return [NSNumber numberWithBool:input];
 }
 
 + (NSString*) NSDateToNSString:(NSDate*)input
@@ -124,6 +125,23 @@
 + (BOOL)isPad
 {
     return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
+}
+
++ (void)layerTransition:(UIView *)view from:(NSString*)from
+{
+    CATransition* transition = [CATransition animation];
+    transition.duration = 0.3;
+    transition.type = kCATransitionPush;
+    transition.subtype = [from isEqualToString:@"left"] ? kCATransitionFromLeft : kCATransitionFromRight;
+    [view.layer addAnimation:transition forKey:kCATransition];
+}
+
++ (void)clearFootBlank:(UITableView *)tableView
+{
+    UIView *footer =
+    [[UIView alloc] initWithFrame:CGRectZero];
+    tableView.tableFooterView = footer;
+    [footer release];
 }
 
 @end

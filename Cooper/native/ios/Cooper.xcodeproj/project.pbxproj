@@ -14,12 +14,10 @@
 		181014B115C048B500D67C06 /* CustomTextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1810149715C0489D00D67C06 /* CustomTextFieldCell.xib */; };
 		181014B215C048B500D67C06 /* CustomTextViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1810149815C0489D00D67C06 /* CustomTextViewCell.xib */; };
 		181014B315C048B500D67C06 /* CustomToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810149A15C048A100D67C06 /* CustomToolbar.m */; };
-		181014B415C048B500D67C06 /* DomainLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810149C15C048A200D67C06 /* DomainLabel.m */; };
 		181014B515C048B500D67C06 /* EndDateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810149E15C048A400D67C06 /* EndDateCell.m */; };
 		181014B615C048B500D67C06 /* EndDateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1810149F15C048A400D67C06 /* EndDateCell.xib */; };
 		181014B715C048B500D67C06 /* PickerInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 181014A115C048A500D67C06 /* PickerInputTableViewCell.m */; };
 		181014B815C048B500D67C06 /* PriorityPickerInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 181014A315C048AE00D67C06 /* PriorityPickerInputTableViewCell.m */; };
-		181014B915C048B500D67C06 /* SimplePickerInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 181014A515C048AF00D67C06 /* SimplePickerInputTableViewCell.m */; };
 		181014BA15C048B500D67C06 /* TaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 181014A715C048B000D67C06 /* TaskTableViewCell.m */; };
 		181014BB15C048B500D67C06 /* TaskViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 181014A915C048B200D67C06 /* TaskViewCell.m */; };
 		181014BC15C048B500D67C06 /* TaskViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 181014AA15C048B200D67C06 /* TaskViewCell.xib */; };
@@ -65,6 +63,13 @@
 		18409FA715C196BD00639DEE /* incomplete-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 18409FA315C196BD00639DEE /* incomplete-small.png */; };
 		18409FA815C196BD00639DEE /* setting-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 18409FA415C196BD00639DEE /* setting-small.png */; };
 		18409FAC15C199D700639DEE /* Test.m in Sources */ = {isa = PBXBuildFile; fileRef = 18409FAB15C199D700639DEE /* Test.m */; };
+		1842238E15C924AB003C674F /* AliConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1842238D15C924AB003C674F /* AliConstant.m */; };
+		1842239815C92B8B003C674F /* DomainLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1842239715C92B8B003C674F /* DomainLabel.m */; };
+		1842239B15C9353E003C674F /* Cooper-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1842239915C9353E003C674F /* Cooper-Info.plist */; };
+		184223A515C962D1003C674F /* ChangeLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 184223A415C962D1003C674F /* ChangeLog.m */; };
+		184223A915C962D3003C674F /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 184223A815C962D2003C674F /* Task.m */; };
+		184223AC15C962D3003C674F /* TaskIdx.m in Sources */ = {isa = PBXBuildFile; fileRef = 184223AB15C962D3003C674F /* TaskIdx.m */; };
+		184223AF15C962D3003C674F /* Tasklist.m in Sources */ = {isa = PBXBuildFile; fileRef = 184223AE15C962D3003C674F /* Tasklist.m */; };
 		1872E81F15C265CB00A8EA41 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1872E81E15C265CB00A8EA41 /* BaseViewController.m */; };
 		1872E82315C2667B00A8EA41 /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1872E82215C2667B00A8EA41 /* BaseTableViewController.m */; };
 		1872E82715C26B6000A8EA41 /* TasklistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1872E82615C26B6000A8EA41 /* TasklistViewController.m */; };
@@ -96,10 +101,6 @@
 		188B4F9215C440E700031A2A /* TaskIdxDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B4F8D15C440E700031A2A /* TaskIdxDao.m */; };
 		188B4F9315C440E700031A2A /* TasklistDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B4F8F15C440E700031A2A /* TasklistDao.m */; };
 		18970C4E15C773340072A719 /* InputPickerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 18970C4D15C773340072A719 /* InputPickerButton.m */; };
-		18A3D47615C50D85002C8C0E /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A3D47515C50D85002C8C0E /* Task.m */; };
-		18A3D47A15C50D85002C8C0E /* TaskIdx.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A3D47915C50D85002C8C0E /* TaskIdx.m */; };
-		18A3D47D15C50D85002C8C0E /* Tasklist.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A3D47C15C50D85002C8C0E /* Tasklist.m */; };
-		18A3D48315C50DBB002C8C0E /* ChangeLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A3D48215C50DBB002C8C0E /* ChangeLog.m */; };
 		18A41EB915C5B8E300D49298 /* NoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A41EB815C5B8E300D49298 /* NoticeViewController.m */; };
 		18B99F2D15C3C67000B219E3 /* TaskModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 18B99F2B15C3C67000B219E3 /* TaskModel.xcdatamodeld */; };
 		18DECB4015C6396700A51305 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DECB3F15C6396700A51305 /* AccountViewController.m */; };
@@ -110,7 +111,6 @@
 		18FAC24E15BF980D003F56B2 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC24C15BF980D003F56B2 /* edit.png */; };
 		18FAC25515BFA143003F56B2 /* btn_bg_green.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC25415BFA143003F56B2 /* btn_bg_green.png */; };
 		18FAC25A15BFAF50003F56B2 /* navigationbar_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC25915BFAF50003F56B2 /* navigationbar_bg.png */; };
-		18FDFBAC15C531310000E9EB /* TasklistEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FDFBAB15C531310000E9EB /* TasklistEditController.m */; };
 		8C0C2F2E15AE7AAF00283579 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8C0C2F2215AE7AAF00283579 /* LICENSE */; };
 		8C0C2F2F15AE7AAF00283579 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C0C2F2415AE7AAF00283579 /* NSObject+SBJSON.m */; };
 		8C0C2F3015AE7AAF00283579 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C0C2F2615AE7AAF00283579 /* NSString+SBJSON.m */; };
@@ -151,8 +151,6 @@
 		1810149815C0489D00D67C06 /* CustomTextViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CustomTextViewCell.xib; path = Controls/CustomTextViewCell.xib; sourceTree = "<group>"; };
 		1810149915C0489E00D67C06 /* CustomToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomToolbar.h; path = Controls/CustomToolbar.h; sourceTree = "<group>"; };
 		1810149A15C048A100D67C06 /* CustomToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomToolbar.m; path = Controls/CustomToolbar.m; sourceTree = "<group>"; };
-		1810149B15C048A200D67C06 /* DomainLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DomainLabel.h; path = Controls/DomainLabel.h; sourceTree = "<group>"; };
-		1810149C15C048A200D67C06 /* DomainLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DomainLabel.m; path = Controls/DomainLabel.m; sourceTree = "<group>"; };
 		1810149D15C048A300D67C06 /* EndDateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EndDateCell.h; path = Controls/EndDateCell.h; sourceTree = "<group>"; };
 		1810149E15C048A400D67C06 /* EndDateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EndDateCell.m; path = Controls/EndDateCell.m; sourceTree = "<group>"; };
 		1810149F15C048A400D67C06 /* EndDateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EndDateCell.xib; path = Controls/EndDateCell.xib; sourceTree = "<group>"; };
@@ -160,8 +158,6 @@
 		181014A115C048A500D67C06 /* PickerInputTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PickerInputTableViewCell.m; path = Controls/PickerInputTableViewCell.m; sourceTree = "<group>"; };
 		181014A215C048AD00D67C06 /* PriorityPickerInputTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PriorityPickerInputTableViewCell.h; path = Controls/PriorityPickerInputTableViewCell.h; sourceTree = "<group>"; };
 		181014A315C048AE00D67C06 /* PriorityPickerInputTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PriorityPickerInputTableViewCell.m; path = Controls/PriorityPickerInputTableViewCell.m; sourceTree = "<group>"; };
-		181014A415C048AE00D67C06 /* SimplePickerInputTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimplePickerInputTableViewCell.h; path = Controls/SimplePickerInputTableViewCell.h; sourceTree = "<group>"; };
-		181014A515C048AF00D67C06 /* SimplePickerInputTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimplePickerInputTableViewCell.m; path = Controls/SimplePickerInputTableViewCell.m; sourceTree = "<group>"; };
 		181014A615C048B000D67C06 /* TaskTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskTableViewCell.h; path = Controls/TaskTableViewCell.h; sourceTree = "<group>"; };
 		181014A715C048B000D67C06 /* TaskTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskTableViewCell.m; path = Controls/TaskTableViewCell.m; sourceTree = "<group>"; };
 		181014A815C048B100D67C06 /* TaskViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskViewCell.h; path = Controls/TaskViewCell.h; sourceTree = "<group>"; };
@@ -238,6 +234,21 @@
 		18409FA415C196BD00639DEE /* setting-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setting-small.png"; sourceTree = "<group>"; };
 		18409FAA15C199D700639DEE /* Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Test.h; path = Util/Test.h; sourceTree = "<group>"; };
 		18409FAB15C199D700639DEE /* Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Test.m; path = Util/Test.m; sourceTree = "<group>"; };
+		1842238B15C923A7003C674F /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		1842238C15C924AB003C674F /* AliConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AliConstant.h; path = AliExtensions/AliConstant.h; sourceTree = "<group>"; };
+		1842238D15C924AB003C674F /* AliConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AliConstant.m; path = AliExtensions/AliConstant.m; sourceTree = "<group>"; };
+		1842239615C92B8B003C674F /* DomainLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DomainLabel.h; path = AliExtensions/Controls/DomainLabel.h; sourceTree = "<group>"; };
+		1842239715C92B8B003C674F /* DomainLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DomainLabel.m; path = AliExtensions/Controls/DomainLabel.m; sourceTree = "<group>"; };
+		1842239915C9353E003C674F /* Cooper-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Cooper-Info.plist"; path = "AliExtensions/Cooper-Info.plist"; sourceTree = "<group>"; };
+		1842239A15C9353E003C674F /* Cooper-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Cooper-Prefix.pch"; path = "AliExtensions/Cooper-Prefix.pch"; sourceTree = "<group>"; };
+		184223A315C962D1003C674F /* ChangeLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChangeLog.h; path = Models/ChangeLog.h; sourceTree = "<group>"; };
+		184223A415C962D1003C674F /* ChangeLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChangeLog.m; path = Models/ChangeLog.m; sourceTree = "<group>"; };
+		184223A715C962D2003C674F /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Task.h; path = Models/Task.h; sourceTree = "<group>"; };
+		184223A815C962D2003C674F /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Task.m; path = Models/Task.m; sourceTree = "<group>"; };
+		184223AA15C962D3003C674F /* TaskIdx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskIdx.h; path = Models/TaskIdx.h; sourceTree = "<group>"; };
+		184223AB15C962D3003C674F /* TaskIdx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskIdx.m; path = Models/TaskIdx.m; sourceTree = "<group>"; };
+		184223AD15C962D3003C674F /* Tasklist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tasklist.h; path = Models/Tasklist.h; sourceTree = "<group>"; };
+		184223AE15C962D3003C674F /* Tasklist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Tasklist.m; path = Models/Tasklist.m; sourceTree = "<group>"; };
 		1872E81D15C265CB00A8EA41 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseViewController.h; path = ViewControllers/BaseViewController.h; sourceTree = "<group>"; };
 		1872E81E15C265CB00A8EA41 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseViewController.m; path = ViewControllers/BaseViewController.m; sourceTree = "<group>"; };
 		1872E82115C2667B00A8EA41 /* BaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseTableViewController.h; path = Controls/BaseTableViewController.h; sourceTree = "<group>"; };
@@ -281,14 +292,6 @@
 		188B4F8F15C440E700031A2A /* TasklistDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TasklistDao.m; path = Models/TasklistDao.m; sourceTree = "<group>"; };
 		18970C4C15C773330072A719 /* InputPickerButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputPickerButton.h; path = Controls/InputPickerButton.h; sourceTree = "<group>"; };
 		18970C4D15C773340072A719 /* InputPickerButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InputPickerButton.m; path = Controls/InputPickerButton.m; sourceTree = "<group>"; };
-		18A3D47415C50D85002C8C0E /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Task.h; path = Models/Task.h; sourceTree = "<group>"; };
-		18A3D47515C50D85002C8C0E /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Task.m; path = Models/Task.m; sourceTree = "<group>"; };
-		18A3D47815C50D85002C8C0E /* TaskIdx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskIdx.h; path = Models/TaskIdx.h; sourceTree = "<group>"; };
-		18A3D47915C50D85002C8C0E /* TaskIdx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskIdx.m; path = Models/TaskIdx.m; sourceTree = "<group>"; };
-		18A3D47B15C50D85002C8C0E /* Tasklist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tasklist.h; path = Models/Tasklist.h; sourceTree = "<group>"; };
-		18A3D47C15C50D85002C8C0E /* Tasklist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Tasklist.m; path = Models/Tasklist.m; sourceTree = "<group>"; };
-		18A3D48115C50DBB002C8C0E /* ChangeLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChangeLog.h; path = Models/ChangeLog.h; sourceTree = "<group>"; };
-		18A3D48215C50DBB002C8C0E /* ChangeLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChangeLog.m; path = Models/ChangeLog.m; sourceTree = "<group>"; };
 		18A41EB715C5B8E300D49298 /* NoticeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoticeViewController.h; path = ViewControllers/NoticeViewController.h; sourceTree = "<group>"; };
 		18A41EB815C5B8E300D49298 /* NoticeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NoticeViewController.m; path = ViewControllers/NoticeViewController.m; sourceTree = "<group>"; };
 		18B99F2C15C3C67000B219E3 /* TaskModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskModel.xcdatamodel; sourceTree = "<group>"; };
@@ -302,8 +305,6 @@
 		18FAC24C15BF980D003F56B2 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
 		18FAC25415BFA143003F56B2 /* btn_bg_green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_bg_green.png; sourceTree = "<group>"; };
 		18FAC25915BFAF50003F56B2 /* navigationbar_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationbar_bg.png; sourceTree = "<group>"; };
-		18FDFBAA15C531310000E9EB /* TasklistEditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TasklistEditController.h; path = ViewControllers/TasklistEditController.h; sourceTree = "<group>"; };
-		18FDFBAB15C531310000E9EB /* TasklistEditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TasklistEditController.m; path = ViewControllers/TasklistEditController.m; sourceTree = "<group>"; };
 		8C0C2F2115AE7AAF00283579 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		8C0C2F2215AE7AAF00283579 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8C0C2F2315AE7AAF00283579 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
@@ -389,8 +390,6 @@
 				181014A115C048A500D67C06 /* PickerInputTableViewCell.m */,
 				181014A215C048AD00D67C06 /* PriorityPickerInputTableViewCell.h */,
 				181014A315C048AE00D67C06 /* PriorityPickerInputTableViewCell.m */,
-				181014A415C048AE00D67C06 /* SimplePickerInputTableViewCell.h */,
-				181014A515C048AF00D67C06 /* SimplePickerInputTableViewCell.m */,
 				181014A615C048B000D67C06 /* TaskTableViewCell.h */,
 				181014A715C048B000D67C06 /* TaskTableViewCell.m */,
 				181014A815C048B100D67C06 /* TaskViewCell.h */,
@@ -409,13 +408,40 @@
 			name = TableViews;
 			sourceTree = "<group>";
 		};
+		1842238515C9234D003C674F /* AliExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				1842239915C9353E003C674F /* Cooper-Info.plist */,
+				1842239A15C9353E003C674F /* Cooper-Prefix.pch */,
+				1842239515C92B21003C674F /* Controls */,
+				1842238715C92366003C674F /* Supporting Files */,
+				1842238C15C924AB003C674F /* AliConstant.h */,
+				1842238D15C924AB003C674F /* AliConstant.m */,
+			);
+			name = AliExtensions;
+			sourceTree = "<group>";
+		};
+		1842238715C92366003C674F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1842239515C92B21003C674F /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				1842239615C92B8B003C674F /* DomainLabel.h */,
+				1842239715C92B8B003C674F /* DomainLabel.m */,
+			);
+			name = Controls;
+			sourceTree = "<group>";
+		};
 		1872E82415C2676000A8EA41 /* TasklistViewController */ = {
 			isa = PBXGroup;
 			children = (
 				1872E82515C26B6000A8EA41 /* TasklistViewController.h */,
 				1872E82615C26B6000A8EA41 /* TasklistViewController.m */,
-				18FDFBAA15C531310000E9EB /* TasklistEditController.h */,
-				18FDFBAB15C531310000E9EB /* TasklistEditController.m */,
 			);
 			name = TasklistViewController;
 			sourceTree = "<group>";
@@ -476,6 +502,7 @@
 		EE396256159D34380018B9EC = {
 			isa = PBXGroup;
 			children = (
+				1842238515C9234D003C674F /* AliExtensions */,
 				EE87F78C15A3F50100DA8E7F /* Sources */,
 				EE39626B159D343C0018B9EC /* Cooper */,
 				EE396264159D343B0018B9EC /* Frameworks */,
@@ -523,6 +550,7 @@
 		EE39626C159D343C0018B9EC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1842238B15C923A7003C674F /* Util.h */,
 				EE39626D159D343C0018B9EC /* Cooper-Info.plist */,
 				EE39626E159D343C0018B9EC /* InfoPlist.strings */,
 				EE396271159D343C0018B9EC /* main.m */,
@@ -567,15 +595,15 @@
 		EE396297159D38D80018B9EC /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				18A3D48115C50DBB002C8C0E /* ChangeLog.h */,
-				18A3D48215C50DBB002C8C0E /* ChangeLog.m */,
 				18B99F2B15C3C67000B219E3 /* TaskModel.xcdatamodeld */,
-				18A3D47B15C50D85002C8C0E /* Tasklist.h */,
-				18A3D47C15C50D85002C8C0E /* Tasklist.m */,
-				18A3D47815C50D85002C8C0E /* TaskIdx.h */,
-				18A3D47915C50D85002C8C0E /* TaskIdx.m */,
-				18A3D47415C50D85002C8C0E /* Task.h */,
-				18A3D47515C50D85002C8C0E /* Task.m */,
+				184223A315C962D1003C674F /* ChangeLog.h */,
+				184223A715C962D2003C674F /* Task.h */,
+				184223AD15C962D3003C674F /* Tasklist.h */,
+				184223AE15C962D3003C674F /* Tasklist.m */,
+				184223AA15C962D3003C674F /* TaskIdx.h */,
+				184223AB15C962D3003C674F /* TaskIdx.m */,
+				184223A815C962D2003C674F /* Task.m */,
+				184223A415C962D1003C674F /* ChangeLog.m */,
 				EE34428615A6D9E600342EA1 /* Dao */,
 			);
 			name = Models;
@@ -605,8 +633,6 @@
 				1810149615C0489C00D67C06 /* CustomTabBarController.m */,
 				1810149915C0489E00D67C06 /* CustomToolbar.h */,
 				1810149A15C048A100D67C06 /* CustomToolbar.m */,
-				1810149B15C048A200D67C06 /* DomainLabel.h */,
-				1810149C15C048A200D67C06 /* DomainLabel.m */,
 				1881ECD915BF8A4E00B47A7A /* Category */,
 				1886CCA315C06482002346A1 /* DateLabel.h */,
 				1886CCA415C06482002346A1 /* DateLabel.m */,
@@ -710,6 +736,7 @@
 		EE87F7CC15A40A1E00DA8E7F /* LoginViewController */ = {
 			isa = PBXGroup;
 			children = (
+				1810151715C04B8800D67C06 /* LoginViewDelegate.h */,
 				1810151415C04B8700D67C06 /* LoginViewController.h */,
 				1810151515C04B8700D67C06 /* LoginViewController.m */,
 				1810151615C04B8800D67C06 /* LoginViewController.xib */,
@@ -804,7 +831,6 @@
 		EEF30E8215A556DB00506A79 /* SettingViewController */ = {
 			isa = PBXGroup;
 			children = (
-				1810151715C04B8800D67C06 /* LoginViewDelegate.h */,
 				1810150015C04B5900D67C06 /* PathViewController.h */,
 				1810150115C04B5900D67C06 /* PathViewController.m */,
 				1810150215C04B5A00D67C06 /* PathViewController.xib */,
@@ -926,6 +952,7 @@
 				18409FA615C196BD00639DEE /* complete-small.png in Resources */,
 				18409FA715C196BD00639DEE /* incomplete-small.png in Resources */,
 				18409FA815C196BD00639DEE /* setting-small.png in Resources */,
+				1842239B15C9353E003C674F /* Cooper-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -972,11 +999,9 @@
 				181014AE15C048B500D67C06 /* CustomerTabBarController.m in Sources */,
 				181014B015C048B500D67C06 /* CustomTabBarController.m in Sources */,
 				181014B315C048B500D67C06 /* CustomToolbar.m in Sources */,
-				181014B415C048B500D67C06 /* DomainLabel.m in Sources */,
 				181014B515C048B500D67C06 /* EndDateCell.m in Sources */,
 				181014B715C048B500D67C06 /* PickerInputTableViewCell.m in Sources */,
 				181014B815C048B500D67C06 /* PriorityPickerInputTableViewCell.m in Sources */,
-				181014B915C048B500D67C06 /* SimplePickerInputTableViewCell.m in Sources */,
 				181014BA15C048B500D67C06 /* TaskTableViewCell.m in Sources */,
 				181014BB15C048B500D67C06 /* TaskViewCell.m in Sources */,
 				181014BD15C048B500D67C06 /* UIImage+Scale.m in Sources */,
@@ -1016,17 +1041,18 @@
 				188B4F9115C440E700031A2A /* TaskDao.m in Sources */,
 				188B4F9215C440E700031A2A /* TaskIdxDao.m in Sources */,
 				188B4F9315C440E700031A2A /* TasklistDao.m in Sources */,
-				18A3D47615C50D85002C8C0E /* Task.m in Sources */,
-				18A3D47A15C50D85002C8C0E /* TaskIdx.m in Sources */,
-				18A3D47D15C50D85002C8C0E /* Tasklist.m in Sources */,
-				18A3D48315C50DBB002C8C0E /* ChangeLog.m in Sources */,
-				18FDFBAC15C531310000E9EB /* TasklistEditController.m in Sources */,
 				18A41EB915C5B8E300D49298 /* NoticeViewController.m in Sources */,
 				18DECB4015C6396700A51305 /* AccountViewController.m in Sources */,
 				18DECB5215C66D0E00A51305 /* ChangeLogDao.m in Sources */,
 				18970C4E15C773340072A719 /* InputPickerButton.m in Sources */,
 				1838AAE115C7E090003EC484 /* CustomTableView.m in Sources */,
 				181DD88315C80F3300FB2ED5 /* BodyTextView.m in Sources */,
+				1842238E15C924AB003C674F /* AliConstant.m in Sources */,
+				1842239815C92B8B003C674F /* DomainLabel.m in Sources */,
+				184223A515C962D1003C674F /* ChangeLog.m in Sources */,
+				184223A915C962D3003C674F /* Task.m in Sources */,
+				184223AC15C962D3003C674F /* TaskIdx.m in Sources */,
+				184223AF15C962D3003C674F /* Tasklist.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1093,8 +1119,8 @@
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Li Ping (3F9L3G335D)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Cooper/Cooper-Prefix.pch";
-				INFOPLIST_FILE = "Cooper/Cooper-Info.plist";
+				GCC_PREFIX_HEADER = "AliExtensions/Cooper-Prefix.pch";
+				INFOPLIST_FILE = "AliExtensions/Cooper-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DD257646-F75F-4C2C-81D0-B06F55844159";
@@ -1106,10 +1132,10 @@
 		EE39628F159D343C0018B9EC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Li Ping";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Cooper/Cooper-Prefix.pch";
-				INFOPLIST_FILE = "Cooper/Cooper-Info.plist";
+				GCC_PREFIX_HEADER = "AliExtensions/Cooper-Prefix.pch";
+				INFOPLIST_FILE = "AliExtensions/Cooper-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";

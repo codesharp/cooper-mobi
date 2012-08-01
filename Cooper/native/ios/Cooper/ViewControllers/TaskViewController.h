@@ -6,21 +6,20 @@
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
-#import "TaskDetailViewController.h"
-#import "TaskDetailEditViewController.h"
-#import "TaskTableViewCell.h"
 #import "TaskService.h"
-#import "ModelHelper.h"
-#import "TaskIdx.h"
 #import "TaskViewDelegate.h"
 #import "BaseTableViewController.h"
+#import "TaskTableViewCell.h"
+#import "TaskDao.h"
+#import "TaskIdxDao.h"
+#import "ChangeLogDao.h"
 
-@class TaskDao;
-@class TaskIdxDao;
-@class ChangeLogDao;
-@class TaskTableViewCellDelegate;
-
-@interface TaskViewController : BaseTableViewController<UISearchDisplayDelegate, UISearchBarDelegate,  NetworkDelegate, TaskViewDelegate, TaskTableViewCellDelegate>
+@interface TaskViewController : BaseTableViewController<UISearchDisplayDelegate
+    , UISearchBarDelegate
+    , NetworkDelegate
+    , TaskViewDelegate
+    , TaskTableViewCellDelegate
+>
 {
     MBProgressHUD *HUD;
     
@@ -28,7 +27,7 @@
     TaskIdxDao *taskIdxDao;
     ChangeLogDao *changeLogDao;
     
-    int requestType;
+    TaskRequestType requestType;
 }
 @property (nonatomic,retain) NSString* currentTasklistId;
 @property (nonatomic, retain) NSMutableArray *taskIdxGroup;

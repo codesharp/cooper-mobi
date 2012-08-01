@@ -13,7 +13,7 @@
 
 + (NSString*)syncTasklist:(NSString*)name :(NSString*)type :(id)delegate
 {
-    NSString *url = [[[Constant instance] path] stringByAppendingFormat:TASKLIST_URL_SYNC];
+    NSString *url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:TASKLIST_URL_SYNC];
     NSLog(@"syncTasklist外部路径: %@", url);
  
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
@@ -27,7 +27,7 @@
 
 + (void)getTasklists:(id)delegate
 {
-    NSString *url = [[[Constant instance] path] stringByAppendingFormat:GETTASKLISTS_URL];
+    NSString *url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:GETTASKLISTS_URL];
     NSLog(@"getTasklists外部路径: %@", url);
     [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:nil WithInfo:nil addHeaders:nil];
 }

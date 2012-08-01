@@ -10,7 +10,9 @@
 #import "RootDao.h"
 
 @interface ChangeLogDao : RootDao
-
+{
+    NSString* tableName;
+}
 - (NSMutableArray*)getAllChangeLog:(NSString*)tasklistId;
 
 - (void)insertChangeLog:(NSNumber*)type 

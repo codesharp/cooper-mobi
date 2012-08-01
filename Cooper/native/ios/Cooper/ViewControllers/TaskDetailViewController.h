@@ -12,7 +12,7 @@
 @class TaskIdxDao;
 @class ChangeLogDao;
 
-@interface TaskDetailViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, CommentTextFieldDelegate>
+@interface TaskDetailViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, CommentTextFieldDelegate, TaskViewDelegate>
 {
     UITableView *detailView;
     

@@ -15,28 +15,54 @@
 @synthesize loginTableView;
 @synthesize delegate;
 @synthesize btnLogin;
-#ifndef CODESHARP_VERSION
+@synthesize btnSkip;
+#ifdef __ALI_VERSION__
 @synthesize domainLabel;
 #endif
+
+#pragma mark - UI相关
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.loginTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
-    [self.loginTableView setAllowsSelection:NO];
-    CGRect rect = self.loginTableView.frame;
-    [self.loginTableView setFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, 120)];
-    loginTableView.delegate = self;
-    loginTableView.dataSource = self;
+    NSString* login_btn_text = [[[SysConfig instance] keyValue] objectForKey:@"login_btn_text"];
+    NSString* skip_btn_text = [[[SysConfig instance] keyValue] objectForKey:@"skip_btn_text"];
     
-    btnLogin = [[CustomButton alloc] initWithFrame:CGRectMake(240, 230, 70, 40) image:[UIImage imageNamed:@"btn_center.png"]];
-    btnLogin.layer.cornerRadius = 6.0f;
-    [btnLogin.layer setMasksToBounds:YES];
-    [btnLogin addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
-    [btnLogin setTitle:@"登录" forState:UIControlStateNormal];
-    [btnLogin setFont:[UIFont boldSystemFontOfSize:20]];
-    [self.view addSubview:btnLogin];
+    //登录View
+    self.loginTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
+    self.loginTableView.allowsSelection = NO;
+    CGRect rect = self.loginTableView.frame;
+    self.loginTableView.frame = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, 120);
+    self.loginTableView.delegate = self;
+    self.loginTableView.dataSource = self;
+    
+    //登录按钮
+    self.btnLogin = [[CustomButton alloc] initWithFrame:CGRectMake(160, 290, 70, 40) 
+                                             image:[UIImage imageNamed:@"btn_center.png"]];
+    self.btnLogin.layer.cornerRadius = 6.0f;
+    self.btnLogin.layer.masksToBounds = YES;
+    [self.btnLogin addTarget:self 
+                      action:@selector(login) 
+            forControlEvents:UIControlEventTouchUpInside];
+    [self.btnLogin setTitle:login_btn_text 
+              forState:UIControlStateNormal];
+    [self.btnLogin setFont:[UIFont boldSystemFontOfSize:20]];
+    [self.view addSubview:self.btnLogin];
+    
+    //跳过按钮
+    //TODO:按钮背景
+    self.btnSkip = [[CustomButton alloc] initWithFrame:CGRectMake(240, 290, 70, 40) 
+                                                  image:[UIImage imageNamed:@"btn_center.png"]];
+    self.btnSkip.layer.cornerRadius = 6.0f;
+    self.btnSkip.layer.masksToBounds = YES;
+    [self.btnSkip addTarget:self 
+                      action:@selector(skip) 
+            forControlEvents:UIControlEventTouchUpInside];
+    [self.btnSkip setTitle:skip_btn_text 
+                   forState:UIControlStateNormal];
+    [self.btnSkip setFont:[UIFont boldSystemFontOfSize:20]];
+    [self.view addSubview:self.btnSkip];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -44,74 +70,96 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+-(IBAction)textFieldDoneEditing:(id)sender
+{
+    [sender resignFirstResponder];
+}
+
 - (void)dealloc 
 {
-#ifndef CODESHARP_VERSION
-    [domainLabel release];
+#ifdef __ALI_VERSION__
+    [self.domainLabel release];
 #endif
     [textUsername release];
     [textPassword release];
     [loginTableView release];
     [btnLogin release];
+    RELEASE(self.btnSkip);
     [super dealloc];
 }
 
+#pragma mark - 触发自定义事件
+
 - (void)login 
 {
-#ifndef CODESHARP_VERSION
-    if ([domainLabel.text length] > 0 
-        && [textUsername.text length] > 0
-        && [textPassword.text length] > 0) 
+#ifdef __ALI_VERSION__
+    if (self.domainLabel.text.length > 0 
+        && self.textUsername.text.length > 0
+        && self.textPassword.text.length > 0) 
 #else
-      if([textUsername.text length] > 0
-         && [textPassword.text length] > 0)
+        if(self.textUsername.text.length > 0
+           && self.textPassword.text.length > 0)
 #endif
-    {
-        HUD = [Tools process:@"登录中" view:self.view];
-        
-#ifndef CODESHARP_VERSION
-        [AccountService login:domainLabel.text 
-                     username:textUsername.text 
-                     password:textPassword.text 
-                     delegate:self];
+        {
+            HUD = [Tools process:@"登录中" view:self.view];
+            
+#ifdef __ALI_VERSION__
+            [AccountService login:self.domainLabel.text 
+                         username:self.textUsername.text 
+                         password:self.textPassword.text 
+                         delegate:self];
 #else
-        [AccountService login:textUsername.text
-                     password:textPassword.text
-                     delegate:self];
+            [AccountService login:self.textUsername.text
+                         password:self.textPassword.text
+                         delegate:self];
 #endif
-    }
-    else 
-    {
-        [Tools alert:@"请输入用户名和密码"];
-    }
+        }
+        else 
+        {
+            [Tools alert:@"请输入用户名和密码"];
+        }
+}
+
+- (void)skip
+{
+    //TODO:自动保存用户登录
+    [[ConstantClass instance] setIsSaveUser:YES];
+    [ConstantClass saveToCache];
+    
+    [self dismissModalViewControllerAnimated:NO];
+    
+    [delegate loginExit];
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
     [Tools close:HUD];
     //TODO:暂时采用字符串包含来判断是否登录成功
-    NSLog(@"请求响应数据: %@, %d", [request responseString], [request responseStatusCode]);
+    NSLog(@"请求响应数据: %@, %d"
+          , [request responseString]
+          , [request responseStatusCode]);
     if([request responseStatusCode] == 200)
     {
         NSArray* array = [request responseCookies];
         NSLog(@"array:%d",  array.count);
-
+        
         NSDictionary *dict = [NSHTTPCookie requestHeaderFieldsWithCookies:array];
-        NSHTTPCookie *cookieA = [NSHTTPCookie cookieWithProperties:dict];
+        NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:dict];
         NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
         
         [sharedHTTPCookie setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-        [sharedHTTPCookie setCookie:cookieA];
+        [sharedHTTPCookie setCookie:cookie];
         
-        //NSLog(@"请求响应数据: %@", request.responseString);
-#ifndef CODESHARP_VERSION
-        [[Constant instance] setDomain:domainLabel.text];
+#ifdef __ALI_VERSION__
+        [[ConstantClass instance] setDomain:self.domainLabel.text];
 #endif
-        [[Constant instance] setUsername:textUsername.text];
+        [[ConstantClass instance] setUsername:self.textUsername.text];
         //TODO:自动保存用户登录
-        [[Constant instance] setIsSaveUser:YES];
+        [[ConstantClass instance] setIsSaveUser:YES];
+        [ConstantClass saveToCache];
+        
         [self dismissModalViewControllerAnimated:NO];
-        [Constant saveToCache];
+        
         [delegate loginExit]; 
     }
     else if([request responseStatusCode] == 400)
@@ -123,34 +171,46 @@
         [Tools alert:@"未知异常"];
     }
 }
+
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
-    //[self removeRequstFromPool:request];
     [Tools failed:HUD];
     NSLog(@"请求异常: %@",request.error);
 }
+
 - (void)addRequstToPool:(ASIHTTPRequest *)request
 {
-//    [requestPool addObject:request];
     NSLog(@"发送请求路径：%@",request.url);
 }
 
--(IBAction)textFieldDoneEditing:(id)sender
+#ifdef __ALI_VERSION__
+
+# pragma mark - 域账号相关事件
+
+- (void)tableViewCell:(DomainLabel *)label didEndEditingWithValue:(NSString *)value
 {
-    [sender resignFirstResponder];
+    label.text = value;
 }
 
-# pragma mark login table view
+- (void)selectDomain
+{
+    [domainLabel becomeFirstResponder];
+}
+
+#endif
+
+# pragma mark - 登录TableView相关的委托事件
 
 //获取TableView的分区数
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
+
 //获取在制定的分区编号下的纪录数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#ifndef CODESHARP_VERSION
+#ifdef __ALI_VERSION__
     return 3;
 #else
     return 2;
@@ -160,129 +220,112 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    NSInteger currentRow = indexPath.row;
-    if(indexPath.section == 0)
+    
+    NSString *identifier = @"BaseCell";
+#ifdef __ALI_VERSION__
+    if(indexPath.row == 0)
     {
-#ifndef CODESHARP_VERSION
-        if(indexPath.row == 0)
-        {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"DomainCell"];
-            if(!cell)
-            {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"DomainCell"] autorelease];
-                
-                domainLabel = [[DomainLabel alloc] initWithFrame:CGRectMake(0, 0, 210, 30)];
-                domainLabel.text = DEFAULT_DOMAIN;
-                [domainLabel setBackgroundColor:[UIColor clearColor]];
-                domainLabel.userInteractionEnabled = YES;
-                UITapGestureRecognizer *recoginzer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectDomain)];
-                [domainLabel addGestureRecognizer:recoginzer];
-                domainLabel.delegate = self;
-                [recoginzer release];
-                
-                cell.textLabel.text = @"域名";
-                cell.accessoryView = domainLabel;
-            }
-        }
-        else if(indexPath.row == 1)
-        {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"UsernameCell"];
-            if(!cell)
-            {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"UsernameCell"] autorelease];
-                
-                CGFloat width = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 660 : 285;
-                self.textUsername = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, width, 20)];  
-                
-                [self.textUsername setPlaceholder:@"用户名"]; 
-                [self.textUsername setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-                [self.textUsername setAutocorrectionType:UITextAutocorrectionTypeNo];
-                [self.textUsername setReturnKeyType:UIReturnKeyDone];
-                [self.textUsername addTarget:self action:@selector(textFieldDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
-                cell.accessoryView = self.textUsername;
-                
-                
-            }
-        }
-        else if(indexPath.row == 2)
-        {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"PasswordCell"];
-            if(!cell)
-            {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"PasswordCell"] autorelease];
-                
-                CGFloat width = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 660 : 285;
-                self.textPassword = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, width, 20)]; 
-                [self.textPassword setSecureTextEntry:YES];
-                [self.textPassword setPlaceholder:@"密码"];
-                [self.textPassword setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-                [self.textPassword setAutocorrectionType:UITextAutocorrectionTypeNo];
-                [self.textPassword setReturnKeyType:UIReturnKeyDone];
-                [self.textPassword addTarget:self action:@selector(textFieldDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
-                
-                cell.accessoryView = self.textPassword;
-            }
-        }   
-#else
-        if(indexPath.row == 0)
-        {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"UsernameCell"];
-            if(!cell)
-            {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"UsernameCell"] autorelease];
-                
-                CGFloat width = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 660 : 285;
-                self.textUsername = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, width, 20)];  
-                
-                [self.textUsername setPlaceholder:@"用户名"]; 
-                [self.textUsername setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-                [self.textUsername setAutocorrectionType:UITextAutocorrectionTypeNo];
-                [self.textUsername setReturnKeyType:UIReturnKeyDone];
-                [self.textUsername addTarget:self action:@selector(textFieldDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
-                cell.accessoryView = self.textUsername;
-                
-                
-            }
-        }
-        else if(indexPath.row == 1)
-        {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"PasswordCell"];
-            if(!cell)
-            {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"PasswordCell"] autorelease];
-                
-                CGFloat width = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 660 : 285;
-                self.textPassword = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, width, 20)]; 
-                [self.textPassword setSecureTextEntry:YES];
-                [self.textPassword setPlaceholder:@"密码"];
-                [self.textPassword setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-                [self.textPassword setAutocorrectionType:UITextAutocorrectionTypeNo];
-                [self.textPassword setReturnKeyType:UIReturnKeyDone];
-                [self.textPassword addTarget:self action:@selector(textFieldDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
-                
-                cell.accessoryView = self.textPassword;
-            }
-        }
-#endif
+        //创建域Cell
+        identifier = @"DomainCell";
+        cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if(!cell)
+            cell = [self createDomainCell:identifier];
     }
+    else if(indexPath.row == 1)
+    {
+        //创建用户名Cell
+        identifier = @"UsernameCell";
+        cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if(!cell)
+            cell = [self createUsernameCell:identifier];   
+    }
+    else if(indexPath.row == 2)
+    {
+        //创建密码Cell
+        identifier = @"PasswordCell";
+        cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if(!cell)
+            cell = [self createPasswordCell:identifier];  
+    }   
+#else
+    if(indexPath.row == 0)
+    {
+        //创建用户名Cell
+        identifier = @"UsernameCell";
+        cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if(!cell)
+            cell = [self createUsernameCell:identifier];  
+    }
+    else if(indexPath.row == 1)
+    {
+        //创建密码Cell
+        identifier = @"PasswordCell";
+        cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if(!cell)
+            cell = [self createPasswordCell:identifier]; 
+    }
+#endif
     return cell;
 }
-
-- (void)tableViewCell:(DomainLabel *)label didEndEditingWithValue:(NSString *)value
-{
-    label.text = value;
-}
-
-#ifndef CODESHARP_VERSION
-- (void)selectDomain
-{
-    [domainLabel becomeFirstResponder];
-}
-#endif
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 35.0f;
+}
+
+- (UITableViewCell*)createDomainCell:(NSString*)identifier
+{
+    UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier] autorelease];
+    
+    domainLabel = [[DomainLabel alloc] initWithFrame:CGRectMake(0, 0, 210, 30)];
+    domainLabel.text = DEFAULT_DOMAIN;
+    [domainLabel setBackgroundColor:[UIColor clearColor]];
+    domainLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *recoginzer = [[UITapGestureRecognizer alloc] 
+                                          initWithTarget:self 
+                                          action:@selector(selectDomain)];
+    [domainLabel addGestureRecognizer:recoginzer];
+    domainLabel.delegate = self;
+    [recoginzer release];
+    
+    cell.textLabel.text = @"域名";
+    cell.accessoryView = domainLabel;
+    
+    return cell;
+}
+
+- (UITableViewCell*)createUsernameCell:(NSString*)identifier
+{
+    UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"UsernameCell"] autorelease];
+    
+    CGFloat width = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 660 : 285;
+    self.textUsername = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, width, 20)];  
+    
+    [self.textUsername setPlaceholder:@"用户名"]; 
+    [self.textUsername setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+    [self.textUsername setAutocorrectionType:UITextAutocorrectionTypeNo];
+    [self.textUsername setReturnKeyType:UIReturnKeyDone];
+    [self.textUsername addTarget:self action:@selector(textFieldDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    cell.accessoryView = self.textUsername;
+    
+    return cell;
+}
+
+- (UITableViewCell*)createPasswordCell:(NSString*)identifier
+{
+    UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"PasswordCell"] autorelease];
+    
+    CGFloat width = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 660 : 285;
+    self.textPassword = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, width, 20)]; 
+    [self.textPassword setSecureTextEntry:YES];
+    [self.textPassword setPlaceholder:@"密码"];
+    [self.textPassword setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+    [self.textPassword setAutocorrectionType:UITextAutocorrectionTypeNo];
+    [self.textPassword setReturnKeyType:UIReturnKeyDone];
+    [self.textPassword addTarget:self action:@selector(textFieldDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    
+    cell.accessoryView = self.textPassword;
+    return cell;
 }
 
 @end

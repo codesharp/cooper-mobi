@@ -16,6 +16,7 @@
     if(self = [super init])
     {
         [super setContext];
+        tableName = @"ChangeLog";
     }
     return self;
 }
@@ -23,19 +24,27 @@
 - (NSMutableArray*) getAllChangeLog:(NSString*)tasklistId
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"ChangeLog" inManagedObjectContext:context];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
     
     NSError *error = nil;
     
     [fetchRequest setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@)", tasklistId];
+    NSPredicate *predicate;
+    if([[ConstantClass instance] username].length > 0)
+    {
+        predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@ and accountId = %@)", tasklistId, [[ConstantClass instance] username]];
+    }
+    else
+    {
+        predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@ and accountId = nil)", tasklistId];
+    }
     [fetchRequest setPredicate:predicate];
     
     NSMutableArray *changeLogs = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
     if(error != nil)
     {
-        NSLog(@"error: %@", [error description]);
+        NSLog(@"数据库错误异常: %@", [error description]);
     }
     
     [fetchRequest release];
@@ -49,7 +58,7 @@
                   value:(NSString *)value
              tasklistId:(NSString *)tasklistId
 {
-    ChangeLog *changeLog = [ModelHelper create:@"ChangeLog" context:context];
+    ChangeLog *changeLog = [ModelHelper create:tableName context:context];
 
     changeLog.changeType = type;
     changeLog.dataid = dataid;
@@ -57,6 +66,9 @@
     changeLog.value = value;
     changeLog.isSend = [NSNumber numberWithInt:0];
     changeLog.tasklistId = tasklistId;
+    
+    if([[ConstantClass instance] username].length > 0)
+        changeLog.accountId = [[ConstantClass instance] username];
 }
 
 - (void)updateIsSend:(ChangeLog *)changeLog

@@ -7,15 +7,30 @@
 //
 
 #import "BaseViewController.h"
-#import "AccountService.h"
 #import "CustomButton.h"
 #import "DomainLabel.h"
+#import "TaskDao.h"
+#import "TaskIdxDao.h"
+#import "ChangeLogDao.h"
+#import "TasklistDao.h"
 
-@interface AccountViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource,DomainLabelDelegate>
+@interface AccountViewController : BaseViewController<UITableViewDelegate
+    , UITableViewDataSource
+#ifdef __ALI_VERSION__
+    ,DomainLabelDelegate
+#endif
+>
 {
     MBProgressHUD *HUD;
+    AccountRequestType requestType;
     
-    int requestType;
+    //TODO:需要完善
+    int lock_counter;
+    
+    TaskDao *taskDao;
+    TaskIdxDao *taskIdxDao;
+    ChangeLogDao *changeLogDao;
+    TasklistDao *tasklistDao;
 }
 
 @property (retain, nonatomic) UITextField *textUsername;
@@ -23,7 +38,7 @@
 @property (retain, nonatomic) UITableView *loginTableView;
 @property (retain, nonatomic) UIView *accountView;
 @property (retain, nonatomic) CustomButton *btnLogin;
-#ifndef CODESHARP_VERSION
+#ifdef __ALI_VERSION__
 @property (retain, nonatomic) DomainLabel *domainLabel;
 #endif
 

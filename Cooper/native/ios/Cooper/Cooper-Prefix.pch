@@ -2,89 +2,17 @@
 // Prefix header for all source files of the 'Cooper' target in the 'Cooper' project
 //
 
-#import <Availability.h>
 
-#ifndef __IPHONE_4_0
-#warning "This project uses features only available in iOS SDK 4.0 and later."
-#endif
-
-#ifdef __OBJC__
-    #import <UIKit/UIKit.h>
-    #import <Foundation/Foundation.h>
-    #import <CoreData/CoreData.h>
-    #import <QuartzCore/QuartzCore.h>
-    #import <CoreGraphics/CoreGraphics.h>
-#endif
-    
-#ifdef DEBUG
-#   define NSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-#else
-#   define NSLog(...)
-#endif
+#import "Util.h"
 
 #import "Constant.h"
-#import "Tools.h"
-#import "MBProgressHUD.h"
-#import "SysConfig.h"
-#import "NetworkManager.h"
-//#import "RootDao.h"
 
-//HACK:设置当前是否为codesharp版本，1为是，其他值为否
-#define IS_CODESHARP_VERSION 0
+typedef Constant ConstantClass;
 
-#if IS_CODESHARP_VERSION == 1
-    #define CODESHARP_VERSION
-#endif
+//默认登录入口
+#define LOGIN_URL                       @"/account/login"
 
-#define RELEASE(_ptr_) if((_ptr_) != nil) {[_ptr_ release]; _ptr_ = nil;}  
 
-//模拟器/设备名称
-#define MODEL_NAME                      [[UIDevice currentDevice] model]
-#define MODEL_VERSION                   [[[UIDevice currentDevice] systemVersion] floatValue]
 
-//标题栏
-#define APP_TITLE                       @"cooper:task"
-//背景图片（条纹）
-#define APP_BACKGROUNDIMAGE             @"bg-line.png"
-//背景主色调
-#define APP_BACKGROUNDCOLOR             [UIColor colorWithRed:47.0/255 green:157.0/255 blue:216.0/255 alpha:1]
-//导航背景图片
-#define NAVIGATIONBAR_BG_IMAGE          @"navigationbar_bg.png"
-//底部栏背景图片
-#define TABBAR_BG_IMAGE                 @"tabbar_bg.png"
 
-#define PRIORITY_TITLE_1                @"尽快完成"
-#define PRIORITY_TITLE_2                @"稍后完成"
-#define PRIORITY_TITLE_3                @"迟些再说"
-
-#define SYSTEM_REQUEST_TIMEOUT          30.0f
-//TODO:半个小时定时器更新一次
-#define TIMER_INTERVAL                  0.5 * 60 * 60
-//TODO:默认每天早上8点钟推送通知
-#define LOCALPUSH_TIME                  8 * 60 * 60
-
-//本地数据库名称
-#define STORE_DBNAME                    @"TaskModel.sqlite"
-//默认域名
-#define DEFAULT_DOMAIN                  @""
-
-//获取任务列表路径
-#define GETTASKLISTS_URL                @"/Per/GetTasklists"
-//同步任务列表路径
-#define TASKLIST_URL_SYNC               @"/Per/CreateTasklist"
-//优先级获取路径
-#define TASK_URL_GETBYPRIORITY          @"/Per/GetByPriority"
-//同步路径
-#define TASK_URL_SYNC                   @"/Per/Sync"
-#ifndef CODESHARP_VERSION
-    //登录路径
-    #define LOGIN_URL                       @"/account/arklogin"
-#else
-    #define LOGIN_URL                       @"/account/login"
-#endif
-//注销路径
-#define LOGOUT_URL                      @"/account/logout"
-
-#define MAXLENGTH                       8
-#define AES_KEY                         @""
 

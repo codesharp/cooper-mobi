@@ -7,12 +7,13 @@
 //
 
 #import "TaskViewController.h"
-#import "AppDelegate.h"
 #import "SBJsonParser.h"
-#import "TaskDao.h"
-#import "TaskIdxDao.h"
+#import "TaskIdx.h"
 #import "CustomTabBarController.h"
 #import "CustomToolbar.h"
+#import "TaskDetailViewController.h"
+#import "TaskDetailEditViewController.h"
+
 
 @implementation TaskViewController
 
@@ -21,7 +22,7 @@
 @synthesize filterStatus;
 @synthesize currentTasklistId;
 
-#pragma mark - life cycle
+#pragma mark - 页面生命周期
 
 //初始化
 - (id)initWithNibName:(NSString *)nibNameOrNil 
@@ -31,7 +32,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"cooper:task";
+        self.title = APP_TITLE;
+        //底部条
         CustomTabBarItem *tabBarItem = [[CustomTabBarItem alloc] init];
         [tabBarItem setTitle:title];
         [tabBarItem setCustomImage:[UIImage imageNamed:imageName]];
@@ -43,7 +45,12 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    self.tabBarController.title = APP_TITLE;
+    
     CustomToolbar *toolBar = [[[CustomToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 80.0f, 45.0f)] autorelease];
+    
+    //左边导航
+    //编辑按钮
     UIButton *editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [editBtn setFrame:CGRectMake(5, 10, 27, 27)];
     editBtn.contentMode = UIViewContentModeScaleToFill;
@@ -52,11 +59,15 @@
     [editBtn addTarget: self action: @selector(back:) forControlEvents: UIControlEventTouchUpInside];
     [toolBar addSubview:editBtn];
     
-    UIButton *syncBtn = [UIButton buttonWithType:UIButtonTypeCustom]; 
-    [syncBtn setFrame:CGRectMake(45, 10, 27, 27)];
-    [syncBtn setBackgroundImage:[UIImage imageNamed:@"refresh.png"] forState:UIControlStateNormal];
-    [syncBtn addTarget: self action: @selector(syncAction:) forControlEvents: UIControlEventTouchUpInside];
-    [toolBar addSubview:syncBtn];
+    if([[ConstantClass instance] username].length > 0)
+    {
+        //同步按钮
+        UIButton *syncBtn = [UIButton buttonWithType:UIButtonTypeCustom]; 
+        [syncBtn setFrame:CGRectMake(45, 10, 27, 27)];
+        [syncBtn setBackgroundImage:[UIImage imageNamed:REFRESH_IMAGE] forState:UIControlStateNormal];
+        [syncBtn addTarget: self action: @selector(syncAction:) forControlEvents: UIControlEventTouchUpInside];
+        [toolBar addSubview:syncBtn];
+    }
     
     UIBarButtonItem *barButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:toolBar] autorelease]; 
     self.tabBarController.navigationItem.leftBarButtonItem = barButtonItem;
@@ -64,13 +75,12 @@
     //设置右选项卡中的按钮
     UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [addBtn setFrame:CGRectMake(5, 10, 27, 27)];
-    [addBtn setBackgroundImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
+    [addBtn setBackgroundImage:[UIImage imageNamed:EDIT_IMAGE] forState:UIControlStateNormal];
     [addBtn addTarget: self action: @selector(addTask:) forControlEvents: UIControlEventTouchUpInside];
     UIBarButtonItem *addButtonItem = [[UIBarButtonItem alloc] initWithCustomView:addBtn];
     
     self.tabBarController.navigationItem.rightBarButtonItem = addButtonItem; 
-    
-    self.tabBarController.title = APP_TITLE;
+
     self.tableView.backgroundColor = [UIColor whiteColor];
     
 //    NSThread* myThread = [[NSThread alloc] initWithTarget:self
@@ -79,74 +89,57 @@
 //    [myThread start];
 //    [myThread release];
     
-    //[self loadTaskData];
+    [self loadTaskData];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    //[self.tableView setEditing:YES animated:YES];
-    // self.clearsSelectionOnViewWillAppear = NO;
-    //[self createOrderSegmentedControl];
-    
     //去掉底部空白
-    UIView *footer =
-    [[UIView alloc] initWithFrame:CGRectZero];
-    self.tableView.tableFooterView = footer;
-    [footer release];
+    [Tools clearFootBlank:self.tableView];
     
     taskDao = [[TaskDao alloc] init];
     taskIdxDao = [[TaskIdxDao alloc] init];
     changeLogDao = [[ChangeLogDao alloc] init];
        
-    //if(filterStatus == nil)
-    //{
-#ifndef CODESHARP_VERSION
-        if([[[Constant instance] username] length] == 0 || [[[Constant instance] domain] length] == 0)
-#else
-        if([[[Constant instance] username] length] == 0)       
-#endif
-        {
-            [Tools alert:@"请先设置帐号才可以同步"];
-        }
-        else
-        {
-            [self addHUD:@"加载中"];
-            
-            NSLog(@"开始同步任务数据");
-            requestType = 0;
-            [TaskService syncTask:currentTasklistId delegate:self];
-        }
-    //}
-    
+
+    if([[ConstantClass instance] username].length > 0)       
+        [self syncAction:nil];
 }
+
+- (void)dealloc
+{
+    [taskDao release];
+    [taskIdxDao release];
+    [changeLogDao release];
+    [taskGroup release];
+    [taskIdxGroup release];
+    
+    [super dealloc];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - 动作相关事件
 
 - (void)back:(id)sender
 {
-    CATransition* transition = [CATransition animation];
-    transition.duration = 0.3;
-    transition.type = kCATransitionPush;
-    transition.subtype = kCATransitionFromLeft;
-    [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-    
+    [Tools layerTransition:self.navigationController.view from:@"left"];   
     [self.tabBarController.navigationController popViewControllerAnimated:NO];
 }
 
 - (void)syncAction:(id)sender
 {
     NSLog(@"开始同步任务数据");
-#ifndef CODESHARP_VERSION
-    if([[[Constant instance] username] length] == 0 || [[[Constant instance] domain] length] == 0)
-#else
-        if([[[Constant instance] username] length] == 0)       
-#endif
+    
+    if([[ConstantClass instance] username].length > 0)       
     {
-        [Tools alert:@"请先设置帐号才可以同步"];
-    }
-    else {
-        [self addHUD:@"加载中"];
-        requestType = 0;
+        [self addHUD:LOADING_TITLE];
+        requestType = SyncTaskValue;
         [TaskService syncTask:currentTasklistId delegate:self];
     }
 }
@@ -162,7 +155,7 @@
 
     if([request responseStatusCode] == 200)
     {
-        if(requestType == 0)
+        if(requestType == SyncTaskValue)
         {
             NSMutableArray *array = [[request responseString] JSONValue];
             
@@ -173,10 +166,10 @@
                     NSString * oldId = (NSString*)[dict objectForKey:@"OldId"];
                     NSString * newId = (NSString*)[dict objectForKey:@"NewId"];
                     
-                    NSLog(@"OldId:%@, NewId:%@", oldId, newId);
+                    NSLog(@"任务旧值ID: %@ 变为新值ID:%@", oldId, newId);
                     
                     [taskDao updateTaskIdByNewId:oldId newId:newId tasklistId:currentTasklistId];
-                     [taskIdxDao updateTaskIdxByNewId:oldId newId:newId tasklistId:currentTasklistId];
+                    [taskIdxDao updateTaskIdxByNewId:oldId newId:newId tasklistId:currentTasklistId];
                 }
             }
             
@@ -184,10 +177,10 @@
             [changeLogDao updateAllToSend:currentTasklistId];
             [changeLogDao commitData];
             
-            requestType = 1;
+            requestType = GetTasksValue;
             [TaskService getTasks:currentTasklistId delegate:self];
         }
-        else if(requestType == 1) {
+        else if(requestType == GetTasksValue) {
             [self HUDCompleted];
             
             NSLog(@"getByPriority请求任务响应数据: %@, %d", [request responseString], [request responseStatusCode]);
@@ -221,6 +214,8 @@
                         NSString *status = [NSNumber numberWithInteger:[isCompleted integerValue]];    
                         NSString *priority = [NSString stringWithFormat:@"%@", [taskDict objectForKey:@"Priority"]];
                         
+                        NSString *editable = (NSString*)[taskDict objectForKey:@"Editable"];
+                        
                         NSString *dueTime = (NSString*)[taskDict objectForKey:@"DueTime"];
                         NSDate *due = nil;
                         if(dueTime != [NSNull null])
@@ -229,7 +224,16 @@
                         }
                         
                         NSLog(@"%@,%@,%@,%@,%@,%@,%@,", taskId, subject, body, isCompleted, status, priority, dueTime);
-                        [taskDao addTask:subject createDate:[NSDate date] lastUpdateDate:[NSDate date] body:body isPublic:[NSNumber numberWithInt:1] status:[NSNumber numberWithInt:[isCompleted integerValue]] priority:priority taskid:taskId dueDate:due
+                        [taskDao addTask:subject 
+                              createDate:[NSDate date] 
+                          lastUpdateDate:[NSDate date] 
+                                    body:body 
+                                isPublic:[NSNumber numberWithInt:1] 
+                                  status:[NSNumber numberWithInt:[isCompleted integerValue]] 
+                                priority:priority 
+                                  taskid:taskId 
+                                 dueDate:due
+                                editable:[NSNumber numberWithInt:[editable integerValue]]
                               tasklistId:currentTasklistId
                                 isCommit:NO];
                     }
@@ -263,22 +267,6 @@
 {
     NSLog(@"request error %@",request.error);
     [self HUDCompleted];
-}
-
-- (void)dealloc
-{
-    [taskDao release];
-    [taskIdxDao release];
-    [changeLogDao release];
-    [taskGroup release];
-    [taskIdxGroup release];
-
-    [super dealloc];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 #pragma mark - Table view 数据源
@@ -584,41 +572,41 @@
 
 - (void)loadTaskData
 {
-    NSLog(@"开始初始化任务数据");
-    
-    self.taskIdxGroup = [NSMutableArray array];
-    self.taskGroup = [NSMutableArray array];
-    
-    NSMutableArray *taskIdxs = [taskIdxDao getAllTaskIdx:currentTasklistId];
-    
-    SBJsonParser *parser = [[SBJsonParser alloc] init];
-    
-    for(TaskIdx *taskIdx in taskIdxs)
-    {
-        NSMutableArray *task_array = [NSMutableArray array];
+        NSLog(@"开始初始化任务数据");
         
-        [self.taskIdxGroup addObject:taskIdx];
- 
-        NSMutableArray *taskIdsDict = [parser objectWithString:taskIdx.indexes];
+        self.taskIdxGroup = [NSMutableArray array];
+        self.taskGroup = [NSMutableArray array];
+        
+        NSMutableArray *taskIdxs = [taskIdxDao getAllTaskIdx:currentTasklistId];
+        
+        SBJsonParser *parser = [[SBJsonParser alloc] init];
+        
+        for(TaskIdx *taskIdx in taskIdxs)
+        {
+            NSMutableArray *task_array = [NSMutableArray array];
+            
+            [self.taskIdxGroup addObject:taskIdx];
+     
+            NSMutableArray *taskIdsDict = [parser objectWithString:taskIdx.indexes];
 
-        for(NSString *taskId in taskIdsDict)
-        { 
-            Task *task = [taskDao getTaskById:taskId];
+            for(NSString *taskId in taskIdsDict)
+            { 
+                Task *task = [taskDao getTaskById:taskId];
 
-            if(filterStatus && [filterStatus isEqualToString: [Tools NSNumberToString:task.status]])
-            {          
-                [task_array addObject:task];
-            }    
-            if(filterStatus == nil)
-                [task_array addObject:task];
+                if(filterStatus && [filterStatus isEqualToString: [Tools NSNumberToString:task.status]])
+                {          
+                    [task_array addObject:task];
+                }    
+                if(filterStatus == nil)
+                    [task_array addObject:task];
+            }
+            
+            [taskGroup addObject:task_array];
         }
         
-        [taskGroup addObject:task_array];
-    }
-    
-    [parser release];
-    
-    [self.tableView reloadData];
+        [parser release];
+        
+        [self.tableView reloadData];
 }
 
 #pragma mark - 私有方法 

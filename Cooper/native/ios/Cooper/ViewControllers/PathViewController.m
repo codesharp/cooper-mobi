@@ -107,7 +107,7 @@
             }
             
             UITextField *currentTextField = [cell accessoryView];
-            currentTextField.text = [[Constant instance] path];
+            currentTextField.text = [[ConstantClass instance] rootPath];
         }
     }
     
@@ -178,9 +178,9 @@
         [Tools alert:@"请填写同步路径"];
         return;
     }
-    [[Constant instance] setPath:textPath.text];
+    [[ConstantClass instance] setRootPath:textPath.text];
     
-    [Constant savePathToCache];
+    [ConstantClass savePathToCache];
     
     [Tools alert:@"保存成功"];
     

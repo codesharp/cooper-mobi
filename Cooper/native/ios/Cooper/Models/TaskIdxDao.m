@@ -19,19 +19,27 @@
     if(self = [super init])
     {
         [super setContext];
+        tableName = @"TaskIdx";
     }
     return self;
 }
 
 - (NSMutableArray*)getAllTaskIdx:(NSString*)tasklistId
 {
-    NSLog(@"context retaincount: %d", [context retainCount]);
-    
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskIdx" inManagedObjectContext:context];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@)", tasklistId];
+    NSPredicate *predicate;
+    
+    if([[ConstantClass instance] username].length > 0)
+    {
+        predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@ and accountId = %@)", tasklistId, [[ConstantClass instance] username]];
+    }
+    else
+    {
+        predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@ and accountId = nil)",tasklistId];
+    }
     [fetchRequest setPredicate:predicate];
     
     NSSortDescriptor *sortDescriptor =  [[NSSortDescriptor alloc] initWithKey:@"key" ascending:YES];
@@ -48,12 +56,18 @@
 
 - (TaskIdx*)getTaskIdxByKey:(NSString*)key tasklistId:(NSString *)tasklistId
 {
-    NSLog(@"context retaincount: %d", [context retainCount]);
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskIdx" inManagedObjectContext:context];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(key = %@ and tasklistId = %@)", key, tasklistId];
+    NSPredicate *predicate;
+    if([[ConstantClass instance] username].length > 0)
+    {
+        predicate = [NSPredicate predicateWithFormat:@"(key = %@ and tasklistId = %@ and accountId = %@)", key, tasklistId, [[ConstantClass instance] username]];
+    }
+    else {
+        predicate = [NSPredicate predicateWithFormat:@"(key = %@ and tasklistId = %@ and accountId = nil)", key, tasklistId];
+    }
     [fetchRequest setPredicate:predicate];
 
     TaskIdx *idxs = nil;
@@ -62,12 +76,9 @@
     NSMutableArray *taskIdxs = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
     
     if (taskIdxs.count == 0) {
-        NSLog(@"taskidx not exists.");
-        idxs = [ModelHelper create:@"TaskIdx" context:context];
+        idxs = [ModelHelper create:tableName context:context];
     }
     else {
-        NSLog(@"taskidx already record. %d", taskIdxs.count);
-        NSLog(@"item:%@", [[taskIdxs objectAtIndex:0] class]);
         idxs = [taskIdxs objectAtIndex:0];
     }
     
@@ -81,12 +92,19 @@
            tasklistId:(NSString*)tasklistId
              isCommit:(BOOL)isCommit
 {
-    NSLog(@"context retaincount: %d", [context retainCount]);
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskIdx" inManagedObjectContext:context];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@)", tasklistId];
+    NSPredicate *predicate;
+    if([[ConstantClass instance] username].length > 0)
+    {
+        predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@ and accountId = %@)", tasklistId, [[ConstantClass instance] username]];
+    }
+    else 
+    {
+        predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@ and accountId = nil)", tasklistId];
+    }
     [fetchRequest setPredicate:predicate];
     
     NSError *error = nil; 
@@ -104,7 +122,6 @@
             isChanged = YES;
         }
         
-        NSLog(@"taskIdx.key %@, key %@",taskIdx.key, key);
         if([taskIdx.key isEqualToString:key])
         {
             
@@ -128,12 +145,19 @@
         tasklistId:(NSString*)tasklistId
           isCommit:(BOOL)isCommit
 {
-    NSLog(@"context retaincount: %d", [context retainCount]);
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskIdx" inManagedObjectContext:context];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(key = %@ and tasklistId = %@)", key, tasklistId];
+    
+    NSPredicate *predicate;
+    if([[ConstantClass instance] username].length > 0)
+    {
+        predicate = [NSPredicate predicateWithFormat:@"(key = %@ and tasklistId = %@ and accountId = %@)", key, tasklistId,[[ConstantClass instance] username]];
+    }
+    else {
+        predicate = [NSPredicate predicateWithFormat:@"(key = %@ and tasklistId = %@ and accountId = nil)", key, tasklistId];
+    }
     [fetchRequest setPredicate:predicate];
     
     SBJsonParser *parser = [[SBJsonParser alloc] init];
@@ -150,7 +174,6 @@
         taskIdx.by = @"priority";
         taskIdx.key = key;
         taskIdx.name = [key isEqualToString:@"0"] ? (PRIORITY_TITLE_1) : ([key isEqualToString:@"1"] ?PRIORITY_TITLE_2 : PRIORITY_TITLE_3);
-        NSLog(@"taskIdx.name:%@", taskIdx.name);
         indexesArray = [NSMutableArray array];
     }
     else 
@@ -160,11 +183,9 @@
             indexesArray = [NSMutableArray array];
         else
             indexesArray = [parser objectWithString: taskIdx.indexes];  
-        NSLog(@"has taskIdx Index: %@", taskIdx.key);
     }
     [indexesArray addObject:tid];
     taskIdx.indexes = [writer stringWithObject:indexesArray];
-    NSLog(@"indexes:", taskIdx.indexes);
 
     if(isCommit)
         [super commitData];
@@ -180,23 +201,32 @@
            indexes:(NSString *)indexes
         tasklistId:(NSString *)tasklistId
 {
-    TaskIdx *taskIdx = [ModelHelper create:@"TaskIdx" context:context];
+    TaskIdx *taskIdx = [ModelHelper create:tableName context:context];
     taskIdx.key = key;
     taskIdx.by = by;
     taskIdx.name = name;
     taskIdx.indexes = indexes;
     taskIdx.tasklistId = tasklistId;
+    if([[ConstantClass instance] username].length > 0)
+        taskIdx.accountId = [[ConstantClass instance] username];
 }
 
 - (void)deleteTaskIndexsByTaskId:(NSString *)taskId 
                       tasklistId:(NSString *)tasklistId
 {
-    NSLog(@"context retaincount: %d", [context retainCount]);
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskIdx" inManagedObjectContext:context];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@)", tasklistId];
+    NSPredicate *predicate;
+    if([[ConstantClass instance] username].length > 0)
+    {
+        predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@ and accountId = %@)", tasklistId, [[ConstantClass instance] username]];
+    }
+    else 
+    {
+        predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@ and accountId = nil)", tasklistId];
+    }
     [fetchRequest setPredicate:predicate];
     
     NSError *error = nil; 
@@ -207,8 +237,6 @@
     for(TaskIdx *taskIdx in taskIdxs)
     {
         BOOL isChanged = NO;
-        //if(!taskIdx.indexes)
-        //    taskIdx.indexes = [NSMutableArray array];
         NSMutableArray *indexesArray = [parser objectWithString: taskIdx.indexes];
         if([indexesArray containsObject:taskId])
         {
@@ -227,12 +255,19 @@
 
 - (void)deleteAllTaskIdx:(NSString*)tasklistId
 {
-    NSLog(@"context retaincount: %d", [context retainCount]);
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskIdx" inManagedObjectContext:context];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@)", tasklistId];
+    NSPredicate *predicate;
+    if([[ConstantClass instance] username].length > 0)
+    {
+        predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@ and accountId = %@)", tasklistId, [[ConstantClass instance] username]];
+    }
+    else 
+    {
+        predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@ and accountId = nil)", tasklistId];
+    }
     [fetchRequest setPredicate:predicate];
     
     NSError *error = nil; 

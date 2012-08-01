@@ -21,7 +21,7 @@
 
 + (void)getTasks:(NSString*)tasklistId delegate:(id)delegate 
 {
-    NSString *url = [[[Constant instance] path] stringByAppendingFormat:TASK_URL_GETBYPRIORITY];
+    NSString *url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:TASK_URL_GETBYPRIORITY];
     NSLog(@"获取按优先级任务数据URL:%@", url);
     
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
@@ -86,7 +86,7 @@
     [data setObject:taskIdxsJson forKey:@"sorts"];
     
     
-    NSString *url = [[[Constant instance] path] stringByAppendingFormat:TASK_URL_SYNC];
+    NSString *url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:TASK_URL_SYNC];
     NSLog(@"同步数据路径:%@", url);
     [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:nil addHeaders:nil];
 }

@@ -62,7 +62,7 @@
     
     UIButton *editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [editBtn setFrame:CGRectMake(0, 10, 27, 27)];
-    [editBtn setBackgroundImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
+    [editBtn setBackgroundImage:[UIImage imageNamed:EDIT_IMAGE] forState:UIControlStateNormal];
     [editBtn addTarget: self action: @selector(editTask:) forControlEvents: UIControlEventTouchUpInside];
     UIBarButtonItem *editButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:editBtn] autorelease];
     self.navigationItem.rightBarButtonItem = editButtonItem;
@@ -73,8 +73,7 @@
     //tempTableView.scrollEnabled = NO;
     tempTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [tempTableView setBackgroundColor:[UIColor whiteColor]];
-    tempTableView.scrollEnabled = NO;
-    
+    // tempTableView.scrollEnabled = NO;
     
     
 //    UIScrollView *tempScrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
@@ -167,6 +166,12 @@
     
     [self.navigationController presentModalViewController:navigationController animated:YES];
 }
+
+- (void)loadTaskData
+{
+    [delegate loadTaskData];
+}
+
 
 - (void)viewDidLoad
 {
@@ -359,7 +364,7 @@
             [bodyLabel setFrame:CGRectMake(20, totalLabelHeight + 10, 280, bodyLabelHeight)];
             [bodyLabel setNumberOfLines:bodylines];
             
-            totalLabelHeight += bodyLabelHeight + 300;
+            totalLabelHeight += bodyLabelHeight + 1000;
             
             [cell setFrame:CGRectMake(0, 0, 320, totalLabelHeight)];
         }
@@ -478,11 +483,6 @@
     
     [delegate loadTaskData];
 }
-
-//- (void)tableViewCell:(SimplePickerInputTableViewCell *)cell didEndEditingWithValue:(NSString *)value {
-//	NSLog(@"%@ changed to: %@", cell.textLabel.text, value);
-//    cell.detailTextLabel.text = value;
-//}
 
 - (NSString*)getPriorityKey:(NSString*)priorityValue
 {
