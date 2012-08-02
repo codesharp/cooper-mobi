@@ -6,7 +6,7 @@
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
-@interface CustomButton : UIButton
+@interface CustomButton : UIButton 
 
 - (id)initWithFrame:(CGRect)frame image:(UIImage*)image;
 
