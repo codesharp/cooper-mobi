@@ -93,6 +93,10 @@
 
 - (void)setCompletedAction:(id)sender
 {
+    if(task.editable == [NSNumber numberWithInt:0])
+    {
+        return;
+    }
     if([[task.status stringValue] isEqualToString:@"1"])
     {
         UIButton *button = statusButton;
@@ -150,7 +154,12 @@
     CGFloat bodyLabelHeight = bodyLabelSize.height;
     
     int bodylines = bodyLabelHeight / 16;
-    [bodyLabel setFrame:CGRectMake(50, PADDING + subjectLabelHeight, CONTENT_WIDTH, bodyLabelHeight)];
+    
+    if(bodylines > 3)
+    {
+        bodylines = 3;
+    }
+    [bodyLabel setFrame:CGRectMake(50, PADDING + subjectLabelHeight, CONTENT_WIDTH, bodylines * 16)];
     [bodyLabel setNumberOfLines:bodylines];
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -163,10 +172,10 @@
     
     CGFloat totalHeight;
     
-    if(subjectLabelHeight == 0 && bodyLabelHeight == 0)
+    if(subjectLabelHeight == 0 && bodylines * 16 == 0)
         totalHeight = 50;
     else
-        totalHeight = subjectLabelHeight + bodyLabelHeight + PADDING * 2;
+        totalHeight = subjectLabelHeight + bodylines * 16 + PADDING * 2;
     
     if(totalHeight < 50)
         totalHeight = 50;

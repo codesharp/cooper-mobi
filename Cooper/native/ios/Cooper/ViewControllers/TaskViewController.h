@@ -13,6 +13,7 @@
 #import "TaskDao.h"
 #import "TaskIdxDao.h"
 #import "ChangeLogDao.h"
+#import "TasklistDao.h"
 
 @interface TaskViewController : BaseTableViewController<UISearchDisplayDelegate
     , UISearchBarDelegate
@@ -26,12 +27,17 @@
     TaskDao *taskDao;
     TaskIdxDao *taskIdxDao;
     ChangeLogDao *changeLogDao;
+    TasklistDao *tasklistDao;
     
     TaskRequestType requestType;
+    UIView *emptyView;
+    UIButton *editBtn;
+    
 }
 @property (nonatomic,retain) NSString* currentTasklistId;
 @property (nonatomic, retain) NSMutableArray *taskIdxGroup;
 @property (nonatomic, retain) NSMutableArray *taskGroup;
+@property (nonatomic, retain) UIButton *addBtn;
 
 @property (nonatomic, retain) NSString *filterStatus;
 

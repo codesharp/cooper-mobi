@@ -54,6 +54,63 @@
     return self;
 }
 
+- (void)loadView
+{
+    CGRect tableViewRect = CGRectMake(0, 0, 320, 3800);
+    UITableView* tempTableView = [[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStylePlain];
+    //[tempTableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLineEtched];
+    //tempTableView.scrollEnabled = NO;
+    //tempTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [tempTableView setBackgroundColor:[UIColor whiteColor]];
+    // tempTableView.scrollEnabled = NO;
+    
+    
+    //    UIScrollView *tempScrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    //    tempScrollView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+    //    tempScrollView.backgroundColor = [UIColor blueColor];
+    //    scrollView = tempScrollView;
+    //    
+    //    [self.view addSubview:tempScrollView];
+    //    
+    //    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 150, 100)];
+    //    label.text = @"test";
+    //    
+    //    scrollView.scrollEnabled = YES;
+    //    scrollView.showsVerticalScrollIndicator = YES;
+    //    NSLog(@"height:%d",self.view.bounds.size.height);
+    //    scrollView.contentSize = self.view.bounds.size;
+    //    
+    //    [scrollView addSubview:label];
+    
+    
+    //去掉底部空白
+    //    UIView *footer =
+    //    [[UIView alloc] initWithFrame:CGRectZero];
+    //    tempTableView.tableFooterView = footer;
+    //    [footer release];
+    
+    detailView = tempTableView;
+    
+    [detailView setAllowsSelection:NO];
+    
+    self.view = detailView;
+    //[self.view addSubview: detailView];
+    detailView.delegate = self;
+    detailView.dataSource = self;
+    
+    //    UIView *tabbar = [[UIView alloc] initWithFrame:CGRectMake(0, 376, 320, 40)];
+    //    [tabbar setBackgroundColor:APP_BACKGROUNDCOLOR];
+    //    commentTextField = [[[CommentTextField alloc] init] autorelease];
+    //    [commentTextField setFrame:CGRectMake(5, 5, 310, 30)];
+    //    [commentTextField setBackgroundColor:[UIColor whiteColor]];
+    //    [commentTextField setPlaceholder:@"发表评论"];
+    //    [commentTextField setFont:[UIFont systemFontOfSize:14]];
+    //    [commentTextField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+    //    commentTextField.delegate = self;
+    //    [tabbar addSubview:commentTextField];
+    //    [self.view addSubview:tabbar];
+}
+
 - (void)initContentView
 {
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -70,58 +127,15 @@
     UIBarButtonItem *editButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:editBtn] autorelease];
     self.navigationItem.rightBarButtonItem = editButtonItem;
     
-    CGRect tableViewRect = CGRectMake(0, 0, 320, 380);
-    UITableView* tempTableView = [[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStylePlain];
-    //[tempTableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLineEtched];
-    //tempTableView.scrollEnabled = NO;
-    tempTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [tempTableView setBackgroundColor:[UIColor whiteColor]];
-    // tempTableView.scrollEnabled = NO;
+    if(task.editable == [NSNumber numberWithInt:0])
+    {
+        editBtn.hidden = YES;
+    }
+    else {
+        editBtn.hidden = NO;
+    }
     
     
-//    UIScrollView *tempScrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-//    tempScrollView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-//    tempScrollView.backgroundColor = [UIColor blueColor];
-//    scrollView = tempScrollView;
-//    
-//    [self.view addSubview:tempScrollView];
-//    
-//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 150, 100)];
-//    label.text = @"test";
-//    
-//    scrollView.scrollEnabled = YES;
-//    scrollView.showsVerticalScrollIndicator = YES;
-//    NSLog(@"height:%d",self.view.bounds.size.height);
-//    scrollView.contentSize = self.view.bounds.size;
-//    
-//    [scrollView addSubview:label];
-    
-
-    //去掉底部空白
-    UIView *footer =
-    [[UIView alloc] initWithFrame:CGRectZero];
-    tempTableView.tableFooterView = footer;
-    [footer release];
-    
-    detailView = tempTableView;
-    
-    [detailView setAllowsSelection:NO];
-    
-    [self.view addSubview: detailView];
-    detailView.delegate = self;
-    detailView.dataSource = self;
-
-//    UIView *tabbar = [[UIView alloc] initWithFrame:CGRectMake(0, 376, 320, 40)];
-//    [tabbar setBackgroundColor:APP_BACKGROUNDCOLOR];
-//    commentTextField = [[[CommentTextField alloc] init] autorelease];
-//    [commentTextField setFrame:CGRectMake(5, 5, 310, 30)];
-//    [commentTextField setBackgroundColor:[UIColor whiteColor]];
-//    [commentTextField setPlaceholder:@"发表评论"];
-//    [commentTextField setFont:[UIFont systemFontOfSize:14]];
-//    [commentTextField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-//    commentTextField.delegate = self;
-//    [tabbar addSubview:commentTextField];
-//    [self.view addSubview:tabbar];
 }
 
 - (void)goBack:(id)sender
@@ -136,6 +150,8 @@
     
     [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
     [self.navigationController popViewControllerAnimated:NO];
+    
+    
 }
 
 - (void) sendComment:(NSString *)value
@@ -206,7 +222,7 @@
 //获取在制定的分区编号下的纪录数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return 3;
 }
 //填充单元格
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -258,10 +274,13 @@
                 dueDateLabel = [[DateLabel alloc] initWithFrame:CGRectZero];
                 dueDateLabel.userInteractionEnabled = YES;
 
-                UITapGestureRecognizer *recog = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectDueDate)];
-                [self.dueDateLabel addGestureRecognizer:recog];
-                self.dueDateLabel.delegate = self;
-                [recog release];
+                if(task.editable != [NSNumber numberWithInt:0])
+                {
+                    UITapGestureRecognizer *recog = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectDueDate)];
+                    [self.dueDateLabel addGestureRecognizer:recog];
+                    self.dueDateLabel.delegate = self;
+                    [recog release];
+                }
             }
             if(self.task != nil)
             {   
@@ -289,10 +308,13 @@
                 priorityButton = [[PriorityButton alloc] initWithFrame:CGRectZero];
                 priorityButton.userInteractionEnabled = YES;
                 
-                UITapGestureRecognizer *recog = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectPriority)];
-                [priorityButton addGestureRecognizer:recog];
-                priorityButton.delegate = self;
-                [recog release];
+                if(task.editable != [NSNumber numberWithInt:0])
+                {
+                    UITapGestureRecognizer *recog = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectPriority)];
+                    [priorityButton addGestureRecognizer:recog];
+                    priorityButton.delegate = self;
+                    [recog release];
+                }
                 
                 [priorityButton setTitle:[NSString stringWithFormat:@"%@    >",PRIORITY_TITLE_1] forState:UIControlStateNormal];
             }
@@ -444,6 +466,9 @@
 
 - (void)switchStatus
 {
+    if(task.editable == [NSNumber numberWithInt:0])
+        return;
+    
     bool isfinish;
     if([statusButton.titleLabel.text isEqualToString:@"未完成    >"])
     {
@@ -477,6 +502,67 @@
     [statusButton setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
     
     [delegate loadTaskData];
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if(footerView == nil) {
+        //allocate the view if it doesn't exist yet
+        footerView  = [[UIView alloc] init];
+        [footerView setFrame:CGRectMake(0, 1000, 320, 300)];
+        
+        
+        self.subjectLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        subjectLabel.userInteractionEnabled = YES;
+        [subjectLabel setLineBreakMode:UILineBreakModeWordWrap];
+        [subjectLabel setFont:[UIFont boldSystemFontOfSize:16]];
+        [footerView addSubview:subjectLabel];     
+        
+        self.bodyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        bodyLabel.userInteractionEnabled = YES;
+        [bodyLabel setTextColor:[UIColor grayColor]];
+        [bodyLabel setFont:[UIFont systemFontOfSize:14]];
+        [subjectLabel setLineBreakMode:UILineBreakModeWordWrap];
+        [footerView addSubview:bodyLabel];
+
+        if(task.subject != nil)
+        {
+            subjectLabel.text = task.subject;
+        } 
+        if(task.body != nil)
+        {
+            bodyLabel.text = task.body;
+        }
+        
+        CGSize subjectLabelSize = [subjectLabel.text sizeWithFont:subjectLabel.font 
+                                                constrainedToSize:CGSizeMake(280, 10000) 
+                                                    lineBreakMode:UILineBreakModeWordWrap];
+        
+        CGFloat subjectLabelHeight = subjectLabelSize.height;
+        
+        int subjectlines = subjectLabelHeight / 16;
+        int totalLabelHeight = subjectLabelHeight + 20;
+        [subjectLabel setFrame:CGRectMake(20, 5, 280, totalLabelHeight)];
+        [subjectLabel setNumberOfLines:subjectlines];
+        
+        
+        CGSize bodyLabelSize = [bodyLabel.text sizeWithFont:bodyLabel.font 
+                                          constrainedToSize:CGSizeMake(320, 10000) 
+                                              lineBreakMode:UILineBreakModeWordWrap];
+        
+        CGFloat bodyLabelHeight = bodyLabelSize.height;
+        
+        int bodylines = bodyLabelHeight / 16;
+        [bodyLabel setFrame:CGRectMake(20, totalLabelHeight + 10, 280, bodyLabelHeight)];
+        [bodyLabel setNumberOfLines:bodylines];
+        
+        totalLabelHeight += bodyLabelHeight;
+    
+        
+        [detailView setFrame:CGRectMake(0, 0, 320, 2000)];
+        
+    }
+    return footerView; 
 }
 
 - (NSString*)getPriorityKey:(NSString*)priorityValue

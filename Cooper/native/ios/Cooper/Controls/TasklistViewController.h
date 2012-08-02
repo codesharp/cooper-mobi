@@ -25,9 +25,12 @@
     InputPickerButton *editBtn;
     UIButton *syncBtn;
     TasklistDao *tasklistDao;
+    
+    NSString* tempTasklistId;
 }
 
 @property (nonatomic, retain) NSMutableArray *tasklists;
 @property (nonatomic, retain) UITableView *tasklistTableView; 
+//@property (nonatomic, retain) NSString* tempTasklistId;
 
 @end

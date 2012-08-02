@@ -88,9 +88,14 @@
 //本地数据库名称
 #define STORE_DBNAME                    @"TaskModel.sqlite"
 
+//当前网络提示
+#define NOT_NETWORK_MESSAGE             @"当前网络不可用"
+
 //任务列表请求类型
 typedef enum {
-    GetTasklistsValue
+    FirstGetTasklistsValue,
+    GetTasklistsValue,
+    CreateTasklistValue
 } TasklistRequestType;
 
 //任务请求类型

@@ -18,6 +18,8 @@
 @property (nonatomic,retain) NSString *rootPath;
 @property (nonatomic,retain) NSMutableArray *recentlyIds;
 @property (nonatomic,assign) bool isLocalPush;
+@property (nonatomic,retain) NSString* tempCreateTasklistId;
+@property (nonatomic,retain) NSString* tempCreateTasklistName;
 
 + (id)instance;
 

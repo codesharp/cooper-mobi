@@ -33,7 +33,7 @@
     
     if([[ConstantClass instance] username].length > 0)
     {
-        predicate = [NSPredicate predicateWithFormat:@"(tasklistId = %@ and accountId = %@)", tasklistId, [[ConstantClass instance] username]];
+        predicate = [NSPredicate predicateWithFormat:@"((tasklistId = %@) and (accountId = %@))", tasklistId, [[ConstantClass instance] username]];
     }
     else
     {
@@ -185,6 +185,7 @@
     }
     [indexesArray addObject:tid];
     taskIdx.indexes = [writer stringWithObject:indexesArray];
+    taskIdx.tasklistId = tasklistId;
 
     if(isCommit)
         [super commitData];

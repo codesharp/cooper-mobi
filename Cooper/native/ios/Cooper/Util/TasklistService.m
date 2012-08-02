@@ -20,9 +20,9 @@
     [data setObject:name forKey:@"name"];
     [data setObject:type forKey:@"type"];
     
-    NSString *result = [NetworkManager doSynchronousPostRequest:url data:data];
-    //[NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:nil addHeaders:nil];
-    return result;
+    //NSString *result = [NetworkManager doSynchronousPostRequest:url data:data];
+    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:nil addHeaders:nil];
+    return @"";
 }
 
 + (void)getTasklists:(id)delegate

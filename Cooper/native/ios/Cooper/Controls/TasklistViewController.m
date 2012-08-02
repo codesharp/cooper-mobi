@@ -11,11 +11,13 @@
 #import "SettingViewController.h"
 #import "BaseNavigationController.h"
 #import "TaskViewController.h"
+#import <Foundation/NSCoder.h>
 
 @implementation TasklistViewController
 
 @synthesize tasklists;
 @synthesize tasklistTableView;
+//@synthesize tempTasklistId;
 
 # pragma mark - UI相关
 
@@ -87,8 +89,8 @@
     //登录用户进行同步
     if([[ConstantClass instance] username].length > 0)
     {
-        HUD = [Tools process:@"加载中" view:self.view];
-        requestType = GetTasklistsValue;
+        HUD = [Tools process:LOADING_TITLE view:self.view];
+        requestType = FirstGetTasklistsValue;
         [TasklistService getTasklists:self];
     }
 }
@@ -207,31 +209,19 @@
 - (void)send:(NSString *)value
 {
     NSString *guid = [Tools stringWithUUID];
-    NSString *tempTasklistId = [NSString stringWithFormat:@"temp_%@", guid];
+    tempTasklistId = [NSString stringWithFormat:@"temp_%@", guid];
+    
+    //TODO:临时方式
+    //[[ConstantClass instance] setTempCreateTasklistId:[NSString stringWithFormat:@"temp_%@", guid]];
+    //[[ConstantClass instance] setTempCreateTasklistName:value];
     
     HUD = [Tools process:LOADING_TITLE view:self.view];
     
     //TODO:同步请求创建任务列表
-    NSString* responseString = [TasklistService syncTasklist:value :@"personal" :self];
+    requestType = CreateTasklistValue;
     
-    if(responseString != nil)
-    {
-        NSLog(@"服务端处理CreateTaskList完毕，返回ID:%@", responseString);
-        
-        [tasklistDao addTasklist:tempTasklistId :value :@"per"];
-        
-        NSString* newId = responseString;
-        [tasklistDao adjustId:tempTasklistId withNewId:newId];
-        
-        [tasklistDao commitData];
-        
-        [self loadTasklistData];
-    }
-    else 
-    {
-        [Tools alert:@"无法同步到服务端，请检查网络"];
-    }
-    
+    [TasklistService syncTasklist:value :@"personal" :self];
+
     [Tools close:HUD];
 }
 
@@ -239,7 +229,7 @@
 {
     NSLog(@"请求响应数据: %@, %d",[request responseString], [request responseStatusCode]);
     
-    if(requestType == GetTasklistsValue)
+    if(requestType == FirstGetTasklistsValue || requestType == GetTasklistsValue)
     {
         if([request responseStatusCode] == 200)
         {
@@ -270,12 +260,34 @@
             [Tools failed:HUD];
         }
     }
+    else if(requestType == CreateTasklistValue)
+    {
+        [Tools close:HUD];
+        
+        //TODO:...
+        //NSString* tempTasklistId = [[ConstantClass instance] tempCreateTasklistId];
+        //NSString* tempTasklistName = [[ConstantClass instance] tempCreateTasklistName];
+        
+        [tasklistDao addTasklist:tempTasklistId :@"value" :@"per"];
+
+        NSString* newId = [request responseString];
+        [tasklistDao adjustId:tempTasklistId withNewId:newId];
+        
+        [tasklistDao commitData];
+        
+        [self loadTasklistData];
+    }
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
-    [Tools close:HUD];
     NSLog(@"错误异常: %@", request.error);
+    if(requestType == GetTasklistsValue && request == nil)
+    {
+        [Tools msg:NOT_NETWORK_MESSAGE HUD:HUD];
+        return;
+    }
+    [Tools close:HUD];
 }
 
 - (void)addRequstToPool:(ASIHTTPRequest *)request

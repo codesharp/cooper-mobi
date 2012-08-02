@@ -11,6 +11,7 @@
 @interface TaskDetailViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, CommentTextFieldDelegate, TaskViewDelegate, DateLabelDelegate, PriorityButtonDelegate>
 {
     UITableView *detailView;
+    UIView *footerView;
     
     UIScrollView *scrollView;
     

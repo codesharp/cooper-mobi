@@ -38,9 +38,9 @@
     self.loginTableView.dataSource = self;
     
     //登录按钮
-    self.btnLogin = [[CustomButton alloc] initWithFrame:CGRectMake(160, 290, 70, 40) 
+    self.btnLogin = [[CustomButton alloc] initWithFrame:CGRectMake(160, 230, 70, 40) 
                                              image:[UIImage imageNamed:@"btn_center.png"]];
-    self.btnLogin.layer.cornerRadius = 6.0f;
+    self.btnLogin.layer.cornerRadius = 10.0f;
     self.btnLogin.layer.masksToBounds = YES;
     [self.btnLogin addTarget:self 
                       action:@selector(login) 
@@ -52,8 +52,8 @@
     
     //跳过按钮
     //TODO:按钮背景
-    self.btnSkip = [[CustomButton alloc] initWithFrame:CGRectMake(240, 290, 70, 40) 
-                                                  image:[UIImage imageNamed:@"btn_center.png"]];
+    self.btnSkip = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.btnSkip.frame = CGRectMake(240, 230, 70, 40);
     self.btnSkip.layer.cornerRadius = 6.0f;
     self.btnSkip.layer.masksToBounds = YES;
     [self.btnSkip addTarget:self 
@@ -138,7 +138,11 @@
     NSLog(@"请求响应数据: %@, %d"
           , [request responseString]
           , [request responseStatusCode]);
+#ifdef __ALI_VERSION__
+    if([request responseStatusCode] == 200 && [[request responseString] rangeOfString: @"window.opener.loginSuccess"].length > 0)
+#else
     if([request responseStatusCode] == 200)
+#endif
     {
         NSArray* array = [request responseCookies];
         NSLog(@"array:%d",  array.count);
@@ -168,7 +172,7 @@
     }
     else
     {
-        [Tools alert:@"未知异常"];
+        [Tools alert:@"用户名和密码不正确"];
     }
 }
 
@@ -277,6 +281,7 @@
 {
     UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier] autorelease];
     
+#ifdef __ALI_VERSION__
     domainLabel = [[DomainLabel alloc] initWithFrame:CGRectMake(0, 0, 210, 30)];
     domainLabel.text = DEFAULT_DOMAIN;
     [domainLabel setBackgroundColor:[UIColor clearColor]];
@@ -290,7 +295,7 @@
     
     cell.textLabel.text = @"域名";
     cell.accessoryView = domainLabel;
-    
+#endif
     return cell;
 }
 

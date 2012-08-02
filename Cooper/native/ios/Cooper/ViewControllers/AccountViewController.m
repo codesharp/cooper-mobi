@@ -127,9 +127,12 @@
 {
     lock_counter = 0;
     
+    HUD = [Tools process:LOADING_TITLE view:self.view];
+    
     if([[ConstantClass instance] username].length > 0)
     {
         requestType = LogoutValue;
+        
         [AccountService logout:self];
     }
     else {
@@ -169,7 +172,7 @@
             [Tools msg:@"登录中" HUD:HUD];
             //HUD = [Tools process:@"登录中" view:self.view];
             
-#ifndef CODESHARP_VERSION
+#ifdef __ALI_VERSION__
             [AccountService login:domainLabel.text 
                          username:textUsername.text 
                          password:textPassword.text 
@@ -197,6 +200,16 @@
         }
         else if(requestType == LoginValue)
         {
+#ifdef __ALI_VERSION__
+            if([[request responseString] rangeOfString: @"window.opener.loginSuccess"].length == 0)
+            {
+                [Tools close:HUD];
+                
+                [Tools alert:@"用户名和密码不正确"];
+                
+                return;
+            }
+#endif
             //[Tools msg:@"登录成功" HUD:HUD]; 
             
             NSArray* array = [request responseCookies];
@@ -263,16 +276,17 @@
     }
     else
     {
-        //[Tools close:HUD];
+        [Tools close:HUD];
         
-        [Tools alert:@"未知异常"];
+        [Tools alert:@"用户名和密码不正确"];
     }
 }
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     //[self removeRequstFromPool:request];
-    [Tools failed:HUD];
-    NSLog(@"请求异常: %@",request.error);
+    
+    NSLog(@"错误异常: %@", request.error);
+    [Tools msg:NOT_NETWORK_MESSAGE HUD:HUD];
 }
 - (void)addRequstToPool:(ASIHTTPRequest *)request
 {
@@ -377,6 +391,7 @@
 {
     UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier] autorelease];
     
+#ifdef __ALI_VERSION__
     domainLabel = [[DomainLabel alloc] initWithFrame:CGRectMake(0, 0, 210, 30)];
     domainLabel.text = DEFAULT_DOMAIN;
     [domainLabel setBackgroundColor:[UIColor clearColor]];
@@ -390,7 +405,7 @@
     
     cell.textLabel.text = @"域名";
     cell.accessoryView = domainLabel;
-    
+#endif  
     return cell;
 }
 
@@ -407,6 +422,11 @@
     [self.textUsername setReturnKeyType:UIReturnKeyDone];
     [self.textUsername addTarget:self action:@selector(textFieldDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
     cell.accessoryView = self.textUsername;
+    
+    if([[ConstantClass instance] username].length > 0)
+    {
+        self.textUsername.text = [[ConstantClass instance] username];
+    }
     
     return cell;
 }
@@ -425,6 +445,12 @@
     [self.textPassword addTarget:self action:@selector(textFieldDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
     
     cell.accessoryView = self.textPassword;
+    
+    if([[ConstantClass instance] username].length > 0)
+    {
+        self.textPassword.text = @"***********";
+    }
+    
     return cell;
 }
 

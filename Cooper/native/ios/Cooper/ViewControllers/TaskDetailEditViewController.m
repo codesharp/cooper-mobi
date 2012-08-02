@@ -139,7 +139,7 @@
         
         [taskIdxDao addTaskIdx:id 
                          byKey:self.currentPriority 
-                    tasklistId:self.currentTasklistId 
+                    tasklistId:currentTasklistId 
                       isCommit:NO];
         
         //insert changelog

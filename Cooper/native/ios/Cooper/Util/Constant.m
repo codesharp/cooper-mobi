@@ -18,6 +18,8 @@
 @synthesize rootPath;
 @synthesize recentlyIds;
 @synthesize isLocalPush;
+@synthesize tempCreateTasklistId;
+@synthesize tempCreateTasklistName;
 
 + (id)instance {
 	static id obj = nil;

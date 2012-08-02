@@ -58,6 +58,46 @@
     return [tasklists autorelease];
 }
 
+- (Tasklist*)getTasklistById:(NSString *)tasklistId
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context]; 
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate;
+    if([[ConstantClass instance] username].length > 0)
+    {
+        predicate = [NSPredicate predicateWithFormat:@"(id = %@ and accountId = %@)"
+                     , tasklistId, [[ConstantClass instance] username]];
+    }
+    else 
+    {
+        predicate = [NSPredicate predicateWithFormat:@"(id = %@ and accountId = nil)", tasklistId];
+    }
+    
+    //NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(id = %@)", tasklistId];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil; 
+    
+    NSMutableArray *tasklists = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    if(error != nil)
+        NSLog(@"数据库错误异常: %@", [error description]);
+    
+    Tasklist *tasklist;
+    if(tasklists.count > 0)
+    {
+        tasklist = [tasklists objectAtIndex:0];
+    }
+    
+    [super commitData];
+    
+    [fetchRequest release];
+    
+    return [tasklist autorelease];
+}
+
 - (NSMutableArray*)getAllTasklistByGuest
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -105,6 +145,7 @@
     tasklist.id = id;
     tasklist.name = name;
     tasklist.listType = type;
+    tasklist.editable = [NSNumber numberWithInt:1];
     if([[ConstantClass instance] username].length > 0)
         tasklist.accountId = [[ConstantClass instance] username];
 }
@@ -129,6 +170,44 @@
     {
         Tasklist *tasklist = [tasklists objectAtIndex:0];
         tasklist.id = newId;
+    }
+    
+    [super commitData];
+    
+    [fetchRequest release];
+}
+
+- (void)updateEditable:(NSNumber *)editable tasklistId:(NSString *)tasklistId
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context]; 
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate;
+    if([[ConstantClass instance] username].length > 0)
+    {
+        predicate = [NSPredicate predicateWithFormat:@"(id = %@ and accountId = %@)"
+                     , tasklistId, [[ConstantClass instance] username]];
+    }
+    else 
+    {
+        predicate = [NSPredicate predicateWithFormat:@"(id = %@ and accountId = nil)", tasklistId];
+    }
+    
+   //NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(id = %@)", tasklistId];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil; 
+    
+    NSMutableArray *tasklists = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    if(error != nil)
+        NSLog(@"数据库错误异常: %@", [error description]);
+    
+    if(tasklists.count > 0)
+    {
+        Tasklist *tasklist = [tasklists objectAtIndex:0];
+        tasklist.editable = editable;
     }
     
     [super commitData];

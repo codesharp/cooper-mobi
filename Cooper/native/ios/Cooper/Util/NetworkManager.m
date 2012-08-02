@@ -18,7 +18,7 @@
 	Reachability *hostReach = [Reachability reachabilityForInternetConnection];
 	[hostReach startNotifier];
 	if (NotReachable == [hostReach currentReachabilityStatus]) {
-		[[[UIAlertView alloc] initWithTitle:@"" message:@"网络不可用" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil] show];
+        //[Tools alert:NOT_NETWORK_MESSAGE];
         return nil;
 	}
     
@@ -31,7 +31,7 @@
     Reachability *hostReach = [Reachability reachabilityForInternetConnection];
 	[hostReach startNotifier];
 	if (NotReachable == [hostReach currentReachabilityStatus]) {
-		[[[UIAlertView alloc] initWithTitle:@"" message:@"网络不可用" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil] show];
+		//[Tools alert:NOT_NETWORK_MESSAGE];
         return nil;
 	}
     
