@@ -19,6 +19,12 @@
 @synthesize managedObjectContext;
 @synthesize persistantStoreCoordiantor;
 
+#pragma mark - 共享数据
+
++ (AppDelegate*)sharedAppDelegate{
+    return (AppDelegate*)[[UIApplication sharedApplication] delegate];
+}
+
 #pragma mark - 应用程序生命周期
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -45,6 +51,34 @@
     self.window.rootViewController = navController;
     
     [self.window makeKeyAndVisible];
+    
+    //dispatch_queue_t network_queue;  
+    
+    //network_queue = dispatch_queue_create("com.myapp.network", nill); 
+    
+    //dispatch_async
+    
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{  
+//        
+//        // Show the HUD in the main tread  
+//        dispatch_async(dispatch_get_main_queue(), ^{  
+//            
+//            // No need to hod onto (retain)  
+//            MBProgressHUD *mbp = [MBProgressHUD showHUDAddedTo:self animated:YES];  
+//            mbp.labelText = @"   解压中,请等待...   ";  
+//        });  
+//        //解压代码  
+//        
+//        //  
+//        
+//        dispatch_async(dispatch_get_main_queue(), ^{  
+//            
+//            [MBProgressHUD hideHUDForView:self animated:YES];  
+//        });  
+//        
+//    }); 
+    
+    //self performSelectorOnMainThread
     
     //应用徽章数字置零
     application.applicationIconBadgeNumber = 0; 

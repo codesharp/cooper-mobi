@@ -14,6 +14,7 @@
 #import "DomainLabel.h"
 #endif
 #import "BaseViewController.h"
+#import "GTMOAuth2Authentication.h"
 
 @interface LoginViewController : BaseViewController<UITableViewDelegate
     ,UITableViewDataSource
@@ -24,7 +25,14 @@
 #endif
 >
 {
+    AccountRequestType requestType;
     MBProgressHUD *HUD;
+    
+    //google oauth2 client id and key
+    NSString *googleClientId;
+    NSString *googleClientSecret;
+    
+    GTMOAuth2Authentication *mAuth;
 }
 
 @property(nonatomic,assign) id<LoginViewDelegate> delegate;
@@ -34,8 +42,11 @@
 @property (retain, nonatomic) UITableView *loginTableView;
 @property (retain, nonatomic) CustomButton *btnLogin;
 @property (retain, nonatomic) CustomButton *btnSkip;
+@property (retain, nonatomic) CustomButton *btnGoogleLogin;
 #ifdef __ALI_VERSION__
 @property (retain, nonatomic) DomainLabel *domainLabel;
 #endif
+
+@property (nonatomic, retain) GTMOAuth2Authentication *auth;
 
 @end

@@ -81,6 +81,12 @@
 		1881ECD415BF7ABD00B47A7A /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1881ECD315BF7ABD00B47A7A /* logo.png */; };
 		1881ECD615BF7B3000B47A7A /* btn_center.png in Resources */ = {isa = PBXBuildFile; fileRef = 1881ECD515BF7B3000B47A7A /* btn_center.png */; };
 		1881ECD815BF7E0300B47A7A /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 1881ECD715BF7E0200B47A7A /* back.png */; };
+		1882131415CE6E7F004BD462 /* GTMOAuth2Authentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882130E15CE6E7F004BD462 /* GTMOAuth2Authentication.m */; };
+		1882131515CE6E7F004BD462 /* GTMOAuth2SignIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882131015CE6E7F004BD462 /* GTMOAuth2SignIn.m */; };
+		1882131615CE6E7F004BD462 /* GTMOAuth2ViewControllerTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882131215CE6E7F004BD462 /* GTMOAuth2ViewControllerTouch.m */; };
+		1882131715CE6E7F004BD462 /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1882131315CE6E7F004BD462 /* GTMOAuth2ViewTouch.xib */; };
+		1882131A15CE6F19004BD462 /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882131915CE6F19004BD462 /* GTMHTTPFetcher.m */; };
+		1882131C15CE6FA0004BD462 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1882131B15CE6FA0004BD462 /* Security.framework */; };
 		1884DB2915BDBE9D00A0B562 /* sectionTitlebg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1884DB2815BDBE9D00A0B562 /* sectionTitlebg.png */; };
 		1884DB2D15BDCEB700A0B562 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1884DB2B15BDCEB700A0B562 /* icon.png */; };
 		1884DB2E15BDCEB700A0B562 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1884DB2C15BDCEB700A0B562 /* icon@2x.png */; };
@@ -253,6 +259,16 @@
 		1881ECD315BF7ABD00B47A7A /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		1881ECD515BF7B3000B47A7A /* btn_center.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_center.png; sourceTree = "<group>"; };
 		1881ECD715BF7E0200B47A7A /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		1882130D15CE6E7F004BD462 /* GTMOAuth2Authentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMOAuth2Authentication.h; path = GoogleOAuth2/GTMOAuth2Authentication.h; sourceTree = "<group>"; };
+		1882130E15CE6E7F004BD462 /* GTMOAuth2Authentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMOAuth2Authentication.m; path = GoogleOAuth2/GTMOAuth2Authentication.m; sourceTree = "<group>"; };
+		1882130F15CE6E7F004BD462 /* GTMOAuth2SignIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMOAuth2SignIn.h; path = GoogleOAuth2/GTMOAuth2SignIn.h; sourceTree = "<group>"; };
+		1882131015CE6E7F004BD462 /* GTMOAuth2SignIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMOAuth2SignIn.m; path = GoogleOAuth2/GTMOAuth2SignIn.m; sourceTree = "<group>"; };
+		1882131115CE6E7F004BD462 /* GTMOAuth2ViewControllerTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMOAuth2ViewControllerTouch.h; path = GoogleOAuth2/GTMOAuth2ViewControllerTouch.h; sourceTree = "<group>"; };
+		1882131215CE6E7F004BD462 /* GTMOAuth2ViewControllerTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMOAuth2ViewControllerTouch.m; path = GoogleOAuth2/GTMOAuth2ViewControllerTouch.m; sourceTree = "<group>"; };
+		1882131315CE6E7F004BD462 /* GTMOAuth2ViewTouch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GTMOAuth2ViewTouch.xib; path = GoogleOAuth2/GTMOAuth2ViewTouch.xib; sourceTree = "<group>"; };
+		1882131815CE6F19004BD462 /* GTMHTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMHTTPFetcher.h; path = GoogleOAuth2/GTMHTTPFetcher.h; sourceTree = "<group>"; };
+		1882131915CE6F19004BD462 /* GTMHTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMHTTPFetcher.m; path = GoogleOAuth2/GTMHTTPFetcher.m; sourceTree = "<group>"; };
+		1882131B15CE6FA0004BD462 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		1884DB2815BDBE9D00A0B562 /* sectionTitlebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sectionTitlebg.png; sourceTree = "<group>"; };
 		1884DB2B15BDCEB700A0B562 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		1884DB2C15BDCEB700A0B562 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
@@ -343,6 +359,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1882131C15CE6FA0004BD462 /* Security.framework in Frameworks */,
 				1835EFE715C10898004AF233 /* QuartzCore.framework in Frameworks */,
 				EE87F7C015A3FB3D00DA8E7F /* libz.1.2.5.dylib in Frameworks */,
 				EE87F7BE15A3FB0A00DA8E7F /* MobileCoreServices.framework in Frameworks */,
@@ -402,6 +419,22 @@
 				181014AC15C048B400D67C06 /* UIImage+Scale.m */,
 			);
 			name = Category;
+			sourceTree = "<group>";
+		};
+		1882130B15CE6D58004BD462 /* GoogleOAuth2 */ = {
+			isa = PBXGroup;
+			children = (
+				1882131815CE6F19004BD462 /* GTMHTTPFetcher.h */,
+				1882131915CE6F19004BD462 /* GTMHTTPFetcher.m */,
+				1882130D15CE6E7F004BD462 /* GTMOAuth2Authentication.h */,
+				1882130E15CE6E7F004BD462 /* GTMOAuth2Authentication.m */,
+				1882130F15CE6E7F004BD462 /* GTMOAuth2SignIn.h */,
+				1882131015CE6E7F004BD462 /* GTMOAuth2SignIn.m */,
+				1882131115CE6E7F004BD462 /* GTMOAuth2ViewControllerTouch.h */,
+				1882131215CE6E7F004BD462 /* GTMOAuth2ViewControllerTouch.m */,
+				1882131315CE6E7F004BD462 /* GTMOAuth2ViewTouch.xib */,
+			);
+			name = GoogleOAuth2;
 			sourceTree = "<group>";
 		};
 		18DECB5715C6761200A51305 /* CodeSharpSDK */ = {
@@ -469,6 +502,7 @@
 		EE396264159D343B0018B9EC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1882131B15CE6FA0004BD462 /* Security.framework */,
 				1835EFE615C10898004AF233 /* QuartzCore.framework */,
 				EE87F7BF15A3FB3C00DA8E7F /* libz.1.2.5.dylib */,
 				EE87F7BD15A3FB0A00DA8E7F /* MobileCoreServices.framework */,
@@ -608,6 +642,7 @@
 		EE87F78C15A3F50100DA8E7F /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				1882130B15CE6D58004BD462 /* GoogleOAuth2 */,
 				18DECB5715C6761200A51305 /* CodeSharpSDK */,
 				8C0C2F2015AE7AAF00283579 /* SBJSON */,
 				EEF30E6515A5569100506A79 /* Images */,
@@ -887,6 +922,7 @@
 				18409FA615C196BD00639DEE /* complete-small.png in Resources */,
 				18409FA715C196BD00639DEE /* incomplete-small.png in Resources */,
 				18409FA815C196BD00639DEE /* setting-small.png in Resources */,
+				1882131715CE6E7F004BD462 /* GTMOAuth2ViewTouch.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -983,6 +1019,10 @@
 				184223A915C962D3003C674F /* Task.m in Sources */,
 				184223AC15C962D3003C674F /* TaskIdx.m in Sources */,
 				184223AF15C962D3003C674F /* Tasklist.m in Sources */,
+				1882131415CE6E7F004BD462 /* GTMOAuth2Authentication.m in Sources */,
+				1882131515CE6E7F004BD462 /* GTMOAuth2SignIn.m in Sources */,
+				1882131615CE6E7F004BD462 /* GTMOAuth2ViewControllerTouch.m in Sources */,
+				1882131A15CE6F19004BD462 /* GTMHTTPFetcher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

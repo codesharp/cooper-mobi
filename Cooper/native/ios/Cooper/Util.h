@@ -107,6 +107,7 @@ typedef enum{
 //用户相关请求类型
 typedef enum {
     LoginValue,
+    GoogleLoginValue,
     LogoutValue,
     SyncAllValue,
     GetTasksValue1

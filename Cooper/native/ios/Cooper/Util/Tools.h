@@ -26,6 +26,8 @@
 
 + (void)alert:(NSString *)title;
 
++ (void)showHUD:(NSString*)title view:(UIView*)view HUD:(MBProgressHUD*)HUD;
+
 + (MBProgressHUD*)process:(NSString*)title view:(UIView*)view;
 
 + (void)msg:(NSString*)title HUD:(MBProgressHUD*)HUD;

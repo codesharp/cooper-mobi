@@ -8,12 +8,14 @@
 
 #import "MainViewController.h"
 
-@interface AppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate>
+@interface AppDelegate : NSObject <UIApplicationDelegate>
 {  
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;	    
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
 }
+
++(AppDelegate*)sharedAppDelegate;
 
 @property (retain, nonatomic) MainViewController *mainViewController;
 @property (retain, nonatomic) UIWindow *window;

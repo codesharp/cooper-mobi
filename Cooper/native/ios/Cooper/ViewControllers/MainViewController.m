@@ -33,8 +33,11 @@
         {
             LoginViewController *viewController = [[LoginViewController alloc] init];
             viewController.delegate = self;
-            [self.navigationController presentModalViewController:viewController animated:NO];
-            //[viewController release];
+            BaseNavigationController *login_navController = [[[BaseNavigationController alloc] initWithRootViewController:viewController] autorelease];
+
+            
+            [self.navigationController presentModalViewController:login_navController animated:NO];
+            [viewController release];
         }
     }
 }

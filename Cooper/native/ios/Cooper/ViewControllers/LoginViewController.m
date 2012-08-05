@@ -7,6 +7,9 @@
 //
 
 #import "LoginViewController.h"
+#import "GTMOAuth2ViewControllerTouch.h"
+
+static NSString *const kKeychainItemName = @"CooperKeychain";
 
 @implementation LoginViewController
 
@@ -15,10 +18,12 @@
 @synthesize loginTableView;
 @synthesize delegate;
 @synthesize btnLogin;
+@synthesize btnGoogleLogin;
 @synthesize btnSkip;
 #ifdef __ALI_VERSION__
 @synthesize domainLabel;
 #endif
+@synthesize auth = mAuth;
 
 #pragma mark - UI相关
 
@@ -28,6 +33,41 @@
     
     NSString* login_btn_text = [[[SysConfig instance] keyValue] objectForKey:@"login_btn_text"];
     NSString* skip_btn_text = [[[SysConfig instance] keyValue] objectForKey:@"skip_btn_text"];
+    NSString* googlelogin_btn_text = [[[SysConfig instance] keyValue] objectForKey:@"googlelogin_btn_text"];
+    
+#ifndef __ALI_VERSION__
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(20, 180, 100, 30)];
+    label1.text = @"没有账号？";
+    label1.backgroundColor = [UIColor clearColor];
+    label1.textColor = [UIColor grayColor];
+    label1.font = [UIFont boldSystemFontOfSize:16.0f];
+    [self.view addSubview:label1];
+    [label1 release];
+    
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(20, 210, 50, 30)];
+    label2.text = @"请到";
+    label2.backgroundColor = [UIColor clearColor];
+    label2.textColor = [UIColor grayColor];
+    label2.font = [UIFont boldSystemFontOfSize:16.0f];
+    [self.view addSubview:label2];
+    [label2 release];
+    
+    UILabel *label3 = [[UILabel alloc] initWithFrame:CGRectMake(60, 210, 100, 30)];
+    label3.text = @"incooper.net";
+    label3.backgroundColor = [UIColor clearColor];
+    label3.textColor = APP_BACKGROUNDCOLOR;
+    label3.font = [UIFont boldSystemFontOfSize:16.0f];
+    [self.view addSubview:label3];
+    [label3 release];
+    
+    UILabel *label4 = [[UILabel alloc] initWithFrame:CGRectMake(160, 210, 100, 30)];
+    label4.text = @"注册！";
+    label4.backgroundColor = [UIColor clearColor];
+    label4.textColor = [UIColor grayColor];
+    label4.font = [UIFont boldSystemFontOfSize:16.0f];
+    [self.view addSubview:label4];
+    [label4 release];
+#endif
     
     //登录View
     self.loginTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
@@ -38,7 +78,7 @@
     self.loginTableView.dataSource = self;
     
     //登录按钮
-    self.btnLogin = [[CustomButton alloc] initWithFrame:CGRectMake(160, 230, 70, 40) 
+    self.btnLogin = [[CustomButton alloc] initWithFrame:CGRectMake(160, 250, 70, 40) 
                                              image:[UIImage imageNamed:@"btn_center.png"]];
     self.btnLogin.layer.cornerRadius = 10.0f;
     self.btnLogin.layer.masksToBounds = YES;
@@ -53,7 +93,7 @@
     //跳过按钮
     //TODO:按钮背景
     self.btnSkip = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    self.btnSkip.frame = CGRectMake(240, 230, 70, 40);
+    self.btnSkip.frame = CGRectMake(240, 250, 70, 40);
     self.btnSkip.layer.cornerRadius = 6.0f;
     self.btnSkip.layer.masksToBounds = YES;
     [self.btnSkip addTarget:self 
@@ -63,11 +103,61 @@
                    forState:UIControlStateNormal];
     self.btnSkip.titleLabel.font = [UIFont boldSystemFontOfSize:20];
     [self.view addSubview:self.btnSkip];
+    
+    //使用谷歌登录
+    self.btnGoogleLogin = [[CustomButton alloc] initWithFrame:CGRectMake(10, 250, 140, 40) 
+                                                  image:[UIImage imageNamed:@"btn_center.png"]];
+    self.btnGoogleLogin.layer.cornerRadius = 10.0f;
+    self.btnGoogleLogin.layer.masksToBounds = YES;
+    [self.btnGoogleLogin addTarget:self 
+                      action:@selector(googleLogin) 
+            forControlEvents:UIControlEventTouchUpInside];
+    [self.btnGoogleLogin setTitle:googlelogin_btn_text 
+                   forState:UIControlStateNormal];
+    self.btnGoogleLogin.titleLabel.font = [UIFont boldSystemFontOfSize:20];
+    [self.view addSubview:self.btnGoogleLogin];
+    
+    //google oauth相关初始化
+    googleClientId = [[[SysConfig instance] keyValue] objectForKey:@"googleClientId"];
+    googleClientSecret = [[[SysConfig instance] keyValue] objectForKey:@"googleClientSecret"];
+    
+    GTMOAuth2Authentication *auth = nil;
+    
+    auth = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:kKeychainItemName 
+                                                                     clientID:googleClientId
+                                                                 clientSecret:googleClientSecret];
+    
+    NSLog(@"persistenceResponseString:%@ \r\n serviceProvider:%@ \r\n userEmail:%@ \r\n accessToken:%@ \r\n expirationDate:%@ \r\n refreshToken:%@ \r\n code:%@ \r\n error:%@"
+          , auth.persistenceResponseString
+          , auth.serviceProvider
+          , auth.userEmail
+          , auth.accessToken
+          , [auth.expirationDate description]
+          , auth.refreshToken
+          , auth.code
+          , auth.errorString);
+    self.auth = auth;
+    
+    if (auth.canAuthorize) {
+        NSLog(@"auth success!");
+    } else {
+        NSLog(@"auth failed!");
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBar.hidden = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 -(IBAction)textFieldDoneEditing:(id)sender
@@ -84,11 +174,50 @@
     [textPassword release];
     [loginTableView release];
     [btnLogin release];
+    [btnGoogleLogin release];
     RELEASE(self.btnSkip);
+    [mAuth release];
     [super dealloc];
 }
 
 #pragma mark - 触发自定义事件
+
+- (void)googleLogin
+{
+    NSLog(@"进入google oauth登录页面");
+    
+    [self signOut];
+    
+    NSString *scope = [[[SysConfig instance] keyValue] objectForKey:@"googleScope"];
+    
+    NSString *keychainItemName  = kKeychainItemName;
+    
+    SEL finishedSel = @selector(viewController:finishedWithAuth:error:);
+    
+    GTMOAuth2ViewControllerTouch *viewController;
+    viewController = [GTMOAuth2ViewControllerTouch controllerWithScope:scope
+                                                              clientID:googleClientId
+                                                          clientSecret:googleClientSecret
+                                                      keychainItemName:keychainItemName
+                                                              delegate:self
+                                                      finishedSelector:finishedSel];
+    
+    NSString *html = @"<html><body bgcolor=white><div align=center>正在进入google登录页面...</div></body></html>";
+    viewController.initialHTMLString = html;
+    
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)signOut 
+{
+    if ([self.auth.serviceProvider isEqual:kGTMOAuth2ServiceProviderGoogle]) {
+        [GTMOAuth2ViewControllerTouch revokeTokenForGoogleAuthentication:self.auth];
+    }
+    
+    [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:kKeychainItemName];
+
+    self.auth = nil;
+}
 
 - (void)login 
 {
@@ -101,8 +230,10 @@
            && self.textPassword.text.length > 0)
 #endif
         {
-            HUD = [Tools process:@"登录中" view:self.view];
-            
+            //HUD = [Tools process:@"登录中" view:self.view];
+            //[Tools showHUD:@"登录中" HUD:HUD];
+            [Tools showHUD:@"登录中" view:self.view HUD:HUD];
+            requestType = LoginValue;
 #ifdef __ALI_VERSION__
             [AccountService login:self.domainLabel.text 
                          username:self.textUsername.text 
@@ -122,6 +253,9 @@
 
 - (void)skip
 {
+//    requestType = GoogleLoginValue;
+//    [AccountService googleLogin:@"" code:@"4/-s8utkRJ-3-zRzgIq54tYGSdcxg1.giR6or0tRtscuJJVnL49Cc9ifIjrcQI" state:@"login" delegate:self];
+//    
     //TODO:自动保存用户登录
     [[ConstantClass instance] setIsSaveUser:YES];
     [ConstantClass saveToCache];
@@ -144,27 +278,50 @@
     if([request responseStatusCode] == 200)
 #endif
     {
-        NSArray* array = [request responseCookies];
-        NSLog(@"array:%d",  array.count);
-        
-        NSDictionary *dict = [NSHTTPCookie requestHeaderFieldsWithCookies:array];
-        NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:dict];
-        NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-        
-        [sharedHTTPCookie setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-        [sharedHTTPCookie setCookie:cookie];
-        
+        if(requestType == GoogleLoginValue)
+        {
+            NSArray* array = [request responseCookies];
+            NSLog(@"array:%d",  array.count);
+            
+            NSDictionary *dict = [NSHTTPCookie requestHeaderFieldsWithCookies:array];
+            NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:dict];
+            NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+            
+            [sharedHTTPCookie setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+            [sharedHTTPCookie setCookie:cookie];
+            
+            [[ConstantClass instance] setUsername:self.auth.userEmail];
+            //TODO:自动保存用户登录
+            [[ConstantClass instance] setIsSaveUser:YES];
+            [ConstantClass saveToCache];
+            
+            [self dismissModalViewControllerAnimated:NO];
+            
+            [delegate loginExit]; 
+        }
+        else {
+            NSArray* array = [request responseCookies];
+            NSLog(@"array:%d",  array.count);
+            
+            NSDictionary *dict = [NSHTTPCookie requestHeaderFieldsWithCookies:array];
+            NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:dict];
+            NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+            
+            [sharedHTTPCookie setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+            [sharedHTTPCookie setCookie:cookie];
+            
 #ifdef __ALI_VERSION__
-        [[ConstantClass instance] setDomain:self.domainLabel.text];
+            [[ConstantClass instance] setDomain:self.domainLabel.text];
 #endif
-        [[ConstantClass instance] setUsername:self.textUsername.text];
-        //TODO:自动保存用户登录
-        [[ConstantClass instance] setIsSaveUser:YES];
-        [ConstantClass saveToCache];
-        
-        [self dismissModalViewControllerAnimated:NO];
-        
-        [delegate loginExit]; 
+            [[ConstantClass instance] setUsername:self.textUsername.text];
+            //TODO:自动保存用户登录
+            [[ConstantClass instance] setIsSaveUser:YES];
+            [ConstantClass saveToCache];
+            
+            [self dismissModalViewControllerAnimated:NO];
+            
+            [delegate loginExit]; 
+        }   
     }
     else if([request responseStatusCode] == 400)
     {
@@ -331,6 +488,48 @@
     
     cell.accessoryView = self.textPassword;
     return cell;
+}
+
+#pragma mark - google oauth相关
+- (void)viewController:(GTMOAuth2ViewControllerTouch *)viewController
+      finishedWithAuth:(GTMOAuth2Authentication *)authInfo
+                 error:(NSError *)error 
+{
+    NSLog(@"finish!");
+    
+    if (error != nil) 
+    {
+        NSLog(@"应用程序异常: %@", error);
+        NSData *responseData = [[error userInfo] objectForKey:@"data"];
+        if ([responseData length] > 0) 
+        {
+            NSString *str = [[[NSString alloc] initWithData:responseData
+                                                   encoding:NSUTF8StringEncoding] autorelease];
+            NSLog(@"%@", str);
+        }
+        
+        [Tools msg:@"登录失败！请重新尝试！" HUD:HUD];
+    }
+    else 
+    {
+        if(authInfo)
+        {
+            NSLog(@"persistenceResponseString:%@ \r\n serviceProvider:%@ \r\n userEmail:%@ \r\n accessToken:%@ \r\n expirationDate:%@ \r\n refreshToken:%@ \r\n code:%@ \r\n error:%@"
+                  , authInfo.persistenceResponseString
+                  , authInfo.serviceProvider
+                  , authInfo.userEmail
+                  , authInfo.accessToken
+                  , [authInfo.expirationDate description]
+                  , authInfo.refreshToken
+                  , authInfo.code
+                  , authInfo.errorString);
+            self.auth = authInfo;
+            [Tools showHUD:@"登录中" view:self.view HUD:HUD];
+            requestType = GoogleLoginValue;
+            [AccountService googleLogin:@"" code:self.auth.code state:@"login" delegate:self];
+        }
+    }
+    
 }
 
 @end

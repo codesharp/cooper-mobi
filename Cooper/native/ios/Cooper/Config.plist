@@ -10,5 +10,13 @@
 	<string>跳过</string>
 	<key>login_btn_text</key>
 	<string>登录</string>
+	<key>googlelogin_btn_text</key>
+	<string>使用谷歌登录</string>
+	<key>googleClientId</key>
+	<string>958269392170-1b0e3b4h0th9prr0gbe4c7t6k01bfunv.apps.googleusercontent.com</string>
+	<key>googleClientSecret</key>
+	<string>vbpToJKbJGhZX80pmw_851pL</string>
+	<key>googleScope</key>
+	<string>https://www.googleapis.com/auth/plus.me</string>
 </dict>
 </plist>

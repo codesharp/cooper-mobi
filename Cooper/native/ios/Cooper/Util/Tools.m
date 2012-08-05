@@ -85,10 +85,20 @@
                       otherButtonTitles:nil] autorelease] show];
 }
 
++ (void)showHUD:(NSString*)title view:(UIView*)view HUD:(MBProgressHUD*)HUD
+{
+    if(HUD == nil)
+        HUD = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    if (title.length > 0) {
+        [HUD show:YES];
+        HUD.labelText = title;
+    }
+}
+
 + (MBProgressHUD*)process:(NSString*)title view:(UIView*)view
 {
     MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:view animated:YES];
-    if ([title length]) {
+    if (title.length > 0) {
         HUD.labelText = title;
     }
     return HUD;
