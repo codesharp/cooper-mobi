@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		18B14DAD15BC0DDD00B6A187 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 18B14DAC15BC0DDD00B6A187 /* www */; };
+		181A5B8515D0E62300E6D3EC /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = 181A5B8415D0E62300E6D3EC /* Account.m */; };
+		181A5BA815D0EF7300E6D3EC /* CooperCDVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 181A5BA715D0EF7300E6D3EC /* CooperCDVViewController.m */; };
+		181A5BAD15D0F86000E6D3EC /* Personal.m in Sources */ = {isa = PBXBuildFile; fileRef = 181A5BAC15D0F86000E6D3EC /* Personal.m */; };
+		1843859015D14F5F00D62E9C /* Hybrid in Resources */ = {isa = PBXBuildFile; fileRef = 1843858F15D14F5F00D62E9C /* Hybrid */; };
 		8C25D39D15B65D530030DB09 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C25D39C15B65D530030DB09 /* Foundation.framework */; };
 		8C25D39F15B65D530030DB09 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C25D39E15B65D530030DB09 /* UIKit.framework */; };
 		8C25D3A115B65D530030DB09 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C25D3A015B65D530030DB09 /* CoreGraphics.framework */; };
@@ -55,7 +58,6 @@
 		8CD129D415B7E78C005CF413 /* CDVNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CD129CF15B7E78C005CF413 /* CDVNavigationBar.xib */; };
 		8CD129D515B7E78C005CF413 /* CDVNavigationBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CD129D115B7E78C005CF413 /* CDVNavigationBarController.m */; };
 		8CD129D615B7E78C005CF413 /* NavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CD129D315B7E78C005CF413 /* NavigationBar.m */; };
-		8CDCDE8115B93FEE005CE600 /* TaskService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CDCDE8015B93FEE005CE600 /* TaskService.m */; };
 		8CDCDE8515B941AF005CE600 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CDCDE8415B941AF005CE600 /* NetworkManager.m */; };
 		8CDCDE8E15B94224005CE600 /* AES.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CDCDE8715B94224005CE600 /* AES.m */; };
 		8CDCDE8F15B94224005CE600 /* AESEncrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CDCDE8915B94224005CE600 /* AESEncrypt.m */; };
@@ -83,7 +85,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		18B14DAC15BC0DDD00B6A187 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = ../www; sourceTree = "<group>"; };
+		181A5B8315D0E62300E6D3EC /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Account.h; path = Plugins/Services/Account.h; sourceTree = "<group>"; };
+		181A5B8415D0E62300E6D3EC /* Account.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Account.m; path = Plugins/Services/Account.m; sourceTree = "<group>"; };
+		181A5BA615D0EF7300E6D3EC /* CooperCDVViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CooperCDVViewController.h; path = Classes/ViewControllers/CooperCDVViewController.h; sourceTree = "<group>"; };
+		181A5BA715D0EF7300E6D3EC /* CooperCDVViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CooperCDVViewController.m; path = Classes/ViewControllers/CooperCDVViewController.m; sourceTree = "<group>"; };
+		181A5BAB15D0F86000E6D3EC /* Personal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Personal.h; path = Plugins/Services/Personal.h; sourceTree = "<group>"; };
+		181A5BAC15D0F86000E6D3EC /* Personal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Personal.m; path = Plugins/Services/Personal.m; sourceTree = "<group>"; };
+		1843858F15D14F5F00D62E9C /* Hybrid */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Hybrid; path = ../../../../cooper/src/Cooper.Web/Hybrid; sourceTree = "<group>"; };
 		8C25D39815B65D530030DB09 /* Cooper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cooper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C25D39C15B65D530030DB09 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8C25D39E15B65D530030DB09 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -142,8 +150,6 @@
 		8CD129D115B7E78C005CF413 /* CDVNavigationBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVNavigationBarController.m; path = Plugins/CDVNavigationBarController.m; sourceTree = "<group>"; };
 		8CD129D215B7E78C005CF413 /* NavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NavigationBar.h; path = Plugins/NavigationBar.h; sourceTree = "<group>"; };
 		8CD129D315B7E78C005CF413 /* NavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NavigationBar.m; path = Plugins/NavigationBar.m; sourceTree = "<group>"; };
-		8CDCDE7F15B93FEE005CE600 /* TaskService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskService.h; path = Plugins/Services/TaskService.h; sourceTree = "<group>"; };
-		8CDCDE8015B93FEE005CE600 /* TaskService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskService.m; path = Plugins/Services/TaskService.m; sourceTree = "<group>"; };
 		8CDCDE8315B941AF005CE600 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
 		8CDCDE8415B941AF005CE600 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		8CDCDE8615B94224005CE600 /* AES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AES.h; sourceTree = "<group>"; };
@@ -242,7 +248,7 @@
 		8C25D38A15B65D530030DB09 = {
 			isa = PBXGroup;
 			children = (
-				18B14DAC15BC0DDD00B6A187 /* www */,
+				1843858F15D14F5F00D62E9C /* Hybrid */,
 				8CE32EB015B6D36700DC058C /* OtherSource */,
 				8C25D3B615B65D540030DB09 /* Cooper */,
 				8C25D39B15B65D530030DB09 /* Frameworks */,
@@ -407,6 +413,8 @@
 			children = (
 				8C25D3FE15B661CB0030DB09 /* MainViewController */,
 				8C25D3FA15B661060030DB09 /* TaskListViewController */,
+				181A5BA615D0EF7300E6D3EC /* CooperCDVViewController.h */,
+				181A5BA715D0EF7300E6D3EC /* CooperCDVViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -451,8 +459,10 @@
 		8CDCDE7D15B93FC6005CE600 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				8CDCDE7F15B93FEE005CE600 /* TaskService.h */,
-				8CDCDE8015B93FEE005CE600 /* TaskService.m */,
+				181A5B8315D0E62300E6D3EC /* Account.h */,
+				181A5B8415D0E62300E6D3EC /* Account.m */,
+				181A5BAB15D0F86000E6D3EC /* Personal.h */,
+				181A5BAC15D0F86000E6D3EC /* Personal.m */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -616,7 +626,7 @@
 				8C25D41C15B664F30030DB09 /* uncheck@2x.png in Resources */,
 				8CE32EE215B6D43200DC058C /* LICENSE in Resources */,
 				8CD129D415B7E78C005CF413 /* CDVNavigationBar.xib in Resources */,
-				18B14DAD15BC0DDD00B6A187 /* www in Resources */,
+				1843859015D14F5F00D62E9C /* Hybrid in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,12 +676,14 @@
 				8CD129CD15B7E53C005CF413 /* TabBar.m in Sources */,
 				8CD129D515B7E78C005CF413 /* CDVNavigationBarController.m in Sources */,
 				8CD129D615B7E78C005CF413 /* NavigationBar.m in Sources */,
-				8CDCDE8115B93FEE005CE600 /* TaskService.m in Sources */,
 				8CDCDE8515B941AF005CE600 /* NetworkManager.m in Sources */,
 				8CDCDE8E15B94224005CE600 /* AES.m in Sources */,
 				8CDCDE8F15B94224005CE600 /* AESEncrypt.m in Sources */,
 				8CDCDE9015B94224005CE600 /* Cache.m in Sources */,
 				8CDCDE9115B94224005CE600 /* Constant.m in Sources */,
+				181A5B8515D0E62300E6D3EC /* Account.m in Sources */,
+				181A5BA815D0EF7300E6D3EC /* CooperCDVViewController.m in Sources */,
+				181A5BAD15D0F86000E6D3EC /* Personal.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

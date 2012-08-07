@@ -12,6 +12,8 @@
 #import "CDVViewController.h"
 #endif
 
-@interface TaskListViewController : CDVViewController
+#import "CooperCDVViewController.h"
+
+@interface TaskListViewController : CooperCDVViewController
 
 @end

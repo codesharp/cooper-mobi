@@ -37,9 +37,7 @@
     CGRect viewBounds = CGRectMake(0, 0, 0, 0);
     //CGRect viewBounds = [[UIScreen mainScreen] applicationFrame];
     //taskListViewController.useSplashScreen = YES;
-    self.taskListViewController.wwwFolderName = @"www";
-    self.taskListViewController.startPage = @"index.html";
-    self.taskListViewController.invokeString = invokeString;
+    //self.taskListViewController.invokeString = invokeString;
     self.taskListViewController.view.frame = viewBounds;
     
     // check whether the current orientation is supported: if it is, keep it, rather than forcing a rotation

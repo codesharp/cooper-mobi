@@ -14,6 +14,13 @@
 #import <CoreData/CoreData.h>
 #endif
 
+#import "Constant.h"
+
+#import "NetworkManager.h"
+
+#import "NSObject+SBJSON.h"
+#import "NSString+SBJSON.h"
+
 #ifdef DEBUG
 #   define NSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
@@ -39,9 +46,16 @@
 //#define TASK_SYNC_URL           @"http://open.wf.taobao.org/cooper/Personal/Sync"
 //#define LOGIN_URL               @"http://open.wf.taobao.org/cooper/account/arklogin"
 
-#define TASK_URL_GETBYPRIORITY      @"/Personal/GetByPriority"
-#define TASK_URL_SYNC               @"/Personal/Sync"
-#define LOGIN_URL                   @"/account/arklogin"
+//获取任务列表路径
+#define GETTASKLISTS_URL            @"/Personal/GetTasklists"
+//同步任务列表路径
+#define CREATETASKLIST_URL          @"/Personal/CreateTasklist"
+
+#define TASK_GETBYPRIORITY_URL     @"/Personal/GetByPriority"
+#define TASK_SYNC_URL               @"/Personal/Sync"
+#define LOGIN_URL                   @"/account/login"
 #define LOGOUT_URL                  @"/account/logout"
 
-#define ENV_PATH                @"https://cooper.wf.taobao.org"
+//#define ENV_PATH                @"https://cooper.wf.taobao.org"
+#define ENV_PATH                  @"https://cooper.apphb.com"
+//#define ENV_PATH                @"http://debug.incooper.net"

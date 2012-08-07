@@ -26,12 +26,16 @@
 	<array/>
 	<key>Plugins</key>
 	<dict>
+		<key>Account</key>
+		<string>Account</string>
 		<key>HttpRequest</key>
 		<string>HttpRequest</string>
 		<key>Logger</key>
 		<string>CDVLogger</string>
 		<key>Compass</key>
 		<string>CDVLocation</string>
+		<key>Personal</key>
+		<string>Personal</string>
 		<key>Accelerometer</key>
 		<string>CDVAccelerometer</string>
 		<key>Camera</key>

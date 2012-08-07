@@ -2,8 +2,8 @@
 //  NetworkManager.m
 //  Cooper
 //
-//  Created by Ping Li on 12-7-4.
-//  Copyright (c) 2012年 Alibaba. All rights reserved.
+//  Created by sunleepy on 12-7-4.
+//  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
 #import "NetworkManager.h"
@@ -18,7 +18,7 @@
 	Reachability *hostReach = [Reachability reachabilityForInternetConnection];
 	[hostReach startNotifier];
 	if (NotReachable == [hostReach currentReachabilityStatus]) {
-		[[[UIAlertView alloc] initWithTitle:@"" message:@"网络不可用" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil] show];
+        //[Tools alert:NOT_NETWORK_MESSAGE];
         return nil;
 	}
     
@@ -31,7 +31,7 @@
     Reachability *hostReach = [Reachability reachabilityForInternetConnection];
 	[hostReach startNotifier];
 	if (NotReachable == [hostReach currentReachabilityStatus]) {
-		[[[UIAlertView alloc] initWithTitle:@"" message:@"网络不可用" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles: nil] show];
+		//[Tools alert:NOT_NETWORK_MESSAGE];
         return nil;
 	}
     
@@ -48,6 +48,9 @@
 		[request setUserInfo:[NSDictionary dictionaryWithDictionary:info]];
 	}
     
+    //    NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    //    if(sharedHTTPCookie.cookies != nil)
+    //        [request setRequestCookies:[NSMutableArray arrayWithObject:sharedHTTPCookie.cookies]];
     [request setValidatesSecureCertificate:NO];
     [request setTimeOutSeconds:SYSTEM_REQUEST_TIMEOUT];
 	[request setCachePolicy:ASIAskServerIfModifiedCachePolicy];
@@ -60,7 +63,9 @@
 	return request;
 }
 
-+ (NSString *)doSynchronousRequest:(NSString *)url {
++ (NSString *)doSynchronousRequest:(NSString *)url 
+                              data:(NSMutableDictionary*)data 
+{
 	ASIHTTPRequest *request = [self getRequest:url];
 	if (nil == request) {
 		return nil;
@@ -74,7 +79,39 @@
 	return nil;
 }
 
-+ (ASIFormDataRequest *)doAsynchronousPostRequest:(NSString*)url Delegate:(id)delegate data:(NSMutableDictionary*)data WithInfo:(NSDictionary*)info
++ (NSString *)doSynchronousPostRequest:(NSString *)url 
+                                  data:(NSMutableDictionary*)data 
+{
+	ASIFormDataRequest *request = [self getPostRequest:url];
+    
+    if (nil == request) {
+		return nil;
+	}
+    
+    NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    //[request setUseCookiePersistence:YES];
+    
+    [request setRequestCookies: [NSMutableArray arrayWithArray:sharedHTTPCookie.cookies]];
+    
+    if(data)
+    {
+        for(NSString *key in data.allKeys)
+            [request setPostValue:[data objectForKey:key] forKey:key];
+    }
+    
+	[request startSynchronous];
+	NSError *error = [request error];
+	if (!error) {
+		return [request responseString];
+	}
+	return nil;
+}
+
++ (ASIFormDataRequest *)doAsynchronousPostRequest:(NSString*)url 
+                                         Delegate:(id)delegate 
+                                             data:(NSMutableDictionary*)data 
+                                         WithInfo:(NSDictionary*)info 
+                                       addHeaders:(NSMutableDictionary*)headers
 {
     ASIFormDataRequest *request = [self getPostRequest:url];
     if (nil == request) {
@@ -85,13 +122,25 @@
 		[request setUserInfo:[NSDictionary dictionaryWithDictionary:info]];
 	}
     
+    NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    //[request setUseCookiePersistence:YES];
+    
+    [request setRequestCookies: [NSMutableArray arrayWithArray:sharedHTTPCookie.cookies]];
+    
     [request setTimeOutSeconds:SYSTEM_REQUEST_TIMEOUT];
 	[request setCachePolicy:ASIAskServerIfModifiedCachePolicy];
-
+    
     if(data)
     {
         for(NSString *key in data.allKeys)
             [request setPostValue:[data objectForKey:key] forKey:key];
+    }
+    
+    if(headers)
+    {
+        for (NSString *key in headers.allKeys) {
+            [request addRequestHeader:key value:[headers objectForKey:key]];
+        }
     }
     
     [request setValidatesSecureCertificate:NO];

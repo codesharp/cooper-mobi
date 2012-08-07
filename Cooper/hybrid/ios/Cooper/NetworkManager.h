@@ -2,8 +2,8 @@
 //  NetworkManager.h
 //  Cooper
 //
-//  Created by Ping Li on 12-7-4.
-//  Copyright (c) 2012年 Alibaba. All rights reserved.
+//  Created by sunleepy on 12-7-4.
+//  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
 #import "ASIHTTPRequest.h"
@@ -25,9 +25,11 @@
 //post method
 + (ASIFormDataRequest*)getPostRequest:(NSString*)url;
 + (ASIHTTPRequest *)doAsynchronousGetRequest:(NSString *)url Delegate:(id)delegate WithInfo:(NSDictionary *)info;
-+ (NSString *)doSynchronousRequest:(NSString *)url;
++ (NSString *)doSynchronousRequest:(NSString *)url data:(NSMutableDictionary*)data;
++ (NSString *)doSynchronousPostRequest:(NSString *)url 
+                                  data:(NSMutableDictionary*)data;
 
-+ (ASIFormDataRequest*)doAsynchronousPostRequest:(NSString *)url Delegate:(id)delegate data:(NSMutableDictionary*)data WithInfo:(NSDictionary *)info;
++ (ASIFormDataRequest*)doAsynchronousPostRequest:(NSString *)url Delegate:(id)delegate data:(NSMutableDictionary*)data WithInfo:(NSDictionary *)info addHeaders:(NSMutableDictionary*)headers;
 @end
 
 
