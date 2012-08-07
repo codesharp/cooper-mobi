@@ -102,7 +102,7 @@
     //如果未登录用户隐藏同步按钮
     syncBtn.hidden = [[ConstantClass instance] username].length == 0;
 
-    [self loadTasklistData];
+    //[self loadTasklistData];
 }
 
 - (void)dealloc

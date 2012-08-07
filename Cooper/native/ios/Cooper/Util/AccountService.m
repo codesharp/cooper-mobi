@@ -37,12 +37,14 @@
     [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:nil addHeaders:nil];
 }
 
-+ (void)googleLogin:(NSString *)error code:(NSString*)code state:(NSString*)state delegate:(id)delegate
++ (void)googleLogin:(NSString *)error code:(NSString*)code refreshToken:(NSString*)refreshToken state:(NSString*)state  mobi:(NSString*)mobi delegate:(id)delegate
 {
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     [data setObject:error forKey:@"error"];
     [data setObject:code forKey:@"code"];
+    [data setObject:refreshToken forKey:@"refreshToken"];
     [data setObject:state forKey:@"state"];
+    [data setObject:mobi forKey:@"mobi"];
     
     NSString* url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:GOOGLE_LOGIN_URL];
     NSLog(@"正在进行登录请求: %@", url);

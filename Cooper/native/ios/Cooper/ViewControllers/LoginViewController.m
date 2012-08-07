@@ -143,6 +143,8 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     } else {
         NSLog(@"auth failed!");
     }
+    
+//    [AccountService googleLogin:@"" code:@"4/7XphY2aqMy36JCy4BTFAdxgF3wKq.wne-l9DssfccuJJVnL49Cc--C5P3cQI" refreshToken:@"" state:@"login" mobi:@"true" delegate:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -496,7 +498,6 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
                  error:(NSError *)error 
 {
     NSLog(@"finish!");
-    
     if (error != nil) 
     {
         NSLog(@"应用程序异常: %@", error);
@@ -514,7 +515,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     {
         if(authInfo)
         {
-            NSLog(@"persistenceResponseString:%@ \r\n serviceProvider:%@ \r\n userEmail:%@ \r\n accessToken:%@ \r\n expirationDate:%@ \r\n refreshToken:%@ \r\n code:%@ \r\n error:%@"
+            NSLog(@"persistenceResponseString:%@ \r\n serviceProvider:%@ \r\n userEmail:%@ \r\n accessToken:%@ \r\n expirationDate:%@ \r\n refreshToken:%@ \r\n code:%@ \r\n            tokenTYpe:%@ \r\n error:%@"
                   , authInfo.persistenceResponseString
                   , authInfo.serviceProvider
                   , authInfo.userEmail
@@ -522,11 +523,13 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
                   , [authInfo.expirationDate description]
                   , authInfo.refreshToken
                   , authInfo.code
+                  , authInfo.tokenType
                   , authInfo.errorString);
+            
             self.auth = authInfo;
             [Tools showHUD:@"登录中" view:self.view HUD:HUD];
             requestType = GoogleLoginValue;
-            [AccountService googleLogin:@"" code:self.auth.code state:@"login" delegate:self];
+            [AccountService googleLogin:@"" code:@"4/7XphY2aqMy36JCy4BTFAdxgF3wKq.wne-l9DssfccuJJVnL49Cc--C5P3cQI" refreshToken:self.auth.refreshToken state:@"login" mobi:@"true" delegate:self];
         }
     }
     
