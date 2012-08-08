@@ -1,0 +1,38 @@
+//
+// Prefix header for all source files of the 'CooperService' target in the 'CooperService' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
+
+#ifdef DEBUG
+#   define NSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#   define NSLog(...)
+#endif
+
+#import "NSObject+SBJSON.h"
+#import "NSString+SBJSON.h"
+
+#import "CooperCore/Constant.h"
+
+typedef Constant ConstantClass;
+
+#import "CodesharpSDK/NetworkManager.h"
+
+//获取任务列表路径
+#define GETTASKLISTS_URL                @"/Personal/GetTasklists"
+//同步任务列表路径
+#define TASKLIST_URL_SYNC               @"/Personal/CreateTasklist"
+//优先级获取路径
+#define TASK_URL_GETBYPRIORITY          @"/Personal/GetByPriority"
+//同步路径
+#define TASK_URL_SYNC                   @"/Personal/Sync"
+//注销路径
+#define LOGOUT_URL                      @"/Account/Logout"
+
+//默认登录入口
+#define LOGIN_URL                       @"/account/login"
+//Google登录入口
+#define GOOGLE_LOGIN_URL                @"/Account/GoogleLogin"

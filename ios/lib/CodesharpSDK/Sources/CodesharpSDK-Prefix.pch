@@ -1,0 +1,13 @@
+//
+// Prefix header for all source files of the 'CodesharpSDK' target in the 'CodesharpSDK' project
+//
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <QuartzCore/QuartzCore.h>
+#import <CoreGraphics/CoreGraphics.h>
+#endif
+
+//系统请求超时时间
+#define SYSTEM_REQUEST_TIMEOUT          30.0f

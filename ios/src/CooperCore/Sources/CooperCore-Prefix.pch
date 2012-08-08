@@ -1,0 +1,21 @@
+//
+// Prefix header for all source files of the 'CooperCore' target in the 'CooperCore' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <CoreData/CoreData.h>
+#endif
+
+#ifdef DEBUG
+#   define NSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#   define NSLog(...)
+#endif
+
+#import "Constant.h"
+
+typedef Constant ConstantClass;
+
+//本地数据库名称
+#define STORE_DBNAME                    @"TaskModel.sqlite"

@@ -1,0 +1,27 @@
+//
+// Prefix header for all source files of the 'CooperRepository' target in the 'CooperRepository' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
+
+#import "NSObject+SBJSON.h"
+#import "NSString+SBJSON.h"
+
+#ifdef DEBUG
+#   define NSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#   define NSLog(...)
+#endif
+
+#import "CooperCore/Constant.h"
+
+typedef Constant ConstantClass;
+
+#import "CodesharpSDK/Tools.h"
+#import "CodesharpSDK/MBProgressHUD.h"
+
+#define PRIORITY_TITLE_1                @"尽快完成"
+#define PRIORITY_TITLE_2                @"稍后完成"
+#define PRIORITY_TITLE_3                @"迟些再说"
