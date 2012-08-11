@@ -3,7 +3,7 @@
 //  snstaoban
 //
 //  Created by Yuliang.Wu on 12/22/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 codesharp. All rights reserved.
 //
 
 #import "ASIDownloadCache+CacheExists.h"

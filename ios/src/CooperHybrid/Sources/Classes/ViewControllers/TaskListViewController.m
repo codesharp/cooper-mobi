@@ -2,8 +2,8 @@
 //  TaskListViewController.m
 //  CooperGap
 //
-//  Created by 磊 李 on 12-7-18.
-//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//  Created by sunleepy on 12-7-18.
+//  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
 #import "TaskListViewController.h"
@@ -49,6 +49,9 @@
 
 - (void) viewDidLoad
 {
+    self.wwwFolderName = @"Hybrid";
+    self.startPage = @"index.htm";
+    
     [super viewDidLoad];
     
     //设置右选项卡中的按钮
@@ -126,7 +129,12 @@
     {
         // this is passed before the deviceready event is fired, so you can access it in js when you receive deviceready
         NSString* jsString = [NSString stringWithFormat:@"var invokeString = \"%@\";", self.invokeString];
-        [theWebView stringByEvaluatingJavaScriptFromString:jsString];
+        [theWebView stringByEvaluatingJavaScriptFromString:jsString]; 
+    }
+    
+    if([[ConstantClass instance] isGuestUser])
+    {
+        [self.webView stringByEvaluatingJavaScriptFromString:@"showStartPage(1);"];
     }
     
     // Black base color for background matches the native apps

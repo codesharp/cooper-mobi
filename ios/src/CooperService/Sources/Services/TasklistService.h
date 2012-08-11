@@ -9,8 +9,10 @@
 
 @interface TasklistService : NSObject
 
++ (void)syncTasklists:(NSMutableDictionary*)context delegate:(id)delegate;
+
 + (NSString*)syncTasklist:(NSString*)name :(NSString*)type :(id)delegate;
 
-+ (void)getTasklists:(id)delegate;
++ (void)getTasklists:(NSMutableDictionary*)context delegate:(id)delegate;
 
 @end

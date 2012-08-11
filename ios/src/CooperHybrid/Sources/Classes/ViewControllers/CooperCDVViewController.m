@@ -24,10 +24,7 @@
 }
 
 - (void)viewDidLoad
-{
-    self.wwwFolderName = @"Hybrid";
-    self.startPage = @"index.htm";
-    
+{  
     [super viewDidLoad];
 }
 

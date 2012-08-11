@@ -23,6 +23,17 @@
 
 - (void)deleteAll:(NSString*)tasklistId;
 
+- (void)saveTask:(NSString*)taskId
+         subject:(NSString*)subject
+  lastUpdateDate:(NSDate*)lastUpdateDate
+            body:(NSString *)body 
+        isPublic:(NSNumber *)isPublic 
+          status:(NSNumber *)status 
+        priority:(NSString *)priority 
+         dueDate:(NSDate *)dueDate
+        editable:(NSNumber *)editable
+      tasklistId:(NSString*)tasklistId;
+
 - (void)addTask:(NSString*)subject 
      createDate:(NSDate*)createDate 
  lastUpdateDate:(NSDate*)lastUpdateDate 

@@ -17,13 +17,18 @@
 
 - (Tasklist*)getTasklistById:(NSString*)tasklistId;
 
+- (NSMutableArray*)getAllTasklistByTemp;
+
 - (NSMutableArray*)getAllTasklistByGuest;
+
+- (void)updateTasklistIdByNewId:(NSString *)oldId
+                          newId:(NSString *)newId;
 
 - (void)deleteTasklist:(Tasklist*)tasklist;
 
 - (void)deleteAll;
 
-- (void)addTasklist:(NSString*)id :(NSString*)name :(NSString*)type;
+- (Tasklist*)addTasklist:(NSString*)id :(NSString*)name :(NSString*)type;
 
 - (void)adjustId:(NSString *)oldId withNewId:(NSString *)newId;
 

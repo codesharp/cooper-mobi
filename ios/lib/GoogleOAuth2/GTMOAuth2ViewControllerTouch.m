@@ -29,6 +29,7 @@
 
 #import "GTMOAuth2SignIn.h"
 #import "GTMOAuth2Authentication.h"
+#import "CooperService/AccountService.h"
 
 static NSString * const kGTMOAuth2AccountName = @"OAuth";
 static GTMOAuth2Keychain* sDefaultKeychain = nil;
@@ -731,7 +732,37 @@ static Class gSignInClass = Nil;
   [self updateUI];
 }
 
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
+    
+//   NSURLRequest *requespt = webView.request;
+//    NSURLResponse *response;
+//    response 
+    
+    NSURLRequest *r = webView.request;
+    NSData *data = r.HTTPBody;
+    
+    NSString *query = webView.request.URL.query;
+    NSArray *array = [query componentsSeparatedByString:@"&"];
+    if(array.count == 1)
+    {
+        NSArray *patams = [query componentsSeparatedByString:@"="];
+        NSString *code = [patams objectAtIndex:0];
+        if([code isEqualToString:@"code"])
+        {
+//            NSString *anthCode = [patams objectAtIndex:1];
+//            [AccountService googleLogin:@"" code:anthCode state:@"login" mobi:@"false" joke:@"true" delegate:self];
+            
+            NSURL *url = [NSURL URLWithString: @"http://debug.incooper.net/account/googlelogin?joke=true"];
+            NSString *body = [NSString stringWithFormat: @"joke=true"];
+            NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL: url];
+            //[request setHTTPMethod: @"POST"];
+            //[request setHTTPBody: [body dataUsingEncoding: NSUTF8StringEncoding]];
+            [webView loadRequest: request];
+        }
+    }
+    
+    
   [self notifyWithName:kGTMOAuth2WebViewStoppedLoading
                webView:webView
                   kind:kGTMOAuth2WebViewFinished];
@@ -748,13 +779,45 @@ static Class gSignInClass = Nil;
     NSAssert([result integerValue] == 2, @"GTMOAuth2: Javascript is required");
 #endif
   }
+    NSHTTPCookieStorage* cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray* theCookies = [cookieStorage cookiesForURL:[NSURL URLWithString:@"http://debug.incooper.net"]];
+    
   [signIn_ cookiesChanged:[NSHTTPCookieStorage sharedHTTPCookieStorage]];
     
   [self updateUI];
    // GTMOAuth2Authentication *a = [signIn_ authentication];
-   // [self popView];
+//[self popView];
     
     
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+    NSLog(@"请求响应数据: %@, %d"
+          , [request responseString]
+          , [request responseStatusCode]);
+    
+    NSArray* array = [request responseCookies];
+    NSLog(@"array:%d",  array.count);
+    
+    NSDictionary *dict = [NSHTTPCookie requestHeaderFieldsWithCookies:array];
+    NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:dict];
+    NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    
+    [sharedHTTPCookie setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+    [sharedHTTPCookie setCookie:cookie];
+    
+    [self popView];
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    NSLog(@"请求异常: %@",request.error);
+}
+
+- (void)addRequstToPool:(ASIHTTPRequest *)request
+{
+    NSLog(@"发送请求路径：%@",request.url);
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
@@ -988,6 +1051,8 @@ static Class gSignInClass = Nil;
   }
   return status == noErr;
 }
+
+
 
 #endif // ! TARGET_IPHONE_SIMULATOR
 

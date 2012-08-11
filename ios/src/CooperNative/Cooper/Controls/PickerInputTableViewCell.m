@@ -3,7 +3,7 @@
 //  ShootStudio
 //
 //  Created by Tom Fewster on 18/10/2011.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2011 codesharp. All rights reserved.
 //
 
 #import "PickerInputTableViewCell.h"

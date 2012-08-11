@@ -10,7 +10,10 @@
 
 @implementation AccountService
 
-+ (void)login:(NSString*)username password:(NSString*)password delegate:(id)delegate
++ (void)login:(NSString*)username 
+     password:(NSString*)password 
+      context:(NSMutableDictionary *)context 
+     delegate:(id)delegate
 {
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     [data setObject:username forKey:@"userName"];
@@ -20,11 +23,16 @@
     [headers setObject:@"xmlhttp" forKey:@"X-Requested-With"];
     
     NSString* url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:LOGIN_URL];
-    NSLog(@"正在进行登录请求: %@", url);
-    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:nil addHeaders:headers];
+    NSLog(@"登录请求: %@", url);
+    
+    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:context addHeaders:headers];
 }
 
-+ (void) login:(NSString *)domain username:(NSString *)username password:(NSString *)password delegate:(id)delegate
++ (void) login:(NSString *)domain 
+      username:(NSString *)username 
+      password:(NSString *)password 
+       context:(NSMutableDictionary *)context 
+      delegate:(id)delegate
 {
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     [data setObject:@"login" forKey:@"state"];
@@ -33,29 +41,36 @@
     [data setObject:password forKey:@"tbPassword"];
     
     NSString* url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:LOGIN_URL];
-    NSLog(@"正在进行登录请求: %@", url);
-    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:nil addHeaders:nil];
+    NSLog(@"登录请求: %@", url);
+    
+    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:context addHeaders:nil];
 }
 
-+ (void)googleLogin:(NSString *)error code:(NSString*)code refreshToken:(NSString*)refreshToken state:(NSString*)state  mobi:(NSString*)mobi delegate:(id)delegate
++ (void)googleLogin:(NSString *)error 
+               code:(NSString*)code 
+              state:(NSString*)state 
+               mobi:(NSString*)mobi 
+               joke:(NSString*)joke 
+           delegate:(id)delegate
 {
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     [data setObject:error forKey:@"error"];
     [data setObject:code forKey:@"code"];
-    [data setObject:refreshToken forKey:@"refreshToken"];
     [data setObject:state forKey:@"state"];
     [data setObject:mobi forKey:@"mobi"];
+    [data setObject:joke forKey:@"joke"];
     
     NSString* url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:GOOGLE_LOGIN_URL];
     NSLog(@"正在进行登录请求: %@", url);
     [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:nil addHeaders:nil];
 }
 
-+ (void)logout:(id)delegate
++ (void)logout:(NSMutableDictionary*)context 
+      delegate:(id)delegate
 {
     NSString* url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:LOGOUT_URL];
     NSLog(@"正在进行注销请求: %@",url);
-    [NetworkManager doAsynchronousGetRequest:url Delegate:delegate WithInfo:nil];
+    [NetworkManager doAsynchronousGetRequest:url Delegate:delegate WithInfo:context];
 }
 
 @end

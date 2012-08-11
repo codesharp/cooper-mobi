@@ -26,10 +26,10 @@
 	<array/>
 	<key>Plugins</key>
 	<dict>
+		<key>CooperPlugin</key>
+		<string>CooperPlugin</string>
 		<key>Account</key>
 		<string>Account</string>
-		<key>HttpRequest</key>
-		<string>HttpRequest</string>
 		<key>Logger</key>
 		<string>CDVLogger</string>
 		<key>Compass</key>

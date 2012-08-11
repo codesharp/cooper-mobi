@@ -32,7 +32,7 @@ build/*
 *.perspectivev3
 !default.perspectivev3
 *.xcworkspace
-!default.xcworkspace
+#!default.xcworkspace
 xcuserdata
 profile
 *.moved-aside

@@ -24,11 +24,13 @@ typedef Constant ConstantClass;
 //获取任务列表路径
 #define GETTASKLISTS_URL                @"/Personal/GetTasklists"
 //同步任务列表路径
-#define TASKLIST_URL_SYNC               @"/Personal/CreateTasklist"
+#define CREATETASKLIST_URL              @"/Personal/CreateTasklist"
+//同步所有的任务列表
+#define TASKLISTS_SYNC_URL              @"/Personal/CreateTasklists"
 //优先级获取路径
-#define TASK_URL_GETBYPRIORITY          @"/Personal/GetByPriority"
+#define TASK_GETBYPRIORITY_URL          @"/Personal/GetByPriority"
 //同步路径
-#define TASK_URL_SYNC                   @"/Personal/Sync"
+#define TASK_SYNC_URL                   @"/Personal/Sync"
 //注销路径
 #define LOGOUT_URL                      @"/Account/Logout"
 

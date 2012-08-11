@@ -44,15 +44,15 @@
 #define MODEL_VERSION                   [[[UIDevice currentDevice] systemVersion] floatValue]
 
 //获取任务列表路径
-#define GETTASKLISTS_URL                @"/Per/GetTasklists"
+#define GETTASKLISTS_URL                @"/Personal/GetTasklists"
 //同步任务列表路径
-#define TASKLIST_URL_SYNC               @"/Per/CreateTasklist"
+#define CREATETASKLIST_URL               @"/Personal/CreateTasklist"
 //优先级获取路径
-#define TASK_URL_GETBYPRIORITY          @"/Per/GetByPriority"
+#define TASK_GETBYPRIORITY_URL          @"/Personal/GetByPriority"
 //同步路径
-#define TASK_URL_SYNC                   @"/Per/Sync"
+#define TASK_SYNC_URL                   @"/Personal/Sync"
 //注销路径
-#define LOGOUT_URL                      @"/account/logout"
+#define LOGOUT_URL                      @"/Account/logout"
 
 //标题栏
 #define APP_TITLE                       @"cooper:task"

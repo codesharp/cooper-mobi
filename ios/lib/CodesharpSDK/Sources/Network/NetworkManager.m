@@ -12,6 +12,16 @@
 
 @synthesize delegate;
 
++ (BOOL)isOnline
+{
+    Reachability *hostReach = [Reachability reachabilityForInternetConnection];
+	[hostReach startNotifier];
+	if (NotReachable == [hostReach currentReachabilityStatus]) {
+        return false;
+    }
+    //TODO:WIFI WWAN
+    return true;
+}
 
 + (ASIHTTPRequest *)getRequest:(NSString *)url {
 	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];

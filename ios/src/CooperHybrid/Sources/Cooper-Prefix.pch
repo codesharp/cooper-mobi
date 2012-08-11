@@ -2,60 +2,11 @@
 // Prefix header for all source files of the 'CooperGap' target in the 'CooperGap' project
 //
 
-#import <Availability.h>
+#import "Util.h"
 
-#ifndef __IPHONE_4_0
-#warning "This project uses features only available in iOS SDK 4.0 and later."
-#endif
+#import "CooperCore/Constant.h"
 
-#ifdef __OBJC__
-#import <UIKit/UIKit.h>
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
-#endif
+typedef Constant ConstantClass;
 
-#import "Constant.h"
-
-#import "NetworkManager.h"
-
-#import "NSObject+SBJSON.h"
-#import "NSString+SBJSON.h"
-
-#ifdef DEBUG
-#   define NSLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-#else
-#   define NSLog(...)
-#endif
-
-//#import "Constant.h"
-//#import "Tools.h"
-//#import "MBProgressHUD.h"
-
-#define MAXLENGTH               8
-#define AES_KEY                 @"tbtbkfckfcgoogle"
-//database name
-#define STORE_DBNAME            @"TaskModel.sqlite"
-
-#define APP_BACKGROUNDCOLOR     [UIColor colorWithRed:0.0/255 green:136.0/255 blue:204/255.0 alpha:1]
-
-//#define TASK_URL                @"http://10.13.25.111:100/Personal/GetByPriority"
-//#define TASK_SYNC_URL           @"http://10.13.25.111:100/Personal/Sync"
-//#define LOGIN_URL               @"http://10.13.25.111:100/account/arklogin"
-
-//#define TASK_URL                @"http://open.wf.taobao.org/cooper/Personal/GetByPriority"
-//#define TASK_SYNC_URL           @"http://open.wf.taobao.org/cooper/Personal/Sync"
-//#define LOGIN_URL               @"http://open.wf.taobao.org/cooper/account/arklogin"
-
-//获取任务列表路径
-#define GETTASKLISTS_URL            @"/Personal/GetTasklists"
-//同步任务列表路径
-#define CREATETASKLIST_URL          @"/Personal/CreateTasklist"
-
-#define TASK_GETBYPRIORITY_URL     @"/Personal/GetByPriority"
-#define TASK_SYNC_URL               @"/Personal/Sync"
-#define LOGIN_URL                   @"/account/login"
-#define LOGOUT_URL                  @"/account/logout"
-
-//#define ENV_PATH                @"https://cooper.wf.taobao.org"
-#define ENV_PATH                  @"https://cooper.apphb.com"
-//#define ENV_PATH                @"http://debug.incooper.net"
+//默认登录入口
+#define LOGIN_URL                       @"/account/login"

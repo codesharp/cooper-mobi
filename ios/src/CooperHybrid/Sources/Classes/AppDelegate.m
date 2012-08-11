@@ -21,15 +21,14 @@
 //  AppDelegate.m
 //  CooperGap
 //
-//  Created by 磊 李 on 12-7-18.
-//  Copyright __MyCompanyName__ 2012年. All rights reserved.
+//  Created by sunleepy on 12-7-18.
+//  Copyright codesharp 2012年. All rights reserved.
 //
 
+//HACK:加上这个很重要的，不然有可能无法运行PhoneGap
 NSString * const NSURLIsExcludedFromBackupKey = @"NSURLIsExcludedFromBackupKey";
 
 #import "AppDelegate.h"
-#import "TaskListViewController.h"
-#import "Constant.h"
 
 #ifdef CORDOVA_FRAMEWORK
     #import <Cordova/CDVPlugin.h>
@@ -42,7 +41,11 @@ NSString * const NSURLIsExcludedFromBackupKey = @"NSURLIsExcludedFromBackupKey";
 
 @implementation AppDelegate
 
-@synthesize window, viewController;
+@synthesize window;
+@synthesize viewController;
+@synthesize managedObjectModel;
+@synthesize managedObjectContext;
+@synthesize persistantStoreCoordiantor;
 
 - (id) init
 {	
@@ -64,18 +67,19 @@ NSString * const NSURLIsExcludedFromBackupKey = @"NSURLIsExcludedFromBackupKey";
  */
 - (BOOL) application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {    
-    [Constant loadFromCache]; 
+    [ConstantClass loadFromCache]; 
     
-    NSLog(@"pth3:%@", [[Constant instance] path]);
-    if([[Constant instance] path] == nil)
+    //TODO:为了能够初始化刷新数据库产生的延迟
+    [self managedObjectContext];
+    //[ContextManager instance];
+    
+    if([[ConstantClass instance] rootPath] == nil)
     {
-        NSLog(@"path:%@", ENV_PATH);
-        [[Constant instance] setPath:ENV_PATH];
-        [Constant savePathToCache];
+        [[ConstantClass instance] setRootPath:[[[SysConfig instance] keyValue] objectForKey: @"env_path"]];
+        [ConstantClass savePathToCache];
     }
-    else {
-        NSLog(@"pth2:%@", [[Constant instance] path]);
-    }
+    
+    NSLog(@"当前网络根路径: %@",[[ConstantClass instance] rootPath]);
     
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[[UIWindow alloc] initWithFrame:screenBounds] autorelease];
@@ -160,7 +164,61 @@ NSString * const NSURLIsExcludedFromBackupKey = @"NSURLIsExcludedFromBackupKey";
 
 - (void) dealloc
 {
+    [managedObjectModel release];
+    [managedObjectContext release];
+    [persistentStoreCoordinator release];
+
 	[super dealloc];
+}
+
+#pragma mark - Core Data 相关
+
+//返回托管对象上下文，如果不存在，将从持久化存储协调器创建它
+- (NSManagedObjectContext *) managedObjectContext {
+	
+    if (managedObjectContext != nil) {
+        return managedObjectContext;
+    }
+	
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    if (coordinator != nil) {
+        managedObjectContext = [[NSManagedObjectContext alloc] init];
+        [managedObjectContext setPersistentStoreCoordinator: coordinator];
+    }
+    return managedObjectContext;
+}
+//返回托管的对象模型，如果模型不存在，将在application bundle找到所有的模型创建它
+- (NSManagedObjectModel *)managedObjectModel {
+	
+    if (managedObjectModel != nil) {
+        return managedObjectModel;
+    }
+    managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
+    return managedObjectModel;
+}
+//返回应用程序的持久化存储协调器，如果不存在，从应用程序的store创建它
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
+	
+    if (persistentStoreCoordinator != nil) {
+        return persistentStoreCoordinator;
+    }
+	
+    NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: STORE_DBNAME]];
+    NSLog(@"storeurl: %@", [storeUrl relativeString]);
+    //HACK:可以保持数据库自动兼容
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],NSMigratePersistentStoresAutomaticallyOption,[NSNumber numberWithBool:YES],NSInferMappingModelAutomaticallyOption, nil];
+	NSError *error = nil;
+    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
+		NSLog(@"sqlite数据库异常解析： %@, %@", error, [error userInfo]);
+		abort();
+    }    
+    
+    return persistentStoreCoordinator;
+}
+//应用程序的Documents目录路径
+- (NSString *)applicationDocumentsDirectory {
+	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
 
 @end

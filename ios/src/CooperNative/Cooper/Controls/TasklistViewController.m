@@ -126,7 +126,7 @@
     if(tasklistsArray.count == 0 
        && [[ConstantClass instance] username].length == 0)
     {
-        [tasklistDao addTasklist:@"0" :@"默认列表" :@"列表"];
+        [tasklistDao addTasklist:@"0" :@"默认列表" :@"personal"];
         [tasklistDao commitData];
         
         //TODO:添加再重新查询
@@ -245,11 +245,11 @@
                 NSString *value = [tasklistsDict objectForKey:key];
                 
                 //TODO:暂时只添加个人任务列表
-                [tasklistDao addTasklist:key:value:@"per"];
+                [tasklistDao addTasklist:key:value:@"personal"];
             }
             
             //TODO:加上默认列表，判断下未登录用户的默认列表
-            [tasklistDao addTasklist:@"0" :@"默认列表" :@"列表"];
+            [tasklistDao addTasklist:@"0" :@"默认列表" :@"personal"];
             
             [tasklistDao commitData];
             
@@ -268,7 +268,7 @@
         //NSString* tempTasklistId = [[ConstantClass instance] tempCreateTasklistId];
         //NSString* tempTasklistName = [[ConstantClass instance] tempCreateTasklistName];
         
-        [tasklistDao addTasklist:tempTasklistId :@"value" :@"per"];
+        [tasklistDao addTasklist:tempTasklistId :@"value" :@"personal"];
 
         NSString* newId = [request responseString];
         [tasklistDao adjustId:tempTasklistId withNewId:newId];

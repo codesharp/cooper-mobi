@@ -227,7 +227,7 @@
 #endif
             [[ConstantClass instance] setUsername:textUsername.text];
             //TODO:自动保存用户登录
-            [[ConstantClass instance] setIsSaveUser:YES];
+            [[ConstantClass instance] setIsGuestUser:YES];
 
             [ConstantClass saveToCache];
             
@@ -258,10 +258,10 @@
                 NSString *value = [tasklistsDict objectForKey:key];
                 
                 //TODO:这里处理个人
-                [tasklistDao addTasklist:key:value:@"per"];
+                [tasklistDao addTasklist:key:value:@"personal"];
             }
             
-            [tasklistDao addTasklist:@"0" :@"默认列表" :@"per"];
+            [tasklistDao addTasklist:@"0" :@"默认列表" :@"personal"];
             
             [tasklistDao commitData];
             

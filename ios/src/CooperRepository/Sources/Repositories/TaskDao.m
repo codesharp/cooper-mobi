@@ -135,6 +135,39 @@
     }
 }
 
+- (void)saveTask:(NSString*)taskId
+         subject:(NSString*)subject
+  lastUpdateDate:(NSDate*)lastUpdateDate
+            body:(NSString *)body 
+        isPublic:(NSNumber *)isPublic 
+          status:(NSNumber *)status 
+        priority:(NSString *)priority 
+         dueDate:(NSDate *)dueDate
+        editable:(NSNumber *)editable
+      tasklistId:(NSString*)tasklistId
+{
+    Task *task = [self getTaskById:taskId];
+
+    if(task.id.length == 0)
+    {
+        NSDate *currentDate = [NSDate date];
+        [self addTask:subject createDate:currentDate lastUpdateDate:lastUpdateDate body:body isPublic:isPublic status:status priority:priority taskid:taskId dueDate:dueDate editable:editable tasklistId:tasklistId isCommit:NO];
+    }
+    else 
+    {
+        [self updateTask:task 
+                 subject:subject 
+          lastUpdateDate:lastUpdateDate 
+                    body:body 
+                isPublic:isPublic 
+                  status:status 
+                priority:priority 
+                 dueDate:dueDate 
+              tasklistId:tasklistId 
+                isCommit:NO];
+    }
+}
+
 - (void)addTask:(NSString *)subject 
      createDate:(NSDate*)createDate 
  lastUpdateDate:(NSDate*)lastUpdateDate 

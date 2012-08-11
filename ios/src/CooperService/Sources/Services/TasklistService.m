@@ -13,7 +13,7 @@
 
 + (NSString*)syncTasklist:(NSString*)name :(NSString*)type :(id)delegate
 {
-    NSString *url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:TASKLIST_URL_SYNC];
+    NSString *url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:CREATETASKLIST_URL];
     NSLog(@"syncTasklist外部路径: %@", url);
  
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
@@ -25,11 +25,40 @@
     return @"";
 }
 
-+ (void)getTasklists:(id)delegate
++ (void)syncTasklists:(NSMutableDictionary*)context delegate:(id)delegate
+{
+    TasklistDao *tasklistDao = [[TasklistDao alloc] init];
+    
+    NSMutableArray *tasklists = [tasklistDao getAllTasklistByTemp];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    for (Tasklist *tasklist in tasklists)
+    {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setObject:tasklist.id forKey:@"ID"];
+        [dict setObject:tasklist.name forKey:@"Name"];
+        [dict setObject:tasklist.listType forKey:@"Type"];
+        [array addObject:dict];
+    }
+    
+    NSString *tasklistsJson = [array JSONRepresentation];
+    
+    NSMutableDictionary *data = [NSMutableDictionary dictionary];
+    [data setObject:tasklistsJson forKey:@"data"];
+    
+    [tasklistDao release];
+    
+    NSString *url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:TASKLISTS_SYNC_URL];
+    NSLog(@"同步所有的任务列表外部路径: %@", url);
+    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:context addHeaders:nil];
+}
+
++ (void)getTasklists:(NSMutableDictionary*)context 
+            delegate:(id)delegate
 {
     NSString *url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:GETTASKLISTS_URL];
     NSLog(@"getTasklists外部路径: %@", url);
-    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:nil WithInfo:nil addHeaders:nil];
+    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:nil WithInfo:context addHeaders:nil];
 }
 
 @end

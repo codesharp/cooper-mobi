@@ -8,12 +8,20 @@
 
 @interface TaskService : NSObject
 
-+ (void)testUrl:(id)delegate;
++ (void)getTasks:(NSString*)tasklistId 
+         context:(NSMutableDictionary*)context 
+        delegate:(id)delegate;
 
-+ (void)getTasks:(NSString*)tasklistId delegate:(id)delegate;
++ (void)syncTasks:(NSString*)tasklistId 
+       changeLogs:(NSMutableArray*)changeLogs 
+         taskIdxs:(NSMutableArray*)taskIdxs 
+          context:(NSMutableDictionary*)context
+         delegate:(id)delegate;
 
-+ (void)syncTasks:(NSString*)tasklistId changeLogs:(NSMutableArray*)changeLogs taskIdxs:(NSMutableArray*)taskIdxs delegate:(id)delegate;
++ (void)syncTask:(NSString*)tasklistId 
+         context:(NSMutableDictionary*)context
+        delegate:(id)delegate;
 
-+ (void)syncTask:(NSString*)tasklistId delegate:(id)delegate;
++ (void)syncTaskByDict:(NSMutableDictionary *)dictionary delegate:(id)delegate;
 
 @end

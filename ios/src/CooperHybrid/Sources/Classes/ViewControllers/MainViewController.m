@@ -2,8 +2,8 @@
 //  MainViewController.m
 //  CooperGap
 //
-//  Created by 磊 李 on 12-7-18.
-//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//  Created by sunleepy on 12-7-18.
+//  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
 #import "MainViewController.h"
@@ -29,8 +29,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    NSString* invokeString = @"";
 	
     //个人任务
     self.taskListViewController = [[[TaskListViewController alloc] initWithTitle:@"个人任务" setImage:@"first"] autorelease];

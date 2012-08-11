@@ -259,7 +259,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     //    [AccountService googleLogin:@"" code:@"4/-s8utkRJ-3-zRzgIq54tYGSdcxg1.giR6or0tRtscuJJVnL49Cc9ifIjrcQI" state:@"login" delegate:self];
     //    
     //TODO:自动保存用户登录
-    [[ConstantClass instance] setIsSaveUser:YES];
+    [[ConstantClass instance] setIsGuestUser:YES];
     [ConstantClass saveToCache];
     
     [self dismissModalViewControllerAnimated:NO];
@@ -294,7 +294,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
                 
                 [[ConstantClass instance] setUsername:self.auth.userEmail];
                 //TODO:自动保存用户登录
-                [[ConstantClass instance] setIsSaveUser:YES];
+                [[ConstantClass instance] setIsGuestUser:YES];
                 [ConstantClass saveToCache];
                 
                 [self dismissModalViewControllerAnimated:NO];
@@ -317,7 +317,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
 #endif
                 [[ConstantClass instance] setUsername:self.textUsername.text];
                 //TODO:自动保存用户登录
-                [[ConstantClass instance] setIsSaveUser:YES];
+                [[ConstantClass instance] setIsGuestUser:YES];
                 [ConstantClass saveToCache];
                 
                 [self dismissModalViewControllerAnimated:NO];
@@ -527,9 +527,9 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
                   , authInfo.errorString);
             
             self.auth = authInfo;
-            [Tools showHUD:@"登录中" view:self.view HUD:HUD];
-            requestType = GoogleLoginValue;
-            [AccountService googleLogin:@"" code:@"4/7XphY2aqMy36JCy4BTFAdxgF3wKq.wne-l9DssfccuJJVnL49Cc--C5P3cQI" refreshToken:self.auth.refreshToken state:@"login" mobi:@"true" delegate:self];
+//            [Tools showHUD:@"登录中" view:self.view HUD:HUD];
+//            requestType = GoogleLoginValue;
+//            [AccountService googleLogin:@"" code:@"4/7XphY2aqMy36JCy4BTFAdxgF3wKq.wne-l9DssfccuJJVnL49Cc--C5P3cQI" refreshToken:self.auth.refreshToken state:@"login" mobi:@"true" delegate:self];
         }
     }
     

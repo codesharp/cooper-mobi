@@ -18,6 +18,7 @@
 
 @property(nonatomic,assign) id<NetworkDelegate> delegate;
 
++ (BOOL)isOnline;
 //get method
 + (ASIHTTPRequest *)getRequest:(NSString *)url;
 //post method

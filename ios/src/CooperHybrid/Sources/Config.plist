@@ -5,7 +5,7 @@
 	<key>username</key>
 	<string>用户名</string>
 	<key>env_path</key>
-	<string>http://debug.incooper.net</string>
+	<string>http://debug.incooper.com</string>
 	<key>skip_btn_text</key>
 	<string>跳过</string>
 	<key>login_btn_text</key>
@@ -13,12 +13,12 @@
 	<key>googlelogin_btn_text</key>
 	<string>使用谷歌登录</string>
 	<key>googleClientId</key>
-	<string>585828767504.apps.googleusercontent.com</string>
+	<string>585828767504-lai9bc86t7ldm6h6g3jkb48irc8qdl6q.apps.googleusercontent.com</string>
 	<key>googleClientSecret</key>
-	<string>EoRiUVUV1rkxSOU28BQzorFC</string>
+	<string>q8onMetXq89-RgnT4J3aWoBa</string>
 	<key>googleScope</key>
 	<string>https://www.googleapis.com/auth/plus.me</string>
 	<key>google_redirect_uri</key>
-	<string>http://debug.incooper.net/Account/GoogleLogin</string>
+	<string>urn:ietf:wg:oauth:2.0:oob</string>
 </dict>
 </plist>

@@ -25,7 +25,7 @@
     {
         _launching = NO;
         
-        if ([[ConstantClass instance] isSaveUser]) 
+        if ([[ConstantClass instance] isGuestUser]) 
         {
             [self loginExit];
         }

@@ -20,8 +20,8 @@
 //  main.m
 //  CooperGap
 //
-//  Created by 磊 李 on 12-7-18.
-//  Copyright __MyCompanyName__ 2012年. All rights reserved.
+//  Created by sunleepy on 12-7-18.
+//  Copyright codesharp 2012年. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
