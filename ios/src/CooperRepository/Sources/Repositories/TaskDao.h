@@ -17,6 +17,8 @@
 
 - (NSMutableArray*)getAllTask:(NSString*)tasklistId;
 
+- (NSMutableArray*)getAllTaskByTemp;
+
 - (Task*)getTaskById:(NSString*)taskId;
 
 - (void)deleteTask:(Task*)task;
@@ -61,5 +63,8 @@
 - (void)updateTaskIdByNewId:(NSString*)oldId 
                       newId:(NSString*)newId 
                  tasklistId:(NSString*)tasklistId;
+
+- (void)updateTasklistIdByNewId:(NSString*)oldId
+                          newId:(NSString*)newId;
 
 @end

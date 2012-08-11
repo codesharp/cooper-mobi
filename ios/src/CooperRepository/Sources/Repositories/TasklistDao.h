@@ -17,6 +17,8 @@
 
 - (Tasklist*)getTasklistById:(NSString*)tasklistId;
 
+- (NSMutableArray*)getAllTasklistByUserAndTemp;
+
 - (NSMutableArray*)getAllTasklistByTemp;
 
 - (NSMutableArray*)getAllTasklistByGuest;

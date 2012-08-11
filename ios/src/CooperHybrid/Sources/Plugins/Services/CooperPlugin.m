@@ -108,9 +108,6 @@
             }
             //同步任务
             else {
-                tasklist_couter = 0;
-                tasklist_total = 0;
-                
                 NSMutableDictionary *context = [NSMutableDictionary dictionary];
                 [context setObject:SYNCTASKS forKey:@"key"];
                 [context setObject:tasklistId forKey:@"tasklistId"];
@@ -514,6 +511,10 @@
             NSMutableArray *responseArray = [request.responseString JSONValue];
             
             TasklistDao *tasklistDao = [[TasklistDao alloc] init];
+            TaskDao *taskDao = [[TaskDao alloc] init];
+            TaskIdxDao *taskIdxDao = [[TaskIdxDao alloc] init];
+            ChangeLogDao *changLogDao = [[ChangeLogDao alloc] init];
+            
             for (NSMutableDictionary *dict in responseArray) {
                 NSString *oldId = [dict objectForKey:@"OldId"];
                 NSString *newId = [dict objectForKey:@"NewId"];
@@ -521,9 +522,22 @@
                 NSLog(@"任务旧值ID: %@ 变为新值ID:%@", oldId, newId);
 
                 [tasklistDao updateTasklistIdByNewId:oldId newId:newId];        
+                
+                if([[ConstantClass instance] username].length > 0)
+                {
+                    //刷新其他表
+                    [taskDao updateTasklistIdByNewId:oldId newId:newId];
+                    
+                    [taskIdxDao updateTasklistIdByNewId:oldId newId:newId];
+                    
+                    [changLogDao updateTasklistIdByNewId:oldId newId:newId];
+                }
             }  
             [tasklistDao commitData];
             
+            [changLogDao release];
+            [taskIdxDao release];
+            [taskDao release];
             [tasklistDao release];
             
             NSString *callbackId = [request.userInfo objectForKey:@"callbackId"];

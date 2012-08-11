@@ -53,6 +53,28 @@
     return [taskIdxs autorelease];
 }
 
+- (NSMutableArray*)getAllTaskIdxByTemp
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName                                     inManagedObjectContext:context];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(accountId = nil)"];
+    
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil; 
+    
+    [fetchRequest setEntity:entity];
+    NSMutableArray *taskIdxs = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    if(error != nil)
+        NSLog(@"数据库错误异常: %@", [error description]);
+    
+    [fetchRequest release];
+    
+    return [taskIdxs autorelease];
+}
+
 - (TaskIdx*)getTaskIdxByKey:(NSString*)key tasklistId:(NSString *)tasklistId
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -390,6 +412,15 @@
     
     [parser release];
     [writer release];
+}
+
+- (void)updateTasklistIdByNewId:(NSString*)oldId 
+                          newId:(NSString*)newId
+{
+    NSMutableArray *taskIdxs = [self getAllTaskIdx:oldId];
+    for (TaskIdx *taskIdx in taskIdxs) {
+        taskIdx.tasklistId = newId;
+    }
 }
 
 @end

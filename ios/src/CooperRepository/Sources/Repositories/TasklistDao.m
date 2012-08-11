@@ -92,14 +92,12 @@
         tasklist = [tasklists objectAtIndex:0];
     }
     
-    [super commitData];
-    
     [fetchRequest release];
     
     return [tasklist autorelease];
 }
 
-- (NSMutableArray*)getAllTasklistByTemp
+- (NSMutableArray*)getAllTasklistByUserAndTemp
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
@@ -133,7 +131,33 @@
     if(error != nil)
         NSLog(@"数据库错误异常: %@", [error description]);
     
-    [super commitData];
+    [fetchRequest release];
+    
+    return [tasklists autorelease];
+}
+
+- (NSMutableArray*)getAllTasklistByTemp
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName                                     inManagedObjectContext:context];
+
+    
+    NSSortDescriptor *sortDescriptor =  [[NSSortDescriptor alloc] initWithKey:@"id" 
+                                                                    ascending:YES];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(id like[c] %@ and accountId = nil)", @"temp_*"];
+
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil; 
+    
+    [fetchRequest setEntity:entity];
+    NSMutableArray *tasklists = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    if(error != nil)
+        NSLog(@"数据库错误异常: %@", [error description]);
     
     [fetchRequest release];
     

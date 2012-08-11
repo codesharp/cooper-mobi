@@ -86,6 +86,28 @@
     return [tasks autorelease];
 }
 
+- (NSMutableArray*)getAllTaskByTemp
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName                                     inManagedObjectContext:context];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(accountId = nil)"];
+    
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil; 
+    
+    [fetchRequest setEntity:entity];
+    NSMutableArray *tasks = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    if(error != nil)
+        NSLog(@"数据库错误异常: %@", [error description]);
+    
+    [fetchRequest release];
+    
+    return [tasks autorelease];
+}
+
 - (Task*)getTaskById:(NSString*)taskId
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -235,8 +257,15 @@
     if(task == nil)
         return;
     task.id = newId;
-    
-    //[super commitData];
+}
+
+- (void)updateTasklistIdByNewId:(NSString*)oldId
+                          newId:(NSString*)newId
+{
+    NSMutableArray *tasks = [self getAllTask:oldId];
+    for (Task *task in tasks) {
+        task.tasklistId = newId;
+    }
 }
 
 @end

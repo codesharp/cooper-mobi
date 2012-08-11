@@ -13,6 +13,9 @@
 {
     NSString* tableName;
 }
+
+- (NSMutableArray*)getAllChangeLogByTemp;
+
 - (NSMutableArray*)getAllChangeLog:(NSString*)tasklistId;
 
 - (void)insertChangeLog:(NSNumber*)type 
@@ -26,5 +29,7 @@
 - (void)updateAllToSend:(NSString*)tasklistId;
 
 - (void)deleteChangLog:(ChangeLog*)changeLog;
+
+- (void)updateTasklistIdByNewId:(NSString*)oldId newId:(NSString*)newId;
 
 @end

@@ -12,6 +12,9 @@
 {
     NSString* tableName;
 }
+
+- (NSMutableArray*)getAllTaskIdxByTemp;
+
 - (NSMutableArray*)getAllTaskIdx:(NSString*)tasklistId;
 
 - (TaskIdx*)getTaskIdxByKey:(NSString*)key 
@@ -52,5 +55,8 @@
 - (void)updateTaskIdxByNewId:(NSString*)oldId 
                        newId:(NSString*)newId
                   tasklistId:(NSString*)tasklistId;
+
+- (void)updateTasklistIdByNewId:(NSString*)oldId 
+                          newId:(NSString*)newId;
 
 @end

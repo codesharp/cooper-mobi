@@ -21,6 +21,28 @@
     return self;
 }
 
+- (NSMutableArray*)getAllChangeLogByTemp
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName                                     inManagedObjectContext:context];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(accountId = nil)"];
+    
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil; 
+    
+    [fetchRequest setEntity:entity];
+    NSMutableArray *changeLogs = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    if(error != nil)
+        NSLog(@"数据库错误异常: %@", [error description]);
+    
+    [fetchRequest release];
+    
+    return [changeLogs autorelease];
+}
+
 - (NSMutableArray*) getAllChangeLog:(NSString*)tasklistId
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -89,6 +111,14 @@
 - (void)deleteChangLog:(ChangeLog*)changeLog
 {
     [context deleteObject:changeLog];
+}
+
+- (void)updateTasklistIdByNewId:(NSString*)oldId newId:(NSString*)newId
+{
+    NSMutableArray *changeLogs = [self getAllChangeLog:oldId];
+    for (ChangeLog *changeLog in changeLogs) {
+        changeLog.tasklistId = newId;
+    }
 }
 
 @end

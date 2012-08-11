@@ -8,6 +8,9 @@
 
 #import "TasklistService.h"
 #import "CooperRepository/TasklistDao.h"
+#import "CooperRepository/TaskDao.h"
+#import "CooperRepository/TaskIdxDao.h"
+#import "CooperRepository/ChangeLogDao.h"
 
 @implementation TasklistService
 
@@ -28,11 +31,42 @@
 + (void)syncTasklists:(NSMutableDictionary*)context delegate:(id)delegate
 {
     TasklistDao *tasklistDao = [[TasklistDao alloc] init];
+    TaskDao *taskDao = [[TaskDao alloc] init];
+    TaskIdxDao *taskIdxDao = [[TaskIdxDao alloc] init];
+    ChangeLogDao *changeLogDao = [[ChangeLogDao alloc] init];
     
-    NSMutableArray *tasklists = [tasklistDao getAllTasklistByTemp];
+    NSMutableArray *tempTasklists = [tasklistDao getAllTasklistByTemp];
     
+    if([[ConstantClass instance] username].length > 0)
+    {    
+        NSMutableArray *tasklists = [tasklistDao getAllTasklistByUserAndTemp];
+        [tempTasklists addObjectsFromArray:tasklists];
+        
+        //HACK:表中相关的用户设置
+        for(Tasklist *temp in tempTasklists) {
+            temp.accountId = [[ConstantClass instance] username];
+        }
+        
+        NSMutableArray *tempTasks = [taskDao getAllTaskByTemp];
+        for (Task *temp in tempTasks) {
+            temp.accountId = [[ConstantClass instance] username];
+        }
+        
+        NSMutableArray *tempTaskIdxs = [taskIdxDao getAllTaskIdxByTemp];
+        for (TaskIdx *temp in tempTaskIdxs) {
+            temp.accountId = [[ConstantClass instance] username];
+        }
+        
+        NSMutableArray *tempChangeLogs = [changeLogDao getAllChangeLogByTemp];
+        for (TaskIdx *temp in tempChangeLogs) {
+            temp.accountId = [[ConstantClass instance] username];
+        }
+         
+        [tasklistDao commitData];
+    }
+     
     NSMutableArray *array = [NSMutableArray array];
-    for (Tasklist *tasklist in tasklists)
+    for (Tasklist *tasklist in tempTasklists)
     {
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         [dict setObject:tasklist.id forKey:@"ID"];
@@ -46,6 +80,9 @@
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     [data setObject:tasklistsJson forKey:@"data"];
     
+    [changeLogDao release];
+    [taskIdxDao release];
+    [taskDao release];
     [tasklistDao release];
     
     NSString *url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:TASKLISTS_SYNC_URL];
