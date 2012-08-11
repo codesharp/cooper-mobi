@@ -225,7 +225,7 @@
                     [taskDict setObject:task.id forKey:@"id"];
                     [taskDict setObject:task.subject forKey:@"subject"];
                     [taskDict setObject:task.body forKey:@"body"];
-                    [taskDict setObject:task.status forKey:@"isCompleted"];
+                    [taskDict setObject:task.status == [NSNumber numberWithInt:1] ? @"true" : @"false" forKey:@"isCompleted"];
                     [taskDict setObject:task.dueDate == nil ? @"" : [Tools ShortNSDateToNSString:task.dueDate] forKey:@"dueTime"];
                     [taskDict setObject:task.priority forKey:@"priority"];
                     
@@ -307,7 +307,7 @@
            lastUpdateDate:currentDate
                      body:body 
                  isPublic:[Tools BOOLToNSNumber:YES] 
-                   status:[isCompleted isEqualToString:@"1"] ? [NSNumber numberWithInt:1] : [NSNumber numberWithInt:0] 
+                   status:[isCompleted isEqualToString:@"true"] ? [NSNumber numberWithInt:1] : [NSNumber numberWithInt:0] 
                  priority:priority
                   dueDate:dueTimeDate 
                  editable:[NSNumber numberWithInt:1]
@@ -360,21 +360,31 @@
         NSString *dueTime = [taskDict objectForKey:@"dueTime"];      
         NSDate *dueTimeDate = [Tools NSStringToShortNSDate:dueTime];
         
+        Task *task = [taskDao getTaskById:id];
+        NSString* oldPriority = priority;
+        if(task.id.length > 0)
+        {
+            oldPriority = task.priority;
+        }
+        
         [taskDao saveTask:id
                   subject:subject
            lastUpdateDate:currentDate
                      body:body 
                  isPublic:[Tools BOOLToNSNumber:YES] 
-                   status:[isCompleted isEqualToString:@"1"] ? [NSNumber numberWithInt:1] : [NSNumber numberWithInt:0]
+                   status:[isCompleted isEqualToString:@"true"] ? [NSNumber numberWithInt:1] : [NSNumber numberWithInt:0]
                  priority:priority
                   dueDate:dueTimeDate 
                  editable:[NSNumber numberWithInt:1]
                tasklistId:tasklistId];
         
-        [taskIdxDao updateTaskIdx:id
-                            byKey:priority 
-                       tasklistId:tasklistId
-                         isCommit:NO];
+        if(![oldPriority isEqualToString:priority])
+        {
+            [taskIdxDao updateTaskIdx:id
+                                byKey:priority 
+                           tasklistId:tasklistId
+                             isCommit:NO];
+        }
         
         for(NSMutableDictionary *d in changesArray)
         {

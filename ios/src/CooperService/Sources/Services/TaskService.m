@@ -44,15 +44,7 @@
         [dict setObject:(changeLog.name == nil ? @"" : changeLog.name)forKey:@"Name"];
         if([changeLog.name isEqualToString:@"isCompleted"])
         {
-            NSLog(@"equal:%d", [changeLog.value isEqualToString:@"0"]);
-            if([changeLog.value isEqualToString:@"1"])
-            {
-                [dict setObject:@"true" forKey:@"Value"];
-            }
-            else 
-            {
-                [dict setObject:@"false" forKey:@"Value"];
-            }
+            [dict setObject:changeLog.value forKey:@"Value"];
         }
         else
         {
