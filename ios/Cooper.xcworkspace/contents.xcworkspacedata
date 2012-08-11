@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "container:"
+      name = "&#21407;&#29983;&#27169;&#24335;">
+      <FileRef
+         location = "group:src/CooperNative/CooperNative.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "&#28151;&#21512;&#27169;&#24335;">
+      <FileRef
+         location = "group:src/CooperHybrid/CooperHybrid.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "CooperKit">
+      <FileRef
+         location = "group:src/CooperCore/CooperCore.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:src/CooperRepository/CooperRepository.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:src/CooperService/CooperService.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "CodesharpKit">
+      <FileRef
+         location = "group:lib/CodesharpSDK/CodesharpSDK.xcodeproj">
+      </FileRef>
+   </Group>
+</Workspace>
