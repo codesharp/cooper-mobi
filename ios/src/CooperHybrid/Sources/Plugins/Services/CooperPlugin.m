@@ -82,7 +82,7 @@
         
         return;
     }
-    //TODO:同步任务列表
+    //同步任务列表
     else if ([key isEqualToString: SYNCTASKLISTS]) {
         
         if([[ConstantClass instance] isGuestUser])
@@ -108,12 +108,22 @@
             }
             //同步任务
             else {
-                NSMutableDictionary *context = [NSMutableDictionary dictionary];
-                [context setObject:SYNCTASKS forKey:@"key"];
-                [context setObject:tasklistId forKey:@"tasklistId"];
-                [context setObject:callbackId forKey:@"callbackId"];
                 
-                [TaskService syncTask:tasklistId context:context delegate:self];
+                if([tasklistId rangeOfString:@"temp_"].length > 0)
+                {
+                    [context setObject:tasklistId forKey:@"tasklistId"];
+                    [TasklistService syncTasklists:tasklistId context:context delegate:self];
+                }
+                else 
+                {
+                    NSMutableDictionary *context = [NSMutableDictionary dictionary];
+                    [context setObject:SYNCTASKS forKey:@"key"];
+                    [context setObject:tasklistId forKey:@"tasklistId"];
+                    [context setObject:callbackId forKey:@"callbackId"];
+                    
+                    [TaskService syncTask:tasklistId context:context delegate:self];
+                }
+                
             }
             
             return;
@@ -194,6 +204,7 @@
     //获取按优先级的任务
     else if([key isEqualToString: GETTASKSBYPRIORITY]) 
     {
+        //TODO:返回一个值
         NSString *tasklistId = [options objectForKey:@"tasklistId"];
         
         TasklistDao *tasklistDao = [[TasklistDao alloc] init];
@@ -211,7 +222,9 @@
         SBJsonParser *parser = [[SBJsonParser alloc] init];
         
         NSMutableArray *task_array = [NSMutableArray array];
+        NSMutableArray *taskIdx_array = [NSMutableArray array];
         
+        //任务排序
         for(TaskIdx *taskIdx in taskIdxs)
         {
             NSMutableArray *taskIdsDict = [parser objectWithString:taskIdx.indexes];
@@ -232,14 +245,19 @@
                     [task_array addObject:taskDict];
                 }
             }
+            
+            NSMutableDictionary *taskIdx_dict = [NSMutableDictionary dictionary];
+            [taskIdx_dict setObject:@"priority" forKey:@"by"];
+            [taskIdx_dict setObject:taskIdx.key forKey:@"key"];
+            [taskIdx_dict setObject:taskIdx.name forKey:@"name"];
+            [taskIdx_dict setObject:taskIdsDict forKey:@"indexs"];
+        
+            [taskIdx_array addObject:taskIdx_dict];
         }
         
         [dict setObject:task_array forKey:@"tasks"];
-        
-        //TODO:任务排序
-        taskIdxs = [NSMutableArray array];
-        
-        [dict setObject:taskIdxs forKey:@"sorts"];
+
+        [dict setObject:taskIdx_array forKey:@"sorts"];
         
         [parser release];
         
@@ -525,6 +543,7 @@
             TaskIdxDao *taskIdxDao = [[TaskIdxDao alloc] init];
             ChangeLogDao *changLogDao = [[ChangeLogDao alloc] init];
             
+            NSString *newTasklistId = nil;
             for (NSMutableDictionary *dict in responseArray) {
                 NSString *oldId = [dict objectForKey:@"OldId"];
                 NSString *newId = [dict objectForKey:@"NewId"];
@@ -541,7 +560,10 @@
                     [taskIdxDao updateTasklistIdByNewId:oldId newId:newId];
                     
                     [changLogDao updateTasklistIdByNewId:oldId newId:newId];
+                    
+                    newTasklistId = newId;
                 }
+                
             }  
             [tasklistDao commitData];
             
@@ -553,10 +575,22 @@
             NSString *callbackId = [request.userInfo objectForKey:@"callbackId"];
             
             NSMutableDictionary *context = [NSMutableDictionary dictionary];
-            [context setObject:GETTASKLISTS_SERVER forKey:@"key"];
             [context setObject:callbackId forKey:@"callbackId"];
             
-            [TasklistService getTasklists:context delegate:self];
+            NSString *tasklistId = [request.userInfo objectForKey:@"tasklistId"];
+            
+            if(tasklistId == [NSNull null] || tasklistId.length == 0)
+            {
+                [context setObject:GETTASKLISTS_SERVER forKey:@"key"];
+                [TasklistService getTasklists:context delegate:self];
+            }
+            else
+            {
+                [context setObject:SYNCTASKS forKey:@"key"];
+                [context setObject:newTasklistId forKey:@"tasklistId"];
+                
+                [TaskService syncTask:newTasklistId context:context delegate:self];
+            }
             
             return;
         }
@@ -580,7 +614,6 @@
             {
                 NSString *value = [tasklistsDict objectForKey:key];
                 
-                //TODO:暂时只添加个人任务列表
                 [tasklistDao addTasklist:key:value:@"personal"];
             }
             
@@ -644,7 +677,7 @@
                     NSLog(@"任务旧值ID: %@ 变为新值ID:%@", oldId, newId);
                  
                     [taskDao updateTaskIdByNewId:oldId newId:newId tasklistId:tasklistId];
-                    [taskIdxDao updateTaskIdxByNewId:oldId newId:newId tasklistId:tasklistId];                                                
+                    [taskIdxDao updateTaskIdxByNewId:oldId newId:newId tasklistId:tasklistId];    
                 }
             }
             
@@ -661,6 +694,7 @@
             [context setObject:GETTASKSBYPRIORITY_SERVER forKey:@"key"];
             [context setObject:tasklistId forKey:@"tasklistId"];
             [context setObject:callbackId forKey:@"callbackId"];
+            
             //获取Tasks更新本地数据
             [TaskService getTasks:tasklistId context:context delegate:self];
             

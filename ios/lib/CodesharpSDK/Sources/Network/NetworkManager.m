@@ -19,7 +19,7 @@
 	if (NotReachable == [hostReach currentReachabilityStatus]) {
         return false;
     }
-    //TODO:WIFI WWAN
+    //WIFI WWAN
     return true;
 }
 

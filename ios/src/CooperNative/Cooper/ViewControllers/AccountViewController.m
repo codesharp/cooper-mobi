@@ -226,15 +226,13 @@
             [[ConstantClass instance] setDomain:domainLabel.text];
 #endif
             [[ConstantClass instance] setUsername:textUsername.text];
-            //TODO:自动保存用户登录
             [[ConstantClass instance] setIsGuestUser:YES];
 
             [ConstantClass saveToCache];
             
-            //TODO:把当前用户数据先全部同步到服务端
+            //把当前用户数据先全部同步到服务端
             [self syncAllLocalData];
 
-            //TODO:...
             [Tools alert:@"保存成功"];
         }     
         else if(requestType == SyncAllValue) {
@@ -257,7 +255,6 @@
             {
                 NSString *value = [tasklistsDict objectForKey:key];
                 
-                //TODO:这里处理个人
                 [tasklistDao addTasklist:key:value:@"personal"];
             }
             

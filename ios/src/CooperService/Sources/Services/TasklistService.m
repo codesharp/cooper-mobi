@@ -28,6 +28,33 @@
     return @"";
 }
 
++ (void)syncTasklists:(NSString*)tasklistId context:(NSMutableDictionary *)context delegate:(id)delegate
+{
+    TasklistDao *tasklistDao = [[TasklistDao alloc] init];
+    
+    Tasklist *tasklist = [tasklistDao getTasklistById:tasklistId];
+    
+    NSMutableArray *array = [NSMutableArray array];
+
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setObject:tasklist.id forKey:@"ID"];
+    [dict setObject:tasklist.name forKey:@"Name"];
+    [dict setObject:tasklist.listType forKey:@"Type"];
+    [array addObject:dict];
+
+    
+    NSString *tasklistsJson = [array JSONRepresentation];
+    
+    NSMutableDictionary *data = [NSMutableDictionary dictionary];
+    [data setObject:tasklistsJson forKey:@"data"];
+    
+    [tasklistDao release];
+    
+    NSString *url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:TASKLISTS_SYNC_URL];
+    NSLog(@"同步所有的任务列表外部路径: %@", url);
+    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:context addHeaders:nil];
+}
+
 + (void)syncTasklists:(NSMutableDictionary*)context delegate:(id)delegate
 {
     TasklistDao *tasklistDao = [[TasklistDao alloc] init];

@@ -91,7 +91,6 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     [self.view addSubview:self.btnLogin];
     
     //跳过按钮
-    //TODO:按钮背景
     self.btnSkip = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     self.btnSkip.frame = CGRectMake(240, 250, 70, 40);
     self.btnSkip.layer.cornerRadius = 6.0f;
@@ -258,7 +257,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     //    requestType = GoogleLoginValue;
     //    [AccountService googleLogin:@"" code:@"4/-s8utkRJ-3-zRzgIq54tYGSdcxg1.giR6or0tRtscuJJVnL49Cc9ifIjrcQI" state:@"login" delegate:self];
     //    
-    //TODO:自动保存用户登录
+    //自动保存用户登录
     [[ConstantClass instance] setIsGuestUser:YES];
     [ConstantClass saveToCache];
     
@@ -270,7 +269,6 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
     [Tools close:HUD];
-    //TODO:暂时采用字符串包含来判断是否登录成功
     NSLog(@"请求响应数据: %@, %d"
           , [request responseString]
           , [request responseStatusCode]);
@@ -293,7 +291,6 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
                 [sharedHTTPCookie setCookie:cookie];
                 
                 [[ConstantClass instance] setUsername:self.auth.userEmail];
-                //TODO:自动保存用户登录
                 [[ConstantClass instance] setIsGuestUser:YES];
                 [ConstantClass saveToCache];
                 
@@ -316,7 +313,6 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
                 [[ConstantClass instance] setDomain:self.domainLabel.text];
 #endif
                 [[ConstantClass instance] setUsername:self.textUsername.text];
-                //TODO:自动保存用户登录
                 [[ConstantClass instance] setIsGuestUser:YES];
                 [ConstantClass saveToCache];
                 

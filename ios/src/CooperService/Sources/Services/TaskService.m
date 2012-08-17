@@ -37,7 +37,6 @@
     NSMutableArray *changeLogsArray = [NSMutableArray array];
     for(ChangeLog *changeLog in changeLogs)
     {
-        NSLog(@"changeLog:%@", changeLog.dataid);
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         [dict setObject:changeLog.changeType forKey:@"Type"];
         [dict setObject:changeLog.dataid forKey:@"ID"];
@@ -87,9 +86,8 @@
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     [data setObject:tasklistId forKey:@"tasklistId"];
     [data setObject:changeLogsJson forKey:@"changes"];
-    //TODO:list
     [data setObject:@"ByPriority" forKey:@"by"];
-    [data setObject:taskIdxsJson forKey:@"sorts"];
+    [data setObject:@"" forKey:@"sorts"];
     
     
     NSString *url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:TASK_SYNC_URL];
@@ -102,12 +100,12 @@
         delegate:(id)delegate
 {
     ChangeLogDao *changeLogDao = [[ChangeLogDao alloc] init];
-//    TaskIdxDao *taskIdxDao = [[TaskIdxDao alloc] init];
+    TaskIdxDao *taskIdxDao = [[TaskIdxDao alloc] init];
     
     NSMutableArray *changeLogs = [changeLogDao getAllChangeLog:tasklistId];
     NSLog("改变记录总数: %d", changeLogs.count);
     
-    //TODO:暂不处理
+    //排序处理
     //NSMutableArray *taskIdxs = [taskIdxDao getAllTaskIdx:tasklistId];
     
     NSMutableArray *taskIdxs = [NSMutableArray array];

@@ -168,8 +168,6 @@
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
-    [fetchRequest setEntity:entity];
-    
     
     NSPredicate *predicate;
     if([[ConstantClass instance] username].length > 0)
@@ -180,6 +178,8 @@
         predicate = [NSPredicate predicateWithFormat:@"(key = %@ and tasklistId = %@ and accountId = nil)", key, tasklistId];
     }
     [fetchRequest setPredicate:predicate];
+    
+    [fetchRequest setEntity:entity];
     
     SBJsonParser *parser = [[SBJsonParser alloc] init];
     SBJsonWriter *writer = [[SBJsonWriter alloc] init];
@@ -196,6 +196,10 @@
         taskIdx.key = key;
         taskIdx.name = [key isEqualToString:@"0"] ? (PRIORITY_TITLE_1) : ([key isEqualToString:@"1"] ?PRIORITY_TITLE_2 : PRIORITY_TITLE_3);
         indexesArray = [NSMutableArray array];
+        if([[Constant instance] username].length > 0)
+        {
+            taskIdx.accountId = [[Constant instance] username];
+        }
     }
     else 
     {

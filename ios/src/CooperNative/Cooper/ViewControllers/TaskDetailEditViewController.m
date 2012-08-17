@@ -117,7 +117,6 @@
 {
     if(self.task == nil)
     {
-        //TODO:日期格式
         NSString *guid = [Tools stringWithUUID];
         
         NSString *id = [NSString stringWithFormat:@"temp_%@_%@", self.currentPriority, guid];

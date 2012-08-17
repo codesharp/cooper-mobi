@@ -129,7 +129,7 @@
         [tasklistDao addTasklist:@"0" :@"默认列表" :@"personal"];
         [tasklistDao commitData];
         
-        //TODO:添加再重新查询
+        //添加再重新查询
         tasklistsArray = [tasklistDao getAllTasklist];
     }
     
@@ -211,13 +211,9 @@
     NSString *guid = [Tools stringWithUUID];
     tempTasklistId = [NSString stringWithFormat:@"temp_%@", guid];
     
-    //TODO:临时方式
-    //[[ConstantClass instance] setTempCreateTasklistId:[NSString stringWithFormat:@"temp_%@", guid]];
-    //[[ConstantClass instance] setTempCreateTasklistName:value];
-    
     HUD = [Tools process:LOADING_TITLE view:self.view];
     
-    //TODO:同步请求创建任务列表
+    //同步请求创建任务列表
     requestType = CreateTasklistValue;
     
     [TasklistService syncTasklist:value :@"personal" :self];
@@ -244,11 +240,10 @@
             {
                 NSString *value = [tasklistsDict objectForKey:key];
                 
-                //TODO:暂时只添加个人任务列表
                 [tasklistDao addTasklist:key:value:@"personal"];
             }
             
-            //TODO:加上默认列表，判断下未登录用户的默认列表
+            //加上默认列表，判断下未登录用户的默认列表
             [tasklistDao addTasklist:@"0" :@"默认列表" :@"personal"];
             
             [tasklistDao commitData];
@@ -263,10 +258,6 @@
     else if(requestType == CreateTasklistValue)
     {
         [Tools close:HUD];
-        
-        //TODO:...
-        //NSString* tempTasklistId = [[ConstantClass instance] tempCreateTasklistId];
-        //NSString* tempTasklistName = [[ConstantClass instance] tempCreateTasklistName];
         
         [tasklistDao addTasklist:tempTasklistId :@"value" :@"personal"];
 
@@ -411,7 +402,7 @@
 {
     [editBtn resignFirstResponder];
     
-    //TODO:点击产生的最近任务列表记录，目前只保留4条记录，算法需要优化
+    //点击产生的最近任务列表记录，目前只保留4条记录，算法需要优化
     NSString *tasklistId;
     NSMutableArray *recentlyIds = (NSMutableArray*)[[ConstantClass instance] recentlyIds];
     
