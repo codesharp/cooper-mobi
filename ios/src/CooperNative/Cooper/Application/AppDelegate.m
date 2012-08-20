@@ -7,40 +7,43 @@
 //
 
 #import "AppDelegate.h"
-#import "CooperCOre/Task.h"
 #import "CooperRepository/TaskDao.h"
+#import "Three20/Three20.h"
 
 @implementation AppDelegate
 
 @synthesize window;
 @synthesize mainViewController;
-@synthesize timer;
 @synthesize managedObjectModel;
 @synthesize managedObjectContext;
 @synthesize persistantStoreCoordiantor;
+//@synthesize timer;
 
 #pragma mark - 应用程序生命周期
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    NSLog(@"%@", [Three20 version]);
+    
+    //从缓存中加载数据
     [ConstantClass loadFromCache]; 
     
-    //TODO:为了能够初始化刷新数据库产生的延迟
+    //为了能够初始化刷新数据库产生的延迟
     [self managedObjectContext];
-    //[ContextManager instance];
     
     if([[ConstantClass instance] rootPath] == nil)
     {
+        //如果rootPath不存在数据，将从env_path刷一份数据
         [[ConstantClass instance] setRootPath:[[[SysConfig instance] keyValue] objectForKey: @"env_path"]];
+        //保存路径
         [ConstantClass savePathToCache];
     }
-    
     NSLog(@"当前网络根路径: %@",[[ConstantClass instance] rootPath]);
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-    [self.window setBackgroundColor:[UIColor whiteColor]];
+    self.window.backgroundColor = [UIColor whiteColor];
     
-    self.mainViewController = [[[MainViewController alloc] init] autorelease];
+    self.mainViewController = [[MainViewController alloc] init];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.mainViewController];
 
     self.window.rootViewController = navController;
@@ -114,12 +117,11 @@
 
 - (void)dealloc
 {
-    [managedObjectModel release];
-    [managedObjectContext release];
-    [persistentStoreCoordinator release];
-    [mainViewController release];
-    NSLog(@"dealloc app");
-    //[timer release];
+    RELEASE(managedObjectModel);
+    RELEASE(managedObjectContext);
+    RELEASE(persistantStoreCoordiantor);
+    RELEASE(mainViewController);
+    RELEASE(window);
     [super dealloc];
 }
 
