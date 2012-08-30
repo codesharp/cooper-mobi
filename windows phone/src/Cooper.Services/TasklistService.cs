@@ -21,10 +21,15 @@ namespace Cooper.Services
         /// </summary>
         /// <param name="successCallback"></param>
         /// <param name="failCallback"></param>
-        public void GetTasklists(Action<RestResponse> successCallback
-            , Action<Exception> failCallback)
+        public void GetTasklists(Action<RestResponse, object> successCallback
+            , Action<Exception> failCallback
+            , object userState)
         {
-             this.UploadString(Constant.GETTASKLISTS_URL, new Dictionary<string, string>(), successCallback, failCallback);
+             this.UploadString(Constant.GETTASKLISTS_URL
+                 , new Dictionary<string, string>()
+                 , successCallback
+                 , failCallback
+                 , userState);
         }
         /// <summary>
         /// 同步任务列表
@@ -34,13 +39,14 @@ namespace Cooper.Services
         /// <param name="successCallback"></param>
         /// <param name="failCallback"></param>
         public void SyncTasklist(string name, string type
-            , Action<RestResponse> successCallback
-            , Action<Exception> failCallback)
+            , Action<RestResponse, object> successCallback
+            , Action<Exception> failCallback
+            , object userState)
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
             dict.Add("name", name);
             dict.Add("type", type);
-            this.UploadString(Constant.TASKLIST_SYNC_URL, dict, successCallback, failCallback);
+            this.UploadString(Constant.TASKLIST_SYNC_URL, dict, successCallback, failCallback, userState);
         }
     }
 }

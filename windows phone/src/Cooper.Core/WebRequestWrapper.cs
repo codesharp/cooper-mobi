@@ -32,8 +32,9 @@ namespace Cooper.Core
         /// <param name="failed"></param>
         protected void UploadString(string url
             , IDictionary<string, string> queries
-            , Action<RestResponse> action
-            , Action<Exception> failed)
+            , Action<RestResponse, object> action
+            , Action<Exception> failed
+            , object userState)
         {
             bool httpResult = HttpWebRequest.RegisterPrefix("http://", WebRequestCreator.ClientHttp);
             RestClient client = new RestClient();
@@ -46,11 +47,11 @@ namespace Cooper.Core
             CookieContainer cookieContainer = null;
             if (IsolatedStorageSettings.ApplicationSettings.Contains("cookie"))
             {
-                cookieContainer = IsolatedStorageSettings.ApplicationSettings["cookieContainer"] as CookieContainer;            
+                cookieContainer = IsolatedStorageSettings.ApplicationSettings["cookieContainer"] as CookieContainer;
                 Cookie cookie = IsolatedStorageSettings.ApplicationSettings["cookie"] as Cookie;
                 if (cookieContainer.Count == 0 && cookie != null)
                 {
-                    cookieContainer.SetCookies(new Uri(Constant.ROOTURL), string.Format("{0}={1}", cookie.Name, cookie.Value)); 
+                    cookieContainer.SetCookies(new Uri(Constant.ROOTURL), string.Format("{0}={1}", cookie.Name, cookie.Value));
                 }
             }
             else
@@ -59,25 +60,25 @@ namespace Cooper.Core
             }
 
             restRequest.CookieContainer = cookieContainer;
-            client.BeginRequest(restRequest, (request, response, userState) =>
+            client.BeginRequest(restRequest, (request, response, userState1) =>
+            {
+                cookieContainer = response.CookieContainer;
+                CookieCollection cookies = cookieContainer.GetCookies(new Uri(Constant.ROOTURL));
+                try
                 {
-                    cookieContainer = response.CookieContainer;
-                    CookieCollection cookies = cookieContainer.GetCookies(new Uri(Constant.ROOTURL));
-                    try
-                    {
-                        IsolatedStorageSettings.ApplicationSettings["cookie"] = cookies["cooper"];
-                        IsolatedStorageSettings.ApplicationSettings["cookieContainer"] = cookieContainer;
-                        IsolatedStorageSettings.ApplicationSettings.Save();
-                    }
-                    catch
-                    {
-                    }
+                    IsolatedStorageSettings.ApplicationSettings["cookie"] = cookies["cooper"];
+                    IsolatedStorageSettings.ApplicationSettings["cookieContainer"] = cookieContainer;
+                    IsolatedStorageSettings.ApplicationSettings.Save();
+                }
+                catch
+                {
+                }
 
-                    if (response != null)
-                        Deployment.Current.Dispatcher.BeginInvoke(action, response);
-                    else
-                        Deployment.Current.Dispatcher.BeginInvoke(failed, new Exception("response返回为空！"));
-                });
+                if (response != null)
+                    Deployment.Current.Dispatcher.BeginInvoke(action, response, userState1);
+                else
+                    Deployment.Current.Dispatcher.BeginInvoke(failed, new Exception("response返回为空！"));
+            }, userState);
         }
 
         //private void BugFix_CookieDomain(CookieContainer cookieContainer)

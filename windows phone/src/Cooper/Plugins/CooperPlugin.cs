@@ -184,7 +184,7 @@ namespace Cordova.Extension.Commands
                         {
                             this._accountService.Login(username
                                 , password
-                                , response =>
+                                , (response, userState1) =>
                                 {
                                     if (response.StatusCode == HttpStatusCode.OK)
                                     {
@@ -208,14 +208,15 @@ namespace Cordova.Extension.Commands
                                 , exception =>
                                 {
                                     this.DispatchCommandResult(exception);
-                                });
+                                }
+                                , new Dictionary<string, object>());
                         }
                         else
                         {
                             this._accountService.Login(domain
                                 , username
                                 , password
-                                , response =>
+                                , (response, userState1) =>
                                 {
                                     if (response.StatusCode == HttpStatusCode.OK)
                                     {
@@ -246,7 +247,8 @@ namespace Cordova.Extension.Commands
                                 , exception => 
                                 {
                                     this.DispatchCommandResult(exception);
-                                });
+                                }
+                                , new Dictionary<string, object>());
                         }
                         #endregion
                     }
@@ -255,7 +257,7 @@ namespace Cordova.Extension.Commands
             else if (keyOptions.Key.Equals(Constant.LOGOUT))
             {
                 #region 注销
-                this._accountService.Logout(response =>
+                this._accountService.Logout((response, userState1) =>
                     {
                         if (response.StatusCode == HttpStatusCode.OK)
                         {
@@ -337,13 +339,17 @@ namespace Cordova.Extension.Commands
 
                         foreach (var tasklist in tempTasklists)
                         {
+                            Dictionary<string, object> userState = new Dictionary<string, object>();
+                            userState.Add("tasklist", tasklist);
+
                             this._tasklistService.SyncTasklist(tasklist.Name
                                 , tasklist.ListType
-                                , response =>
+                                , (response, userState1) =>
                                     {
                                         if (response.StatusCode == HttpStatusCode.OK)
                                         {
-                                            this.SyncTasklistAfterResponse("", tasklist, resultCode, response);
+                                            Dictionary<string, object> dict = (Dictionary<string, object>)userState1;
+                                            this.SyncTasklistAfterResponse("", dict["tasklist"] as Tasklist, resultCode, response);
                                         }
                                         else
                                         {
@@ -353,10 +359,11 @@ namespace Cordova.Extension.Commands
                                 , exception =>
                                     {
                                         this.DispatchCommandResult(exception);
-                                    });
+                                    }
+                                , userState);
                         }
 
-                        this._tasklistService.GetTasklists(response =>
+                        this._tasklistService.GetTasklists((response, userState1) =>
                             {
                                 if (response.StatusCode == HttpStatusCode.OK)
                                 {
@@ -370,7 +377,8 @@ namespace Cordova.Extension.Commands
                         , exception =>
                             {
                                 this.DispatchCommandResult(exception);
-                            });
+                            }
+                        , new Dictionary<string, object>());
                     }
                     else
                     {
@@ -378,12 +386,19 @@ namespace Cordova.Extension.Commands
                         if (tasklistId.IndexOf("temp_") >= 0)
                         {
                             Tasklist tasklist = this._tasklistRepository.GetTasklistById(tasklistId);
+
+                            Dictionary<string, object> userState = new Dictionary<string, object>();
+                            userState.Add("tasklistId", tasklistId);
+                            userState.Add("tasklist", tasklist);
+
                             this._tasklistService.SyncTasklist(tasklist.Name, tasklist.ListType
-                                , response =>
+                                , (response, userState1) =>
                                     {
                                         if (response.StatusCode == HttpStatusCode.OK)
                                         {
-                                            this.SyncTasklistAfterResponse(tasklistId, tasklist, resultCode, response);
+                                            Dictionary<string, object> dict = (Dictionary<string, object>)userState1;
+
+                                            this.SyncTasklistAfterResponse(dict["tasklistId"].ToString(), dict["tasklist"] as Tasklist, resultCode, response);
                                         }
                                         else
                                         {
@@ -393,13 +408,16 @@ namespace Cordova.Extension.Commands
                                 , exception =>
                                     {
                                         this.DispatchCommandResult(exception);
-                                    });
+                                    }
+                                , userState);
 
-                            this._tasklistService.GetTasklists(response =>
+                            this._tasklistService.GetTasklists((response, userState1) =>
                                 {
                                     if (response.StatusCode == HttpStatusCode.OK)
                                     {
-                                        this.GetTasklistsAfterResponse(tasklistId, resultCode, response);
+                                        Dictionary<string, object> dict = (Dictionary<string, object>)userState1;
+
+                                        this.GetTasklistsAfterResponse(dict["tasklistId"].ToString(), resultCode, response);
                                     }
                                     else
                                     {
@@ -409,16 +427,22 @@ namespace Cordova.Extension.Commands
                                 , exception =>
                                     {
                                         this.DispatchCommandResult(exception);
-                                    });
+                                    }
+                                , userState);
                         }
                         else
                         {
+                            Dictionary<string, object> userState = new Dictionary<string, object>();
+                            userState.Add("tasklistId", tasklistId);
+
                             this._taskService.SyncTasks(tasklistId
-                                , response =>
+                                , (response, userState1) =>
                                     {
                                         if (response.StatusCode == HttpStatusCode.OK)
                                         {
-                                            this.SyncTasksAfterResponse(tasklistId, resultCode, response);
+                                            Dictionary<string, object> dict = (Dictionary<string, object>)userState1;
+
+                                            this.SyncTasksAfterResponse(dict["tasklistId"].ToString(), resultCode, response);
                                         }
                                         else
                                         {
@@ -428,7 +452,8 @@ namespace Cordova.Extension.Commands
                                 , exception =>
                                     {
                                         this.DispatchCommandResult(exception);
-                                    });
+                                    }
+                                , userState);
                         }
                     }
                 }
@@ -864,7 +889,7 @@ namespace Cordova.Extension.Commands
 
             if (string.IsNullOrEmpty(tasklistId))
             {
-                this._tasklistService.GetTasklists(response1 =>
+                this._tasklistService.GetTasklists((response1, userState1) =>
                     {
                         if (response.StatusCode == HttpStatusCode.OK)
                         {
@@ -926,12 +951,15 @@ namespace Cordova.Extension.Commands
                                         || tasklist.TasklistId.Equals("ifree")
                                         || tasklist.TasklistId.Equals("wf"))
                                     {
+                                        Dictionary<string, object> userState = new Dictionary<string, object>();
+                                        userState.Add("tasklistId", tasklist.TasklistId);
                                         this._taskService.GetTasks(tasklist.TasklistId
-                                            , response2 =>
+                                            , (response2, userState2) =>
                                                 {
                                                     if (response2.StatusCode == HttpStatusCode.OK)
                                                     {
-                                                        this.GetTasksAfterResponse(tasklist.TasklistId, resultCode, response2);
+                                                        Dictionary<string, object> dict = (Dictionary<string, object>)userState2;
+                                                        this.GetTasksAfterResponse(dict["tasklistId"].ToString(), resultCode, response2);
                                                     }
                                                     else
                                                     {
@@ -941,16 +969,20 @@ namespace Cordova.Extension.Commands
                                             , exception =>
                                                 {
                                                     this.DispatchCommandResult(exception);
-                                                });
+                                                }
+                                            , userState);
                                     }
                                     else
                                     {
+                                        Dictionary<string, object> userState = new Dictionary<string, object>();
+                                        userState.Add("tasklistId", tasklist.TasklistId);
                                         this._taskService.SyncTasks(tasklist.TasklistId
-                                            , response2 =>
+                                            , (response2, userState2) =>
                                                 {
                                                     if (response2.StatusCode == HttpStatusCode.OK)
                                                     {
-                                                        this.SyncTasksAfterResponse(tasklist.TasklistId, resultCode, response2);
+                                                        Dictionary<string, object> dict = (Dictionary<string, object>)userState2;
+                                                        this.SyncTasksAfterResponse(dict["tasklistId"].ToString(), resultCode, response2);
                                                     }
                                                     else
                                                     {
@@ -960,7 +992,8 @@ namespace Cordova.Extension.Commands
                                             , exception =>
                                                 {
                                                     this.DispatchCommandResult(exception);
-                                                });
+                                                }
+                                            , userState);
                                     }
                                     resultCode.Status = true;
                                 }
@@ -974,7 +1007,8 @@ namespace Cordova.Extension.Commands
                 , exception =>
                     {
                         this.DispatchCommandResult(exception);
-                    });
+                    }
+                , new Dictionary<string, object>());
             }
         }
         private void GetTasklistsAfterResponse(string tasklistId, ResultCode resultCode, RestResponse response)
@@ -1036,12 +1070,17 @@ namespace Cordova.Extension.Commands
                             || tempTasklist.TasklistId.Equals("ifree")
                             || tempTasklist.TasklistId.Equals("wf"))
 		        	{
+                        Dictionary<string, object> userState = new Dictionary<string, object>();
+                        userState.Add("tasklistId", tempTasklist.TasklistId);
+
                         this._taskService.GetTasks(tempTasklist.TasklistId
-                            , response1 =>
+                            , (response1, userState1) =>
                             {
                                 if (response1.StatusCode == HttpStatusCode.OK)
                                 {
-                                    this.GetTasksAfterResponse(tempTasklist.TasklistId, resultCode, response1);
+                                    Dictionary<string, object> dict = (Dictionary<string, object>)userState1;
+
+                                    this.GetTasksAfterResponse(dict["tasklistId"].ToString(), resultCode, response1);
                                 }
                                 else
                                 {
@@ -1051,17 +1090,23 @@ namespace Cordova.Extension.Commands
                             , exception =>
                             {
                                 this.DispatchCommandResult(exception);
-                            });	
+                            }
+                            , userState);	
 		        	}
 		        	else 
 		        	{
 		        		this._console.log("tasklistId:" + tempTasklist.TasklistId);
+                        Dictionary<string, object> userState = new Dictionary<string, object>();
+                        userState.Add("tasklistId", tempTasklist.TasklistId);
+
                         this._taskService.SyncTasks(tempTasklist.TasklistId
-                            , response1 =>
+                            , (response1, userState1) =>
                             {
                                 if (response1.StatusCode == HttpStatusCode.OK)
                                 {
-                                    this.SyncTasksAfterResponse(tempTasklist.TasklistId, resultCode, response1);
+                                    Dictionary<string, object> dict = (Dictionary<string, object>)userState1;
+
+                                    this.SyncTasksAfterResponse(dict["tasklistId"].ToString(), resultCode, response1);
                                 }
                                 else
                                 {
@@ -1071,7 +1116,8 @@ namespace Cordova.Extension.Commands
                             , exception =>
                             {
                                 this.DispatchCommandResult(exception);
-                            });
+                            }
+                            , userState);
 			        	
 					}     		
 		        }
@@ -1193,12 +1239,16 @@ namespace Cordova.Extension.Commands
 
             this._changeLogRepository.UpdateAllToSend(tasklistId);
 
+            Dictionary<string, object> userState = new Dictionary<string, object>();
+            userState.Add("tasklistId", tasklistId);
+
             this._taskService.GetTasks(tasklistId
-                , response1 =>
+                , (response1, userState1) =>
                     {
                         if (response1.StatusCode == HttpStatusCode.OK)
                         {
-                            this.GetTasksAfterResponse(tasklistId, resultCode, response1);
+                            Dictionary<string, object> dict = (Dictionary<string, object>)userState1;
+                            this.GetTasksAfterResponse(dict["tasklistId"].ToString(), resultCode, response1);
                         }
                         else
                         {
@@ -1208,7 +1258,8 @@ namespace Cordova.Extension.Commands
                 , exception =>
                     {
                         this.DispatchCommandResult(exception);
-                    });
+                    }
+                , userState);
         }
     }
 }
