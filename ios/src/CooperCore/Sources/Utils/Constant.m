@@ -31,7 +31,6 @@
 
 - (id)init {
 	if ((self = [super init])) {
-//        domain = @"";
         username = @"";
         password = @"";
         token = @"";
@@ -47,7 +46,6 @@
 + (void)loadFromCache {
     [[ConstantClass instance] setIsGuestUser:[[Cache getCacheByKey:@"isGuestUser"] intValue]];
     [[ConstantClass instance] setIsLocalPush:[[Cache getCacheByKey:@"isLocalPush"] intValue]];
-//    [[ConstantClass instance] setDomain:[Cache getCacheByKey:@"domain"]];
     [[ConstantClass instance] setUsername:[Cache getCacheByKey:@"username"]];
     [[ConstantClass instance] setRootPath:[Cache getCacheByKey:@"rootPath"]];
     
@@ -56,25 +54,24 @@
     {
         [[ConstantClass instance] setRecentlyIds:recentlyIds];
     }
-    
-    NSLog(@"Recently Tasklist count: %d", [[[ConstantClass instance] recentlyIds] count]);
 }
 
 + (void)saveToCache {
     [Cache clean];
     [Cache setCacheObject:[NSNumber numberWithFloat:[[ConstantClass instance] isGuestUser]] ForKey:@"isGuestUser"];
-//    [Cache setCacheObject:[[ConstantClass instance] domain] ForKey:@"domain"];
     [Cache setCacheObject:[[ConstantClass instance] username] ForKey:@"username"];
-    //[Cache setCacheObject:[[ConstantClass instance] password] ForKey:@"password"];
     [Cache setCacheObject:[[ConstantClass instance] rootPath] ForKey:@"rootPath"];
+    [Cache setCacheObject:[[ConstantClass instance] recentlyIds] ForKey:@"recentlyIds"];
+    [Cache setCacheObject:[NSNumber numberWithFloat:[[ConstantClass instance] isLocalPush]] ForKey:@"isLocalPush"];
+    
     [Cache saveToDisk];
 }
 
-+ (void)savePathToCache
-{
-    [Cache setCacheObject:[[ConstantClass instance] rootPath] ForKey:@"rootPath"];
-    [Cache saveToDisk];
-}
+//+ (void)savePathToCache
+//{
+//    [Cache setCacheObject:[[ConstantClass instance] rootPath] ForKey:@"rootPath"];
+//    [Cache saveToDisk];
+//}
 
 + (void)saveRecentlyIdsToCache
 {

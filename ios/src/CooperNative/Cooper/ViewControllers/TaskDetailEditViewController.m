@@ -16,6 +16,7 @@
 @synthesize priorityButton;
 @synthesize statusButton;
 @synthesize bodyTextView;
+@synthesize bodyScrollView;
 @synthesize delegate;
 @synthesize currentTasklistId;
 @synthesize currentIsCompleted;
@@ -52,7 +53,7 @@
     UIBarButtonItem *saveButton = [[[UIBarButtonItem alloc] initWithCustomView:saveTaskBtn] autorelease];
     self.navigationItem.rightBarButtonItem = saveButton;
     
-    CGRect tableViewRect = CGRectMake(0, 0, 320, 480);
+    CGRect tableViewRect = CGRectMake(0, 0, [Tools screenMaxWidth], [Tools screenMaxHeight]);
     UITableView* tempTableView = [[[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStylePlain] autorelease];
     //[tempTableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLineEtched];
     //tempTableView.scrollEnabled = NO;
@@ -303,7 +304,7 @@
                 [statusButton setTitleColor: self.task.status == [NSNumber numberWithInt:1] ?[UIColor whiteColor] : [UIColor blackColor] forState:UIControlStateNormal];
             }
             
-            CGSize size = CGSizeMake(320,10000);
+            CGSize size = CGSizeMake([Tools screenMaxWidth], 10000);
             CGSize labelsize = [statusButton.titleLabel.text sizeWithFont:statusButton.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
             [statusButton setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
             [cell.contentView addSubview:statusButton];
@@ -342,7 +343,7 @@
                 [self.dueDateLabel setTitle:@"请选择    >" forState:UIControlStateNormal];
             }
             
-            CGSize size = CGSizeMake(320,10000);
+            CGSize size = CGSizeMake([Tools screenMaxWidth], 10000);
             CGSize labelsize = [dueDateLabel.titleLabel.text sizeWithFont:dueDateLabel.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
             [dueDateLabel setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
             [cell.contentView addSubview:dueDateLabel];
@@ -373,7 +374,7 @@
                 oldPriority = [task.priority copy];
             }
             
-            CGSize size = CGSizeMake(320,10000);
+            CGSize size = CGSizeMake([Tools screenMaxWidth], 10000);
             CGSize labelsize = [priorityButton.titleLabel.text sizeWithFont:priorityButton.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
             [priorityButton setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
             [cell.contentView addSubview:priorityButton];
@@ -415,12 +416,18 @@
                 [bodyTextView setAutocapitalizationType:UITextAutocapitalizationTypeNone];
                 [bodyTextView setAutocorrectionType:UITextAutocorrectionTypeNo];
                 bodyTextView.returnKeyType = UIReturnKeyDefault;  
-                bodyTextView.keyboardType = UIKeyboardTypeDefault;  
+                bodyTextView.keyboardType = UIReturnKeyDone;  
                 bodyTextView.scrollEnabled = YES;  
                 bodyTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight; 
                 bodyTextView.delegate = self;
                 [bodyTextView setFont:[UIFont systemFontOfSize:16]];
-                [cell.contentView addSubview:bodyTextView];
+                
+                bodyScrollView = [[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 240)] autorelease];
+                [bodyScrollView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+                [bodyScrollView setContentSize:bodyTextView.frame.size];
+                [bodyScrollView addSubview:bodyTextView];
+                
+                [cell addSubview:bodyScrollView];
                 
                 bodyCell = cell;
             }
@@ -431,11 +438,11 @@
             }
             
             int totalheight = bodyTextView.contentSize.height;
-            if(bodyTextView.contentSize.height < 300)
-            {
-                totalheight = 300;
-            }
-            [cell setFrame:CGRectMake(0, 0, 320, totalheight)];
+//            if(bodyTextView.contentSize.height < 300)
+//            {
+//                totalheight = 300;
+//            }
+            [cell setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], totalheight + 200)];
         }
         else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"UnknownCell"];
@@ -478,7 +485,7 @@
         //[delegate loadTaskData];
     }
     
-    CGSize size = CGSizeMake(320,10000);
+    CGSize size = CGSizeMake([Tools screenMaxWidth], 10000);
     CGSize labelsize = [dueDateLabel.titleLabel.text sizeWithFont:dueDateLabel.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
     [dueDateLabel setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
 }
@@ -506,7 +513,7 @@
         [delegate loadTaskData];
     }
     
-    CGSize size = CGSizeMake(320,10000);
+    CGSize size = CGSizeMake([Tools screenMaxWidth], 10000);
     CGSize labelsize = [priorityButton.titleLabel.text sizeWithFont:priorityButton.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
     [priorityButton setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
     
@@ -564,7 +571,7 @@
         [delegate loadTaskData];
     }
     
-    CGSize size = CGSizeMake(320,10000);
+    CGSize size = CGSizeMake([Tools screenMaxWidth],10000);
     CGSize labelsize = [statusButton.titleLabel.text sizeWithFont:statusButton.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
     [statusButton setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)]; 
 }
@@ -577,20 +584,28 @@
     
     CGPoint center = viewCenter;
 
-    if(totalheight > 116.0)
-    {
-        CGFloat line = (totalheight - 116.0) / 50.0;
-        
-                
-        center.y -= 256 + 50 * line;
-        center.y += 120.0f;
-        self.view.center = center;
-    }
-    else {
-        center.y -= 256;
-        center.y += 120.0f;
-        self.view.center = center;
-    }
+//    float height = 116.0 + [Tools screenMaxHeight] - 480;
+//    if(totalheight > height)
+//    {
+//        CGFloat line = (totalheight - height) / 50.0;
+//        
+//                
+//        center.y -= 256 + 50 * line;
+//        center.y += 120.0f;
+//        self.view.center = center;
+//    }
+//    else {
+//        center.y -= 256;
+//        center.y += 120.0f;
+//        self.view.center = center;
+//    }
+    
+    //TODO:目前是无效的，后面处理
+    [bodyScrollView setContentSize:bodyTextView.contentSize];
+    
+    CGRect rect = bodyCell.frame;
+    rect.size.height = totalheight;
+    bodyCell.frame = rect;
     
     return YES;
 }

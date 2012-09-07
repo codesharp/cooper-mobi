@@ -58,9 +58,8 @@
 		[request setUserInfo:[NSDictionary dictionaryWithDictionary:info]];
 	}
     
-//    NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-//    if(sharedHTTPCookie.cookies != nil)
-//        [request setRequestCookies:[NSMutableArray arrayWithObject:sharedHTTPCookie.cookies]];
+    NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    [request setRequestCookies:[NSMutableArray arrayWithObject:sharedHTTPCookie.cookies]];
     [request setValidatesSecureCertificate:NO];
     [request setTimeOutSeconds:SYSTEM_REQUEST_TIMEOUT];
 	[request setCachePolicy:ASIAskServerIfModifiedCachePolicy];

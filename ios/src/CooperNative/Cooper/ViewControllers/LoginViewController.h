@@ -24,7 +24,6 @@
 #endif
 >
 {
-    AccountRequestType requestType;
     MBProgressHUD *HUD;
     
     //google oauth2 client id and key

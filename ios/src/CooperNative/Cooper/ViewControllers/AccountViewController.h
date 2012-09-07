@@ -24,7 +24,6 @@
 >
 {
     MBProgressHUD *HUD;
-    AccountRequestType requestType;
     
     //TODO:需要完善
     int lock_counter;

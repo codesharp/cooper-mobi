@@ -9,52 +9,45 @@
 #import "MainViewController.h"
 #import "BaseNavigationController.h"
 #import "TaskViewController.h"
-#import "LoginViewController.h"
 #import "TasklistViewController.h"
 
 @implementation MainViewController
 
+@synthesize tasklistViewController;
+@synthesize loginViewController;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    //初始化设置为YES
-    _launching = YES;
     
-    if (_launching == YES) 
+    if ([[ConstantClass instance] isGuestUser]) 
     {
-        _launching = NO;
-        
-        if ([[ConstantClass instance] isGuestUser]) 
-        {
-            [self loginExit];
-        }
-        else 
-        {
-            LoginViewController *viewController = [[LoginViewController alloc] init];
-            viewController.delegate = self;
-            BaseNavigationController *login_navController = [[[BaseNavigationController alloc] initWithRootViewController:viewController] autorelease];
-            
-            
-            [self.navigationController presentModalViewController:login_navController animated:NO];
-            [viewController release];
-        }
+        //游客登录
+        [self loginFinish];
+    }
+    else 
+    {
+        //普通登录
+        loginViewController = [[LoginViewController alloc] init];
+        loginViewController.delegate = self;
+        BaseNavigationController *login_navController = [[BaseNavigationController alloc] initWithRootViewController:loginViewController];
+ 
+        [self.navigationController presentModalViewController:login_navController animated:NO];
+        [login_navController release];
     }
 }
 
-- (void)loginExit
+- (void)loginFinish
 {
-    NSLog(@"退出登录");
+    NSLog(@"登录完毕");
     
     //打开任务列表
-    TasklistViewController *tasklistController = [[[TasklistViewController alloc] init] autorelease];
+    tasklistViewController = [[TasklistViewController alloc] init];
                        
-    BaseNavigationController *tasklist_navController = [[[BaseNavigationController alloc] initWithRootViewController:tasklistController] autorelease];
+    BaseNavigationController *tasklist_navController = [[BaseNavigationController alloc] initWithRootViewController:tasklistViewController];
     
-    [self.navigationController presentModalViewController:tasklist_navController animated:NO];
-    
-    //[tasklist_navController release];
-    //[tasklistController release]; 
+    [self.navigationController presentModalViewController:tasklist_navController animated:NO];  
+    [tasklist_navController release];
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
@@ -75,26 +68,35 @@
         }
     } 
     
-    if(tabBarController.selectedIndex == 0
-       || tabBarController.selectedIndex == 1 
-       || tabBarController.selectedIndex == 2)
-    {
-        UINavigationController* controller = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:tabBarController.selectedIndex];
-
-        if(controller == nil)
-        {
-            NSLog(@"controller:%@", [controller description]);
-        }
-        else {
-            TaskViewController *tvController = (TaskViewController *)[controller.viewControllers objectAtIndex:0];
-            if(tvController != nil)
-                [tvController loadTaskData];
-        }
-    }
+//    if(tabBarController.selectedIndex == 0
+//       || tabBarController.selectedIndex == 1 
+//       || tabBarController.selectedIndex == 2)
+//    {
+//        UINavigationController* controller = (UINavigationController*)[tabBarController.viewControllers objectAtIndex:tabBarController.selectedIndex];
+//
+//        if(controller == nil)
+//        {
+//            NSLog(@"controller:%@", [controller description]);
+//        }
+//        else {
+//            TaskViewController *tvController = (TaskViewController *)[controller.viewControllers objectAtIndex:0];
+//            if(tvController != nil)
+//                [tvController loadTaskData];
+//        }
+//    }
 }
 - (void)viewDidUnload
 {
+    loginViewController = nil;
+    tasklistViewController = nil;
     [super viewDidUnload];
+}
+
+- (void)dealloc
+{
+    RELEASE(loginViewController);
+    RELEASE(tasklistViewController);
+    [super dealloc];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

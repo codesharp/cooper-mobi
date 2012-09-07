@@ -15,9 +15,6 @@
 		1891A64915D26C8B00C7E8DA /* TasklistService.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891A64315D26C8B00C7E8DA /* TasklistService.m */; };
 		1891A64A15D26C8B00C7E8DA /* TaskService.h in Headers */ = {isa = PBXBuildFile; fileRef = 1891A64415D26C8B00C7E8DA /* TaskService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1891A64B15D26C8B00C7E8DA /* TaskService.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891A64515D26C8B00C7E8DA /* TaskService.m */; };
-		1891A7A115D28A9400C7E8DA /* libCodesharpSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1880B29115D2341E00670DE6 /* libCodesharpSDK.a */; };
-		1891A7A215D28A9400C7E8DA /* libCooperCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1880B28515D233E600670DE6 /* libCooperCore.a */; };
-		1891A7A315D28A9400C7E8DA /* libCooperRepository.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1880B28B15D2340000670DE6 /* libCooperRepository.a */; };
 		1891AA2E15D2B5B000C7E8DA /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891AA2D15D2B5B000C7E8DA /* libz.1.2.5.dylib */; };
 		1891AA3115D2B5B800C7E8DA /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891AA3015D2B5B800C7E8DA /* CFNetwork.framework */; };
 		1891AA3E15D2BC8E00C7E8DA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891AA3D15D2BC8D00C7E8DA /* QuartzCore.framework */; };
@@ -36,6 +33,8 @@
 		1891ABB715D2CECE00C7E8DA /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891ABAB15D2CECE00C7E8DA /* SBJsonParser.m */; };
 		1891ABB815D2CECE00C7E8DA /* SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 1891ABAC15D2CECE00C7E8DA /* SBJsonWriter.h */; };
 		1891ABB915D2CECE00C7E8DA /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891ABAD15D2CECE00C7E8DA /* SBJsonWriter.m */; };
+		18A16F6715E3645400E80E72 /* VersionService.h in Headers */ = {isa = PBXBuildFile; fileRef = 18A16F6515E3645400E80E72 /* VersionService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A16F6815E3645400E80E72 /* VersionService.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A16F6615E3645400E80E72 /* VersionService.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +114,8 @@
 		1891ABAB15D2CECE00C7E8DA /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
 		1891ABAC15D2CECE00C7E8DA /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		1891ABAD15D2CECE00C7E8DA /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		18A16F6515E3645400E80E72 /* VersionService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VersionService.h; path = Sources/Services/VersionService.h; sourceTree = "<group>"; };
+		18A16F6615E3645400E80E72 /* VersionService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionService.m; path = Sources/Services/VersionService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,9 +129,6 @@
 				1891AA3E15D2BC8E00C7E8DA /* QuartzCore.framework in Frameworks */,
 				1891AA3115D2B5B800C7E8DA /* CFNetwork.framework in Frameworks */,
 				1891AA2E15D2B5B000C7E8DA /* libz.1.2.5.dylib in Frameworks */,
-				1891A7A115D28A9400C7E8DA /* libCodesharpSDK.a in Frameworks */,
-				1891A7A215D28A9400C7E8DA /* libCooperCore.a in Frameworks */,
-				1891A7A315D28A9400C7E8DA /* libCooperRepository.a in Frameworks */,
 				181D514E15D193420035244D /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -189,6 +187,8 @@
 				1891A64315D26C8B00C7E8DA /* TasklistService.m */,
 				1891A64415D26C8B00C7E8DA /* TaskService.h */,
 				1891A64515D26C8B00C7E8DA /* TaskService.m */,
+				18A16F6515E3645400E80E72 /* VersionService.h */,
+				18A16F6615E3645400E80E72 /* VersionService.m */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -274,6 +274,7 @@
 				1891ABB415D2CECE00C7E8DA /* SBJsonBase.h in Headers */,
 				1891ABB615D2CECE00C7E8DA /* SBJsonParser.h in Headers */,
 				1891ABB815D2CECE00C7E8DA /* SBJsonWriter.h in Headers */,
+				18A16F6715E3645400E80E72 /* VersionService.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +378,7 @@
 				1891ABB515D2CECE00C7E8DA /* SBJsonBase.m in Sources */,
 				1891ABB715D2CECE00C7E8DA /* SBJsonParser.m in Sources */,
 				1891ABB915D2CECE00C7E8DA /* SBJsonWriter.m in Sources */,
+				18A16F6815E3645400E80E72 /* VersionService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

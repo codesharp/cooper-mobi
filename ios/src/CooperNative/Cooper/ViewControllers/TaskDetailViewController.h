@@ -7,13 +7,16 @@
 //
 
 #import "TaskDetailEditViewController.h"
+#import "CodesharpSDK/JSCoreTextView.h"
+#import "WebViewController.h"
+#import "BaseNavigationController.h"
 
 @interface TaskDetailViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, CommentTextFieldDelegate, TaskViewDelegate, DateLabelDelegate, PriorityButtonDelegate>
 {
     UITableView *detailView;
     UIView *footerView;
     
-    UIScrollView *scrollView;
+    UIScrollView *_scrollView;
     
     TaskDao *taskDao;
     TaskIdxDao *taskIdxDao;
@@ -26,7 +29,8 @@
 @property (retain, nonatomic) PriorityButton *priorityButton;
 @property (retain, nonatomic) CustomButton *statusButton;
 @property (retain, nonatomic) UILabel *subjectLabel;
-@property (retain, nonatomic) UILabel *bodyLabel;
+//@property (retain, nonatomic) UILabel *bodyLabel;
+@property (retain, nonatomic) JSCoreTextView *bodyLabel;
 @property (retain, nonatomic) CommentTextField *commentTextField;
 @property (retain, nonatomic) NSString* currentTasklistId;
 

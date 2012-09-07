@@ -13,7 +13,7 @@
 
 + (void)syncTasklists:(NSMutableDictionary*)context delegate:(id)delegate;
 
-+ (NSString*)syncTasklist:(NSString*)name :(NSString*)type :(id)delegate;
++ (NSString*)syncTasklist:(NSString*)name :(NSString*)type :(NSMutableDictionary*)context :(id)delegate;
 
 + (void)getTasklists:(NSMutableDictionary*)context delegate:(id)delegate;
 

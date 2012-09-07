@@ -25,8 +25,8 @@
 
 + (void)saveToCache;
 + (void)loadFromCache;
-+ (void)savePathToCache;
-+ (void)saveRecentlyIdsToCache;
-+ (void)saveIsLocalPushToCache;
+//+ (void)savePathToCache;
+//+ (void)saveRecentlyIdsToCache;
+//+ (void)saveIsLocalPushToCache;
 
 @end

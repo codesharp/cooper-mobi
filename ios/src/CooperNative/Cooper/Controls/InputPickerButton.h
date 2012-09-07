@@ -6,12 +6,8 @@
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "InputPickerDelegate.h"
 
-@protocol InputPickerDelegate <UITextFieldDelegate>
-@optional
-- (void)send:(NSString *)value;
-@end
 @interface InputPickerButton : UIButton
 {
     UIView *inputAccessoryView;

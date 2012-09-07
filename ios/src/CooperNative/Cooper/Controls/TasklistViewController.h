@@ -9,6 +9,7 @@
 #import "CustomToolbar.h"
 #import "CooperCore/Tasklist.h"
 #import "InputPickerButton.h"
+#import "InputPickerView.h"
 #import "BaseViewController.h"
 #import "CooperRepository/TasklistDao.h"
 
@@ -21,9 +22,9 @@
 >
 {
     MBProgressHUD *HUD;
-    TasklistRequestType requestType;
-    InputPickerButton *editBtn;
-    UIButton *syncBtn;
+    InputPickerView *editBtn;
+    UIView *syncBtn;
+    UIButton *settingBtn;
     TasklistDao *tasklistDao;
     
     NSString* tempTasklistId;
@@ -31,6 +32,5 @@
 
 @property (nonatomic, retain) NSMutableArray *tasklists;
 @property (nonatomic, retain) UITableView *tasklistTableView; 
-//@property (nonatomic, retain) NSString* tempTasklistId;
 
 @end

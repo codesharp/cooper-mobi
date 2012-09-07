@@ -136,19 +136,19 @@
     subjectLabel.text = task.subject; 
   
     CGSize subjectLabelSize = [subjectLabel.text sizeWithFont:subjectLabel.font 
-                                    constrainedToSize:CGSizeMake(CONTENT_WIDTH, MAX_HEIGHT) 
+                                    constrainedToSize:CGSizeMake(CONTENT_WIDTH + [Tools screenMaxWidth] - 320, MAX_HEIGHT)
                                         lineBreakMode:UILineBreakModeWordWrap];
         
     CGFloat subjectLabelHeight = subjectLabelSize.height;
   
     int subjectlines = subjectLabelHeight / 16;
-    [subjectLabel setFrame:CGRectMake(50, PADDING, CONTENT_WIDTH, subjectLabelHeight)];
+    [subjectLabel setFrame:CGRectMake(50, PADDING, CONTENT_WIDTH + [Tools screenMaxWidth] - 320, subjectLabelHeight)];
     [subjectLabel setNumberOfLines:subjectlines];
     
     bodyLabel.text = task.body; 
     
     CGSize bodyLabelSize = [bodyLabel.text sizeWithFont:bodyLabel.font 
-                                            constrainedToSize:CGSizeMake(CONTENT_WIDTH, MAX_HEIGHT) 
+                                            constrainedToSize:CGSizeMake(CONTENT_WIDTH + [Tools screenMaxWidth] - 320, MAX_HEIGHT) 
                                                 lineBreakMode:UILineBreakModeWordWrap];
     
     CGFloat bodyLabelHeight = bodyLabelSize.height;
@@ -159,7 +159,7 @@
     {
         bodylines = 3;
     }
-    [bodyLabel setFrame:CGRectMake(50, PADDING + subjectLabelHeight, CONTENT_WIDTH, bodylines * 16)];
+    [bodyLabel setFrame:CGRectMake(50, PADDING + subjectLabelHeight, CONTENT_WIDTH + [Tools screenMaxWidth] - 320, bodylines * 16)];
     [bodyLabel setNumberOfLines:bodylines];
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -167,7 +167,7 @@
     if(task.dueDate != nil)
     {
         dueDateLabel.text = [formatter stringFromDate:task.dueDate];
-        [dueDateLabel setFrame:CGRectMake(260, PADDING, 80, 20)];
+        [dueDateLabel setFrame:CGRectMake(260  + [Tools screenMaxWidth] - 320, PADDING, 80, 20)];
     }
     
     CGFloat totalHeight;
@@ -179,7 +179,7 @@
     
     if(totalHeight < 50)
         totalHeight = 50;
-    [self setFrame:CGRectMake(0, 0, CONTENT_WIDTH, totalHeight)];
+    [self setFrame:CGRectMake(0, 0, CONTENT_WIDTH + [Tools screenMaxWidth] - 320, totalHeight)];
     [leftView setFrame:CGRectMake(0, 0, 40, totalHeight)];
     
 //    CGRect rightRect = rightView.frame;

@@ -44,4 +44,8 @@
 
 + (void)clearFootBlank:(UITableView*)tableView;
 
++ (float)screenMaxWidth;
+
++ (float)screenMaxHeight;
+
 @end

@@ -13,10 +13,6 @@
 - (void) setContext {
     AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     context = [appDelegate managedObjectContext];
-    
-    //ContextManager *contextManager = [ContextManager instance];
-    
-    //context = contextManager.managedObjectContext;
 }
 
 - (void) commitData{

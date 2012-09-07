@@ -14,7 +14,7 @@
 
 @implementation TasklistService
 
-+ (NSString*)syncTasklist:(NSString*)name :(NSString*)type :(id)delegate
++ (NSString*)syncTasklist:(NSString*)name :(NSString*)type :(NSMutableDictionary*)context:(id)delegate
 {
     NSString *url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:CREATETASKLIST_URL];
     NSLog(@"syncTasklist外部路径: %@", url);
@@ -24,7 +24,7 @@
     [data setObject:type forKey:@"type"];
     
     //NSString *result = [NetworkManager doSynchronousPostRequest:url data:data];
-    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:nil addHeaders:nil];
+    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:context addHeaders:nil];
     return @"";
 }
 

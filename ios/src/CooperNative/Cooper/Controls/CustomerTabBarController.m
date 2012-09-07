@@ -28,7 +28,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-//    CGRect frame = CGRectMake(0, 0, 320, 44);
+//    CGRect frame = CGRectMake(0, 0, [Tools screenMaxWidth], 44);
 //	UIView *v = [[UIView alloc] initWithFrame:frame];
 //	UIColor *c = [[UIColor alloc] initWithRed:0.4 green:0.7 blue:0.3 alpha:1.0];
 //    v.backgroundColor = c;
@@ -40,7 +40,7 @@
     
     UIImageView* image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:TABBAR_BG_IMAGE]];
 	//image.frame = CGRectOffset(image.frame, 0, 5);
-	image.frame = CGRectMake(0, 0, 320,49);
+	image.frame = CGRectMake(0, 0, [Tools screenMaxWidth], 49);
 	[self.tabBar insertSubview:image atIndex:0];
 	[image release];
     

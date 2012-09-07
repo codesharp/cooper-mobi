@@ -24,47 +24,43 @@
 
 - (UIView *)inputAccessoryView {
     [addCommentTextField performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.3];
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-		return nil;
-	} else {
-		if (!inputAccessoryView) {
-			inputAccessoryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-            [inputAccessoryView setBackgroundColor:APP_BACKGROUNDCOLOR];
-			//inputAccessoryView.barStyle = UIBarStyleBlackTranslucent;
-			//inputAccessoryView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-			[inputAccessoryView sizeToFit];
-			CGRect frame = inputAccessoryView.frame;
-			//frame.size.height = 44.0f;
-			inputAccessoryView.frame = frame;
-            
-            addCommentTextField = [[[UITextField alloc] init] autorelease];
-            [addCommentTextField setFrame:CGRectMake(5, 5, 250, 30)];
-            [addCommentTextField setBackgroundColor:[UIColor whiteColor]];
-            [addCommentTextField setPlaceholder:@"发表评论"];
-            [addCommentTextField setReturnKeyType:UIReturnKeyDone];
-            [addCommentTextField setFont:[UIFont systemFontOfSize:14]];
-            [addCommentTextField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-            [addCommentTextField addTarget:self action:@selector(addCommentAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
-            
-            CustomButton *customButton = [[CustomButton alloc] initWithFrame:CGRectMake(260, 5, 55, 30) image:[UIImage imageNamed:@"btn_center.png"]];
-            customButton.layer.cornerRadius = 6.0f;
-            [customButton.layer setMasksToBounds:YES];
-            [customButton addTarget:self action:@selector(addCommentAction:) forControlEvents:UIControlEventTouchUpInside];
-            [customButton setTitle:@"发送" forState:UIControlStateNormal];
-            
-            [inputAccessoryView addSubview:addCommentTextField];
-            [inputAccessoryView addSubview:customButton];
-            
-            [customButton release]; 
-		}
+    if (!inputAccessoryView) {
+        inputAccessoryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [Tools screenMaxWidth], 40)];
+        [inputAccessoryView setBackgroundColor:APP_BACKGROUNDCOLOR];
+        //inputAccessoryView.barStyle = UIBarStyleBlackTranslucent;
+        //inputAccessoryView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        [inputAccessoryView sizeToFit];
+        CGRect frame = inputAccessoryView.frame;
+        //frame.size.height = 44.0f;
+        inputAccessoryView.frame = frame;
         
-        [self resignFirstResponder];
+        addCommentTextField = [[[UITextField alloc] init] autorelease];
+        [addCommentTextField setFrame:CGRectMake(5, 5, 250 + [Tools screenMaxWidth] - 320, 30)];
+        [addCommentTextField setBackgroundColor:[UIColor whiteColor]];
+        [addCommentTextField setPlaceholder:@"发表评论"];
+        [addCommentTextField setReturnKeyType:UIReturnKeyDone];
+        [addCommentTextField setFont:[UIFont systemFontOfSize:14]];
+        [addCommentTextField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+        [addCommentTextField addTarget:self action:@selector(addCommentAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
         
-        [addCommentTextField performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.3];
-       
+        CustomButton *customButton = [[CustomButton alloc] initWithFrame:CGRectMake(260 + [Tools screenMaxWidth] - 320, 5, 55, 30) image:[UIImage imageNamed:@"btn_center.png"]];
+        customButton.layer.cornerRadius = 6.0f;
+        [customButton.layer setMasksToBounds:YES];
+        [customButton addTarget:self action:@selector(addCommentAction:) forControlEvents:UIControlEventTouchUpInside];
+        [customButton setTitle:@"发送" forState:UIControlStateNormal];
         
-		return inputAccessoryView;
-	}
+        [inputAccessoryView addSubview:addCommentTextField];
+        [inputAccessoryView addSubview:customButton];
+        
+        [customButton release]; 
+    }
+    
+    [self resignFirstResponder];
+    
+    [addCommentTextField performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.3];
+   
+    
+    return inputAccessoryView;
 }
 
 - (void)addCommentAction:(id)sender {

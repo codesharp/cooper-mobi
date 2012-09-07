@@ -100,7 +100,7 @@
         delegate:(id)delegate
 {
     ChangeLogDao *changeLogDao = [[ChangeLogDao alloc] init];
-    TaskIdxDao *taskIdxDao = [[TaskIdxDao alloc] init];
+    //TaskIdxDao *taskIdxDao = [[TaskIdxDao alloc] init];
     
     NSMutableArray *changeLogs = [changeLogDao getAllChangeLog:tasklistId];
     NSLog("改变记录总数: %d", changeLogs.count);

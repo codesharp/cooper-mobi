@@ -15,49 +15,42 @@
 
 - (UIView *)inputAccessoryView {
     //[textField performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.3];
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-		return nil;
-	} else {
-		if (!inputAccessoryView) {
-			inputAccessoryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-            [inputAccessoryView setBackgroundColor:APP_BACKGROUNDCOLOR];
-			//inputAccessoryView.barStyle = UIBarStyleBlackTranslucent;
-			//inputAccessoryView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-			[inputAccessoryView sizeToFit];
-			CGRect frame = inputAccessoryView.frame;
-			//frame.size.height = 44.0f;
-			inputAccessoryView.frame = frame;
-            
-            textField = [[[UITextField alloc] init] autorelease];
-            [textField setFrame:CGRectMake(5, 5, 250, 30)];
-            [textField setBackgroundColor:[UIColor whiteColor]];
-            [textField setPlaceholder:@"任务表名称"];
-            [textField setAutocorrectionType:UITextAutocorrectionTypeNo];
-            [textField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-            //[textField setReturnKeyType:UIReturnKeyDone];
-            [textField setFont:[UIFont systemFontOfSize:14]];
-            [textField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-            [textField addTarget:self action:@selector(cancelAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
-            
-            CustomButton *customButton = [[CustomButton alloc] initWithFrame:CGRectMake(260, 5, 55, 30) image:[UIImage imageNamed:@"btn_center.png"]];
-            customButton.layer.cornerRadius = 6.0f;
-            [customButton.layer setMasksToBounds:YES];
-            [customButton addTarget:self action:@selector(doneAction:) forControlEvents:UIControlEventTouchUpInside];
-            [customButton setTitle:@"添加" forState:UIControlStateNormal];
-            
-            [inputAccessoryView addSubview:textField];
-            [inputAccessoryView addSubview:customButton];
-            
-            [customButton release]; 
-		}
+    if (!inputAccessoryView) {
+        inputAccessoryView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [Tools screenMaxWidth], 40)];
+        [inputAccessoryView setBackgroundColor:APP_BACKGROUNDCOLOR];
+        //inputAccessoryView.barStyle = UIBarStyleBlackTranslucent;
+        //inputAccessoryView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        [inputAccessoryView sizeToFit];
+        CGRect frame = inputAccessoryView.frame;
+        //frame.size.height = 44.0f;
+        inputAccessoryView.frame = frame;
         
-        [self resignFirstResponder];
+        textField = [[[UITextField alloc] init] autorelease];
+        [textField setFrame:CGRectMake(5, 5, 250 + [Tools screenMaxWidth] - 320, 30)];
+        [textField setBackgroundColor:[UIColor whiteColor]];
+        [textField setPlaceholder:@"任务表名称"];
+        [textField setAutocorrectionType:UITextAutocorrectionTypeNo];
+        [textField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+        //[textField setReturnKeyType:UIReturnKeyDone];
+        [textField setFont:[UIFont systemFontOfSize:14]];
+        [textField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+        [textField addTarget:self action:@selector(cancelAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
         
-        [textField performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0];
+        CustomButton *customButton = [[CustomButton alloc] initWithFrame:CGRectMake(260 + [Tools screenMaxWidth] - 320, 5, 55, 30) image:[UIImage imageNamed:@"btn_center.png"]];
+        customButton.layer.cornerRadius = 6.0f;
+        [customButton.layer setMasksToBounds:YES];
+        [customButton addTarget:self action:@selector(doneAction:) forControlEvents:UIControlEventTouchUpInside];
+        [customButton setTitle:@"添加" forState:UIControlStateNormal];
         
+        [inputAccessoryView addSubview:textField];
+        [inputAccessoryView addSubview:customButton];
         
-		return inputAccessoryView;
-	}
+        [customButton release]; 
+    }
+    
+    [self resignFirstResponder];
+    [textField performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0];
+    return inputAccessoryView;
 }
 
 - (void)cancelAction:(id)sender

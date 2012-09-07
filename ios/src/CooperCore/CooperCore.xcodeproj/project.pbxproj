@@ -15,7 +15,6 @@
 		1891A62915D26A7300C7E8DA /* Constant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891A62515D26A7300C7E8DA /* Constant.m */; };
 		1891A62A15D26A7300C7E8DA /* SysConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 1891A62615D26A7300C7E8DA /* SysConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1891A62B15D26A7300C7E8DA /* SysConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891A62715D26A7300C7E8DA /* SysConfig.m */; };
-		1891A7AB15D28B1500C7E8DA /* libCodesharpSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891A5E615D2571800C7E8DA /* libCodesharpSDK.a */; };
 		18A92D9315D2E5D600423A55 /* ChangeLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 18A92D8B15D2E5D600423A55 /* ChangeLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18A92D9415D2E5D600423A55 /* ChangeLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A92D8C15D2E5D600423A55 /* ChangeLog.m */; };
 		18A92D9515D2E5D600423A55 /* Task.h in Headers */ = {isa = PBXBuildFile; fileRef = 18A92D8D15D2E5D600423A55 /* Task.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -73,7 +72,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1891A7AB15D28B1500C7E8DA /* libCodesharpSDK.a in Frameworks */,
 				1880B21B15D22DAE00670DE6 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -19,7 +19,6 @@
 		1891A5FD15D264DF00C7E8DA /* TaskIdxDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891A5F515D264DF00C7E8DA /* TaskIdxDao.m */; };
 		1891A5FE15D264DF00C7E8DA /* TasklistDao.h in Headers */ = {isa = PBXBuildFile; fileRef = 1891A5F615D264DF00C7E8DA /* TasklistDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1891A5FF15D264DF00C7E8DA /* TasklistDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891A5F715D264DF00C7E8DA /* TasklistDao.m */; };
-		1891A7AA15D28B0600C7E8DA /* libCooperCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1880B2B315D2358E00670DE6 /* libCooperCore.a */; };
 		1891AB9215D2CE8B00C7E8DA /* JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 1891AB8515D2CE8A00C7E8DA /* JSON.h */; };
 		1891AB9315D2CE8B00C7E8DA /* NSObject+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 1891AB8715D2CE8A00C7E8DA /* NSObject+SBJSON.h */; };
 		1891AB9415D2CE8B00C7E8DA /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891AB8815D2CE8A00C7E8DA /* NSObject+SBJSON.m */; };
@@ -42,7 +41,7 @@
 			remoteGlobalIDString = 1880B21715D22DAE00670DE6;
 			remoteInfo = CooperCore;
 		};
-		1880B2D115D241FC00670DE6 /* PBXContainerItemProxy */ = {
+		18F09C9A15F9A45700088568 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1880B2AE15D2358E00670DE6 /* CooperCore.xcodeproj */;
 			proxyType = 1;
@@ -80,6 +79,7 @@
 		1891AB8F15D2CE8A00C7E8DA /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
 		1891AB9015D2CE8A00C7E8DA /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		1891AB9115D2CE8A00C7E8DA /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		18F5D48715F8ABBA004C5771 /* libCodesharpSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCodesharpSDK.a; path = "../../../../../../Library/Developer/Xcode/DerivedData/Cooper-dpcgbprapvdjmqcowtljkudanbng/Build/Products/Debug-iphoneos/libCodesharpSDK.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,7 +87,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1891A7AA15D28B0600C7E8DA /* libCooperCore.a in Frameworks */,
 				1880B23915D22EC700670DE6 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -117,6 +116,7 @@
 		1880B23715D22EC700670DE6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				18F5D48715F8ABBA004C5771 /* libCodesharpSDK.a */,
 				1880B2C615D23B8900670DE6 /* CoreData.framework */,
 				1880B23815D22EC700670DE6 /* Foundation.framework */,
 			);
@@ -231,7 +231,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				1880B2D215D241FC00670DE6 /* PBXTargetDependency */,
+				18F09C9B15F9A45700088568 /* PBXTargetDependency */,
 			);
 			name = CooperRepository;
 			productName = CooperRepository;
@@ -301,10 +301,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1880B2D215D241FC00670DE6 /* PBXTargetDependency */ = {
+		18F09C9B15F9A45700088568 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = CooperCore;
-			targetProxy = 1880B2D115D241FC00670DE6 /* PBXContainerItemProxy */;
+			targetProxy = 18F09C9A15F9A45700088568 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -355,7 +355,12 @@
 				DSTROOT = /tmp/CooperRepository.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sources/CooperRepository-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/Cooper-dpcgbprapvdjmqcowtljkudanbng/Build/Products/Debug-iphoneos\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
@@ -370,7 +375,12 @@
 				DSTROOT = /tmp/CooperRepository.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sources/CooperRepository-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../Library/Developer/Xcode/DerivedData/Cooper-dpcgbprapvdjmqcowtljkudanbng/Build/Products/Debug-iphoneos\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";

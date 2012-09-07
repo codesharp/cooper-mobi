@@ -33,7 +33,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     
     NSString* login_btn_text = [[[SysConfig instance] keyValue] objectForKey:@"login_btn_text"];
     NSString* skip_btn_text = [[[SysConfig instance] keyValue] objectForKey:@"skip_btn_text"];
-    NSString* googlelogin_btn_text = [[[SysConfig instance] keyValue] objectForKey:@"googlelogin_btn_text"];
+//    NSString* googlelogin_btn_text = [[[SysConfig instance] keyValue] objectForKey:@"googlelogin_btn_text"];
     
 #ifndef __ALI_VERSION__
     UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(20, 180, 100, 30)];
@@ -104,44 +104,44 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     [self.view addSubview:self.btnSkip];
     
     //使用谷歌登录
-    self.btnGoogleLogin = [[CustomButton alloc] initWithFrame:CGRectMake(10, 250, 140, 40) 
-                                                        image:[UIImage imageNamed:@"btn_center.png"]];
-    self.btnGoogleLogin.layer.cornerRadius = 10.0f;
-    self.btnGoogleLogin.layer.masksToBounds = YES;
-    [self.btnGoogleLogin addTarget:self 
-                            action:@selector(googleLogin) 
-                  forControlEvents:UIControlEventTouchUpInside];
-    [self.btnGoogleLogin setTitle:googlelogin_btn_text 
-                         forState:UIControlStateNormal];
-    self.btnGoogleLogin.titleLabel.font = [UIFont boldSystemFontOfSize:20];
-    [self.view addSubview:self.btnGoogleLogin];
-    
-    //google oauth相关初始化
-    googleClientId = [[[SysConfig instance] keyValue] objectForKey:@"googleClientId"];
-    googleClientSecret = [[[SysConfig instance] keyValue] objectForKey:@"googleClientSecret"];
-    
-    GTMOAuth2Authentication *auth = nil;
-    
-    auth = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:kKeychainItemName 
-                                                                 clientID:googleClientId
-                                                             clientSecret:googleClientSecret];
-    
-    NSLog(@"persistenceResponseString:%@ \r\n serviceProvider:%@ \r\n userEmail:%@ \r\n accessToken:%@ \r\n expirationDate:%@ \r\n refreshToken:%@ \r\n code:%@ \r\n error:%@"
-          , auth.persistenceResponseString
-          , auth.serviceProvider
-          , auth.userEmail
-          , auth.accessToken
-          , [auth.expirationDate description]
-          , auth.refreshToken
-          , auth.code
-          , auth.errorString);
-    self.auth = auth;
-    
-    if (auth.canAuthorize) {
-        NSLog(@"auth success!");
-    } else {
-        NSLog(@"auth failed!");
-    }
+//    self.btnGoogleLogin = [[CustomButton alloc] initWithFrame:CGRectMake(10, 250, 140, 40) 
+//                                                        image:[UIImage imageNamed:@"btn_center.png"]];
+//    self.btnGoogleLogin.layer.cornerRadius = 10.0f;
+//    self.btnGoogleLogin.layer.masksToBounds = YES;
+//    [self.btnGoogleLogin addTarget:self 
+//                            action:@selector(googleLogin) 
+//                  forControlEvents:UIControlEventTouchUpInside];
+//    [self.btnGoogleLogin setTitle:googlelogin_btn_text 
+//                         forState:UIControlStateNormal];
+//    self.btnGoogleLogin.titleLabel.font = [UIFont boldSystemFontOfSize:20];
+//    [self.view addSubview:self.btnGoogleLogin];
+//    
+//    //google oauth相关初始化
+//    googleClientId = [[[SysConfig instance] keyValue] objectForKey:@"googleClientId"];
+//    googleClientSecret = [[[SysConfig instance] keyValue] objectForKey:@"googleClientSecret"];
+//    
+//    GTMOAuth2Authentication *auth = nil;
+//    
+//    auth = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:kKeychainItemName 
+//                                                                 clientID:googleClientId
+//                                                             clientSecret:googleClientSecret];
+//    
+//    NSLog(@"persistenceResponseString:%@ \r\n serviceProvider:%@ \r\n userEmail:%@ \r\n accessToken:%@ \r\n expirationDate:%@ \r\n refreshToken:%@ \r\n code:%@ \r\n error:%@"
+//          , auth.persistenceResponseString
+//          , auth.serviceProvider
+//          , auth.userEmail
+//          , auth.accessToken
+//          , [auth.expirationDate description]
+//          , auth.refreshToken
+//          , auth.code
+//          , auth.errorString);
+//    self.auth = auth;
+//    
+//    if (auth.canAuthorize) {
+//        NSLog(@"auth success!");
+//    } else {
+//        NSLog(@"auth failed!");
+//    }
     
     //    [AccountService googleLogin:@"" code:@"4/7XphY2aqMy36JCy4BTFAdxgF3wKq.wne-l9DssfccuJJVnL49Cc--C5P3cQI" refreshToken:@"" state:@"login" mobi:@"true" delegate:self];
 }
@@ -222,6 +222,8 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
 
 - (void)login 
 {
+    NSLog("开始登录");
+    
 #ifdef __ALI_VERSION__
     if (self.domainLabel.text.length > 0 
         && self.textUsername.text.length > 0
@@ -231,18 +233,21 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
            && self.textPassword.text.length > 0)
 #endif
         {
-            //HUD = [Tools process:@"登录中" view:self.view];
-            //[Tools showHUD:@"登录中" HUD:HUD];
             [Tools showHUD:@"登录中" view:self.view HUD:HUD];
-            requestType = LoginValue;
+
+            NSMutableDictionary *context = [NSMutableDictionary dictionary];
+            [context setObject:@"LOGIN" forKey:REQUEST_TYPE];
+            
 #ifdef __ALI_VERSION__
             [AccountService login:self.domainLabel.text 
                          username:self.textUsername.text 
                          password:self.textPassword.text 
+                          context:context
                          delegate:self];
 #else
             [AccountService login:self.textUsername.text
                          password:self.textPassword.text
+                          context:context
                          delegate:self];
 #endif
         }
@@ -263,7 +268,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     
     [self dismissModalViewControllerAnimated:NO];
     
-    [delegate loginExit];
+    [delegate loginFinish];
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request
@@ -272,56 +277,40 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     NSLog(@"请求响应数据: %@, %d"
           , [request responseString]
           , [request responseStatusCode]);
+    
+    NSDictionary *userInfo = [request userInfo];
+    NSString * requestType = [userInfo objectForKey:REQUEST_TYPE];
+    
+    if([requestType isEqualToString:@"LOGIN"])
+    {
 #ifdef __ALI_VERSION__
-    if([request responseStatusCode] == 200 && [[request responseString] rangeOfString: @"window.opener.loginSuccess"].length > 0)
+    if(request.responseStatusCode == 200 && [request.responseString rangeOfString: @"window.opener.loginSuccess"].length > 0)
 #else
-        if([request responseStatusCode] == 200)
+        if(request.responseStatusCode == 200)
 #endif
         {
-            if(requestType == GoogleLoginValue)
-            {
-                NSArray* array = [request responseCookies];
-                NSLog(@"array:%d",  array.count);
-                
-                NSDictionary *dict = [NSHTTPCookie requestHeaderFieldsWithCookies:array];
-                NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:dict];
-                NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-                
-                [sharedHTTPCookie setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-                [sharedHTTPCookie setCookie:cookie];
-                
-                [[ConstantClass instance] setUsername:self.auth.userEmail];
-                [[ConstantClass instance] setIsGuestUser:YES];
-                [ConstantClass saveToCache];
-                
-                [self dismissModalViewControllerAnimated:NO];
-                
-                [delegate loginExit]; 
-            }
-            else {
-                NSArray* array = [request responseCookies];
-                NSLog(@"array:%d",  array.count);
-                
-                NSDictionary *dict = [NSHTTPCookie requestHeaderFieldsWithCookies:array];
-                NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:dict];
-                NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-                
-                [sharedHTTPCookie setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-                [sharedHTTPCookie setCookie:cookie];
-                
+            NSArray* array = request.responseCookies;
+            NSLog(@"Cookies的数组个数: %d",  array.count);
+            
+            NSDictionary *dict = [NSHTTPCookie requestHeaderFieldsWithCookies:array];
+            NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:dict];
+            NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+            
+            [sharedHTTPCookie setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+            [sharedHTTPCookie setCookie:cookie];
+            
 #ifdef __ALI_VERSION__
-                [[ConstantClass instance] setDomain:self.domainLabel.text];
+            [[ConstantClass instance] setDomain:self.domainLabel.text];
 #endif
-                [[ConstantClass instance] setUsername:self.textUsername.text];
-                [[ConstantClass instance] setIsGuestUser:YES];
-                [ConstantClass saveToCache];
-                
-                [self dismissModalViewControllerAnimated:NO];
-                
-                [delegate loginExit]; 
-            }   
+            [[ConstantClass instance] setUsername:self.textUsername.text];
+            [[ConstantClass instance] setIsGuestUser:YES];
+            [ConstantClass saveToCache];
+            
+            [self dismissModalViewControllerAnimated:NO];
+            
+            [delegate loginFinish];
         }
-        else if([request responseStatusCode] == 400)
+        else if(request.responseStatusCode == 400)
         {
             [Tools alert:[request responseString]];
         }
@@ -329,6 +318,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
         {
             [Tools alert:@"用户名和密码不正确"];
         }
+    }
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request

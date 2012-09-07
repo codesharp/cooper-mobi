@@ -50,10 +50,19 @@
 		18409FA715C196BD00639DEE /* incomplete-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 18409FA315C196BD00639DEE /* incomplete-small.png */; };
 		18409FA815C196BD00639DEE /* setting-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 18409FA415C196BD00639DEE /* setting-small.png */; };
 		18409FAC15C199D700639DEE /* Test.m in Sources */ = {isa = PBXBuildFile; fileRef = 18409FAB15C199D700639DEE /* Test.m */; };
+		1868A4CF15F752F700762733 /* InputPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1868A4CE15F752F700762733 /* InputPickerView.m */; };
 		1872E81F15C265CB00A8EA41 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1872E81E15C265CB00A8EA41 /* BaseViewController.m */; };
 		1872E82315C2667B00A8EA41 /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1872E82215C2667B00A8EA41 /* BaseTableViewController.m */; };
 		1872E82715C26B6000A8EA41 /* TasklistViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1872E82615C26B6000A8EA41 /* TasklistViewController.m */; };
 		1872E82A15C2703600A8EA41 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1872E82915C2703500A8EA41 /* BaseNavigationController.m */; };
+		187E6DB515E310ED00A85ECF /* MoveTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 187E6DB215E310ED00A85ECF /* MoveTableView.m */; };
+		187E6DB615E310ED00A85ECF /* MoveTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 187E6DB415E310ED00A85ECF /* MoveTableViewCell.m */; };
+		187E6EA015E3532A00A85ECF /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 187E6E9F15E3532A00A85ECF /* SenTestingKit.framework */; };
+		187E6EA115E3532A00A85ECF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE396265159D343B0018B9EC /* UIKit.framework */; };
+		187E6EA215E3532A00A85ECF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE396267159D343C0018B9EC /* Foundation.framework */; };
+		187E6EA815E3532A00A85ECF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 187E6EA615E3532A00A85ECF /* InfoPlist.strings */; };
+		187E6EAB15E3532A00A85ECF /* CooperNativeUnitTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 187E6EAA15E3532A00A85ECF /* CooperNativeUnitTest.m */; };
+		187E6F6615E3558300A85ECF /* CodesharpSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 187E6F6515E3558200A85ECF /* CodesharpSDKTests.m */; };
 		1881EC9A15BEEAC600B47A7A /* tabbar_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1881EC9915BEEAC600B47A7A /* tabbar_bg.png */; };
 		1881EC9E15BEF18400B47A7A /* btn_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1881EC9D15BEF18400B47A7A /* btn_bg.png */; };
 		1881ECA815BEFC5B00B47A7A /* task.png in Resources */ = {isa = PBXBuildFile; fileRef = 1881ECA715BEFC5B00B47A7A /* task.png */; };
@@ -68,21 +77,11 @@
 		1881ECD615BF7B3000B47A7A /* btn_center.png in Resources */ = {isa = PBXBuildFile; fileRef = 1881ECD515BF7B3000B47A7A /* btn_center.png */; };
 		1881ECD815BF7E0300B47A7A /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 1881ECD715BF7E0200B47A7A /* back.png */; };
 		1884DB2915BDBE9D00A0B562 /* sectionTitlebg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1884DB2815BDBE9D00A0B562 /* sectionTitlebg.png */; };
-		1884ECEB15E1F67800C0C018 /* libThree20.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1884ECE515E1F58000C0C018 /* libThree20.a */; };
-		1884ED3A15E1F8EC00C0C018 /* libThree20Core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1884ECFE15E1F7DA00C0C018 /* libThree20Core.a */; };
-		1884ED3B15E1F8EC00C0C018 /* libThree20Network.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1884ED2B15E1F7F800C0C018 /* libThree20Network.a */; };
-		1884ED3C15E1F8EC00C0C018 /* libThree20Style.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1884ED0715E1F7E300C0C018 /* libThree20Style.a */; };
-		1884ED3D15E1F8EC00C0C018 /* libThree20UI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1884ED1015E1F7E800C0C018 /* libThree20UI.a */; };
-		1884ED3E15E1F8EC00C0C018 /* libThree20UICommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1884ED1915E1F7ED00C0C018 /* libThree20UICommon.a */; };
-		1884ED3F15E1F8EC00C0C018 /* libThree20UINavigator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1884ED2215E1F7F200C0C018 /* libThree20UINavigator.a */; };
 		1886CCA515C06482002346A1 /* DateLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1886CCA415C06482002346A1 /* DateLabel.m */; };
 		1886CCA815C06C2B002346A1 /* btn_bg_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886CCA715C06C2B002346A1 /* btn_bg_gray.png */; };
 		1886CCAB15C0733B002346A1 /* PriorityButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1886CCAA15C0733B002346A1 /* PriorityButton.m */; };
-		1891ABEC15D2D5D300C7E8DA /* libCodesharpSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABEB15D2D5B500C7E8DA /* libCodesharpSDK.a */; };
-		1891ABED15D2D5D300C7E8DA /* libCooperCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABD915D2D59400C7E8DA /* libCooperCore.a */; };
-		1891ABEE15D2D5D300C7E8DA /* libCooperRepository.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABDF15D2D59C00C7E8DA /* libCooperRepository.a */; };
-		1891ABEF15D2D5D300C7E8DA /* libCooperService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABE515D2D5A800C7E8DA /* libCooperService.a */; };
 		18970C4E15C773340072A719 /* InputPickerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 18970C4D15C773340072A719 /* InputPickerButton.m */; };
+		18A16F5E15E35B6100E80E72 /* libCooperCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABD915D2D59400C7E8DA /* libCooperCore.a */; };
 		18A41EB915C5B8E300D49298 /* NoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A41EB815C5B8E300D49298 /* NoticeViewController.m */; };
 		18A92DA415D2E97400423A55 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A92D9F15D2E97400423A55 /* Default.png */; };
 		18A92DA515D2E97400423A55 /* Default~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A92DA015D2E97400423A55 /* Default~ipad.png */; };
@@ -99,6 +98,13 @@
 		18E2974815BCE99400DCED79 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18E2974715BCE99400DCED79 /* Config.plist */; };
 		18E2975815BD12F500DCED79 /* cooper.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E2975715BD12F500DCED79 /* cooper.png */; };
 		18E2975A15BD151800DCED79 /* loginbtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E2975915BD151800DCED79 /* loginbtn.png */; };
+		18F09CAC15F9A9A000088568 /* libCodesharpSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E2F8A115F4D9060062E57F /* libCodesharpSDK.a */; };
+		18F09CAD15F9A9A000088568 /* libCooperCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABD915D2D59400C7E8DA /* libCooperCore.a */; };
+		18F09CAE15F9A9A000088568 /* libCooperRepository.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABDF15D2D59C00C7E8DA /* libCooperRepository.a */; };
+		18F09CAF15F9A9A000088568 /* libCooperService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABE515D2D5A800C7E8DA /* libCooperService.a */; };
+		18F09CB615F9D0F800088568 /* TaskController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F09CB515F9D0F800088568 /* TaskController.m */; };
+		18F5D48215F8A5FE004C5771 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F5D48115F8A5FD004C5771 /* CoreText.framework */; };
+		18F7BB2815F97F1B006E4BB7 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F7BB2715F97F1B006E4BB7 /* WebViewController.m */; };
 		18FAC24E15BF980D003F56B2 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC24C15BF980D003F56B2 /* edit.png */; };
 		18FAC25515BFA143003F56B2 /* btn_bg_green.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC25415BFA143003F56B2 /* btn_bg_green.png */; };
 		18FAC25A15BFAF50003F56B2 /* navigationbar_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC25915BFAF50003F56B2 /* navigationbar_bg.png */; };
@@ -121,153 +127,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1884ECE415E1F58000C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ECDB15E1F57F00C0C018 /* Three20.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BEF31F3A0F352DF5000DE5D2;
-			remoteInfo = Three20;
-		};
-		1884ECE615E1F58000C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ECDB15E1F57F00C0C018 /* Three20.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EB9E6C6210B6A8F800DE563C;
-			remoteInfo = Three20UnitTests;
-		};
-		1884ECE915E1F5CE00C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ECDB15E1F57F00C0C018 /* Three20.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = BEF31F390F352DF5000DE5D2;
-			remoteInfo = Three20;
-		};
-		1884ECFD15E1F7DA00C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ECF815E1F7DA00C0C018 /* Three20Core.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BEF31F3A0F352DF5000DE5D2;
-			remoteInfo = Three20Core;
-		};
-		1884ECFF15E1F7DA00C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ECF815E1F7DA00C0C018 /* Three20Core.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EB9E6C6210B6A8F800DE563C;
-			remoteInfo = Three20CoreUnitTests;
-		};
-		1884ED0615E1F7E300C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ED0115E1F7E200C0C018 /* Three20Style.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BEF31F3A0F352DF5000DE5D2;
-			remoteInfo = Three20Style;
-		};
-		1884ED0815E1F7E300C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ED0115E1F7E200C0C018 /* Three20Style.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EB9E6C6210B6A8F800DE563C;
-			remoteInfo = Three20StyleUnitTests;
-		};
-		1884ED0F15E1F7E800C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ED0A15E1F7E800C0C018 /* Three20UI.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BEF31F3A0F352DF5000DE5D2;
-			remoteInfo = Three20UI;
-		};
-		1884ED1115E1F7E800C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ED0A15E1F7E800C0C018 /* Three20UI.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EB9E6C6210B6A8F800DE563C;
-			remoteInfo = Three20UIUnitTests;
-		};
-		1884ED1815E1F7ED00C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ED1315E1F7ED00C0C018 /* Three20UICommon.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BEF31F3A0F352DF5000DE5D2;
-			remoteInfo = Three20UICommon;
-		};
-		1884ED1A15E1F7ED00C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ED1315E1F7ED00C0C018 /* Three20UICommon.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EB9E6C6210B6A8F800DE563C;
-			remoteInfo = Three20UICommonUnitTests;
-		};
-		1884ED2115E1F7F200C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ED1C15E1F7F200C0C018 /* Three20UINavigator.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BEF31F3A0F352DF5000DE5D2;
-			remoteInfo = Three20UINavigator;
-		};
-		1884ED2315E1F7F200C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ED1C15E1F7F200C0C018 /* Three20UINavigator.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EB9E6C6210B6A8F800DE563C;
-			remoteInfo = Three20UINavigatorUnitTests;
-		};
-		1884ED2A15E1F7F800C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ED2515E1F7F700C0C018 /* Three20Network.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BEF31F3A0F352DF5000DE5D2;
-			remoteInfo = Three20Network;
-		};
-		1884ED2C15E1F7F800C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ED2515E1F7F700C0C018 /* Three20Network.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EB9E6C6210B6A8F800DE563C;
-			remoteInfo = Three20NetworkUnitTests;
-		};
-		1884ED2E15E1F81500C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ED1315E1F7ED00C0C018 /* Three20UICommon.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = BEF31F390F352DF5000DE5D2;
-			remoteInfo = Three20UICommon;
-		};
-		1884ED3015E1F81500C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ECF815E1F7DA00C0C018 /* Three20Core.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = BEF31F390F352DF5000DE5D2;
-			remoteInfo = Three20Core;
-		};
-		1884ED3215E1F81500C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ED0115E1F7E200C0C018 /* Three20Style.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = BEF31F390F352DF5000DE5D2;
-			remoteInfo = Three20Style;
-		};
-		1884ED3415E1F81500C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ED2515E1F7F700C0C018 /* Three20Network.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = BEF31F390F352DF5000DE5D2;
-			remoteInfo = Three20Network;
-		};
-		1884ED3615E1F81500C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ED0A15E1F7E800C0C018 /* Three20UI.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = BEF31F390F352DF5000DE5D2;
-			remoteInfo = Three20UI;
-		};
-		1884ED3815E1F81500C0C018 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1884ED1C15E1F7F200C0C018 /* Three20UINavigator.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = BEF31F390F352DF5000DE5D2;
-			remoteInfo = Three20UINavigator;
-		};
 		1891ABD815D2D59400C7E8DA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1891ABD415D2D59400C7E8DA /* CooperCore.xcodeproj */;
@@ -289,12 +148,47 @@
 			remoteGlobalIDString = 181D514A15D193420035244D;
 			remoteInfo = CooperService;
 		};
-		1891ABEA15D2D5B500C7E8DA /* PBXContainerItemProxy */ = {
+		18A16F5C15E35B5C00E80E72 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1891ABE615D2D5B400C7E8DA /* CodesharpSDK.xcodeproj */;
+			containerPortal = 1891ABD415D2D59400C7E8DA /* CooperCore.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1880B21615D22DAE00670DE6;
+			remoteInfo = CooperCore;
+		};
+		18E2F8A015F4D9060062E57F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18E2F89C15F4D9050062E57F /* CodesharpSDK.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 1880B16415D229B000670DE6;
 			remoteInfo = CodesharpSDK;
+		};
+		18F09CA415F9A7EB00088568 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18E2F89C15F4D9050062E57F /* CodesharpSDK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1880B16315D229B000670DE6;
+			remoteInfo = CodesharpSDK;
+		};
+		18F09CA615F9A7EB00088568 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1891ABD415D2D59400C7E8DA /* CooperCore.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1880B21615D22DAE00670DE6;
+			remoteInfo = CooperCore;
+		};
+		18F09CA815F9A7EB00088568 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1891ABE015D2D5A700C7E8DA /* CooperService.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 181D514915D193420035244D;
+			remoteInfo = CooperService;
+		};
+		18F09CAA15F9A7EB00088568 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1891ABDA15D2D59C00C7E8DA /* CooperRepository.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1880B23415D22EC700670DE6;
+			remoteInfo = CooperRepository;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -370,6 +264,9 @@
 		18409FAA15C199D700639DEE /* Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Test.h; path = Util/Test.h; sourceTree = "<group>"; };
 		18409FAB15C199D700639DEE /* Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Test.m; path = Util/Test.m; sourceTree = "<group>"; };
 		1842238B15C923A7003C674F /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		1868A4CD15F752F700762733 /* InputPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputPickerView.h; path = Controls/InputPickerView.h; sourceTree = "<group>"; };
+		1868A4CE15F752F700762733 /* InputPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InputPickerView.m; path = Controls/InputPickerView.m; sourceTree = "<group>"; };
+		1868A4D015F7544200762733 /* InputPickerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = InputPickerDelegate.h; path = Controls/InputPickerDelegate.h; sourceTree = "<group>"; };
 		1872E81D15C265CB00A8EA41 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseViewController.h; path = ViewControllers/BaseViewController.h; sourceTree = "<group>"; };
 		1872E81E15C265CB00A8EA41 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseViewController.m; path = ViewControllers/BaseViewController.m; sourceTree = "<group>"; };
 		1872E82115C2667B00A8EA41 /* BaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseTableViewController.h; path = Controls/BaseTableViewController.h; sourceTree = "<group>"; };
@@ -378,6 +275,19 @@
 		1872E82615C26B6000A8EA41 /* TasklistViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TasklistViewController.m; path = Controls/TasklistViewController.m; sourceTree = "<group>"; };
 		1872E82815C2703500A8EA41 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseNavigationController.h; path = Controls/BaseNavigationController.h; sourceTree = "<group>"; };
 		1872E82915C2703500A8EA41 /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseNavigationController.m; path = Controls/BaseNavigationController.m; sourceTree = "<group>"; };
+		187E6DB115E310ED00A85ECF /* MoveTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoveTableView.h; path = Controls/MoveTableView.h; sourceTree = "<group>"; };
+		187E6DB215E310ED00A85ECF /* MoveTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MoveTableView.m; path = Controls/MoveTableView.m; sourceTree = "<group>"; };
+		187E6DB315E310ED00A85ECF /* MoveTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoveTableViewCell.h; path = Controls/MoveTableViewCell.h; sourceTree = "<group>"; };
+		187E6DB415E310ED00A85ECF /* MoveTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MoveTableViewCell.m; path = Controls/MoveTableViewCell.m; sourceTree = "<group>"; };
+		187E6E9E15E3532900A85ECF /* CooperNativeUnitTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CooperNativeUnitTest.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		187E6E9F15E3532A00A85ECF /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		187E6EA515E3532A00A85ECF /* CooperNativeUnitTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CooperNativeUnitTest-Info.plist"; sourceTree = "<group>"; };
+		187E6EA715E3532A00A85ECF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		187E6EA915E3532A00A85ECF /* CooperNativeUnitTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CooperNativeUnitTest.h; sourceTree = "<group>"; };
+		187E6EAA15E3532A00A85ECF /* CooperNativeUnitTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CooperNativeUnitTest.m; sourceTree = "<group>"; };
+		187E6EAC15E3532A00A85ECF /* CooperNativeUnitTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CooperNativeUnitTest-Prefix.pch"; sourceTree = "<group>"; };
+		187E6F6415E3558200A85ECF /* CodesharpSDKTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodesharpSDKTests.h; sourceTree = "<group>"; };
+		187E6F6515E3558200A85ECF /* CodesharpSDKTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodesharpSDKTests.m; sourceTree = "<group>"; };
 		1881EC9915BEEAC600B47A7A /* tabbar_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_bg.png; sourceTree = "<group>"; };
 		1881EC9D15BEF18400B47A7A /* btn_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_bg.png; sourceTree = "<group>"; };
 		1881ECA715BEFC5B00B47A7A /* task.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = task.png; sourceTree = "<group>"; };
@@ -392,13 +302,6 @@
 		1881ECD515BF7B3000B47A7A /* btn_center.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_center.png; sourceTree = "<group>"; };
 		1881ECD715BF7E0200B47A7A /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		1884DB2815BDBE9D00A0B562 /* sectionTitlebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sectionTitlebg.png; sourceTree = "<group>"; };
-		1884ECDB15E1F57F00C0C018 /* Three20.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20.xcodeproj; path = ../../lib/Three20/Three20/Three20.xcodeproj; sourceTree = "<group>"; };
-		1884ECF815E1F7DA00C0C018 /* Three20Core.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20Core.xcodeproj; path = ../../lib/Three20/Three20Core/Three20Core.xcodeproj; sourceTree = "<group>"; };
-		1884ED0115E1F7E200C0C018 /* Three20Style.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20Style.xcodeproj; path = ../../lib/Three20/Three20Style/Three20Style.xcodeproj; sourceTree = "<group>"; };
-		1884ED0A15E1F7E800C0C018 /* Three20UI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20UI.xcodeproj; path = ../../lib/Three20/Three20UI/Three20UI.xcodeproj; sourceTree = "<group>"; };
-		1884ED1315E1F7ED00C0C018 /* Three20UICommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20UICommon.xcodeproj; path = ../../lib/Three20/Three20UICommon/Three20UICommon.xcodeproj; sourceTree = "<group>"; };
-		1884ED1C15E1F7F200C0C018 /* Three20UINavigator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20UINavigator.xcodeproj; path = ../../lib/Three20/Three20UINavigator/Three20UINavigator.xcodeproj; sourceTree = "<group>"; };
-		1884ED2515E1F7F700C0C018 /* Three20Network.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20Network.xcodeproj; path = ../../lib/Three20/Three20Network/Three20Network.xcodeproj; sourceTree = "<group>"; };
 		1886CCA315C06482002346A1 /* DateLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DateLabel.h; path = Controls/DateLabel.h; sourceTree = "<group>"; };
 		1886CCA415C06482002346A1 /* DateLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DateLabel.m; path = Controls/DateLabel.m; sourceTree = "<group>"; };
 		1886CCA715C06C2B002346A1 /* btn_bg_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_bg_gray.png; sourceTree = "<group>"; };
@@ -407,7 +310,6 @@
 		1891ABD415D2D59400C7E8DA /* CooperCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CooperCore.xcodeproj; path = ../CooperCore/CooperCore.xcodeproj; sourceTree = "<group>"; };
 		1891ABDA15D2D59C00C7E8DA /* CooperRepository.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CooperRepository.xcodeproj; path = ../CooperRepository/CooperRepository.xcodeproj; sourceTree = "<group>"; };
 		1891ABE015D2D5A700C7E8DA /* CooperService.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CooperService.xcodeproj; path = ../CooperService/CooperService.xcodeproj; sourceTree = "<group>"; };
-		1891ABE615D2D5B400C7E8DA /* CodesharpSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodesharpSDK.xcodeproj; path = ../../lib/CodesharpSDK/CodesharpSDK.xcodeproj; sourceTree = "<group>"; };
 		18970C4C15C773330072A719 /* InputPickerButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputPickerButton.h; path = Controls/InputPickerButton.h; sourceTree = "<group>"; };
 		18970C4D15C773340072A719 /* InputPickerButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InputPickerButton.m; path = Controls/InputPickerButton.m; sourceTree = "<group>"; };
 		18A41EB715C5B8E300D49298 /* NoticeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoticeViewController.h; path = ViewControllers/NoticeViewController.h; sourceTree = "<group>"; };
@@ -432,6 +334,12 @@
 		18E2974715BCE99400DCED79 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		18E2975715BD12F500DCED79 /* cooper.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cooper.png; sourceTree = "<group>"; };
 		18E2975915BD151800DCED79 /* loginbtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginbtn.png; sourceTree = "<group>"; };
+		18E2F89C15F4D9050062E57F /* CodesharpSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodesharpSDK.xcodeproj; path = ../../lib/CodesharpSDK/CodesharpSDK.xcodeproj; sourceTree = "<group>"; };
+		18F09CB415F9D0F800088568 /* TaskController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskController.h; path = ViewControllers/TaskController.h; sourceTree = "<group>"; };
+		18F09CB515F9D0F800088568 /* TaskController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskController.m; path = ViewControllers/TaskController.m; sourceTree = "<group>"; };
+		18F5D48115F8A5FD004C5771 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		18F7BB2615F97F1B006E4BB7 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = ViewControllers/WebViewController.h; sourceTree = "<group>"; };
+		18F7BB2715F97F1B006E4BB7 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = ViewControllers/WebViewController.m; sourceTree = "<group>"; };
 		18FAC24C15BF980D003F56B2 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
 		18FAC25415BFA143003F56B2 /* btn_bg_green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_bg_green.png; sourceTree = "<group>"; };
 		18FAC25915BFAF50003F56B2 /* navigationbar_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationbar_bg.png; sourceTree = "<group>"; };
@@ -464,22 +372,27 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		187E6E9A15E3532900A85ECF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18A16F5E15E35B6100E80E72 /* libCooperCore.a in Frameworks */,
+				187E6EA015E3532A00A85ECF /* SenTestingKit.framework in Frameworks */,
+				187E6EA115E3532A00A85ECF /* UIKit.framework in Frameworks */,
+				187E6EA215E3532A00A85ECF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EE39625E159D343B0018B9EC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1884ED3A15E1F8EC00C0C018 /* libThree20Core.a in Frameworks */,
-				1884ED3B15E1F8EC00C0C018 /* libThree20Network.a in Frameworks */,
-				1884ED3C15E1F8EC00C0C018 /* libThree20Style.a in Frameworks */,
-				1884ED3D15E1F8EC00C0C018 /* libThree20UI.a in Frameworks */,
-				1884ED3E15E1F8EC00C0C018 /* libThree20UICommon.a in Frameworks */,
-				1884ED3F15E1F8EC00C0C018 /* libThree20UINavigator.a in Frameworks */,
-				1884ECEB15E1F67800C0C018 /* libThree20.a in Frameworks */,
+				18F09CAC15F9A9A000088568 /* libCodesharpSDK.a in Frameworks */,
+				18F09CAD15F9A9A000088568 /* libCooperCore.a in Frameworks */,
+				18F09CAE15F9A9A000088568 /* libCooperRepository.a in Frameworks */,
+				18F09CAF15F9A9A000088568 /* libCooperService.a in Frameworks */,
+				18F5D48215F8A5FE004C5771 /* CoreText.framework in Frameworks */,
 				18A92DBD15D2EA5600423A55 /* Security.framework in Frameworks */,
-				1891ABEC15D2D5D300C7E8DA /* libCodesharpSDK.a in Frameworks */,
-				1891ABED15D2D5D300C7E8DA /* libCooperCore.a in Frameworks */,
-				1891ABEE15D2D5D300C7E8DA /* libCooperRepository.a in Frameworks */,
-				1891ABEF15D2D5D300C7E8DA /* libCooperService.a in Frameworks */,
 				1835EFE715C10898004AF233 /* QuartzCore.framework in Frameworks */,
 				EE87F7C015A3FB3D00DA8E7F /* libz.1.2.5.dylib in Frameworks */,
 				EE87F7BE15A3FB0A00DA8E7F /* MobileCoreServices.framework in Frameworks */,
@@ -517,6 +430,10 @@
 		1838AADD15C7E06E003EC484 /* TableViews */ = {
 			isa = PBXGroup;
 			children = (
+				187E6DB115E310ED00A85ECF /* MoveTableView.h */,
+				187E6DB215E310ED00A85ECF /* MoveTableView.m */,
+				187E6DB315E310ED00A85ECF /* MoveTableViewCell.h */,
+				187E6DB415E310ED00A85ECF /* MoveTableViewCell.m */,
 				1838AADF15C7E090003EC484 /* CustomTableView.h */,
 				1838AAE015C7E090003EC484 /* CustomTableView.m */,
 			);
@@ -532,6 +449,28 @@
 			name = TasklistViewController;
 			sourceTree = "<group>";
 		};
+		187E6EA315E3532A00A85ECF /* CooperNativeUnitTest */ = {
+			isa = PBXGroup;
+			children = (
+				187E6EA915E3532A00A85ECF /* CooperNativeUnitTest.h */,
+				187E6EAA15E3532A00A85ECF /* CooperNativeUnitTest.m */,
+				187E6EA415E3532A00A85ECF /* Supporting Files */,
+				187E6F6415E3558200A85ECF /* CodesharpSDKTests.h */,
+				187E6F6515E3558200A85ECF /* CodesharpSDKTests.m */,
+			);
+			path = CooperNativeUnitTest;
+			sourceTree = "<group>";
+		};
+		187E6EA415E3532A00A85ECF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				187E6EA515E3532A00A85ECF /* CooperNativeUnitTest-Info.plist */,
+				187E6EA615E3532A00A85ECF /* InfoPlist.strings */,
+				187E6EAC15E3532A00A85ECF /* CooperNativeUnitTest-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		1881ECD915BF8A4E00B47A7A /* Category */ = {
 			isa = PBXGroup;
 			children = (
@@ -541,80 +480,10 @@
 			name = Category;
 			sourceTree = "<group>";
 		};
-		1884ECDC15E1F57F00C0C018 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1884ECE515E1F58000C0C018 /* libThree20.a */,
-				1884ECE715E1F58000C0C018 /* Three20UnitTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		1884ECF915E1F7DA00C0C018 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1884ECFE15E1F7DA00C0C018 /* libThree20Core.a */,
-				1884ED0015E1F7DA00C0C018 /* CoreUnitTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		1884ED0215E1F7E200C0C018 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1884ED0715E1F7E300C0C018 /* libThree20Style.a */,
-				1884ED0915E1F7E300C0C018 /* StyleUnitTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		1884ED0B15E1F7E800C0C018 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1884ED1015E1F7E800C0C018 /* libThree20UI.a */,
-				1884ED1215E1F7E800C0C018 /* UIUnitTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		1884ED1415E1F7ED00C0C018 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1884ED1915E1F7ED00C0C018 /* libThree20UICommon.a */,
-				1884ED1B15E1F7ED00C0C018 /* UICommonUnitTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		1884ED1D15E1F7F200C0C018 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1884ED2215E1F7F200C0C018 /* libThree20UINavigator.a */,
-				1884ED2415E1F7F200C0C018 /* UINavigatorUnitTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		1884ED2615E1F7F700C0C018 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1884ED2B15E1F7F800C0C018 /* libThree20Network.a */,
-				1884ED2D15E1F7F800C0C018 /* NetworkUnitTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		1891ABD315D2D58600C7E8DA /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				1884ED2515E1F7F700C0C018 /* Three20Network.xcodeproj */,
-				1884ED1C15E1F7F200C0C018 /* Three20UINavigator.xcodeproj */,
-				1884ED1315E1F7ED00C0C018 /* Three20UICommon.xcodeproj */,
-				1884ED0A15E1F7E800C0C018 /* Three20UI.xcodeproj */,
-				1884ED0115E1F7E200C0C018 /* Three20Style.xcodeproj */,
-				1884ECF815E1F7DA00C0C018 /* Three20Core.xcodeproj */,
-				1884ECDB15E1F57F00C0C018 /* Three20.xcodeproj */,
-				1891ABE615D2D5B400C7E8DA /* CodesharpSDK.xcodeproj */,
+				18E2F89C15F4D9050062E57F /* CodesharpSDK.xcodeproj */,
 				1891ABE015D2D5A700C7E8DA /* CooperService.xcodeproj */,
 				1891ABDA15D2D59C00C7E8DA /* CooperRepository.xcodeproj */,
 				1891ABD415D2D59400C7E8DA /* CooperCore.xcodeproj */,
@@ -642,14 +511,6 @@
 			isa = PBXGroup;
 			children = (
 				1891ABE515D2D5A800C7E8DA /* libCooperService.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		1891ABE715D2D5B400C7E8DA /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1891ABEB15D2D5B500C7E8DA /* libCodesharpSDK.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -691,6 +552,14 @@
 			path = ../../lib/GoogleOAuth2;
 			sourceTree = "<group>";
 		};
+		18E2F89D15F4D9050062E57F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18E2F8A115F4D9060062E57F /* libCodesharpSDK.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		8C0C2F2015AE7AAF00283579 /* SBJSON */ = {
 			isa = PBXGroup;
 			children = (
@@ -718,6 +587,7 @@
 				18A92D9E15D2E97400423A55 /* Images */,
 				EE87F78C15A3F50100DA8E7F /* Sources */,
 				EE39626B159D343C0018B9EC /* Cooper */,
+				187E6EA315E3532A00A85ECF /* CooperNativeUnitTest */,
 				EE396264159D343B0018B9EC /* Frameworks */,
 				EE396262159D343B0018B9EC /* Products */,
 			);
@@ -727,6 +597,7 @@
 			isa = PBXGroup;
 			children = (
 				EE396261159D343B0018B9EC /* Cooper.app */,
+				187E6E9E15E3532900A85ECF /* CooperNativeUnitTest.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -734,6 +605,7 @@
 		EE396264159D343B0018B9EC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				18F5D48115F8A5FD004C5771 /* CoreText.framework */,
 				18A92DBC15D2EA5600423A55 /* Security.framework */,
 				1835EFE615C10898004AF233 /* QuartzCore.framework */,
 				EE87F7BF15A3FB3C00DA8E7F /* libz.1.2.5.dylib */,
@@ -744,6 +616,7 @@
 				EE396265159D343B0018B9EC /* UIKit.framework */,
 				EE396267159D343C0018B9EC /* Foundation.framework */,
 				EE396269159D343C0018B9EC /* CoreGraphics.framework */,
+				187E6E9F15E3532A00A85ECF /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -790,6 +663,8 @@
 				1872E82215C2667B00A8EA41 /* BaseTableViewController.m */,
 				1872E82815C2703500A8EA41 /* BaseNavigationController.h */,
 				1872E82915C2703500A8EA41 /* BaseNavigationController.m */,
+				18F7BB2615F97F1B006E4BB7 /* WebViewController.h */,
+				18F7BB2715F97F1B006E4BB7 /* WebViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -801,6 +676,8 @@
 				1810152815C04BC100D67C06 /* TaskViewController.m */,
 				1810152915C04BC100D67C06 /* TaskViewController.xib */,
 				1810152A15C04BC100D67C06 /* TaskViewDelegate.h */,
+				18F09CB415F9D0F800088568 /* TaskController.h */,
+				18F09CB515F9D0F800088568 /* TaskController.m */,
 			);
 			name = TaskViewController;
 			sourceTree = "<group>";
@@ -840,6 +717,9 @@
 				18970C4D15C773340072A719 /* InputPickerButton.m */,
 				181DD88115C80F3300FB2ED5 /* BodyTextView.h */,
 				181DD88215C80F3300FB2ED5 /* BodyTextView.m */,
+				1868A4CD15F752F700762733 /* InputPickerView.h */,
+				1868A4CE15F752F700762733 /* InputPickerView.m */,
+				1868A4D015F7544200762733 /* InputPickerDelegate.h */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -979,6 +859,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		187E6E9D15E3532900A85ECF /* CooperNativeUnitTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 187E6EAD15E3532A00A85ECF /* Build configuration list for PBXNativeTarget "CooperNativeUnitTest" */;
+			buildPhases = (
+				187E6E9915E3532900A85ECF /* Sources */,
+				187E6E9A15E3532900A85ECF /* Frameworks */,
+				187E6E9B15E3532900A85ECF /* Resources */,
+				187E6E9C15E3532900A85ECF /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				18A16F5D15E35B5C00E80E72 /* PBXTargetDependency */,
+			);
+			name = CooperNativeUnitTest;
+			productName = CooperNativeUnitTest;
+			productReference = 187E6E9E15E3532900A85ECF /* CooperNativeUnitTest.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		EE396260159D343B0018B9EC /* Cooper */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EE39628D159D343C0018B9EC /* Build configuration list for PBXNativeTarget "Cooper" */;
@@ -991,13 +890,10 @@
 			buildRules = (
 			);
 			dependencies = (
-				1884ED2F15E1F81500C0C018 /* PBXTargetDependency */,
-				1884ED3115E1F81500C0C018 /* PBXTargetDependency */,
-				1884ED3315E1F81500C0C018 /* PBXTargetDependency */,
-				1884ED3515E1F81500C0C018 /* PBXTargetDependency */,
-				1884ED3715E1F81500C0C018 /* PBXTargetDependency */,
-				1884ED3915E1F81500C0C018 /* PBXTargetDependency */,
-				1884ECEA15E1F5CE00C0C018 /* PBXTargetDependency */,
+				18F09CA515F9A7EB00088568 /* PBXTargetDependency */,
+				18F09CA715F9A7EB00088568 /* PBXTargetDependency */,
+				18F09CA915F9A7EB00088568 /* PBXTargetDependency */,
+				18F09CAB15F9A7EB00088568 /* PBXTargetDependency */,
 			);
 			name = Cooper;
 			productName = Cooper;
@@ -1025,8 +921,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 1891ABE715D2D5B400C7E8DA /* Products */;
-					ProjectRef = 1891ABE615D2D5B400C7E8DA /* CodesharpSDK.xcodeproj */;
+					ProductGroup = 18E2F89D15F4D9050062E57F /* Products */;
+					ProjectRef = 18E2F89C15F4D9050062E57F /* CodesharpSDK.xcodeproj */;
 				},
 				{
 					ProductGroup = 1891ABD515D2D59400C7E8DA /* Products */;
@@ -1040,141 +936,16 @@
 					ProductGroup = 1891ABE115D2D5A700C7E8DA /* Products */;
 					ProjectRef = 1891ABE015D2D5A700C7E8DA /* CooperService.xcodeproj */;
 				},
-				{
-					ProductGroup = 1884ECDC15E1F57F00C0C018 /* Products */;
-					ProjectRef = 1884ECDB15E1F57F00C0C018 /* Three20.xcodeproj */;
-				},
-				{
-					ProductGroup = 1884ECF915E1F7DA00C0C018 /* Products */;
-					ProjectRef = 1884ECF815E1F7DA00C0C018 /* Three20Core.xcodeproj */;
-				},
-				{
-					ProductGroup = 1884ED2615E1F7F700C0C018 /* Products */;
-					ProjectRef = 1884ED2515E1F7F700C0C018 /* Three20Network.xcodeproj */;
-				},
-				{
-					ProductGroup = 1884ED0215E1F7E200C0C018 /* Products */;
-					ProjectRef = 1884ED0115E1F7E200C0C018 /* Three20Style.xcodeproj */;
-				},
-				{
-					ProductGroup = 1884ED0B15E1F7E800C0C018 /* Products */;
-					ProjectRef = 1884ED0A15E1F7E800C0C018 /* Three20UI.xcodeproj */;
-				},
-				{
-					ProductGroup = 1884ED1415E1F7ED00C0C018 /* Products */;
-					ProjectRef = 1884ED1315E1F7ED00C0C018 /* Three20UICommon.xcodeproj */;
-				},
-				{
-					ProductGroup = 1884ED1D15E1F7F200C0C018 /* Products */;
-					ProjectRef = 1884ED1C15E1F7F200C0C018 /* Three20UINavigator.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
 				EE396260159D343B0018B9EC /* Cooper */,
+				187E6E9D15E3532900A85ECF /* CooperNativeUnitTest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		1884ECE515E1F58000C0C018 /* libThree20.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libThree20.a;
-			remoteRef = 1884ECE415E1F58000C0C018 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1884ECE715E1F58000C0C018 /* Three20UnitTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Three20UnitTests.octest;
-			remoteRef = 1884ECE615E1F58000C0C018 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1884ECFE15E1F7DA00C0C018 /* libThree20Core.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libThree20Core.a;
-			remoteRef = 1884ECFD15E1F7DA00C0C018 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1884ED0015E1F7DA00C0C018 /* CoreUnitTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = CoreUnitTests.octest;
-			remoteRef = 1884ECFF15E1F7DA00C0C018 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1884ED0715E1F7E300C0C018 /* libThree20Style.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libThree20Style.a;
-			remoteRef = 1884ED0615E1F7E300C0C018 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1884ED0915E1F7E300C0C018 /* StyleUnitTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = StyleUnitTests.octest;
-			remoteRef = 1884ED0815E1F7E300C0C018 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1884ED1015E1F7E800C0C018 /* libThree20UI.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libThree20UI.a;
-			remoteRef = 1884ED0F15E1F7E800C0C018 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1884ED1215E1F7E800C0C018 /* UIUnitTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = UIUnitTests.octest;
-			remoteRef = 1884ED1115E1F7E800C0C018 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1884ED1915E1F7ED00C0C018 /* libThree20UICommon.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libThree20UICommon.a;
-			remoteRef = 1884ED1815E1F7ED00C0C018 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1884ED1B15E1F7ED00C0C018 /* UICommonUnitTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = UICommonUnitTests.octest;
-			remoteRef = 1884ED1A15E1F7ED00C0C018 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1884ED2215E1F7F200C0C018 /* libThree20UINavigator.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libThree20UINavigator.a;
-			remoteRef = 1884ED2115E1F7F200C0C018 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1884ED2415E1F7F200C0C018 /* UINavigatorUnitTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = UINavigatorUnitTests.octest;
-			remoteRef = 1884ED2315E1F7F200C0C018 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1884ED2B15E1F7F800C0C018 /* libThree20Network.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libThree20Network.a;
-			remoteRef = 1884ED2A15E1F7F800C0C018 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1884ED2D15E1F7F800C0C018 /* NetworkUnitTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = NetworkUnitTests.octest;
-			remoteRef = 1884ED2C15E1F7F800C0C018 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		1891ABD915D2D59400C7E8DA /* libCooperCore.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1196,16 +967,24 @@
 			remoteRef = 1891ABE415D2D5A800C7E8DA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1891ABEB15D2D5B500C7E8DA /* libCodesharpSDK.a */ = {
+		18E2F8A115F4D9060062E57F /* libCodesharpSDK.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libCodesharpSDK.a;
-			remoteRef = 1891ABEA15D2D5B500C7E8DA /* PBXContainerItemProxy */;
+			remoteRef = 18E2F8A015F4D9060062E57F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		187E6E9B15E3532900A85ECF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				187E6EA815E3532A00A85ECF /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EE39625F159D343B0018B9EC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1261,6 +1040,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		187E6E9C15E3532900A85ECF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
 		8CF1DE1615AFBD76004D7648 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1277,6 +1069,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		187E6E9915E3532900A85ECF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				187E6EAB15E3532A00A85ECF /* CooperNativeUnitTest.m in Sources */,
+				187E6F6615E3558300A85ECF /* CodesharpSDKTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EE39625D159D343B0018B9EC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1326,50 +1127,53 @@
 				18A92DB815D2EA2800423A55 /* GTMOAuth2Authentication.m in Sources */,
 				18A92DB915D2EA2800423A55 /* GTMOAuth2SignIn.m in Sources */,
 				18A92DBA15D2EA2800423A55 /* GTMOAuth2ViewControllerTouch.m in Sources */,
+				187E6DB515E310ED00A85ECF /* MoveTableView.m in Sources */,
+				187E6DB615E310ED00A85ECF /* MoveTableViewCell.m in Sources */,
+				1868A4CF15F752F700762733 /* InputPickerView.m in Sources */,
+				18F7BB2815F97F1B006E4BB7 /* WebViewController.m in Sources */,
+				18F09CB615F9D0F800088568 /* TaskController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1884ECEA15E1F5CE00C0C018 /* PBXTargetDependency */ = {
+		18A16F5D15E35B5C00E80E72 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = Three20;
-			targetProxy = 1884ECE915E1F5CE00C0C018 /* PBXContainerItemProxy */;
+			name = CooperCore;
+			targetProxy = 18A16F5C15E35B5C00E80E72 /* PBXContainerItemProxy */;
 		};
-		1884ED2F15E1F81500C0C018 /* PBXTargetDependency */ = {
+		18F09CA515F9A7EB00088568 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = Three20UICommon;
-			targetProxy = 1884ED2E15E1F81500C0C018 /* PBXContainerItemProxy */;
+			name = CodesharpSDK;
+			targetProxy = 18F09CA415F9A7EB00088568 /* PBXContainerItemProxy */;
 		};
-		1884ED3115E1F81500C0C018 /* PBXTargetDependency */ = {
+		18F09CA715F9A7EB00088568 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = Three20Core;
-			targetProxy = 1884ED3015E1F81500C0C018 /* PBXContainerItemProxy */;
+			name = CooperCore;
+			targetProxy = 18F09CA615F9A7EB00088568 /* PBXContainerItemProxy */;
 		};
-		1884ED3315E1F81500C0C018 /* PBXTargetDependency */ = {
+		18F09CA915F9A7EB00088568 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = Three20Style;
-			targetProxy = 1884ED3215E1F81500C0C018 /* PBXContainerItemProxy */;
+			name = CooperService;
+			targetProxy = 18F09CA815F9A7EB00088568 /* PBXContainerItemProxy */;
 		};
-		1884ED3515E1F81500C0C018 /* PBXTargetDependency */ = {
+		18F09CAB15F9A7EB00088568 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = Three20Network;
-			targetProxy = 1884ED3415E1F81500C0C018 /* PBXContainerItemProxy */;
-		};
-		1884ED3715E1F81500C0C018 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Three20UI;
-			targetProxy = 1884ED3615E1F81500C0C018 /* PBXContainerItemProxy */;
-		};
-		1884ED3915E1F81500C0C018 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Three20UINavigator;
-			targetProxy = 1884ED3815E1F81500C0C018 /* PBXContainerItemProxy */;
+			name = CooperRepository;
+			targetProxy = 18F09CAA15F9A7EB00088568 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		187E6EA615E3532A00A85ECF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				187E6EA715E3532A00A85ECF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		EE39626E159D343C0018B9EC /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1381,6 +1185,38 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		187E6EAE15E3532A00A85ECF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Cooper/Cooper-Prefix.pch";
+				INFOPLIST_FILE = "Cooper/Cooper-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		187E6EAF15E3532A00A85ECF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Cooper/Cooper-Prefix.pch";
+				INFOPLIST_FILE = "Cooper/Cooper-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 		EE39628B159D343C0018B9EC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1435,19 +1271,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Li Ping (3F9L3G335D)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cooper/Cooper-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(BUILT_PRODUCTS_DIR)/../../three20",
-					"$(BUILT_PRODUCTS_DIR)/../three20",
-				);
+				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				INFOPLIST_FILE = "Cooper/Cooper-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../lib/Build/Products/Release-iphoneos\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DD257646-F75F-4C2C-81D0-B06F55844159";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1458,20 +1290,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cooper/Cooper-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(BUILT_PRODUCTS_DIR)/../../three20",
-					"$(BUILT_PRODUCTS_DIR)/../three20",
-				);
+				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				INFOPLIST_FILE = "Cooper/Cooper-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../lib/Build/Products/Release-iphoneos\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "$(BUILD_PRODUCTS_DIR)/../../three20/** $(BUILD_PRODUCTS_DIR)/../three20/**";
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1479,6 +1306,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		187E6EAD15E3532A00A85ECF /* Build configuration list for PBXNativeTarget "CooperNativeUnitTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				187E6EAE15E3532A00A85ECF /* Debug */,
+				187E6EAF15E3532A00A85ECF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		EE39625B159D34380018B9EC /* Build configuration list for PBXProject "CooperNative" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

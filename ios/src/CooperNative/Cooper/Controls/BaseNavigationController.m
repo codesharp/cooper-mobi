@@ -20,7 +20,7 @@
     }
     else {
         UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE]];
-        [imageView setFrame:CGRectMake(0, 0, 320, 44)];
+        [imageView setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], 44)];
         [self.navigationBar addSubview:imageView];
         [imageView release];
     }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		187E6E9615E34E0D00A85ECF /* VersionObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 187E6E9415E34E0D00A85ECF /* VersionObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		187E6E9715E34E0D00A85ECF /* VersionObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 187E6E9515E34E0D00A85ECF /* VersionObject.m */; };
 		1880B16815D229B000670DE6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1880B16715D229B000670DE6 /* Foundation.framework */; };
 		1880B1AB15D22B5F00670DE6 /* CodesharpSDK-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 1880B1AA15D22B5F00670DE6 /* CodesharpSDK-Prefix.pch */; };
 		1880B1C515D22B8B00670DE6 /* ASIAuthenticationDialog.h in Headers */ = {isa = PBXBuildFile; fileRef = 1880B1AD15D22B8B00670DE6 /* ASIAuthenticationDialog.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -41,8 +43,6 @@
 		1891A60E15D2666D00C7E8DA /* AESEncrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891A60815D2666D00C7E8DA /* AESEncrypt.m */; };
 		1891A60F15D2666D00C7E8DA /* NSString+decode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1891A60915D2666D00C7E8DA /* NSString+decode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1891A61015D2666D00C7E8DA /* NSString+decode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891A60A15D2666D00C7E8DA /* NSString+decode.m */; };
-		1891A61315D2669600C7E8DA /* MBProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 1891A61115D2669600C7E8DA /* MBProgressHUD.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1891A61415D2669600C7E8DA /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891A61215D2669600C7E8DA /* MBProgressHUD.m */; };
 		1891A61615D266E300C7E8DA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891A61515D266E300C7E8DA /* UIKit.framework */; };
 		1891A61815D2672400C7E8DA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891A61715D2672400C7E8DA /* CoreGraphics.framework */; };
 		1891A61B15D2681B00C7E8DA /* Tools.h in Headers */ = {isa = PBXBuildFile; fileRef = 1891A61915D2681B00C7E8DA /* Tools.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -55,9 +55,26 @@
 		1891A9D915D2B09B00C7E8DA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891A9D815D2B09B00C7E8DA /* SystemConfiguration.framework */; };
 		1891A9DB15D2B0A800C7E8DA /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891A9DA15D2B0A800C7E8DA /* CFNetwork.framework */; };
 		1891A9DD15D2B10800C7E8DA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891A9DC15D2B10800C7E8DA /* Security.framework */; };
+		18A16F6315E35FC400E80E72 /* AssertHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 18A16F6115E35FC400E80E72 /* AssertHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A16F6415E35FC400E80E72 /* AssertHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A16F6215E35FC400E80E72 /* AssertHelper.m */; };
+		18F5D47415F8A261004C5771 /* MBProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 18F5D46315F8A261004C5771 /* MBProgressHUD.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18F5D47515F8A261004C5771 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F5D46415F8A261004C5771 /* MBProgressHUD.m */; };
+		18F5D47615F8A261004C5771 /* AHHyperlinkScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 18F5D46715F8A261004C5771 /* AHHyperlinkScanner.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18F5D47715F8A261004C5771 /* AHHyperlinkScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F5D46815F8A261004C5771 /* AHHyperlinkScanner.m */; };
+		18F5D47815F8A261004C5771 /* AHLinkLexer.h in Headers */ = {isa = PBXBuildFile; fileRef = 18F5D46915F8A261004C5771 /* AHLinkLexer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18F5D47915F8A261004C5771 /* AHLinkLexer.l in Sources */ = {isa = PBXBuildFile; fileRef = 18F5D46A15F8A261004C5771 /* AHLinkLexer.l */; };
+		18F5D47A15F8A261004C5771 /* AHMarkedHyperlink.h in Headers */ = {isa = PBXBuildFile; fileRef = 18F5D46B15F8A261004C5771 /* AHMarkedHyperlink.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18F5D47B15F8A261004C5771 /* AHMarkedHyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F5D46C15F8A261004C5771 /* AHMarkedHyperlink.m */; };
+		18F5D47C15F8A261004C5771 /* AutoHyperlinks.h in Headers */ = {isa = PBXBuildFile; fileRef = 18F5D46D15F8A261004C5771 /* AutoHyperlinks.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18F5D47D15F8A261004C5771 /* JSCoreTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 18F5D47015F8A261004C5771 /* JSCoreTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18F5D47E15F8A261004C5771 /* JSCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F5D47115F8A261004C5771 /* JSCoreTextView.m */; };
+		18F5D47F15F8A261004C5771 /* JSTwitterCoreTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 18F5D47215F8A261004C5771 /* JSTwitterCoreTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18F5D48015F8A261004C5771 /* JSTwitterCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F5D47315F8A261004C5771 /* JSTwitterCoreTextView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		187E6E9415E34E0D00A85ECF /* VersionObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VersionObject.h; path = Sources/Core/Utils/VersionObject.h; sourceTree = "<group>"; };
+		187E6E9515E34E0D00A85ECF /* VersionObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionObject.m; path = Sources/Core/Utils/VersionObject.m; sourceTree = "<group>"; };
 		1880B16415D229B000670DE6 /* libCodesharpSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCodesharpSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1880B16715D229B000670DE6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1880B1AA15D22B5F00670DE6 /* CodesharpSDK-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CodesharpSDK-Prefix.pch"; path = "Sources/CodesharpSDK-Prefix.pch"; sourceTree = "<group>"; };
@@ -93,8 +110,6 @@
 		1891A60815D2666D00C7E8DA /* AESEncrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AESEncrypt.m; path = Sources/Core/Utils/AESEncrypt.m; sourceTree = "<group>"; };
 		1891A60915D2666D00C7E8DA /* NSString+decode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+decode.h"; path = "Sources/Core/Utils/NSString+decode.h"; sourceTree = "<group>"; };
 		1891A60A15D2666D00C7E8DA /* NSString+decode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+decode.m"; path = "Sources/Core/Utils/NSString+decode.m"; sourceTree = "<group>"; };
-		1891A61115D2669600C7E8DA /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = Sources/UI/MBProgressHUD.h; sourceTree = "<group>"; };
-		1891A61215D2669600C7E8DA /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = Sources/UI/MBProgressHUD.m; sourceTree = "<group>"; };
 		1891A61515D266E300C7E8DA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1891A61715D2672400C7E8DA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		1891A61915D2681B00C7E8DA /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tools.h; path = Sources/Core/Utils/Tools.h; sourceTree = "<group>"; };
@@ -107,6 +122,23 @@
 		1891A9D815D2B09B00C7E8DA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		1891A9DA15D2B0A800C7E8DA /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		1891A9DC15D2B10800C7E8DA /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		18A16F6115E35FC400E80E72 /* AssertHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AssertHelper.h; path = Sources/Core/Asserts/AssertHelper.h; sourceTree = "<group>"; };
+		18A16F6215E35FC400E80E72 /* AssertHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AssertHelper.m; path = Sources/Core/Asserts/AssertHelper.m; sourceTree = "<group>"; };
+		18F5D46315F8A261004C5771 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = Sources/UI/MBProgressHUD.h; sourceTree = "<group>"; };
+		18F5D46415F8A261004C5771 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = Sources/UI/MBProgressHUD.m; sourceTree = "<group>"; };
+		18F5D46715F8A261004C5771 /* AHHyperlinkScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AHHyperlinkScanner.h; sourceTree = "<group>"; };
+		18F5D46815F8A261004C5771 /* AHHyperlinkScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AHHyperlinkScanner.m; sourceTree = "<group>"; };
+		18F5D46915F8A261004C5771 /* AHLinkLexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AHLinkLexer.h; sourceTree = "<group>"; };
+		18F5D46A15F8A261004C5771 /* AHLinkLexer.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = AHLinkLexer.l; sourceTree = "<group>"; };
+		18F5D46B15F8A261004C5771 /* AHMarkedHyperlink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AHMarkedHyperlink.h; sourceTree = "<group>"; };
+		18F5D46C15F8A261004C5771 /* AHMarkedHyperlink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AHMarkedHyperlink.m; sourceTree = "<group>"; };
+		18F5D46D15F8A261004C5771 /* AutoHyperlinks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoHyperlinks.h; sourceTree = "<group>"; };
+		18F5D46E15F8A261004C5771 /* Copyright.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Copyright.txt; sourceTree = "<group>"; };
+		18F5D46F15F8A261004C5771 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
+		18F5D47015F8A261004C5771 /* JSCoreTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSCoreTextView.h; sourceTree = "<group>"; };
+		18F5D47115F8A261004C5771 /* JSCoreTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSCoreTextView.m; sourceTree = "<group>"; };
+		18F5D47215F8A261004C5771 /* JSTwitterCoreTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTwitterCoreTextView.h; sourceTree = "<group>"; };
+		18F5D47315F8A261004C5771 /* JSTwitterCoreTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSTwitterCoreTextView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,8 +212,9 @@
 		1880B1A615D22A6400670DE6 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				1891A61115D2669600C7E8DA /* MBProgressHUD.h */,
-				1891A61215D2669600C7E8DA /* MBProgressHUD.m */,
+				18F5D46315F8A261004C5771 /* MBProgressHUD.h */,
+				18F5D46415F8A261004C5771 /* MBProgressHUD.m */,
+				18F5D46515F8A261004C5771 /* TextViews */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -189,6 +222,7 @@
 		1880B1A715D22A7200670DE6 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				18A16F5F15E35F8700E80E72 /* Asserts */,
 				1891A61F15D2695000C7E8DA /* Utils */,
 			);
 			name = Core;
@@ -253,8 +287,48 @@
 				1891A60815D2666D00C7E8DA /* AESEncrypt.m */,
 				1891A60915D2666D00C7E8DA /* NSString+decode.h */,
 				1891A60A15D2666D00C7E8DA /* NSString+decode.m */,
+				187E6E9415E34E0D00A85ECF /* VersionObject.h */,
+				187E6E9515E34E0D00A85ECF /* VersionObject.m */,
 			);
 			name = Utils;
+			sourceTree = "<group>";
+		};
+		18A16F5F15E35F8700E80E72 /* Asserts */ = {
+			isa = PBXGroup;
+			children = (
+				18A16F6115E35FC400E80E72 /* AssertHelper.h */,
+				18A16F6215E35FC400E80E72 /* AssertHelper.m */,
+			);
+			name = Asserts;
+			sourceTree = "<group>";
+		};
+		18F5D46515F8A261004C5771 /* TextViews */ = {
+			isa = PBXGroup;
+			children = (
+				18F5D46615F8A261004C5771 /* AutoHyperlinks */,
+				18F5D47015F8A261004C5771 /* JSCoreTextView.h */,
+				18F5D47115F8A261004C5771 /* JSCoreTextView.m */,
+				18F5D47215F8A261004C5771 /* JSTwitterCoreTextView.h */,
+				18F5D47315F8A261004C5771 /* JSTwitterCoreTextView.m */,
+			);
+			name = TextViews;
+			path = Sources/UI/TextViews;
+			sourceTree = "<group>";
+		};
+		18F5D46615F8A261004C5771 /* AutoHyperlinks */ = {
+			isa = PBXGroup;
+			children = (
+				18F5D46715F8A261004C5771 /* AHHyperlinkScanner.h */,
+				18F5D46815F8A261004C5771 /* AHHyperlinkScanner.m */,
+				18F5D46915F8A261004C5771 /* AHLinkLexer.h */,
+				18F5D46A15F8A261004C5771 /* AHLinkLexer.l */,
+				18F5D46B15F8A261004C5771 /* AHMarkedHyperlink.h */,
+				18F5D46C15F8A261004C5771 /* AHMarkedHyperlink.m */,
+				18F5D46D15F8A261004C5771 /* AutoHyperlinks.h */,
+				18F5D46E15F8A261004C5771 /* Copyright.txt */,
+				18F5D46F15F8A261004C5771 /* License.txt */,
+			);
+			path = AutoHyperlinks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,9 +357,17 @@
 				1891A60B15D2666D00C7E8DA /* AES.h in Headers */,
 				1891A60D15D2666D00C7E8DA /* AESEncrypt.h in Headers */,
 				1891A60F15D2666D00C7E8DA /* NSString+decode.h in Headers */,
-				1891A61315D2669600C7E8DA /* MBProgressHUD.h in Headers */,
 				1891A61B15D2681B00C7E8DA /* Tools.h in Headers */,
 				1891A62215D2696A00C7E8DA /* Cache.h in Headers */,
+				187E6E9615E34E0D00A85ECF /* VersionObject.h in Headers */,
+				18A16F6315E35FC400E80E72 /* AssertHelper.h in Headers */,
+				18F5D47415F8A261004C5771 /* MBProgressHUD.h in Headers */,
+				18F5D47615F8A261004C5771 /* AHHyperlinkScanner.h in Headers */,
+				18F5D47815F8A261004C5771 /* AHLinkLexer.h in Headers */,
+				18F5D47A15F8A261004C5771 /* AHMarkedHyperlink.h in Headers */,
+				18F5D47C15F8A261004C5771 /* AutoHyperlinks.h in Headers */,
+				18F5D47D15F8A261004C5771 /* JSCoreTextView.h in Headers */,
+				18F5D47F15F8A261004C5771 /* JSTwitterCoreTextView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,9 +436,16 @@
 				1891A60C15D2666D00C7E8DA /* AES.m in Sources */,
 				1891A60E15D2666D00C7E8DA /* AESEncrypt.m in Sources */,
 				1891A61015D2666D00C7E8DA /* NSString+decode.m in Sources */,
-				1891A61415D2669600C7E8DA /* MBProgressHUD.m in Sources */,
 				1891A61C15D2681B00C7E8DA /* Tools.m in Sources */,
 				1891A62315D2696A00C7E8DA /* Cache.m in Sources */,
+				187E6E9715E34E0D00A85ECF /* VersionObject.m in Sources */,
+				18A16F6415E35FC400E80E72 /* AssertHelper.m in Sources */,
+				18F5D47515F8A261004C5771 /* MBProgressHUD.m in Sources */,
+				18F5D47715F8A261004C5771 /* AHHyperlinkScanner.m in Sources */,
+				18F5D47915F8A261004C5771 /* AHLinkLexer.l in Sources */,
+				18F5D47B15F8A261004C5771 /* AHMarkedHyperlink.m in Sources */,
+				18F5D47E15F8A261004C5771 /* JSCoreTextView.m in Sources */,
+				18F5D48015F8A261004C5771 /* JSTwitterCoreTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

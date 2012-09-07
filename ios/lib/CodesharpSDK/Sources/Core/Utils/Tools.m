@@ -154,4 +154,14 @@
     [footer release];
 }
 
++ (float)screenMaxWidth
+{
+    return [Tools isPad] ? 768 : 320;
+}
+
++ (float)screenMaxHeight
+{
+    return [Tools isPad] ? 1024 : 480;
+}
+
 @end

@@ -14,13 +14,13 @@
 #import "CooperRepository/TaskIdxDao.h"
 #import "CooperRepository/ChangeLogDao.h"
 #import "CooperRepository/TasklistDao.h"
+//#import "CodesharpSDK/MoveTableView.h"
 
 @interface TaskViewController : BaseTableViewController<UISearchDisplayDelegate
     , UISearchBarDelegate
     , NetworkDelegate
     , TaskViewDelegate
-    , TaskTableViewCellDelegate
->
+    , TaskTableViewCellDelegate>
 {
     MBProgressHUD *HUD;
     
@@ -29,15 +29,14 @@
     ChangeLogDao *changeLogDao;
     TasklistDao *tasklistDao;
     
-    TaskRequestType requestType;
     UIView *emptyView;
-    UIButton *editBtn;
-    
+    UIView *editBtn;
+    UIView *syncBtn;
+    UIView *addBtn;
 }
 @property (nonatomic,retain) NSString* currentTasklistId;
 @property (nonatomic, retain) NSMutableArray *taskIdxGroup;
 @property (nonatomic, retain) NSMutableArray *taskGroup;
-@property (nonatomic, retain) UIButton *addBtn;
 
 @property (nonatomic, retain) NSString *filterStatus;
 

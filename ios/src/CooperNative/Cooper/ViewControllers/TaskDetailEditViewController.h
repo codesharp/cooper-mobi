@@ -34,6 +34,7 @@
 @property (retain, nonatomic) Task *task;
 @property (retain, nonatomic) UITextField   *subjectTextField;
 @property (retain, nonatomic) BodyTextView    *bodyTextView;
+@property (retain, nonatomic) UIScrollView    *bodyScrollView;
 @property (assign, nonatomic) BOOL currentIsCompleted;
 @property (retain, nonatomic) NSDate *currentDueDate;
 @property (retain, nonatomic) DateLabel *dueDateLabel;

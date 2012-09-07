@@ -85,26 +85,6 @@
     
     if(indexPath.section == 0)
     {
-//        if(indexPath.row == 0)
-//        {
-//            cell = [tableView dequeueReusableCellWithIdentifier:@"PathEnvironmentCell"];
-//            if(!cell)
-//            {
-//                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"PathEnvironmentCell"] autorelease];
-//                
-//                cell.textLabel.text = @"同步设置";
-//                //cell.detailTextLabel.text = [[ConstantClass instance] rootPath];
-//                
-//                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-//                cell.editingAccessoryType = UITableViewCellAccessoryNone;
-//
-//                UIView *selectedView = [[UIView alloc] initWithFrame:cell.frame];
-//                selectedView.backgroundColor = [UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0];
-//                //设置选中后cell的背景颜色
-//                cell.selectedBackgroundView = selectedView;
-//                [selectedView release];
-//            }
-//        }
         if(indexPath.row == 0)
         {
             cell = [tableView dequeueReusableCellWithIdentifier:@"AccountCell"];
@@ -176,17 +156,6 @@
     
     if(indexPath.section == 0)
     {
-//        CATransition* transition = [CATransition animation];
-//        transition.duration = 0.3;
-//        transition.type = kCATransitionPush;
-//        transition.subtype = kCATransitionFromRight;
-//        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-
-//        if(indexPath.row == 0)
-//        {
-//            PathViewController *pathViewController = [[[PathViewController alloc] initWithNibName:@"PathViewController" bundle:nil] autorelease];
-//            [self.navigationController pushViewController:pathViewController animated:NO];
-//        }
         if(indexPath.row == 0)
         {
             AccountViewController *accountViewController = [[[AccountViewController alloc] init] autorelease]; 

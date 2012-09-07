@@ -76,7 +76,7 @@
 - (void)saveSetting:(id)sender
 {
    [[ConstantClass instance] setIsLocalPush: localPushSwitch.on];    
-    [ConstantClass saveIsLocalPushToCache];
+    [ConstantClass saveToCache];
     
     [self goBack:nil];
 }
@@ -130,7 +130,7 @@
 - (void)localPushChanged:(id)sender
 {
     [[ConstantClass instance] setIsLocalPush: localPushSwitch.on];
-    [ConstantClass saveIsLocalPushToCache];
+    [ConstantClass saveToCache];
 }
 
 - (void)dealloc

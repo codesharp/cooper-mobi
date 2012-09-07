@@ -17,7 +17,6 @@
 
 @synthesize tasklists;
 @synthesize tasklistTableView;
-//@synthesize tempTasklistId;
 
 # pragma mark - UI相关
 
@@ -38,14 +37,14 @@
     [self.view addSubview:self.tasklistTableView];
     
     //左上自定义导航
-    CustomToolbar *toolBar = [[[CustomToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 80.0f, 45.0f)] autorelease];
+    CustomToolbar *toolBar = [[[CustomToolbar alloc] initWithFrame:CGRectMake(0, 0, 80, 45)] autorelease];
     
     //左上编辑按钮
-    editBtn = [InputPickerButton buttonWithType:UIButtonTypeCustom];
-    editBtn.frame = CGRectMake(5, 10, 27, 27);
-    editBtn.contentMode = UIViewContentModeScaleToFill;
-    editBtn.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    [editBtn setBackgroundImage:[UIImage imageNamed:EDIT_IMAGE] forState:UIControlStateNormal];
+    editBtn = [[InputPickerView alloc] initWithFrame:CGRectMake(0, 0, 38, 45)];
+    UIImageView *imageView = [[[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 27, 27)] autorelease];
+    UIImage *editImage = [UIImage imageNamed:EDIT_IMAGE];
+    imageView.image = editImage;
+    [editBtn addSubview:imageView];
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addTasklist:)];
     [editBtn addGestureRecognizer:recognizer];
     editBtn.delegate = self;
@@ -53,23 +52,34 @@
     [toolBar addSubview:editBtn];
     
     //左上同步按钮
-    syncBtn = [UIButton buttonWithType:UIButtonTypeCustom]; 
-    syncBtn.frame = CGRectMake(45, 10, 27, 27);
-    [syncBtn setBackgroundImage:[UIImage imageNamed:REFRESH_IMAGE] forState:UIControlStateNormal];
-    [syncBtn addTarget: self action: @selector(syncTasklist:) forControlEvents: UIControlEventTouchUpInside];
+    syncBtn = [[UIView alloc] initWithFrame:CGRectMake(40, 0, 38, 45)];
+    UIImageView *settingImageView = [[[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 27, 27)] autorelease];
+    UIImage *settingImage = [UIImage imageNamed:REFRESH_IMAGE];
+    settingImageView.image = settingImage;
+    [syncBtn addSubview:settingImageView];
+    UITapGestureRecognizer *recognizer2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(syncTasklist:)];
+    [syncBtn addGestureRecognizer:recognizer2];
+    [recognizer2 release];
     [toolBar addSubview:syncBtn];
     
     UIBarButtonItem *barButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:toolBar] autorelease]; 
     self.navigationItem.leftBarButtonItem = barButtonItem;
     
     //设置右选项卡中的按钮
-    UIButton *settingBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    settingBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [settingBtn setFrame:CGRectMake(0, 10, 27, 27)];
     [settingBtn setBackgroundImage:[UIImage imageNamed:SETTING_IMAGE] forState:UIControlStateNormal];
     [settingBtn addTarget: self action: @selector(settingAction:) forControlEvents: UIControlEventTouchUpInside];
-    UIBarButtonItem *settingButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:settingBtn] autorelease];
+    UIBarButtonItem *settingButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingBtn];
     
     self.navigationItem.rightBarButtonItem = settingButtonItem; 
+    
+    [settingButtonItem release];
+    
+//    //点击View讲当前的Reponder隐藏
+//    UITapGestureRecognizer *r = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignFrontInput:)];
+//    [self.view addGestureRecognizer:r];
+//    [r release];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -83,22 +93,23 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];    
-    NSLog(@"viewDidLoad");
+    [super viewDidLoad];
     
+    NSLog("@viewDidLoad事件触发")
+
     //登录用户进行同步
     if([[ConstantClass instance] username].length > 0)
     {
         HUD = [Tools process:LOADING_TITLE view:self.view];
-        requestType = FirstGetTasklistsValue;
-        [TasklistService getTasklists:self];
+        NSMutableDictionary *context = [NSMutableDictionary dictionary];
+        [context setObject:@"GetTasklists" forKey:REQUEST_TYPE];
+        [TasklistService getTasklists:context delegate:self];
     }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"viewWillAppear");
-    
+    NSLog("@viewWillAppear事件触发")
     //如果未登录用户隐藏同步按钮
     syncBtn.hidden = [[ConstantClass instance] username].length == 0;
 
@@ -111,6 +122,8 @@
     RELEASE(self.tasklistTableView);
     RELEASE(tasklistDao);
     RELEASE(editBtn);
+    RELEASE(syncBtn);
+    RELEASE(settingBtn);
     [super dealloc];
 }
 
@@ -155,7 +168,7 @@
     }
     
     [[ConstantClass instance] setRecentlyIds:newRecentlyIds];
-    [ConstantClass saveRecentlyIdsToCache];
+    [ConstantClass saveToCache];
     
     [self.tasklistTableView reloadData];
 }
@@ -167,8 +180,9 @@
     HUD.labelText = LOADING_TITLE;
     [HUD show:YES];
     
-    requestType = GetTasklistsValue;
-    [TasklistService getTasklists:self];
+    NSMutableDictionary *context = [NSMutableDictionary dictionary];
+    [context setObject:@"GetTasklists" forKey:REQUEST_TYPE];
+    [TasklistService getTasklists:context delegate:self];
     
     [self loadTasklistData];
 }
@@ -176,8 +190,8 @@
 - (void)settingAction:(id)sender
 {
     //设置
-    SettingViewController *settingViewController = [[SettingViewController alloc] initWithNibName:@"SettingViewController" 
-                                                                                           bundle:nil 
+    SettingViewController *settingViewController = [[SettingViewController alloc] initWithNibName:@"SettingViewController"
+                                                                                           bundle:nil
                                                                                          setTitle:@"设置" 
                                                                                          setImage:SETTING_IMAGE];
     
@@ -206,28 +220,37 @@
     [editBtn becomeFirstResponder];
 }
 
+- (void)resignFrontInput:(id)sender
+{
+    [editBtn resignFirstResponder];
+}
+
 - (void)send:(NSString *)value
 {
     NSString *guid = [Tools stringWithUUID];
-    tempTasklistId = [NSString stringWithFormat:@"temp_%@", guid];
+    NSString *tasklistId = [NSString stringWithFormat:@"temp_%@", guid];
     
     HUD = [Tools process:LOADING_TITLE view:self.view];
     
-    //同步请求创建任务列表
-    requestType = CreateTasklistValue;
+    NSMutableDictionary *context = [NSMutableDictionary dictionary];
+    [context setObject:@"CreateTasklist" forKey:REQUEST_TYPE];
+    [context setObject:tasklistId forKey:@"TasklistId"];
+    [context setObject:value forKey:@"TasklistName"];
     
-    [TasklistService syncTasklist:value :@"personal" :self];
+    [TasklistService syncTasklist:value :@"personal" :context :self];
 
     [Tools close:HUD];
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
-    NSLog(@"请求响应数据: %@, %d",[request responseString], [request responseStatusCode]);
+    NSLog(@"请求响应数据: %@, %d",request.responseString, request.responseStatusCode);
     
-    if(requestType == FirstGetTasklistsValue || requestType == GetTasklistsValue)
+    NSDictionary *userInfo = request.userInfo;
+    NSString *requestType = [userInfo objectForKey:REQUEST_TYPE];
+    if([requestType isEqualToString:@"GetTasklists"])
     {
-        if([request responseStatusCode] == 200)
+        if(request.responseStatusCode == 200)
         {
             [Tools close:HUD];
             
@@ -250,30 +273,42 @@
             
             [self loadTasklistData];
         }
-        else 
+        else
         {
             [Tools failed:HUD];
         }
     }
-    else if(requestType == CreateTasklistValue)
+    else if([requestType isEqualToString:@"CreateTasklist"])
     {
-        [Tools close:HUD];
-        
-        [tasklistDao addTasklist:tempTasklistId :@"value" :@"personal"];
-
-        NSString* newId = [request responseString];
-        [tasklistDao adjustId:tempTasklistId withNewId:newId];
-        
-        [tasklistDao commitData];
-        
-        [self loadTasklistData];
+        if(request.responseStatusCode == 200)
+        {
+            [Tools close:HUD];
+            
+            NSString *tasklistId = [userInfo objectForKey:@"TasklistId"];
+            NSString *tasklistName = [userInfo objectForKey:@"TasklistName"];
+            
+            [tasklistDao addTasklist:tasklistId :tasklistName :@"personal"];
+            
+            NSString* newId = [request responseString];
+            [tasklistDao adjustId:tasklistId withNewId:newId];
+            
+            [tasklistDao commitData];
+            
+            [self loadTasklistData];
+        }
+        else
+        {
+            [Tools failed:HUD];
+        }
     }
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSLog(@"错误异常: %@", request.error);
-    if(requestType == GetTasklistsValue && request == nil)
+    NSDictionary *userInfo = request.userInfo;
+    NSString *requestType = [userInfo objectForKey:REQUEST_TYPE];
+    if([requestType isEqualToString:@"GetTasklists"] && request == nil)
     {
         [Tools msg:NOT_NETWORK_MESSAGE HUD:HUD];
         return;
@@ -442,7 +477,7 @@
     }
     
     [[ConstantClass instance] setRecentlyIds:array];
-    [ConstantClass saveRecentlyIdsToCache];
+    [ConstantClass saveToCache];
 
     ///////////////////////////////////////////////
     
@@ -485,10 +520,11 @@
     if(MODEL_VERSION > 5.0)
     {
         [tabBarController.tabBar setBackgroundImage:[UIImage imageNamed:TABBAR_BG_IMAGE]];
+        [tabBarController.tabBar setSelectionIndicatorImage:[UIImage imageNamed:@"tabbar_selectedbg.png"]];
     }
     else {
         UIImageView *imageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:TABBAR_BG_IMAGE]] autorelease];
-        [imageView setFrame:CGRectMake(0, 0, 320, 49)];
+        [imageView setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], 49)];
         [tabBarController.tabBar insertSubview:imageView atIndex:0];
     }
     

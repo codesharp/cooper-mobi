@@ -70,7 +70,7 @@
 {
     NSString* url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:LOGOUT_URL];
     NSLog(@"正在进行注销请求: %@",url);
-    [NetworkManager doAsynchronousGetRequest:url Delegate:delegate WithInfo:context];
+    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:nil WithInfo:context addHeaders:nil];
 }
 
 @end

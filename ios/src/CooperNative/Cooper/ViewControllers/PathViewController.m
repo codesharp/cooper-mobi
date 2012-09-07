@@ -181,7 +181,7 @@
     }
     [[ConstantClass instance] setRootPath:textPath.text];
     
-    [ConstantClass savePathToCache];
+    [ConstantClass saveToCache];
     
     [Tools alert:@"保存成功"];
     

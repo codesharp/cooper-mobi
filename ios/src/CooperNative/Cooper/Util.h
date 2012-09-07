@@ -36,6 +36,7 @@
 #import "CodesharpSDK/MBProgressHUD.h"
 #import "SysConfig.h"
 #import "CodesharpSDK/NetworkManager.h"
+#import "CodesharpSDK/AssertHelper.h"
 
 #define RELEASE(_ptr_) if((_ptr_) != nil) {[_ptr_ release]; _ptr_ = nil;}  
 
@@ -91,27 +92,7 @@
 //当前网络提示
 #define NOT_NETWORK_MESSAGE             @"当前网络不可用"
 
-//任务列表请求类型
-typedef enum {
-    FirstGetTasklistsValue,
-    GetTasklistsValue,
-    CreateTasklistValue
-} TasklistRequestType;
-
-//任务请求类型
-typedef enum{
-    SyncTaskValue,
-    GetTasksValue
-} TaskRequestType;
-
-//用户相关请求类型
-typedef enum {
-    LoginValue,
-    GoogleLoginValue,
-    LogoutValue,
-    SyncAllValue,
-    GetTasksValue1
-} AccountRequestType;
+#define REQUEST_TYPE                    @"RequestType"
 
 
 #define MAXLENGTH                       8

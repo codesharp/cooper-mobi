@@ -41,10 +41,10 @@
     NSLog(@"loadView");
     
     //当前面板创建
-    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [Tools screenMaxWidth], [Tools screenMaxHeight])];
     contentView.autoresizesSubviews = YES;
     contentView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-    [self setView:contentView];
+    self.View = contentView;
     [contentView release];
     
     //登录View
@@ -131,9 +131,10 @@
     
     if([[ConstantClass instance] username].length > 0)
     {
-        requestType = LogoutValue;
+        NSMutableDictionary *context = [NSMutableDictionary dictionary];
+        [context setObject:@"Logout" forKey:REQUEST_TYPE];
         
-        [AccountService logout:self];
+        [AccountService logout:context delegate:self];
     }
     else {
         [self loginServiceAction];
@@ -142,24 +143,24 @@
 
 - (void)syncAllLocalData
 {
-    requestType = SyncAllValue;
+    NSMutableDictionary *context = [NSMutableDictionary dictionary];
+    [context setObject:@"SyncAll" forKey:@"RequestType"];
     
     NSMutableArray *tasklists = [tasklistDao getAllTasklistByGuest];
-    NSLog(@"count:%d", tasklists.count);
     
     lock_counter = tasklists.count;
     
     for(Tasklist *tasklist in tasklists)
     {
-        [TaskService syncTask:tasklist.id delegate:self];
+        [TaskService syncTask:tasklist.id context:context delegate:self];
     }
-    
-    //[TasklistService getTasklists:self];
 }
 
 - (void)loginServiceAction
 {
-    requestType = LoginValue;
+    NSMutableDictionary *context = [NSMutableDictionary dictionary];
+    [context setObject:@"Login" forKey:REQUEST_TYPE];
+    
 #ifdef __ALI_VERSION__
     if ([domainLabel.text length] > 0 
         && [textUsername.text length] > 0
@@ -170,16 +171,17 @@
 #endif
         {
             [Tools msg:@"登录中" HUD:HUD];
-            //HUD = [Tools process:@"登录中" view:self.view];
             
 #ifdef __ALI_VERSION__
             [AccountService login:domainLabel.text 
                          username:textUsername.text 
                          password:textPassword.text 
+                          context:context
                          delegate:self];
 #else
             [AccountService login:textUsername.text
                          password:textPassword.text
+                          context:context
                          delegate:self];
 #endif
         }
@@ -192,13 +194,19 @@
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
     NSLog(@"请求响应数据: %@, %d", [request responseString], [request responseStatusCode]);
-    if([request responseStatusCode] == 200)
+    
+    NSDictionary *userInfo = request.userInfo;
+    NSString *requestType = [userInfo objectForKey:REQUEST_TYPE];
+    if([requestType isEqualToString:@"Logout"])
     {
-        if(requestType == LogoutValue)
+        if(request.responseStatusCode == 200)
         {
             [self loginServiceAction];
         }
-        else if(requestType == LoginValue)
+    }
+    else if([requestType isEqualToString:@"Login"])
+    {
+        if(request.responseStatusCode == 200)
         {
 #ifdef __ALI_VERSION__
             if([[request responseString] rangeOfString: @"window.opener.loginSuccess"].length == 0)
@@ -210,7 +218,7 @@
                 return;
             }
 #endif
-            //[Tools msg:@"登录成功" HUD:HUD]; 
+            //[Tools msg:@"登录成功" HUD:HUD];
             
             NSArray* array = [request responseCookies];
             NSLog(@"array:%d",  array.count);
@@ -227,26 +235,46 @@
 #endif
             [[ConstantClass instance] setUsername:textUsername.text];
             [[ConstantClass instance] setIsGuestUser:YES];
-
+            
             [ConstantClass saveToCache];
             
             //把当前用户数据先全部同步到服务端
             [self syncAllLocalData];
-
-            [Tools alert:@"保存成功"];
-        }     
-        else if(requestType == SyncAllValue) {
             
+            [Tools alert:@"保存成功"];
+        }
+        else if(request.responseStatusCode == 400)
+        {
+            [Tools alert:[request responseString]];
+        }
+        else
+        {
+            [Tools close:HUD];
+            
+            [Tools alert:@"用户名和密码不正确"];
+        }
+    }
+    else if([requestType isEqualToString:@"SyncAll"])
+    {
+        if(request.responseStatusCode == 200)
+        {
             lock_counter--;
             if(lock_counter <= 0)
             {
-                requestType = GetTasksValue1;
-                [TasklistService getTasklists:self];
+                NSMutableDictionary *context = [NSMutableDictionary dictionary];
+                [context setObject:@"GetTasks" forKey:REQUEST_TYPE];
+                [TasklistService getTasklists:context delegate:self];
             }
         }
-        else if(requestType == GetTasksValue1) {
-            //[Tools close:HUD];
-
+        else
+        {
+            [Tools failed:HUD];
+        }
+    }
+    else if([requestType isEqualToString:@"GetTasks"])
+    {
+        if(request.responseStatusCode == 200)
+        {
             NSMutableDictionary *tasklistsDict = [[request responseString] JSONValue];
             
             [tasklistDao deleteAll];
@@ -261,21 +289,11 @@
             [tasklistDao addTasklist:@"0" :@"默认列表" :@"personal"];
             
             [tasklistDao commitData];
-            
-            requestType = 1;
         }
-    }
-    else if([request responseStatusCode] == 400)
-    {
-        //[Tools close:HUD];
-        
-        [Tools alert:[request responseString]];
-    }
-    else
-    {
-        [Tools close:HUD];
-        
-        [Tools alert:@"用户名和密码不正确"];
+        else
+        {
+            [Tools failed:HUD];
+        }
     }
 }
 - (void)requestFailed:(ASIHTTPRequest *)request
@@ -307,9 +325,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 #ifndef CODESHARP_VERSION
-    return 3;
-#else
     return 2;
+#else
+    return 3;
 #endif
 }
 //填充单元格
@@ -379,10 +397,10 @@
 }
 #endif
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 35.0f;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return 35.0f;
+//}
 
 - (UITableViewCell*)createDomainCell:(NSString*)identifier
 {
