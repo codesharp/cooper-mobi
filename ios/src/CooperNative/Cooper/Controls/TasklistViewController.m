@@ -11,7 +11,7 @@
 #import "SettingViewController.h"
 #import "BaseNavigationController.h"
 #import "TaskViewController.h"
-#import <Foundation/NSCoder.h>
+#import "TaskController.h"
 
 @implementation TasklistViewController
 
@@ -486,14 +486,14 @@
     //切换到任务界面
     
     //个人任务
-    TaskViewController *taskViewController = [[[TaskViewController alloc] initWithNibName:@"TaskViewController" 
+    TaskController *taskViewController = [[[TaskController alloc] initWithNibName:@"TaskController" 
                                                                                    bundle:nil 
                                                                                  setTitle:@"个人任务" 
                                                                                  setImage:@"task.png"] autorelease];
     taskViewController.currentTasklistId = tasklistId;
     
     //已完成
-    TaskViewController *completeTaskViewController = [[[TaskViewController alloc] initWithNibName:@"TaskViewController" 
+    TaskController *completeTaskViewController = [[[TaskController alloc] initWithNibName:@"TaskController" 
                                                                                            bundle:nil 
                                                                                          setTitle:@"已完成" 
                                                                                          setImage:@"complete.png"] autorelease];
@@ -501,7 +501,7 @@
     completeTaskViewController.currentTasklistId = tasklistId;
     
     //未完成
-    TaskViewController *incompleteTaskViewController = [[[TaskViewController alloc] initWithNibName:@"TaskViewController" 
+    TaskController *incompleteTaskViewController = [[[TaskController alloc] initWithNibName:@"TaskController" 
                                                                                              bundle:nil 
                                                                                            setTitle:@"未完成" 
                                                                                            setImage:@"incomplete.png"] autorelease];

@@ -159,7 +159,6 @@
     changeLogDao = [[ChangeLogDao alloc] init];
     tasklistDao = [[TasklistDao alloc] init]; 
 
-    NSLog(@"f:%@",currentTasklistId)
     [self sync:nil];
 }
 

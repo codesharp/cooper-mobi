@@ -76,7 +76,7 @@ NSString * const NSURLIsExcludedFromBackupKey = @"NSURLIsExcludedFromBackupKey";
     if([[ConstantClass instance] rootPath] == nil)
     {
         [[ConstantClass instance] setRootPath:[[[SysConfig instance] keyValue] objectForKey: @"env_path"]];
-        [ConstantClass savePathToCache];
+        [ConstantClass saveToCache];
     }
     
     NSLog(@"当前网络根路径: %@",[[ConstantClass instance] rootPath]);

@@ -77,7 +77,6 @@
         predicate = [NSPredicate predicateWithFormat:@"(id = %@ and accountId = nil)", tasklistId];
     }
     
-    //NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(id = %@)", tasklistId];
     [fetchRequest setPredicate:predicate];
     
     NSError *error = nil; 
