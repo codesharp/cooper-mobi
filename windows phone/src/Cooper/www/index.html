@@ -1,0 +1,371 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Cooper:Task</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="themes/cooper.css" rel="stylesheet" type="text/css" />
+    <link href="jquery/css/mobile/jquery.mobile.structure-1.1.1.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/base.css" rel="stylesheet" type="text/css" />
+    <script src="jquery/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="jquery/jquery.mobile-1.1.0.min.js" type="text/javascript"></script>
+    <script src="jquery/jquery.json-2.3.min.js" type="text/javascript"></script>
+    <script src="jquery/jquery.cookie.js" type="text/javascript"></script>
+    <script src="jquery/jqm.page.params.js" type="text/javascript"></script>
+    <script src="scripts/cordova-1.9.0.js" type="text/javascript"></script>
+    <script src="scripts/hybrid.js" type="text/javascript"></script>
+    <script src="scripts/cooper.js" type="text/javascript"></script>
+    <script src="scripts/lang.js" type="text/javascript"></script>
+
+    <!--全局-->
+    <script type="text/javascript">
+        var pageData = {}; //存放当前页面的参数信息
+        $(document).bind("mobileinit", function () {
+            $.mobile.page.prototype.options.domCache = true;
+        });
+        $(document).bind("pagebeforechange", function (e, data) {
+            if (typeof data.toPage === "string") {
+                pageData = data.options.pageData;
+            }
+        });
+        $(function () {
+            $(document).bind("deviceready", function () {
+                getCurrentUser(function (result) {
+                    if (result.status) {
+                        if (result.data.username != null && result.data.username != "") {
+                            getNetworkStatus(function(result) {
+                                if(result.status) {
+                                    if(result.data) {
+										showLoading("加载中...");
+                                        syncTaskLists(null, function (result) {
+                                            if (result.status) {
+												hideLoading();
+                                                $.mobile.changePage('#taskListPage');
+                                            }
+                                            else {
+												hideLoading();
+                                                alert(result.message);
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        $.mobile.changePage('#taskListPage');
+                                    }
+                                }
+                                else {
+                                    alert(result.message);
+                                }
+                            });
+                        }
+                    }
+                    else {
+                        alert(result.message);
+                    }
+                });
+            });
+        });
+		//显示Loading效果
+		function showLoading(loadingMessage) {
+			$.mobile.loadingMessageTextVisible = true;
+			if (loadingMessage == undefined || loadingMessage == null) {
+				$.mobile.loadingMessage = "页面加载中...";
+			}
+			else {
+				$.mobile.loadingMessage = loadingMessage;
+			}
+			$.mobile.showPageLoadingMsg();
+		}
+		//隐藏Loading效果
+		function hideLoading() {
+			$.mobile.hidePageLoadingMsg();
+		}
+    </script>
+
+    <style type="text/css">
+        .btn {
+          border-color: #ccc;
+          border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+        }
+        .btn-danger {
+          background-color: #da4f49;
+          background-image: -moz-linear-gradient(top, #ee5f5b, #bd362f);
+          background-image: -ms-linear-gradient(top, #ee5f5b, #bd362f);
+          background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ee5f5b), to(#bd362f));
+          background-image: -webkit-linear-gradient(top, #ee5f5b, #bd362f);
+          background-image: -o-linear-gradient(top, #ee5f5b, #bd362f);
+          background-image: linear-gradient(top, #ee5f5b, #bd362f);
+          background-repeat: repeat-x;
+          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ee5f5b', endColorstr='#bd362f', GradientType=0);
+          border-color: #bd362f #bd362f #802420;
+          border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+          *background-color: #bd362f;
+          /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+          filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+        }
+        .btn-danger:hover,
+        .btn-danger:active,
+        .btn-danger.active,
+        .btn-danger.disabled,
+        .btn-danger[disabled] {
+          background-color: #bd362f;
+          *background-color: #a9302a;
+        }
+        .btn-danger:active,
+        .btn-danger.active {
+          background-color: #942a25 \9;
+        }
+    </style>
+</head>
+<body>
+    <!-- 登录页面 -->
+    <div id="loginPage" data-role="page">
+        <div data-role="content">
+            <div style="text-align: center;">
+                <img src="images/cooper.png" width="250px" />
+            </div>
+            <form>
+            <ul data-role="listview" data-inset="true">
+            	<!--<li data-role="fieldcontain">
+                	<select id="domain">
+                    	<option value="TAOBAO-HZ" selected="selected">TAOBAO-HZ</option>
+                        <option value="ALIPAY">ALIPAY</option>
+                        <option value="HZ">HZ</option>
+                        <option value="SP">SP</option>
+                    </select>
+                </li>-->
+                <li data-role="fieldcontain">
+                    <input type="text" placeholder="账号" id="username" name="username" style="width: 100%" />
+                </li>
+                <li data-role="fieldcontain">
+                    <input type="password" placeholder="密码" id="password" name="password" style="width: 100%" />
+                </li>
+            </ul>
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <div data-role="controlgroup" style="display:none">
+                        <input type="checkbox" name="record" id="record" checked="checked" />
+                        <label for="record">
+                            记住登录</label>
+                    </div>
+                </div>
+                <div class="ui-block-b" style="text-align: right">
+                    <button type="button" id="loginButton" data-inline="true" data-theme="a">
+                        登录</button>
+					          <button id="skipLoginButton" data-role="button" data-inline="true">
+						            跳过</button>
+                    <!--<a id="skipLoginButton" data-role="button" data-inline="true">跳过</a>-->
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    <!-- 任务列表页面 -->
+    <div id="taskListPage" data-role="page" data-theme="a">
+        <div data-role="header">
+            <div class="ui-btn-left" style="line-height: 50px">
+                <a href="#addTaskListPage" data-rel="dialog" data-transition="slidedown"><img src="images/edit.png" /></a>
+                &nbsp;
+                <img id="refreshTaskListsButton" src="images/refresh.png" />
+            </div>
+            <h1>
+                cooper:task</h1>
+            <div class="ui-btn-right">
+            <a href="#settingPage" data-transition="slide"><img src="images/setting.png" /></a>
+            </div>
+        </div>
+        <div data-role="content">
+            <ul id="taskListUl" data-role="listview" data-inset="true" data-icon="star" data-theme="c"></ul>
+        </div>
+    </div>
+    <!-- 任务页面 -->
+    <div id="taskPage" data-role="page" data-theme="a">
+        <div data-role="header" data-position="fixed">
+            <div class="ui-btn-left" style="line-height: 50px">
+                <a href="#taskListPage" data-transition="slide" data-direction="reverse"><img src="images/tasklist.png" /></a>
+                    &nbsp;
+                <img id="refreshTasksButton" src="images/refresh.png" />
+            </div>
+            <h1 id="taskPageTitle"></h1>
+            <div class="ui-btn-right" style="line-height: 50px">
+                <a id="addNewTaskButton" data-transition="slideup"><img src="images/edit.png" /></a>
+            </div>
+        </div>
+        <div data-role="content">
+            <ul id="taskUl" data-role="listview" data-theme="c"></ul>
+            <a id="addFirstTaskButton" style="display:none;margin-top:5px" data-role="button" data-transition="slideup" data-theme="a">点击这里新增第一个任务</a>
+            <div id="displayInfoWhenNoTaskExist" style="text-align: center; margin-top:5px"></div>
+        </div>
+        <div data-role="footer" data-position="fixed" data-theme="a">
+            <div data-role="navbar">
+                <ul>
+                    <li><a id="showAllTasksButton">
+                        <img src="images/task.png" />
+                        <br />
+                        个人任务</a></li>
+                    <li><a id="showCompletedTasksButton">
+                        <img src="images/complete.png" />
+                        <br />
+                        已完成</a></li>
+                    <li><a id="showUnCompletedTasksButton">
+                        <img src="images/incomplete.png" />
+                        <br />
+                        未完成</a></li>
+                    <li><a href="#settingPage" data-transition="slide">
+                        <img src="images/setting-small.png" />
+                        <br />设置</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- 任务详情页面 -->
+    <div id="taskDetailPage" data-role="page">
+        <div data-role="header" data-position="fixed">
+            <div class="ui-btn-left" style="line-height: 50px">
+                <a data-rel="back"><img src="images/back.png" /></a>
+            </div>
+            <h1>
+                cooper:task</h1>
+            <div class="ui-btn-right" style="line-height: 50px">
+                <a id="gotoTaskEditPage" data-transition="slideup"><img src="images/edit.png" /></a>
+            </div>
+        </div>
+        <div data-role="content" style="background-color: #fff">
+            <div data-role="fieldcontain">
+                <label for="isTaskCompleted">
+                    是否完成</label>
+                <select name="isTaskCompleted" id="isTaskCompleted" data-role="slider">
+                    <option value="false">未完成</option>
+                    <option value="true">完成</option>
+                </select>
+            </div>
+            <div data-role="fieldcontain">
+                <fieldset data-role="controlgroup" data-type="horizontal">
+                    <legend>优先级</legend>
+                    <input type="radio" name="taskPriority" id="radio-taskPriority-0" value="0" />
+                    <label for="radio-taskPriority-0">
+                        今天</label>
+                    <input type="radio" name="taskPriority" id="radio-taskPriority-1" value="1" />
+                    <label for="radio-taskPriority-1">
+                        稍后</label>
+                    <input type="radio" name="taskPriority" id="radio-taskPriority-2" value="2" />
+                    <label for="radio-taskPriority-2">
+                        迟些</label>
+                </fieldset>
+            </div>
+            <div data-role="fieldcontain">
+                <label for="taskDueTime">
+                    截止日期</label>
+                <input type="date" name="taskDueTime" id="taskDueTime" />
+            </div>
+            <div data-role="fieldcontain">
+                <p id="taskSubject"></p>
+                <p id="taskBody"></p>
+            </div>
+            <div data-role="fieldcontain">
+                <a id="deleteTaskButton" style="margin-top:5px" data-role="button" class="btn btn-danger">删除任务</a>
+            </div>
+        </div>
+    </div>
+    <!-- 任务新增编辑页面 -->
+    <div id="taskEditPage" data-role="page">
+        <div data-role="header" data-position="fixed">
+            <div class="ui-btn-left" style="line-height: 50px">
+                <a data-rel="back"><img src="images/back.png" /></a>
+            </div>
+            <h1>
+                cooper:task</h1>
+            <a id="saveTaskButton" class="ui-btn-right" data-icon="check">确定</a>
+        </div>
+        <div data-role="content" style="background-color: #fff">
+            <div data-role="fieldcontain">
+                <label for="isCompleted">
+                    是否完成</label>
+                <select name="isCompleted" id="isCompleted" data-role="slider">
+                    <option value="false">未完成</option>
+                    <option value="true">完成</option>
+                </select>
+            </div>
+            <div data-role="fieldcontain">
+                <fieldset data-role="controlgroup" data-type="horizontal">
+                    <legend>优先级</legend>
+                    <input type="radio" name="priority" id="radio-priority-0" value="0" />
+                    <label for="radio-priority-0">
+                        今天</label>
+                    <input type="radio" name="priority" id="radio-priority-1" value="1" />
+                    <label for="radio-priority-1">
+                        稍后</label>
+                    <input type="radio" name="priority" id="radio-priority-2" value="2" />
+                    <label for="radio-priority-2">
+                        迟些</label>
+                </fieldset>
+            </div>
+            <div data-role="fieldcontain">
+                <label for="duetime">
+                    截止日期</label>
+                <input type="date" name="duetime" id="duetime" />
+            </div>
+            <div data-role="fieldcontain">
+                <label for="subject">
+                    标题</label>
+                <input name="subject" id="subject" type="text" placeholder="标题" />
+            </div>
+            <div data-role="fieldcontain">
+                <label for="body">
+                    备注</label>
+                <textarea placeholder="备注" name="body" id="body" style="height: 100%; min-height: 100px;"></textarea>
+            </div>
+        </div>
+    </div>
+    <!-- 新增任务列表 -->
+    <div id="addTaskListPage" data-role="page">
+        <div data-role="content">
+            <input id="tasklistName" name="tasklistName" placeholder="任务表名称" />
+            <a id="saveNewTaskListButton" data-role="button" data-inline="true" data-theme="a">确定</a>
+            <a id="cancelAddTaskList" href="#taskListPage" data-role="button" data-inline="true">取消</a>
+        </div>
+    </div>
+    <!-- Setting页面 -->
+    <div id="settingPage" data-role="page" data-theme="a">
+        <div data-role="header">
+            <div class="ui-btn-left" style="line-height: 50px">
+                <a data-rel="back"><img src="images/back.png" /></a>
+            </div>
+            <h1>
+                cooper:task</h1>
+        </div>
+        <div data-role="content">
+            <ul id="settingListItems" data-role="listview" data-inset="true" data-icon="star" data-theme="c">
+            </ul>
+        </div>
+    </div>
+    <!-- 更换账号 -->
+    <div id="setCurrentAccountPage" data-role="page">
+        <div data-role="header">
+            <div class="ui-btn-left" style="line-height: 50px">
+                <a data-rel="back"><img src="images/back.png" /></a>
+            </div>
+            <h1>
+                cooper:task</h1>
+        </div>
+        <div data-role="content">
+            <label id="currentUserName"></label>
+            <br /><br />
+            <a id="logoutButton" data-role="button" data-inline="true" class="btn btn-danger">注销</a>
+            <a id="backToLoginPageButton" href="#loginPage" data-transition="slide" data-direction="reverse" data-role="button" data-inline="true" data-theme="a">去登录页面登录</a>
+        </div>
+    </div>
+    <!-- About页面 -->
+    <div id="aboutPage" data-role="page">
+        <div data-role="header">
+            <div class="ui-btn-left" style="line-height: 50px">
+                <a data-rel="back"><img src="images/back.png" /></a>
+            </div>
+            <h1>
+                cooper:task</h1>
+        </div>
+        <div data-role="content" style="text-align:center">
+            <label style="margin-top:20px">Cooper v0.1</label>
+        </div>
+    </div>
+</body>
+</html>

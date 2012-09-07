@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is auto-generated, do not edit! -jm -->
+<CordovaSourceDictionary>
+    <FilePath Value="www\detail-edit.htm"/>
+    <FilePath Value="www\detail.htm"/>
+    <FilePath Value="www\index.html"/>
+    <FilePath Value="www\login.htm"/>
+    <FilePath Value="www\sample.htm"/>
+    <FilePath Value="www\scripts\cooper.js"/>
+    <FilePath Value="www\scripts\cordova-1.9.0-android.js"/>
+    <FilePath Value="www\scripts\cordova-1.9.0-ios.js"/>
+    <FilePath Value="www\scripts\cordova-1.9.0.js"/>
+    <FilePath Value="www\scripts\hybrid.js"/>
+    <FilePath Value="www\scripts\lang.js"/>
+    <FilePath Value="www\setting.htm"/>
+    <FilePath Value="www\task.htm"/>
+    <FilePath Value="www\tasklist.htm"/>
+    <FilePath Value="www\temp.htm"/>
+    <FilePath Value="www\themes\cooper.css"/>
+    <FilePath Value="www\themes\cooper.min.css"/>
+    <FilePath Value="www\css\base.css"/>
+    <FilePath Value="www\images\back.png"/>
+    <FilePath Value="www\images\bg-line.png"/>
+    <FilePath Value="www\images\complete-small.png"/>
+    <FilePath Value="www\images\complete.png"/>
+    <FilePath Value="www\images\cooper.png"/>
+    <FilePath Value="www\images\edit.png"/>
+    <FilePath Value="www\images\incomplete-small.png"/>
+    <FilePath Value="www\images\incomplete.png"/>
+    <FilePath Value="www\images\refresh.png"/>
+    <FilePath Value="www\images\setting-small.png"/>
+    <FilePath Value="www\images\setting.png"/>
+    <FilePath Value="www\images\task.png"/>
+    <FilePath Value="www\images\tasklist.png"/>
+    <FilePath Value="www\jquery\css\mobile\jquery.mobile-1.1.0.min.css"/>
+    <FilePath Value="www\jquery\css\mobile\jquery.mobile.structure-1.1.1.min.css"/>
+    <FilePath Value="www\jquery\css\qunit-1.9.0.css"/>
+    <FilePath Value="www\jquery\jqm.page.params.js"/>
+    <FilePath Value="www\jquery\jquery-1.7.2.min.js"/>
+    <FilePath Value="www\jquery\jquery.cookie.js"/>
+    <FilePath Value="www\jquery\jquery.json-2.3.min.js"/>
+    <FilePath Value="www\jquery\jquery.mobile-1.1.0.min.js"/>
+    <FilePath Value="www\jquery\qunit-1.9.0.js"/>
+</CordovaSourceDictionary>
