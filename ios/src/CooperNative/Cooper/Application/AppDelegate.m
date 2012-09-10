@@ -130,6 +130,23 @@
     [super dealloc];
 }
 
+#pragma mark - 相关操作
+
+//检测版本
+- (void)checkVersionForUpdate
+{
+    //获取当前版本 
+    VersionObject *versionObject = [VersionObject getVersionObject:[[NSBundle mainBundle] infoDictionary]];
+    
+    //[AssertHelper isTrue:[versionObject.version isEqualToString:@"0.1"]: @"版本不对"];
+    
+    //TODO:请求服务端的当前版本比较version
+    NSMutableDictionary *context = [NSMutableDictionary dictionary];
+    [context setObject:@"getCurrentAppVersion" forKey:@"key"];
+    [context setObject:versionObject.version forKey:@"localVersion"];
+    [VersionService getCurrentAppVersion:context delegate:self];
+}
+
 //本地推送通知
 - (void)localPush
 {
@@ -152,7 +169,7 @@
     int interval = LOCALPUSH_TIME;
     interval = (9 * 60 * 60 + 9 * 60 + 0);
     
-    NSDate *fireDate = [[NSDate alloc] initWithTimeInterval:interval 
+    NSDate *fireDate = [[NSDate alloc] initWithTimeInterval:interval
                                                   sinceDate:today];
     UILocalNotification *localNotification = [[UILocalNotification alloc] init];
     if(localNotification == nil)
@@ -162,30 +179,13 @@
     }
     localNotification.fireDate = fireDate;
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
-    localNotification.alertBody = [NSString stringWithFormat:@"您有%d条未完成的任务即将过期，请及时处理", tasks.count]; 
+    localNotification.alertBody = [NSString stringWithFormat:@"您有%d条未完成的任务即将过期，请及时处理", tasks.count];
     localNotification.alertAction = @"查看详情";
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     localNotification.applicationIconBadgeNumber = tasks.count;
     
-    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];  
-    [localNotification release];  
-}
-
-#pragma mark - 相关操作
-
-//检测版本
-- (void)checkVersionForUpdate
-{
-    //获取当前版本 
-    VersionObject *versionObject = [VersionObject getVersionObject:[[NSBundle mainBundle] infoDictionary]];
-    
-    //[AssertHelper isTrue:[versionObject.version isEqualToString:@"0.1"]: @"版本不对"];
-    
-    //TODO:请求服务端的当前版本比较version
-    NSMutableDictionary *context = [NSMutableDictionary dictionary];
-    [context setObject:@"getCurrentAppVersion" forKey:@"key"];
-    [context setObject:versionObject.version forKey:@"localVersion"];
-    [VersionService getCurrentAppVersion:context delegate:self];
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    [localNotification release];
 }
 
 #pragma mark - Core Data 相关

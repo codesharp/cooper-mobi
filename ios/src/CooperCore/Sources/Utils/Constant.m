@@ -14,7 +14,7 @@
 @synthesize username;
 @synthesize password;
 @synthesize token;
-@synthesize isGuestUser;
+@synthesize loginType;
 @synthesize rootPath;
 @synthesize recentlyIds;
 @synthesize isLocalPush;
@@ -34,7 +34,7 @@
         username = @"";
         password = @"";
         token = @"";
-        isGuestUser = NO;
+        loginType = @"";
         isLocalPush = NO;
         rootPath = @"";
         recentlyIds = nil;
@@ -44,7 +44,7 @@
 }
 
 + (void)loadFromCache {
-    [[ConstantClass instance] setIsGuestUser:[[Cache getCacheByKey:@"isGuestUser"] intValue]];
+    [[ConstantClass instance] setLoginType:[Cache getCacheByKey:@"loginType"]];
     [[ConstantClass instance] setIsLocalPush:[[Cache getCacheByKey:@"isLocalPush"] intValue]];
     [[ConstantClass instance] setUsername:[Cache getCacheByKey:@"username"]];
     [[ConstantClass instance] setRootPath:[Cache getCacheByKey:@"rootPath"]];
@@ -58,7 +58,7 @@
 
 + (void)saveToCache {
     [Cache clean];
-    [Cache setCacheObject:[NSNumber numberWithFloat:[[ConstantClass instance] isGuestUser]] ForKey:@"isGuestUser"];
+    [Cache setCacheObject:[[ConstantClass instance] loginType] ForKey:@"loginType"];
     [Cache setCacheObject:[[ConstantClass instance] username] ForKey:@"username"];
     [Cache setCacheObject:[[ConstantClass instance] rootPath] ForKey:@"rootPath"];
     [Cache setCacheObject:[[ConstantClass instance] recentlyIds] ForKey:@"recentlyIds"];

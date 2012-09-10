@@ -24,8 +24,6 @@
 #endif
 >
 {
-    MBProgressHUD *HUD;
-    
     //google oauth2 client id and key
     NSString *googleClientId;
     NSString *googleClientSecret;

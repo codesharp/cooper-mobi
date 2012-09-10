@@ -10,6 +10,8 @@
 
 @implementation BaseViewController
 
+@synthesize HUD;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -29,12 +31,31 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+# pragma mark - HttpWebRequest回调相关
+
+- (void)notProcessReturned:(NSMutableDictionary*)context
+{
+    [Tools close:HUD];
+}
+- (void)networkNotReachable
+{
+    [Tools msg:NOT_NETWORK_MESSAGE HUD:HUD];
+}
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    NSLog(@"请求异常: %@", request.error.localizedDescription);
+    [Tools msg:request.error.localizedDescription HUD:self.HUD];
+}
+- (void)addRequstToPool:(ASIHTTPRequest *)request
+{
+    NSLog(@"发送请求路径: %@", request.url);
 }
 
 @end

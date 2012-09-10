@@ -50,15 +50,15 @@
     changeLogDao = [[ChangeLogDao alloc] init];
     tasklistDao = [[TasklistDao alloc] init];
     
-    [self initContentView];
+    tasklistService = [[TasklistNewService alloc] init];
+    taskService = [[TaskNewService alloc] init];
     
-    [self sync:nil];
+    [self initContentView];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -125,15 +125,14 @@
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-}
-
 - (void)dealloc
 {
+    [tasklistDao release];
     [taskDao release];
     [taskIdxDao release];
     [changeLogDao release];
+    [tasklistService release];
+    [taskService release];
     [taskGroup release];
     [taskIdxGroup release];
     [addBtn release];
@@ -152,10 +151,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     CGRect tableViewRect = CGRectMake(0, 0, [Tools screenMaxWidth], [Tools screenMaxHeight] - 49 - 64);
-    UITableView* tempTableView = [[[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStylePlain] autorelease];
-    //[tempTableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLineEtched];
-    //tempTableView.scrollEnabled = NO;
-
+    UITableView* tempTableView = [[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStylePlain];
     [tempTableView setBackgroundColor:[UIColor whiteColor]];
     
     //去掉底部空白
@@ -165,10 +161,9 @@
     
     taskView = tempTableView;
     taskView.delegate = self;
-    taskView.dataSource = self;
-    //[taskView setAllowsSelection:NO];
-    
+    taskView.dataSource = self; 
     [self.view addSubview: taskView];
+    [tempTableView release];
 }
 
 #pragma mark - 动作相关事件
@@ -181,12 +176,22 @@
 
 - (void)sync:(id)sender
 {
-    if(![currentTasklistId isEqualToString:@"ifree"]
-       && ![currentTasklistId isEqualToString:@"wf"]
-       && ![currentTasklistId isEqualToString:@"github"])
-        [self syncAction:nil];
-    else {
-        [self getTasksAction:nil];
+    if ([currentTasklistId rangeOfString:@"temp_"].length > 0)
+    {
+        NSMutableDictionary *context = [NSMutableDictionary dictionary];
+        [context setObject:@"SyncTasklists" forKey:REQUEST_TYPE];
+        [context setObject:currentTasklistId forKey:@"TasklistId"];
+        [tasklistService syncTasklists:currentTasklistId context:context delegate:self];
+    }
+    else
+    {
+        if(![currentTasklistId isEqualToString:@"ifree"]
+           && ![currentTasklistId isEqualToString:@"wf"]
+           && ![currentTasklistId isEqualToString:@"github"])
+            [self syncAction:nil];
+        else {
+            [self getTasksAction:nil];
+        }
     }
 }
 
@@ -213,14 +218,8 @@
         
         NSMutableDictionary *context = [NSMutableDictionary dictionary];
         [context setObject:@"GetTasks" forKey:REQUEST_TYPE];
-        editBtn.hidden = YES;
         [TaskService getTasks:currentTasklistId context:context delegate:self];
     }
-}
-
-- (void)addRequstToPool:(ASIHTTPRequest *)request {
-    //    [requestPool addObject:request];
-    NSLog(@"发送请求URL：%@",request.url);
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request
@@ -230,7 +229,29 @@
     NSDictionary *userInfo = request.userInfo;
     NSString *requestType = [userInfo objectForKey:REQUEST_TYPE];
     
-    if([requestType isEqualToString:@"SyncTask"])
+    if([requestType isEqualToString:@"SyncTasklists"])
+    {
+        if(request.responseStatusCode == 200)
+        {
+            NSString *tasklistId = [userInfo objectForKey:@"TasklistId"];
+            NSString* newId = [request responseString];
+            [tasklistDao adjustId:tasklistId withNewId:newId];
+            [taskDao updateTasklistIdByNewId:tasklistId newId:newId];
+            [taskIdxDao updateTasklistIdByNewId:tasklistId newId:newId];
+            [changeLogDao updateTasklistIdByNewId:tasklistId newId:newId];
+            
+            [tasklistDao commitData];
+            
+            currentTasklistId = newId;
+            
+            [self syncAction:nil];
+        }
+        else
+        {
+            [Tools failed:self.HUD];
+        }
+    }
+    else if([requestType isEqualToString:@"SyncTask"])
     {
         if(request.responseStatusCode == 200)
         {
@@ -260,7 +281,7 @@
         }
         else
         {
-            [Tools failed:HUD];
+            [Tools failed:self.HUD];
         }
     }
     else if([requestType isEqualToString:@"GetTasks"])
@@ -348,20 +369,14 @@
             @catch (NSException *exception)
             {
                 NSLog(@"exception message:%@", [exception description]);
-                [Tools failed:HUD];
+                [Tools failed:self.HUD];
             }
         }
         else
         {
-            [Tools failed:HUD];
+            [Tools failed:self.HUD];
         }
     }
-}
-
-- (void)requestFailed:(ASIHTTPRequest *)request
-{
-    NSLog(@"错误异常: %@", request.error);
-    [Tools msg:NOT_NETWORK_MESSAGE HUD:HUD];
 }
 
 #pragma mark - Table view 数据源
@@ -407,26 +422,6 @@
     cell.selectedBackgroundView = selectedView;
     
     return cell;
-    
-    //    static NSString *cellIdentifier = @"MoveCell";
-    //	UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    //
-    //	if(!cell) {
-    //        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    //    }
-    //
-    ////    if ([tableView indexPathIsMovingIndexPath:indexPath])
-    ////	{
-    ////        cell.textLabel.text = @"";
-    ////	}
-    ////	else
-    ////	{
-    //		Task *task = [[self.taskGroup objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    //        cell.textLabel.text = task.subject;
-    //		[cell setShouldIndentWhileEditing:NO];
-    //		[cell setShowsReorderControl:NO];
-    ////	}
-    //    return cell;
 }
 
 - (void)moveTableView:(UITableView *)tableView moveRowFromIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
@@ -551,7 +546,7 @@
         Task *t = [[self.taskGroup objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         if(t.editable == [NSNumber numberWithInt:0])
         {
-            [Tools msg:@"该任务无法删除" HUD:HUD];
+            [Tools msg:@"该任务无法删除" HUD:self.HUD];
             return;
         }
         [changeLogDao insertChangeLog:[NSNumber numberWithInt:1]
@@ -826,21 +821,21 @@
 }
 
 - (void)HUDCompleted{
-    [HUD hide:YES];
+    [self.HUD hide:YES];
 }
 
 
 - (void)HUDFailed{
-    HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-    HUD.labelText = @"请求失败";
-    HUD.mode = MBProgressHUDModeCustomView;
-	[HUD hide:YES afterDelay:0.3];
+    self.HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+    self.HUD.labelText = @"请求失败";
+    self.HUD.mode = MBProgressHUDModeCustomView;
+	[self.HUD hide:YES afterDelay:0.3];
 }
 
 - (void)addHUD:(NSString *)text{
-    HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     if ([text length]) {
-        HUD.labelText = text;
+        self.HUD.labelText = text;
     }
 }
 

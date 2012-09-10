@@ -233,7 +233,8 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
            && self.textPassword.text.length > 0)
 #endif
         {
-            [Tools showHUD:@"登录中" view:self.view HUD:HUD];
+            self.HUD = [Tools process:@"登录中" view:self.view];
+            //[Tools showHUD:@"登录中" view:self.view HUD:self.HUD];
 
             NSMutableDictionary *context = [NSMutableDictionary dictionary];
             [context setObject:@"LOGIN" forKey:REQUEST_TYPE];
@@ -263,7 +264,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     //    [AccountService googleLogin:@"" code:@"4/-s8utkRJ-3-zRzgIq54tYGSdcxg1.giR6or0tRtscuJJVnL49Cc9ifIjrcQI" state:@"login" delegate:self];
     //    
     //自动保存用户登录
-    [[ConstantClass instance] setIsGuestUser:YES];
+    [[ConstantClass instance] setLoginType:@"anonymous"];
     [ConstantClass saveToCache];
     
     [self dismissModalViewControllerAnimated:NO];
@@ -273,7 +274,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
 
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
-    [Tools close:HUD];
+    [Tools close:self.HUD];
     NSLog(@"请求响应数据: %@, %d"
           , [request responseString]
           , [request responseStatusCode]);
@@ -303,7 +304,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
             [[ConstantClass instance] setDomain:self.domainLabel.text];
 #endif
             [[ConstantClass instance] setUsername:self.textUsername.text];
-            [[ConstantClass instance] setIsGuestUser:YES];
+            [[ConstantClass instance] setLoginType:@"normal"];
             [ConstantClass saveToCache];
             
             [self dismissModalViewControllerAnimated:NO];
@@ -319,17 +320,6 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
             [Tools alert:@"用户名和密码不正确"];
         }
     }
-}
-
-- (void)requestFailed:(ASIHTTPRequest *)request
-{
-    [Tools failed:HUD];
-    NSLog(@"请求异常: %@",request.error);
-}
-
-- (void)addRequstToPool:(ASIHTTPRequest *)request
-{
-    NSLog(@"发送请求路径：%@",request.url);
 }
 
 #ifdef __ALI_VERSION__
@@ -495,7 +485,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
             NSLog(@"%@", str);
         }
         
-        [Tools msg:@"登录失败！请重新尝试！" HUD:HUD];
+        [Tools msg:@"登录失败！请重新尝试！" HUD:self.HUD];
     }
     else 
     {

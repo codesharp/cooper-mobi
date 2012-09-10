@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1825345B15FB28950035D2DA /* HttpWebRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 1825345915FB28950035D2DA /* HttpWebRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1825345C15FB28950035D2DA /* HttpWebRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1825345A15FB28950035D2DA /* HttpWebRequest.m */; };
 		187E6E9615E34E0D00A85ECF /* VersionObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 187E6E9415E34E0D00A85ECF /* VersionObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		187E6E9715E34E0D00A85ECF /* VersionObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 187E6E9515E34E0D00A85ECF /* VersionObject.m */; };
 		1880B16815D229B000670DE6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1880B16715D229B000670DE6 /* Foundation.framework */; };
@@ -73,6 +75,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1825345915FB28950035D2DA /* HttpWebRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpWebRequest.h; path = Sources/Network/HttpWebRequest.h; sourceTree = "<group>"; };
+		1825345A15FB28950035D2DA /* HttpWebRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HttpWebRequest.m; path = Sources/Network/HttpWebRequest.m; sourceTree = "<group>"; };
 		187E6E9415E34E0D00A85ECF /* VersionObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VersionObject.h; path = Sources/Core/Utils/VersionObject.h; sourceTree = "<group>"; };
 		187E6E9515E34E0D00A85ECF /* VersionObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionObject.m; path = Sources/Core/Utils/VersionObject.m; sourceTree = "<group>"; };
 		1880B16415D229B000670DE6 /* libCodesharpSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCodesharpSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -205,6 +209,8 @@
 				1880B29215D2345400670DE6 /* NetworkManager.h */,
 				1880B29315D2345400670DE6 /* NetworkManager.m */,
 				1880B1AC15D22B8B00670DE6 /* ASIHTTP */,
+				1825345915FB28950035D2DA /* HttpWebRequest.h */,
+				1825345A15FB28950035D2DA /* HttpWebRequest.m */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -368,6 +374,7 @@
 				18F5D47C15F8A261004C5771 /* AutoHyperlinks.h in Headers */,
 				18F5D47D15F8A261004C5771 /* JSCoreTextView.h in Headers */,
 				18F5D47F15F8A261004C5771 /* JSTwitterCoreTextView.h in Headers */,
+				1825345B15FB28950035D2DA /* HttpWebRequest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,6 +453,7 @@
 				18F5D47B15F8A261004C5771 /* AHMarkedHyperlink.m in Sources */,
 				18F5D47E15F8A261004C5771 /* JSCoreTextView.m in Sources */,
 				18F5D48015F8A261004C5771 /* JSTwitterCoreTextView.m in Sources */,
+				1825345C15FB28950035D2DA /* HttpWebRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

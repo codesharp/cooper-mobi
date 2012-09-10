@@ -7,16 +7,16 @@
 //
 
 #import "TasklistViewController.h"
-#import "CooperService/TasklistService.h"
 #import "SettingViewController.h"
 #import "BaseNavigationController.h"
-#import "TaskViewController.h"
 #import "TaskController.h"
+#import "CustomToolbar.h"
+#import "CooperCore/Tasklist.h"
+#import "CooperService/TasklistService.h"
 
 @implementation TasklistViewController
 
 @synthesize tasklists;
-@synthesize tasklistTableView;
 
 # pragma mark - UI相关
 
@@ -25,26 +25,33 @@
     [super loadView];
     
     tasklistDao = [[TasklistDao alloc] init];
+    taskDao = [[TaskDao alloc] init];
+    taskIdxDao = [[TaskIdxDao alloc] init];
+    changeLogDao = [[ChangeLogDao alloc] init];
+    tasklistService = [[TasklistNewService alloc] init];
+    taskService = [[TaskNewService alloc] init];
     
     self.title = APP_TITLE;
     
     //任务列表View
-    self.tasklistTableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped] autorelease];
-    self.tasklistTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
-    self.tasklistTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.tasklistTableView.dataSource = self;
-    self.tasklistTableView.delegate = self;
-    [self.view addSubview:self.tasklistTableView];
+    tasklistTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    tasklistTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
+    tasklistTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    tasklistTableView.dataSource = self;
+    tasklistTableView.delegate = self;
+    [self.view addSubview:tasklistTableView];
     
     //左上自定义导航
-    CustomToolbar *toolBar = [[[CustomToolbar alloc] initWithFrame:CGRectMake(0, 0, 80, 45)] autorelease];
+    CustomToolbar *toolBar = [[CustomToolbar alloc] initWithFrame:CGRectMake(0, 0, 80, 45)];
     
     //左上编辑按钮
     editBtn = [[InputPickerView alloc] initWithFrame:CGRectMake(0, 0, 38, 45)];
-    UIImageView *imageView = [[[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 27, 27)] autorelease];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 27, 27)];
     UIImage *editImage = [UIImage imageNamed:EDIT_IMAGE];
     imageView.image = editImage;
     [editBtn addSubview:imageView];
+    [imageView release];
+    
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addTasklist:)];
     [editBtn addGestureRecognizer:recognizer];
     editBtn.delegate = self;
@@ -57,23 +64,24 @@
     UIImage *settingImage = [UIImage imageNamed:REFRESH_IMAGE];
     settingImageView.image = settingImage;
     [syncBtn addSubview:settingImageView];
-    UITapGestureRecognizer *recognizer2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(syncTasklist:)];
-    [syncBtn addGestureRecognizer:recognizer2];
-    [recognizer2 release];
+    recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(syncTasklist:)];
+    [syncBtn addGestureRecognizer:recognizer];
+    [recognizer release];
     [toolBar addSubview:syncBtn];
     
-    UIBarButtonItem *barButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:toolBar] autorelease]; 
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:toolBar]; 
     self.navigationItem.leftBarButtonItem = barButtonItem;
+    [barButtonItem release];
+    
+    [toolBar release];
     
     //设置右选项卡中的按钮
     settingBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [settingBtn setFrame:CGRectMake(0, 10, 27, 27)];
+    settingBtn.frame = CGRectMake(0, 10, 27, 27);
     [settingBtn setBackgroundImage:[UIImage imageNamed:SETTING_IMAGE] forState:UIControlStateNormal];
     [settingBtn addTarget: self action: @selector(settingAction:) forControlEvents: UIControlEventTouchUpInside];
     UIBarButtonItem *settingButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingBtn];
-    
     self.navigationItem.rightBarButtonItem = settingButtonItem; 
-    
     [settingButtonItem release];
     
 //    //点击View讲当前的Reponder隐藏
@@ -86,7 +94,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -95,21 +102,15 @@
 {
     [super viewDidLoad];
     
-    NSLog("@viewDidLoad事件触发")
+    NSLog("viewDidLoad事件触发");
 
     //登录用户进行同步
-    if([[ConstantClass instance] username].length > 0)
-    {
-        HUD = [Tools process:LOADING_TITLE view:self.view];
-        NSMutableDictionary *context = [NSMutableDictionary dictionary];
-        [context setObject:@"GetTasklists" forKey:REQUEST_TYPE];
-        [TasklistService getTasklists:context delegate:self];
-    }
+    [self syncTasklist:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog("@viewWillAppear事件触发")
+    NSLog("viewWillAppear事件触发")
     //如果未登录用户隐藏同步按钮
     syncBtn.hidden = [[ConstantClass instance] username].length == 0;
 
@@ -119,36 +120,38 @@
 - (void)dealloc
 {
     RELEASE(self.tasklists);
-    RELEASE(self.tasklistTableView);
+    RELEASE(tasklistTableView);
     RELEASE(tasklistDao);
+    RELEASE(taskDao);
+    RELEASE(taskIdxDao);
+    RELEASE(changeLogDao);
     RELEASE(editBtn);
     RELEASE(syncBtn);
     RELEASE(settingBtn);
+    RELEASE(tasklistService);
+    RELEASE(taskService);
     [super dealloc];
 }
+
+# pragma mark - 相关动作事件
 
 - (void) loadTasklistData
 {
     NSLog(@"开始初始化任务列表数据");
     
-    self.tasklists = [NSMutableArray array];
-    
-    NSMutableArray *tasklistsArray = [tasklistDao getAllTasklist];
+    self.tasklists = [tasklistDao getAllTasklist];
     
     //如果未登录用户并且无列表增加一条默认列表
-    if(tasklistsArray.count == 0 
+    if(tasklists.count == 0
        && [[ConstantClass instance] username].length == 0)
     {
-        [tasklistDao addTasklist:@"0" :@"默认列表" :@"personal"];
+        Tasklist *tasklist = [tasklistDao addTasklist:@"0" :@"默认列表" :@"personal"];
         [tasklistDao commitData];
         
-        //添加再重新查询
-        tasklistsArray = [tasklistDao getAllTasklist];
+        //添加
+        [tasklists addObject:tasklist];
     }
     
-    for(Tasklist *tasklist in tasklistsArray)
-        [self.tasklists addObject:tasklist];
-
     NSMutableArray *newRecentlyIds = [NSMutableArray array];
     for(NSString *recentlyId in [[ConstantClass instance] recentlyIds])
     {
@@ -170,21 +173,25 @@
     [[ConstantClass instance] setRecentlyIds:newRecentlyIds];
     [ConstantClass saveToCache];
     
-    [self.tasklistTableView reloadData];
+    [tasklistTableView reloadData];
 }
 
-# pragma mark - 相关动作事件
-
 - (void)syncTasklist:(id)sender
-{
-    HUD.labelText = LOADING_TITLE;
-    [HUD show:YES];
-    
-    NSMutableDictionary *context = [NSMutableDictionary dictionary];
-    [context setObject:@"GetTasklists" forKey:REQUEST_TYPE];
-    [TasklistService getTasklists:context delegate:self];
-    
-    [self loadTasklistData];
+{    
+    //登录用户进行同步
+    if([[ConstantClass instance] username].length > 0)
+    {
+        self.HUD = [Tools process:LOADING_TITLE view:self.view];
+        
+        NSMutableDictionary *context = [NSMutableDictionary dictionary];
+        [context setObject:@"SyncTasklists" forKey:REQUEST_TYPE];
+        if(networkQueue)
+        {
+            networkQueue = nil;
+        }
+        networkQueue = [ASINetworkQueue queue];
+        [tasklistService syncTasklists:context queue:networkQueue delegate:self];
+    }
 }
 
 - (void)settingAction:(id)sender
@@ -225,21 +232,20 @@
     [editBtn resignFirstResponder];
 }
 
-- (void)send:(NSString *)value
+- (void)send:(NSString *)name
 {
     NSString *guid = [Tools stringWithUUID];
     NSString *tasklistId = [NSString stringWithFormat:@"temp_%@", guid];
     
-    HUD = [Tools process:LOADING_TITLE view:self.view];
+    NSString *tasklistname = name;
+    NSString *tasklisttype = @"personal";
     
-    NSMutableDictionary *context = [NSMutableDictionary dictionary];
-    [context setObject:@"CreateTasklist" forKey:REQUEST_TYPE];
-    [context setObject:tasklistId forKey:@"TasklistId"];
-    [context setObject:value forKey:@"TasklistName"];
+    [tasklistDao addTasklist:tasklistId :tasklistname :tasklisttype];
+    [tasklistDao commitData];
     
-    [TasklistService syncTasklist:value :@"personal" :context :self];
-
-    [Tools close:HUD];
+    //[editBtn resignFirstResponder];
+    
+    [self loadTasklistData];
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request
@@ -248,12 +254,47 @@
     
     NSDictionary *userInfo = request.userInfo;
     NSString *requestType = [userInfo objectForKey:REQUEST_TYPE];
-    if([requestType isEqualToString:@"GetTasklists"])
+    
+    if([requestType isEqualToString:@"SyncTasks"])
     {
         if(request.responseStatusCode == 200)
         {
-            [Tools close:HUD];
+            NSString *currentTasklistId = [userInfo objectForKey:@"TasklistId"];
             
+            NSMutableArray *array = [[request responseString] JSONValue];
+            
+            if(array.count > 0)
+            {
+                for(NSMutableDictionary *dict in array)
+                {
+                    NSString * oldId = (NSString*)[dict objectForKey:@"OldId"];
+                    NSString * newId = (NSString*)[dict objectForKey:@"NewId"];
+                    
+                    NSLog(@"任务旧值ID: %@ 变为新值ID:%@", oldId, newId);
+                    
+                    [taskDao updateTaskIdByNewId:oldId newId:newId tasklistId:currentTasklistId];
+                    [taskIdxDao updateTaskIdxByNewId:oldId newId:newId tasklistId:currentTasklistId];
+                }
+            }
+            
+            //修正changeLog
+            [changeLogDao updateAllToSend:currentTasklistId];
+            [changeLogDao commitData];
+            
+//            NSMutableDictionary *context = [NSMutableDictionary dictionary];
+//            [context setObject:@"GetTasks" forKey:REQUEST_TYPE];
+//            
+//            [taskService getTasks:currentTasklistId context:context delegate:self];
+        }
+        else
+        {
+            [Tools failed:self.HUD];
+        }
+    }
+    else if([requestType isEqualToString:@"GetTasklists"])
+    {
+        if(request.responseStatusCode == 200)
+        {
             NSMutableDictionary *tasklistsDict = [[request responseString] JSONValue];
             
             //删除当前账户所有任务列表
@@ -271,18 +312,35 @@
             
             [tasklistDao commitData];
             
+            NSMutableArray *tempTasklists = [tasklistDao getAllTasklist];
+            if(tempTasklists.count == 0)
+            {
+                [Tools close:self.HUD];
+            }
+            else
+            {
+                NSMutableDictionary *context = [NSMutableDictionary dictionary];
+                [context setObject:@"SyncTasks" forKey:REQUEST_TYPE];
+                if(networkQueue)
+                {
+                    networkQueue = nil;
+                }
+                networkQueue = [ASINetworkQueue queue];
+                [taskService syncTasks:tempTasklists context:context queue:networkQueue delegate:self];
+            }
+            
             [self loadTasklistData];
         }
         else
         {
-            [Tools failed:HUD];
+            [Tools failed:self.HUD];
         }
     }
     else if([requestType isEqualToString:@"CreateTasklist"])
     {
         if(request.responseStatusCode == 200)
         {
-            [Tools close:HUD];
+            [Tools close:self.HUD];
             
             NSString *tasklistId = [userInfo objectForKey:@"TasklistId"];
             NSString *tasklistName = [userInfo objectForKey:@"TasklistName"];
@@ -298,27 +356,142 @@
         }
         else
         {
-            [Tools failed:HUD];
+            [Tools failed:self.HUD];
+        }
+    }
+    else if([requestType isEqualToString:@"GetAllTasks"])
+    {
+        if(request.responseStatusCode == 200)
+        {
+            NSString *currentTasklistId = [request.userInfo objectForKey:@"TasklistId"];
+            NSDictionary *dict = nil;
+            @try
+            {
+                dict = [[request responseString] JSONValue];
+                
+                if(dict)
+                {
+                    NSString *tasklist_editable = [dict objectForKey:@"Editable"];
+                    
+                    //更新Tasklist的可编辑状态
+                    [tasklistDao updateEditable:[NSNumber numberWithInt:[tasklist_editable integerValue]] tasklistId:currentTasklistId];
+                    
+                    NSArray *tasks = [dict objectForKey:@"List"];
+                    NSArray *taskIdxs =[dict objectForKey:@"Sorts"];
+                    
+                    [taskDao deleteAll:currentTasklistId];
+                    [taskIdxDao deleteAllTaskIdx:currentTasklistId];
+                    
+                    [taskIdxDao commitData];
+                    
+                    for(NSDictionary *taskDict in tasks)
+                    {
+                        NSString *taskId = [NSString stringWithFormat:@"%@", (NSString*)[taskDict objectForKey:@"ID"]];
+                        
+                        NSString* subject = [taskDict objectForKey:@"Subject"] == [NSNull null] ? @"" : [taskDict objectForKey:@"Subject"];
+                        NSString *body = [taskDict objectForKey:@"Body"] == [NSNull null] ? @"" : [taskDict objectForKey:@"Body"];
+                        NSString *isCompleted = (NSString*)[taskDict objectForKey:@"IsCompleted"];
+                        NSNumber *status = [NSNumber numberWithInt:[isCompleted integerValue]];
+                        NSString *priority = [NSString stringWithFormat:@"%@", [taskDict objectForKey:@"Priority"]];
+                        
+                        NSString *editable = (NSString*)[taskDict objectForKey:@"Editable"];
+                        
+                        
+                        NSDate *due = nil;
+                        if([taskDict objectForKey:@"DueTime"] != [NSNull null])
+                            due = [Tools NSStringToShortNSDate:[taskDict objectForKey:@"DueTime"]];
+                        
+                        [taskDao addTask:subject
+                              createDate:[NSDate date]
+                          lastUpdateDate:[NSDate date]
+                                    body:body
+                                isPublic:[NSNumber numberWithInt:1]
+                                  status:status
+                                priority:priority
+                                  taskid:taskId
+                                 dueDate:due
+                                editable:[NSNumber numberWithInt:[editable integerValue]]
+                              tasklistId:currentTasklistId
+                                isCommit:NO];
+                    }
+                    
+                    for(NSDictionary *idxDict in taskIdxs)
+                    {
+                        NSString *by = (NSString*)[idxDict objectForKey:@"By"];
+                        NSString *key = (NSString*)[idxDict objectForKey:@"Key"];
+                        NSString *name = (NSString*)[idxDict objectForKey:@"Name"];
+                        
+                        NSArray *array = (NSArray*)[idxDict objectForKey:@"Indexs"];
+                        NSString *indexes = [array JSONRepresentation];
+                        
+                        [taskIdxDao addTaskIdx:by key:key name:name indexes:indexes tasklistId:currentTasklistId];
+                    }
+                    
+                    [taskIdxDao commitData];
+                }
+            }
+            @catch (NSException *exception)
+            {
+                NSLog(@"exception message:%@", [exception description]);
+                [Tools failed:self.HUD];
+            }
+        }
+        else
+        {
+            [Tools failed:self.HUD];
         }
     }
 }
-
-- (void)requestFailed:(ASIHTTPRequest *)request
+- (void)queueFinished:(ASINetworkQueue *)queue
 {
-    NSLog(@"错误异常: %@", request.error);
-    NSDictionary *userInfo = request.userInfo;
-    NSString *requestType = [userInfo objectForKey:REQUEST_TYPE];
-    if([requestType isEqualToString:@"GetTasklists"] && request == nil)
+    NSString *requestType = [queue.userInfo objectForKey:REQUEST_TYPE];
+    if([requestType isEqualToString:@"SyncTasklists"])
     {
-        [Tools msg:NOT_NETWORK_MESSAGE HUD:HUD];
-        return;
+        NSMutableDictionary *context = [NSMutableDictionary dictionary];
+        [context setObject:@"GetTasklists" forKey:REQUEST_TYPE];
+        [tasklistService getTasklists:context delegate:self];
     }
-    [Tools close:HUD];
+    else if([requestType isEqualToString:@"SyncTasks"])
+    {
+        if (networkQueue.requestsCount == 0)
+        {
+            networkQueue = nil;
+        }
+        NSLog(@"队列运行完成");
+    
+        NSMutableArray *tempTasklists = [tasklistDao getAllTasklist];
+        if(tempTasklists.count == 0)
+        {
+            [Tools close:self.HUD];
+        }
+        else
+        {
+            NSMutableDictionary *context = [NSMutableDictionary dictionary];
+            [context setObject:@"GetAllTasks" forKey:REQUEST_TYPE];
+            if(networkQueue)
+            {
+                networkQueue = nil;
+            }
+            networkQueue = [ASINetworkQueue queue];
+            [taskService getAllTasks:tempTasklists context:context queue:networkQueue delegate:self];
+        }
+    }
+    else if([requestType isEqualToString:@"GetAllTasks"])
+    {
+        [Tools close:self.HUD];
+        
+        [self loadTasklistData];
+    }
 }
-
-- (void)addRequstToPool:(ASIHTTPRequest *)request
+- (void)notProcessReturned:(NSMutableDictionary*)userInfo
 {
-    NSLog(@"发送请求URL: %@", request.url);
+    NSString *requestType = [userInfo objectForKey:REQUEST_TYPE];
+    if([requestType isEqualToString:@"SyncTasklists"])
+    {
+        NSMutableDictionary *context = [NSMutableDictionary dictionary];
+        [context setObject:@"GetTasklists" forKey:REQUEST_TYPE];
+        [tasklistService getTasklists:context delegate:self];
+    }
 }
 
 # pragma mark - 任务列表相关委托事件

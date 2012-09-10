@@ -129,7 +129,7 @@
           lastUpdateDate:currentDate
                     body:bodyTextView.text 
                 isPublic:[Tools BOOLToNSNumber:YES] 
-                  status:[Tools BOOLToNSNumber:self.currentIsCompleted] 
+                  status:[Tools BOOLToNSNumber:[self taskIsFinish]] 
                 priority:self.currentPriority 
                   taskid:id
                  dueDate:self.currentDueDate 
@@ -165,7 +165,7 @@
         [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
                                dataid:id 
                                  name:@"iscompleted" 
-                                value:self.currentIsCompleted ? @"true" : @"false" 
+                                value:[self taskIsFinish] ? @"true" : @"false" 
                            tasklistId:self.currentTasklistId];
         
         [taskDao commitData];
@@ -177,7 +177,7 @@
              lastUpdateDate:[NSDate date] 
                        body:bodyTextView.text 
                    isPublic:[Tools BOOLToNSNumber:YES] 
-                     status:[Tools BOOLToNSNumber:self.currentIsCompleted] 
+                     status:[Tools BOOLToNSNumber:[self taskIsFinish]] 
                    priority:self.currentPriority 
                     dueDate:self.currentDueDate
                  tasklistId:self.currentTasklistId
@@ -213,15 +213,13 @@
         [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
                                dataid:self.task.id 
                                  name:@"iscompleted" 
-                                value:self.currentIsCompleted ? @"true" : @"false"
+                                value:[self taskIsFinish] ? @"true" : @"false"
                            tasklistId:currentTasklistId];
         
         [taskDao commitData];
     }
     
     [self goBack:nil];
-    //[self.navigationController dismissModalViewControllerAnimated:YES];
-    ;
 }
 
 - (void)viewDidLoad
@@ -535,6 +533,11 @@
     [self.priorityButton becomeFirstResponder];
 }
 
+- (BOOL)taskIsFinish
+{
+    return [statusButton.titleLabel.text isEqualToString:@"完成    >"];
+}
+
 - (void)switchStatus
 {
     bool isfinish;
@@ -582,7 +585,7 @@
     
     CGFloat totalheight = bodyTextView.contentSize.height;
     
-    CGPoint center = viewCenter;
+//    CGPoint center = viewCenter;
 
 //    float height = 116.0 + [Tools screenMaxHeight] - 480;
 //    if(totalheight > height)

@@ -13,15 +13,18 @@
 #import "CooperRepository/TaskIdxDao.h"
 #import "CooperRepository/ChangeLogDao.h"
 #import "CooperRepository/TasklistDao.h"
+#import "CooperService/TasklistNewService.h"
+#import "CooperService/TaskNewService.h"
 
 @interface TaskController : BaseViewController<UITableViewDelegate, UITableViewDataSource, TaskTableViewCellDelegate>
 {
-    MBProgressHUD *HUD;
-    
     TaskDao *taskDao;
     TaskIdxDao *taskIdxDao;
     ChangeLogDao *changeLogDao;
     TasklistDao *tasklistDao;
+    
+    TasklistNewService *tasklistService;
+    TaskNewService *taskService;
     
     UIView *emptyView;
     UITableView *taskView;
@@ -31,7 +34,7 @@
     UIView *addBtn;
 }
 
-@property (nonatomic,retain) NSString* currentTasklistId;
+@property (nonatomic, retain) NSString* currentTasklistId;
 @property (nonatomic, retain) NSMutableArray *taskIdxGroup;
 @property (nonatomic, retain) NSMutableArray *taskGroup;
 

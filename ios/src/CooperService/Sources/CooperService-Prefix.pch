@@ -20,6 +20,7 @@
 typedef Constant ConstantClass;
 
 #import "CodesharpSDK/NetworkManager.h"
+#import "CodesharpSDK/HttpWebRequest.h"
 
 //获取任务列表路径
 #define GETTASKLISTS_URL                @"/Personal/GetTaskFolders"
@@ -38,3 +39,5 @@ typedef Constant ConstantClass;
 #define LOGIN_URL                       @"/account/login"
 //Google登录入口
 #define GOOGLE_LOGIN_URL                @"/Account/GoogleLogin"
+
+#define REQUEST_TYPE                    @"RequestType"

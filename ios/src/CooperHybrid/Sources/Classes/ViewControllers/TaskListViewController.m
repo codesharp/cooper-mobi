@@ -132,7 +132,7 @@
         [theWebView stringByEvaluatingJavaScriptFromString:jsString]; 
     }
     
-    if([[ConstantClass instance] isGuestUser])
+    if([[[ConstantClass instance] loginType] isEqualToString:@"anonymous"])
     {
         [self.webView stringByEvaluatingJavaScriptFromString:@"showStartPage(1);"];
     }

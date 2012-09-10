@@ -54,7 +54,7 @@
         if([type isEqualToString:ANONYMOUS]) //跳过登录
         {
             [[ConstantClass instance] setUsername:@""];
-            [[ConstantClass instance] setIsGuestUser:YES];
+            [[ConstantClass instance] setLoginType:@"anonymous"];
             [ConstantClass saveToCache];
             
             [resultCode setObject:[NSNumber numberWithBool:YES] forKey:@"status"];
@@ -85,7 +85,7 @@
     //同步任务列表
     else if ([key isEqualToString: SYNCTASKLISTS]) {
         
-        if([[ConstantClass instance] isGuestUser])
+        if([[[ConstantClass instance] loginType] isEqualToString:@"anonymous"])
         {
             [resultCode setObject:[NSNumber numberWithBool:NO] forKey:@"status"];
             [resultCode setObject:@"匿名用户不能同步任务" forKey:@"message"];
@@ -506,7 +506,7 @@
             
             //保存用户账号
             [[ConstantClass instance] setUsername:username];
-            [[ConstantClass instance] setIsGuestUser:NO];
+            [[ConstantClass instance] setLoginType:@"normal"];
             [ConstantClass saveToCache];
             
             [resultCode setObject:[NSNumber numberWithBool:YES] forKey:@"status"];

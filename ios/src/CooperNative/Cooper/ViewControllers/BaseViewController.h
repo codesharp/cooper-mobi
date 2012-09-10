@@ -8,4 +8,6 @@
  
 @interface BaseViewController : UIViewController
 
+@property (nonatomic, retain) MBProgressHUD *HUD;
+
 @end

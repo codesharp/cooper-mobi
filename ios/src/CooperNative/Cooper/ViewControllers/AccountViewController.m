@@ -12,6 +12,7 @@
 #import "CooperService/AccountService.h"
 #import "CooperCore/Tasklist.h"
 #import "CooperService/TaskService.h"
+#import "MainViewController.h"
 
 @implementation AccountViewController
 
@@ -125,20 +126,31 @@
 
 - (void)login:(id)sender 
 {
-    lock_counter = 0;
-    
-    HUD = [Tools process:LOADING_TITLE view:self.view];
-    
+
     if([[ConstantClass instance] username].length > 0)
     {
         NSMutableDictionary *context = [NSMutableDictionary dictionary];
         [context setObject:@"Logout" forKey:REQUEST_TYPE];
-        
+
         [AccountService logout:context delegate:self];
     }
-    else {
-        [self loginServiceAction];
-    }
+    
+    
+//    lock_counter = 0;
+//    
+//    HUD = [Tools process:LOADING_TITLE view:self.view];
+//    
+//    if([[ConstantClass instance] username].length > 0)
+//    {
+//        NSMutableDictionary *context = [NSMutableDictionary dictionary];
+//        [context setObject:@"Logout" forKey:REQUEST_TYPE];
+//        
+//        [AccountService logout:context delegate:self];
+//    }
+//    else
+//    {
+//        [self loginServiceAction];
+//    }
 }
 
 - (void)syncAllLocalData
@@ -201,7 +213,20 @@
     {
         if(request.responseStatusCode == 200)
         {
-            [self loginServiceAction];
+            [[ConstantClass instance] setLoginType:@""];
+            [[ConstantClass instance] setUsername:@""];
+            
+            AppDelegate *appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+            MainViewController *mainViewController = [[MainViewController alloc] init];
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
+            
+            appDelegate.window.rootViewController = navController;
+            
+            //[self loginServiceAction];
+        }
+        else
+        {
+            [Tools failed:HUD];
         }
     }
     else if([requestType isEqualToString:@"Login"])
@@ -234,7 +259,7 @@
             [[ConstantClass instance] setDomain:domainLabel.text];
 #endif
             [[ConstantClass instance] setUsername:textUsername.text];
-            [[ConstantClass instance] setIsGuestUser:YES];
+            [[ConstantClass instance] setLoginType:@"normal"];
             
             [ConstantClass saveToCache];
             
