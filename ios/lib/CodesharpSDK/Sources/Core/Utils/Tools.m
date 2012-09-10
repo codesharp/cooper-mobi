@@ -121,7 +121,7 @@
     HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
     HUD.labelText = @"请求失败";
     HUD.mode = MBProgressHUDModeCustomView;
-	[HUD hide:YES afterDelay:0.3];
+	[HUD hide:YES afterDelay:1];
 }
 
 + (NSString*) stringWithUUID {

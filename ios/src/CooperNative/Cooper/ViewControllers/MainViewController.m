@@ -20,10 +20,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    if ([[[ConstantClass instance] loginType] isEqualToString:@"anonymous"]
-        || [[[ConstantClass instance] loginType] isEqualToString:@"normal"])
+    NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    if (NO)
     {
+        [[ConstantClass instance] setLoginType:@"normal"];
+        [[ConstantClass instance] setUsername:@"sunleepy@gmail.com"];
         //跳过登录
         [self loginFinish];
     }

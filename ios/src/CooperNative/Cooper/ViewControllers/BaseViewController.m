@@ -50,8 +50,15 @@
 }
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
-    NSLog(@"请求异常: %@", request.error.localizedDescription);
-    [Tools msg:request.error.localizedDescription HUD:self.HUD];
+    if(request == nil)
+    {
+        [Tools msg:NOT_NETWORK_MESSAGE HUD:self.HUD];
+    }
+    else
+    {
+        NSLog(@"请求异常: %@", request.error.localizedDescription);
+        [Tools msg:request.error.localizedDescription HUD:self.HUD];
+    }
 }
 - (void)addRequstToPool:(ASIHTTPRequest *)request
 {

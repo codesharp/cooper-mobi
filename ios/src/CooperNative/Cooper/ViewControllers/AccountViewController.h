@@ -23,8 +23,6 @@
 #endif
 >
 {
-    MBProgressHUD *HUD;
-    
     //TODO:需要完善
     int lock_counter;
     
@@ -32,15 +30,18 @@
     TaskIdxDao *taskIdxDao;
     ChangeLogDao *changeLogDao;
     TasklistDao *tasklistDao;
+    
+    UIView *accountView;
+    UIButton *btnBack;
 }
 
-@property (retain, nonatomic) UITextField *textUsername;
-@property (retain, nonatomic) UITextField *textPassword;
-@property (retain, nonatomic) UITableView *loginTableView;
-@property (retain, nonatomic) UIView *accountView;
-@property (retain, nonatomic) CustomButton *btnLogin;
-#ifdef __ALI_VERSION__
-@property (retain, nonatomic) DomainLabel *domainLabel;
-#endif
+//@property (retain, nonatomic) UITextField *textUsername;
+//@property (retain, nonatomic) UITextField *textPassword;
+//@property (retain, nonatomic) UITableView *loginTableView;
+//@property (retain, nonatomic) UIView *accountView;
+//@property (retain, nonatomic) CustomButton *btnLogin;
+//#ifdef __ALI_VERSION__
+//@property (retain, nonatomic) DomainLabel *domainLabel;
+//#endif
 
 @end

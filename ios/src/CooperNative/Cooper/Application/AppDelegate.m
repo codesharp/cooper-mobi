@@ -10,6 +10,7 @@
 #import "CooperRepository/TaskDao.h"
 #import "CodesharpSDK/VersionObject.h"
 #import "CooperService/VersionService.h"
+#import "GTMHTTPFetcher.h"
 
 @implementation AppDelegate
 
@@ -49,6 +50,8 @@
     self.window.rootViewController = navController;
     
     [self.window makeKeyAndVisible];
+    
+    [GTMHTTPFetcher setLoggingEnabled:YES];
     
     //应用徽章数字置零
 //    application.applicationIconBadgeNumber = 0; 

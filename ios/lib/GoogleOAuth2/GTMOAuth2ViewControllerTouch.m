@@ -30,6 +30,7 @@
 #import "GTMOAuth2SignIn.h"
 #import "GTMOAuth2Authentication.h"
 #import "CooperService/AccountService.h"
+#import "CooperService/TasklistNewService.h"
 
 static NSString * const kGTMOAuth2AccountName = @"OAuth";
 static GTMOAuth2Keychain* sDefaultKeychain = nil;
@@ -742,6 +743,9 @@ static Class gSignInClass = Nil;
     NSURLRequest *r = webView.request;
     NSData *data = r.HTTPBody;
     
+    NSLog(@"url1111:%@", r.URL.absoluteString);
+    //[AccountService googleLogin:@"" code:@"" state:@"login" mobi:@"false" joke:@"true" delegate:self];
+    
     NSString *query = webView.request.URL.query;
     NSArray *array = [query componentsSeparatedByString:@"&"];
     if(array.count == 1)
@@ -750,11 +754,17 @@ static Class gSignInClass = Nil;
         NSString *code = [patams objectAtIndex:0];
         if([code isEqualToString:@"code"])
         {
-//            NSString *anthCode = [patams objectAtIndex:1];
+            NSString *anthCode = [patams objectAtIndex:1];
+            
+//            NSMutableDictionary *context = [NSMutableDictionary dictionary];
+//            [context setObject:@"GetTasklists" forKey:REQUEST_TYPE];
+//            TasklistNewService *tasklistService = [[[TasklistNewService alloc] init] autorelease];
+//            [tasklistService getTasklists:context delegate:self];
+//            
 //            [AccountService googleLogin:@"" code:anthCode state:@"login" mobi:@"false" joke:@"true" delegate:self];
             
-            NSURL *url = [NSURL URLWithString: @"http://debug.incooper.net/account/googlelogin?joke=true"];
-            NSString *body = [NSString stringWithFormat: @"joke=true"];
+            NSURL *url = [NSURL URLWithString: @"http://debug.incooper.net/Account/GoogleLogin?joke=true"];
+            //NSString *body = [NSString stringWithFormat: @"joke=true"];
             NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL: url];
             //[request setHTTPMethod: @"POST"];
             //[request setHTTPBody: [body dataUsingEncoding: NSUTF8StringEncoding]];
@@ -767,9 +777,9 @@ static Class gSignInClass = Nil;
                webView:webView
                   kind:kGTMOAuth2WebViewFinished];
 
-//  NSString *title = [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.innerHTML"];
-    NSString *title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-    //NSLog(@"title:%@", title);
+    NSString *title = [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.innerHTML"];
+    //NSString *title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    NSLog(@"title:%@", title);
   if ([title length] > 0) {
     [signIn_ titleChanged:title];
   } else {
@@ -780,7 +790,12 @@ static Class gSignInClass = Nil;
 #endif
   }
     NSHTTPCookieStorage* cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    NSArray* theCookies = [cookieStorage cookiesForURL:[NSURL URLWithString:@"http://debug.incooper.net"]];
+    for (id cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
+        
+        NSLog(@"%@", [cookie description]);
+        
+    }
+    //NSArray* theCookies = [cookieStorage cookiesForURL:[NSURL URLWithString:@"http://debug.incooper.net"]];
     
   [signIn_ cookiesChanged:[NSHTTPCookieStorage sharedHTTPCookieStorage]];
     

@@ -120,7 +120,7 @@
     {
         NSString *guid = [Tools stringWithUUID];
         
-        NSString *id = [NSString stringWithFormat:@"temp_%@_%@", self.currentPriority, guid];
+        NSString *id = [NSString stringWithFormat:@"temp_%@", guid];
         
         NSDate *currentDate = [NSDate date];
         

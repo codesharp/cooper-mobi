@@ -108,6 +108,7 @@
 		18FAC24E15BF980D003F56B2 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC24C15BF980D003F56B2 /* edit.png */; };
 		18FAC25515BFA143003F56B2 /* btn_bg_green.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC25415BFA143003F56B2 /* btn_bg_green.png */; };
 		18FAC25A15BFAF50003F56B2 /* navigationbar_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC25915BFAF50003F56B2 /* navigationbar_bg.png */; };
+		6AF47A4815FE336C006D4D3F /* GTMHTTPFetcherLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF47A4715FE336C006D4D3F /* GTMHTTPFetcherLogging.m */; };
 		8C0C2F2E15AE7AAF00283579 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8C0C2F2215AE7AAF00283579 /* LICENSE */; };
 		8C0C2F2F15AE7AAF00283579 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C0C2F2415AE7AAF00283579 /* NSObject+SBJSON.m */; };
 		8C0C2F3015AE7AAF00283579 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C0C2F2615AE7AAF00283579 /* NSString+SBJSON.m */; };
@@ -343,6 +344,8 @@
 		18FAC24C15BF980D003F56B2 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
 		18FAC25415BFA143003F56B2 /* btn_bg_green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_bg_green.png; sourceTree = "<group>"; };
 		18FAC25915BFAF50003F56B2 /* navigationbar_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationbar_bg.png; sourceTree = "<group>"; };
+		6AF47A4615FE336C006D4D3F /* GTMHTTPFetcherLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcherLogging.h; sourceTree = "<group>"; };
+		6AF47A4715FE336C006D4D3F /* GTMHTTPFetcherLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcherLogging.m; sourceTree = "<group>"; };
 		8C0C2F2115AE7AAF00283579 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		8C0C2F2215AE7AAF00283579 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8C0C2F2315AE7AAF00283579 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
@@ -538,6 +541,8 @@
 		18A92DAD15D2EA2800423A55 /* GoogleOAuth2 */ = {
 			isa = PBXGroup;
 			children = (
+				6AF47A4615FE336C006D4D3F /* GTMHTTPFetcherLogging.h */,
+				6AF47A4715FE336C006D4D3F /* GTMHTTPFetcherLogging.m */,
 				18A92DAE15D2EA2800423A55 /* GTMHTTPFetcher.h */,
 				18A92DAF15D2EA2800423A55 /* GTMHTTPFetcher.m */,
 				18A92DB015D2EA2800423A55 /* GTMOAuth2Authentication.h */,
@@ -1132,6 +1137,7 @@
 				1868A4CF15F752F700762733 /* InputPickerView.m in Sources */,
 				18F7BB2815F97F1B006E4BB7 /* WebViewController.m in Sources */,
 				18F09CB615F9D0F800088568 /* TaskController.m in Sources */,
+				6AF47A4815FE336C006D4D3F /* GTMHTTPFetcherLogging.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
