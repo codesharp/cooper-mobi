@@ -69,7 +69,7 @@
     UIBarButtonItem *editButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:editBtn] autorelease];
     self.navigationItem.rightBarButtonItem = editButtonItem;
     
-    if(task.editable == [NSNumber numberWithInt:0])
+    if([[task.editable stringValue] isEqualToString:[[NSNumber numberWithInt:0] stringValue]])
     {
         editBtn.hidden = YES;
     }
@@ -104,10 +104,10 @@
 	BaseNavigationController *navController = [[[BaseNavigationController alloc] initWithRootViewController:webViewController] autorelease];
 	[navController setModalPresentationStyle:UIModalPresentationFullScreen];
 	[navController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-
+    
 	[self presentModalViewController:navController animated:YES];
     
-//    [[UIApplication sharedApplication] openURL:[link URL]];
+    //    [[UIApplication sharedApplication] openURL:[link URL]];
 }
 
 - (void)goBack:(id)sender
@@ -243,7 +243,7 @@
                 dueDateLabel = [[DateLabel alloc] initWithFrame:CGRectZero];
                 dueDateLabel.userInteractionEnabled = YES;
                 
-                if(task.editable != [NSNumber numberWithInt:0])
+                if(![[task.editable stringValue] isEqualToString:[[NSNumber numberWithInt:0] stringValue]])
                 {
                     UITapGestureRecognizer *recog = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectDueDate)];
                     [self.dueDateLabel addGestureRecognizer:recog];
@@ -277,7 +277,7 @@
                 priorityButton = [[PriorityButton alloc] initWithFrame:CGRectZero];
                 priorityButton.userInteractionEnabled = YES;
                 
-                if(task.editable != [NSNumber numberWithInt:0])
+                if(![[task.editable stringValue] isEqualToString: [[NSNumber numberWithInt:0] stringValue]])
                 {
                     UITapGestureRecognizer *recog = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectPriority)];
                     [priorityButton addGestureRecognizer:recog];
@@ -310,7 +310,7 @@
             if(!cell)
             {
                 cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"SubjectBodyCell"] autorelease];
-      
+                
                 self.subjectLabel = [[UILabel alloc] initWithFrame:CGRectZero];
                 subjectLabel.userInteractionEnabled = YES;
                 [subjectLabel setLineBreakMode:UILineBreakModeWordWrap];
@@ -343,25 +343,25 @@
             CGSize subjectLabelSize = [subjectLabel.text sizeWithFont:subjectLabel.font
                                                     constrainedToSize:CGSizeMake(280 + [Tools screenMaxWidth] - 320, 10000)
                                                         lineBreakMode:UILineBreakModeWordWrap];
-
+            
             CGFloat subjectLabelHeight = subjectLabelSize.height + 20;
-
+            
             int subjectlines = subjectLabelHeight / 16;
             int totalLabelHeight = subjectLabelHeight;
             [subjectLabel setFrame:CGRectMake(20, 5, 280 + [Tools screenMaxWidth] - 320, totalLabelHeight)];
             [subjectLabel setNumberOfLines:subjectlines];
-
+            
             CGFloat bodyLabelHeight = [JSCoreTextView measureFrameHeightForText:bodyLabel.text
-                                                              fontName:font
-                                                              fontSize:size
-                                                    constrainedToWidth:bodyLabel.frame.size.width - (paddingLeft * 2)
-                                                            paddingTop:paddingTop
-                                                           paddingLeft:paddingLeft];
+                                                                       fontName:font
+                                                                       fontSize:size
+                                                             constrainedToWidth:bodyLabel.frame.size.width - (paddingLeft * 2)
+                                                                     paddingTop:paddingTop
+                                                                    paddingLeft:paddingLeft];
             CGRect textFrame = [bodyLabel frame];
             textFrame.size.height = bodyLabelHeight;
             textFrame.origin.y = totalLabelHeight;
             [bodyLabel setFrame:textFrame];
-
+            
             totalLabelHeight += bodyLabelHeight + 800;
             
             [cell setFrame:CGRectMake(0, 0, [Tools screenMaxWidth],totalLabelHeight)];
@@ -446,7 +446,7 @@
 
 - (void)switchStatus
 {
-    if(task.editable == [NSNumber numberWithInt:0])
+    if([[task.editable stringValue] isEqualToString:[[NSNumber numberWithInt:0] stringValue]])
         return;
     
     bool isfinish;
@@ -540,9 +540,9 @@
 //
 //
 //        [detailView setFrame:CGRectMake(0, 0, 320, 2000)];
-//        
+//
 //    }
-//    return footerView; 
+//    return footerView;
 //}
 
 - (NSString*)getPriorityKey:(NSString*)priorityValue
