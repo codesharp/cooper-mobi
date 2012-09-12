@@ -10,7 +10,8 @@
 
 @implementation Constant
 
-//@synthesize domain;
+@synthesize sortHasChanged;
+@synthesize domain;
 @synthesize username;
 @synthesize password;
 @synthesize token;
@@ -31,6 +32,8 @@
 
 - (id)init {
 	if ((self = [super init])) {
+        sortHasChanged = @"";
+        domain = @"";
         username = @"";
         password = @"";
         token = @"";
@@ -46,6 +49,8 @@
 + (void)loadFromCache {
     [[ConstantClass instance] setLoginType:[Cache getCacheByKey:@"loginType"]];
     [[ConstantClass instance] setIsLocalPush:[[Cache getCacheByKey:@"isLocalPush"] intValue]];
+    [[ConstantClass instance] setUsername:[Cache getCacheByKey:@"sortHasChanged"]];
+    [[ConstantClass instance] setUsername:[Cache getCacheByKey:@"domain"]];
     [[ConstantClass instance] setUsername:[Cache getCacheByKey:@"username"]];
     [[ConstantClass instance] setRootPath:[Cache getCacheByKey:@"rootPath"]];
     
@@ -59,6 +64,8 @@
 + (void)saveToCache {
     [Cache clean];
     [Cache setCacheObject:[[ConstantClass instance] loginType] ForKey:@"loginType"];
+    [Cache setCacheObject:[[ConstantClass instance] loginType] ForKey:@"sortHasChanged"];
+    [Cache setCacheObject:[[ConstantClass instance] username] ForKey:@"domain"];
     [Cache setCacheObject:[[ConstantClass instance] username] ForKey:@"username"];
     [Cache setCacheObject:[[ConstantClass instance] rootPath] ForKey:@"rootPath"];
     [Cache setCacheObject:[[ConstantClass instance] recentlyIds] ForKey:@"recentlyIds"];
@@ -67,11 +74,11 @@
     [Cache saveToDisk];
 }
 
-//+ (void)savePathToCache
-//{
-//    [Cache setCacheObject:[[ConstantClass instance] rootPath] ForKey:@"rootPath"];
-//    [Cache saveToDisk];
-//}
++ (void)savePathToCache
+{
+    [Cache setCacheObject:[[ConstantClass instance] rootPath] ForKey:@"rootPath"];
+    [Cache saveToDisk];
+}
 
 + (void)saveRecentlyIdsToCache
 {
@@ -82,6 +89,11 @@
 + (void)saveIsLocalPushToCache
 {
     [Cache setCacheObject:[NSNumber numberWithFloat:[[ConstantClass instance] isLocalPush]] ForKey:@"isLocalPush"];
+    [Cache saveToDisk];
+}
++ (void)saveSortHasChangedToCache
+{
+    [Cache setCacheObject:[NSNumber numberWithFloat:[[ConstantClass instance] isLocalPush]] ForKey:@"sortHasChanged"];
     [Cache saveToDisk];
 }
 

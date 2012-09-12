@@ -93,8 +93,9 @@
     UIBarButtonItem *barButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:toolBar] autorelease];
     self.tabBarController.navigationItem.leftBarButtonItem = barButtonItem;
     
+    CustomToolbar *rightToolBar = [[[CustomToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 60.0f, 45.0f)] autorelease];
     //设置右选项卡中的按钮
-    addBtn = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 38, 45)];
+    addBtn = [[UIView alloc] initWithFrame:CGRectMake(20, 0, 38, 45)];
     UIImageView *imageView3 = [[[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 27, 27)] autorelease];
     UIImage *editImage3 = [UIImage imageNamed:EDIT_IMAGE];
     imageView3.image = editImage3;
@@ -103,17 +104,20 @@
     [addBtn addGestureRecognizer:recognizer3];
     [recognizer3 release];
     
-    UIBarButtonItem *addButtonItem = [[UIBarButtonItem alloc] initWithCustomView:addBtn];
+    [rightToolBar addSubview:addBtn];
+    
+    doneEditingBtn = [[[CustomButton alloc] initWithFrame:CGRectMake(5, 10, 50, 30) image:[UIImage imageNamed:@"btn_center.png"]] autorelease];
+    doneEditingBtn.layer.cornerRadius = 6.0f;
+    [doneEditingBtn.layer setMasksToBounds:YES];
+    [doneEditingBtn addTarget:self action:@selector(doneEditing:) forControlEvents:UIControlEventTouchUpInside];
+    [doneEditingBtn setTitle:@"确定" forState:UIControlStateNormal];
+    doneEditingBtn.hidden = YES;
+    
+    [rightToolBar addSubview:doneEditingBtn];
+    
+    UIBarButtonItem *addButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightToolBar];
     
     self.tabBarController.navigationItem.rightBarButtonItem = addButtonItem;
-    
-//    self.tableView.backgroundColor = [UIColor whiteColor];
-    
-    //    NSThread* myThread = [[NSThread alloc] initWithTarget:self
-    //                                                 selector:@selector(loadTaskData)
-    //                                                   object:nil];
-    //    [myThread start];
-    //    [myThread release];
     
     [self loadTaskData];
     
@@ -161,12 +165,51 @@
     
     taskView = tempTableView;
     taskView.delegate = self;
-    taskView.dataSource = self; 
+    taskView.dataSource = self;
+  
+    if(filterStatus == nil && (![currentTasklistId isEqualToString:@"ifree"]
+       && ![currentTasklistId isEqualToString:@"wf"]
+       && ![currentTasklistId isEqualToString:@"github"]))
+    {
+        UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(changeEditing:)];
+        [taskView addGestureRecognizer:longPressGesture];
+        [longPressGesture release];
+    }
+    
     [self.view addSubview: taskView];
     [tempTableView release];
 }
 
 #pragma mark - 动作相关事件
+
+- (void)changeEditing:(id)sender
+{
+    [taskView setEditing:YES animated:YES];
+    
+    for(UIGestureRecognizer *r in taskView.gestureRecognizers)
+    {
+        if([r isKindOfClass:[UILongPressGestureRecognizer class]])
+        {
+            [taskView removeGestureRecognizer:r];
+            break;
+        }
+    }
+
+    addBtn.hidden = YES;
+    doneEditingBtn.hidden = NO;
+}
+
+- (void)doneEditing:(id)sender
+{
+    [taskView setEditing:NO animated:YES];
+    
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(changeEditing:)];
+    [taskView addGestureRecognizer:longPressGesture];
+    [longPressGesture release];
+
+    addBtn.hidden = NO;
+    doneEditingBtn.hidden = YES;
+}
 
 - (void)back:(id)sender
 {
@@ -274,6 +317,9 @@
             //修正changeLog
             [changeLogDao updateAllToSend:currentTasklistId];
             [changeLogDao commitData];
+            
+            [[ConstantClass instance] setSortHasChanged:@""];
+            [ConstantClass saveSortHasChangedToCache];
             
             NSMutableDictionary *context = [NSMutableDictionary dictionary];
             [context setObject:@"GetTasks" forKey:REQUEST_TYPE];
@@ -576,7 +622,6 @@
 
 -(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
-    NSLog(@"moving");
     if(filterStatus == nil)
     {
         NSMutableArray *sourceArray = [self.taskGroup objectAtIndex:sourceIndexPath.section];
@@ -607,6 +652,9 @@
                    destIndexRow:[NSNumber numberWithInteger:destinationIndexPath.row]
                      tasklistId:currentTasklistId];
         [taskDao commitData];
+        
+        [[ConstantClass instance] setSortHasChanged:@"true"];
+        [ConstantClass saveSortHasChangedToCache];
     }
 }
 //分区标题输出
@@ -758,27 +806,47 @@
     {
         taskView.hidden = YES;
         
-        if (!emptyView) {
-            UIView *tempemptyView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, [Tools screenMaxWidth], 100)];
-            tempemptyView.backgroundColor = [UIColor whiteColor];
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(80 + (([Tools screenMaxWidth] - 320) / 2.0), 0, 200, 30)];
-            label.text = @"点击这里新增第一个任务";
-            label.font = [UIFont boldSystemFontOfSize:16];
-            //label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
-            [tempemptyView addSubview:label];
-            
-            CustomButton *addFirstBtn = [[[CustomButton alloc] initWithFrame:CGRectMake(110 + (([Tools screenMaxWidth] - 320) / 2.0), 50,100,30) image:[UIImage imageNamed:@"btn_center.png"]] autorelease];
-            addFirstBtn.layer.cornerRadius = 6.0f;
-            [addFirstBtn.layer setMasksToBounds:YES];
-            [addFirstBtn addTarget:self action:@selector(addTask:) forControlEvents:UIControlEventTouchUpInside];
-            [addFirstBtn setTitle:@"开始添加" forState:UIControlStateNormal];
-            [tempemptyView addSubview:addFirstBtn];
-            emptyView = tempemptyView;
-            [self.view addSubview:emptyView];
-            
-            [tempemptyView release];
+        if (!emptyView)
+        {
+            if([currentTasklistId isEqualToString:@"ifree"]
+               || [currentTasklistId isEqualToString:@"github"]
+               || [currentTasklistId isEqualToString:@"wf"])
+            {
+                UIView *tempemptyView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, [Tools screenMaxWidth], 100)];
+                tempemptyView.backgroundColor = [UIColor whiteColor];
+                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(80 + (([Tools screenMaxWidth] - 320) / 2.0), 0, 200, 30)];
+                label.text = @"当前任务列表无法编辑";
+                label.font = [UIFont boldSystemFontOfSize:16];
+                //label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
+                [tempemptyView addSubview:label];
+                emptyView = tempemptyView;
+                [self.view addSubview:emptyView];
+                [tempemptyView release];
+            }
+            else
+            {
+                UIView *tempemptyView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, [Tools screenMaxWidth], 100)];
+                tempemptyView.backgroundColor = [UIColor whiteColor];
+                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(80 + (([Tools screenMaxWidth] - 320) / 2.0), 0, 200, 30)];
+                label.text = @"点击这里新增第一个任务";
+                label.font = [UIFont boldSystemFontOfSize:16];
+                //label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
+                [tempemptyView addSubview:label];
+                
+                CustomButton *addFirstBtn = [[[CustomButton alloc] initWithFrame:CGRectMake(110 + (([Tools screenMaxWidth] - 320) / 2.0), 50,100,30) image:[UIImage imageNamed:@"btn_center.png"]] autorelease];
+                addFirstBtn.layer.cornerRadius = 6.0f;
+                [addFirstBtn.layer setMasksToBounds:YES];
+                [addFirstBtn addTarget:self action:@selector(addTask:) forControlEvents:UIControlEventTouchUpInside];
+                [addFirstBtn setTitle:@"开始添加" forState:UIControlStateNormal];
+                [tempemptyView addSubview:addFirstBtn];
+                emptyView = tempemptyView;
+                [self.view addSubview:emptyView];
+                
+                [tempemptyView release];
+            }
         }
-        else {
+        else
+        {
             emptyView.hidden = NO;
         }
     }

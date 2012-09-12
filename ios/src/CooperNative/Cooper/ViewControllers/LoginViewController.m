@@ -70,7 +70,14 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
 #endif
     
     //登录View
-    self.loginTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 80, [Tools screenMaxWidth], 100) style:UITableViewStyleGrouped];
+#ifdef __ALI_VERSION__
+    float loginIpadHeight = 150;
+    float loginIphoneHeight = 120;
+#else
+    float loginIpadHeight = 100;
+    float loginIphoneHeight = 100;
+#endif
+    self.loginTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 80, [Tools screenMaxWidth], [Tools isPad] ? loginIpadHeight : loginIphoneHeight) style:UITableViewStyleGrouped];
     self.loginTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
     self.loginTableView.allowsSelection = NO;
     self.loginTableView.delegate = self;
@@ -115,6 +122,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     
     [imageView release];
     
+#ifndef __ALI_VERSION__
     //使用谷歌登录
     self.btnGoogleLogin = [[CustomButton alloc] initWithFrame:CGRectMake([Tools screenMaxWidth] - 260 - [Tools screenMaxWidth] / 16.0, 250, 100, 40)
                                                         image:[UIImage imageNamed:@"btn_center.png"]];
@@ -131,6 +139,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     //google oauth相关初始化
     googleClientId = [[[SysConfig instance] keyValue] objectForKey:@"googleClientId"];
     googleClientSecret = [[[SysConfig instance] keyValue] objectForKey:@"googleClientSecret"];
+#endif
     
 //    GTMOAuth2Authentication *auth = nil;
 //    
@@ -214,6 +223,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
                                                       keychainItemName:keychainItemName
                                                               delegate:self
                                                       finishedSelector:finishedSel];
+    viewController.loginDelegate = self;
     
     NSString *html = @"<html><body bgcolor=white><div align=center>正在进入google登录页面...</div></body></html>";
     viewController.initialHTMLString = html;
@@ -332,6 +342,44 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
             [Tools alert:@"用户名和密码不正确"];
         }
     }
+    else if([requestType isEqualToString:@"GOOGLELOGIN"])
+    {
+        if(request.responseStatusCode == 200)
+        {
+            NSArray* array = request.responseCookies;
+            NSLog(@"Cookies的数组个数: %d",  array.count);
+            
+            NSDictionary *dict = [NSHTTPCookie requestHeaderFieldsWithCookies:array];
+            NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:dict];
+            NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+            
+            [sharedHTTPCookie setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+            [sharedHTTPCookie setCookie:cookie];
+            NSString *username = [request.responseString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+            [[ConstantClass instance] setUsername:username];
+            [[ConstantClass instance] setLoginType:@"google"];
+            [ConstantClass saveToCache];
+            
+            [self dismissModalViewControllerAnimated:NO];
+            
+            [delegate loginFinish];
+        }
+        else
+        {
+            [Tools failed:self.HUD];
+        }
+    }
+}
+
+- (void)loginFinish
+{
+    
+}
+
+- (void)googleLoginFinish
+{
+    [self dismissModalViewControllerAnimated:NO];
+    [delegate loginFinish];
 }
 
 #ifdef __ALI_VERSION__
@@ -515,12 +563,13 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
                   , authInfo.errorString);
             
             self.auth = authInfo;
-//            [Tools showHUD:@"登录中" view:self.view HUD:HUD];
-//            requestType = GoogleLoginValue;
-//            [AccountService googleLogin:@"" code:@"4/7XphY2aqMy36JCy4BTFAdxgF3wKq.wne-l9DssfccuJJVnL49Cc--C5P3cQI" refreshToken:self.auth.refreshToken state:@"login" mobi:@"true" delegate:self];
+            [Tools showHUD:@"登录中" view:self.view HUD:self.HUD];
+            //requestType = GoogleLoginValue;
+            NSMutableDictionary *context = [NSMutableDictionary dictionary];
+            [context setObject:@"GOOGLELOGIN" forKey:REQUEST_TYPE];
+            [AccountService googleLogin:authInfo.refreshToken context:context delegate:self];
         }
     }
-    
 }
 
 @end

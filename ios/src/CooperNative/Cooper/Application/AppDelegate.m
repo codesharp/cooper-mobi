@@ -33,12 +33,15 @@
     //HACK:为了能够初始化刷新数据库产生的延迟
     [self managedObjectContext];
     
-    if([[ConstantClass instance] rootPath] == nil)
+    
+    if([[ConstantClass instance] rootPath] == nil
+       || [[ConstantClass instance] rootPath] == @"")
     {
+        NSString* path = [[[SysConfig instance] keyValue] objectForKey: @"env_path"];
         //如果rootPath不存在数据，将从env_path刷一份数据
-        [[ConstantClass instance] setRootPath:[[[SysConfig instance] keyValue] objectForKey: @"env_path"]];
+        [[ConstantClass instance] setRootPath:path];
         //保存路径
-        [ConstantClass saveToCache];
+        [ConstantClass savePathToCache];
     }
     
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
@@ -51,7 +54,7 @@
     
     [self.window makeKeyAndVisible];
     
-    [GTMHTTPFetcher setLoggingEnabled:YES];
+    //[GTMHTTPFetcher setLoggingEnabled:YES];
     
     //应用徽章数字置零
 //    application.applicationIconBadgeNumber = 0; 

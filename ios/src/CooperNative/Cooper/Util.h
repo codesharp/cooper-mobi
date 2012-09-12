@@ -34,10 +34,10 @@
 
 #import "CodesharpSDK/Tools.h"
 #import "CodesharpSDK/MBProgressHUD.h"
-#import "SysConfig.h"
 #import "CodesharpSDK/NetworkManager.h"
 #import "CodesharpSDK/HttpWebRequest.h"
 #import "CodesharpSDK/AssertHelper.h"
+#import "SysConfig.h"
 
 #define RELEASE(_ptr_) if((_ptr_) != nil) {[_ptr_ release]; _ptr_ = nil;}  
 
@@ -54,7 +54,7 @@
 //同步路径
 #define TASK_SYNC_URL                   @"/Personal/Sync"
 //注销路径
-#define LOGOUT_URL                      @"/Account/logout"
+#define LOGOUT_URL                      @"/Account/Logout"
 
 //标题栏
 #define APP_TITLE                       @"cooper:task"
@@ -96,6 +96,6 @@
 
 
 #define MAXLENGTH                       8
-#define AES_KEY                         @""
+//#define AES_KEY                         @""
 
 #endif

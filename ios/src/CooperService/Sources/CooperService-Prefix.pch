@@ -36,8 +36,10 @@ typedef Constant ConstantClass;
 #define LOGOUT_URL                      @"/Account/Logout"
 
 //默认登录入口
-#define LOGIN_URL                       @"/account/login"
+#define LOGIN_URL                       @"/Account/Login"
 //Google登录入口
 #define GOOGLE_LOGIN_URL                @"/Account/GoogleLogin"
+//Ark登录入口
+#define ARKLOGIN_URL                    @"/Account/ArkLogin"
 
 #define REQUEST_TYPE                    @"RequestType"

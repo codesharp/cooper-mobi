@@ -40,8 +40,8 @@
 //@property (retain, nonatomic) UITableView *loginTableView;
 //@property (retain, nonatomic) UIView *accountView;
 //@property (retain, nonatomic) CustomButton *btnLogin;
-//#ifdef __ALI_VERSION__
-//@property (retain, nonatomic) DomainLabel *domainLabel;
-//#endif
+#ifdef __ALI_VERSION__
+@property (retain, nonatomic) DomainLabel *domainLabel;
+#endif
 
 @end

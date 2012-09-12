@@ -386,7 +386,7 @@
                 cell.textLabel.text = @"标题:";
                 [cell.textLabel setTextColor:[UIColor grayColor]];[cell.textLabel setFont:[UIFont boldSystemFontOfSize:16]];
                 
-                subjectTextField = [[UITextField alloc] initWithFrame:CGRectMake(110, 10, 200, 25)];
+                subjectTextField = [[UITextField alloc] initWithFrame:CGRectMake(110, 10, [Tools screenMaxWidth] - 120, 25)];
                 subjectTextField.userInteractionEnabled = YES;
                 [subjectTextField setReturnKeyType:UIReturnKeyDone];
                 [subjectTextField setTextAlignment:UITextAlignmentLeft];

@@ -88,6 +88,7 @@
     networkQueue.userInfo = queueContext;
     
     ChangeLogDao *changeLogDao = [[ChangeLogDao alloc] init];
+    TaskIdxDao *taskIdxDao = [[TaskIdxDao alloc] init];
     
     NSString *url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:TASK_SYNC_URL];
     NSLog(@"syncTasklist服务路径: %@", url);
@@ -104,10 +105,10 @@
         NSMutableArray *changeLogs = [changeLogDao getAllChangeLog:tasklistId];
         NSLog("改变记录总数: %d", changeLogs.count);
         
-        NSMutableArray *taskIdxs = [NSMutableArray array];
+        //NSMutableArray *taskIdxs = [NSMutableArray array];
         
         //排序处理
-        //NSMutableArray *taskIdxs = [taskIdxDao getAllTaskIdx:tasklistId];
+        NSMutableArray *taskIdxs = [taskIdxDao getAllTaskIdx:tasklistId];
         
         NSMutableArray *changeLogsArray = [NSMutableArray array];
         for(ChangeLog *changeLog in changeLogs)
@@ -162,7 +163,7 @@
         [data setObject:tasklistId forKey:@"tasklistId"];
         [data setObject:changeLogsJson forKey:@"changes"];
         [data setObject:@"ByPriority" forKey:@"by"];
-        [data setObject:@"" forKey:@"sorts"];
+        [data setObject:taskIdxsJson forKey:@"sorts"];
         
         HttpWebRequest *request = [[HttpWebRequest alloc] init];
         NSMutableDictionary *context1 = [NSMutableDictionary dictionary];
@@ -180,7 +181,7 @@
     [networkQueue go];
     
     [changeLogDao release];
-    //[taskIdxDao release];
+    [taskIdxDao release];
 }
 
 @end

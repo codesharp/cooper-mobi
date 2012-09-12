@@ -16,7 +16,7 @@
 #import "GTMOAuth2Authentication.h"
 
 @interface LoginViewController : BaseViewController<UITableViewDelegate
-,UITableViewDataSource
+,UITableViewDataSource,LoginViewDelegate
 ,MBProgressHUDDelegate
 ,NetworkDelegate
 #ifdef __ALI_VERSION__

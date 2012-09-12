@@ -5,7 +5,7 @@
 	<key>username</key>
 	<string>用户名</string>
 	<key>env_path</key>
-	<string>http://debug.incooper.net</string>
+	<string>https://cooper.apphb.com</string>
 	<key>skip_btn_text</key>
 	<string>跳过</string>
 	<key>login_btn_text</key>
@@ -19,6 +19,6 @@
 	<key>googleScope</key>
 	<string>https://www.googleapis.com/auth/plus.me</string>
 	<key>google_redirect_uri</key>
-	<string>http://debug.incooper.net/Account/GoogleLogin</string>
+	<string>https://cooper.apphb.com/Account/GoogleLogin</string>
 </dict>
 </plist>

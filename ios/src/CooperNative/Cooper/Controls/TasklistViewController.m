@@ -458,6 +458,9 @@
             networkQueue = nil;
         }
         NSLog(@"队列运行完成");
+        
+        [[ConstantClass instance] setSortHasChanged:@""];
+        [ConstantClass saveSortHasChangedToCache];
     
         NSMutableArray *tempTasklists = [tasklistDao getAllTasklist];
         if(tempTasklists.count == 0)

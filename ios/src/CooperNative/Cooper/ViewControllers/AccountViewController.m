@@ -95,7 +95,12 @@
     accountLabel.backgroundColor = [UIColor clearColor];
     if([[ConstantClass instance] username].length > 0)
     {
-        accountLabel.text = [NSString stringWithFormat:@"当前用户: %@",[[ConstantClass instance] username]];
+        NSString *loginTypeText = @"";
+        if([[[ConstantClass instance] loginType] isEqualToString:@"google"])
+        {
+            loginTypeText = @"Google - ";
+        }
+        accountLabel.text = [NSString stringWithFormat:@"当前用户: %@%@", loginTypeText, [[ConstantClass instance] username]];
         [accountView addSubview:accountLabel];
         
         CustomButton *logoutBtn = [[CustomButton alloc] initWithFrame:CGRectMake(5, 35, 80, 30) image:[UIImage imageNamed:@"btn_center.png"]];
@@ -331,7 +336,7 @@
             [ConstantClass saveToCache];
             
             //把当前用户数据先全部同步到服务端
-            [self syncAllLocalData];
+            //[self syncAllLocalData];
             
 //            [Tools alert:@"保存成功"];
             [Tools msg:@"保存成功" HUD:self.HUD];

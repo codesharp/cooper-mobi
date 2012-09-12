@@ -123,7 +123,7 @@ finishedWithFetcher:(GTMHTTPFetcher *)fetcher
 
 + (NSString *)nativeClientRedirectURI {
   //return kOOBString;
-    return [[[SysConfig instance] keyValue] objectForKey:@"google_redirect_uri"];
+  return [[[SysConfig instance] keyValue] objectForKey:@"google_redirect_uri"];
 } 
 #if !GTM_OAUTH2_SKIP_GOOGLE_SUPPORT
 + (GTMOAuth2Authentication *)standardGoogleAuthenticationForScope:(NSString *)scope
@@ -291,8 +291,10 @@ finishedWithFetcher:(GTMHTTPFetcher *)fetcher
   NSMutableDictionary *paramsDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      @"code", @"response_type",
                                      clientID, @"client_id",
-//                                     @"force",@"approval_prompt",
-//                                     @"offline", @"access_type"
+                                     @"joke", @"state",
+                                     @"true", @"mobi",
+                                     @"force",@"approval_prompt",
+                                     @"offline", @"access_type",
                                      scope, @"scope", // scope may be nil
                                      nil];
   if (redirectURI) {

@@ -32,6 +32,7 @@
 #import <UIKit/UIKit.h>
 
 #import "GTMOAuth2Authentication.h"
+#import "LoginViewController.h"
 
 #undef _EXTERN
 #undef _INITIALIZE_AS
@@ -172,6 +173,8 @@ _EXTERN NSString* const kGTMOAuth2KeychainErrorDomain       _INITIALIZE_AS(@"com
 - (id)propertyForKey:(NSString *)key;
 
 @property (nonatomic, retain) NSDictionary *properties;
+
+@property(nonatomic,assign) id<LoginViewDelegate> loginDelegate;
 
 // Method for creating a controller to authenticate to Google services
 //

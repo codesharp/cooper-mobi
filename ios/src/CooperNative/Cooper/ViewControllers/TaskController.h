@@ -15,6 +15,7 @@
 #import "CooperRepository/TasklistDao.h"
 #import "CooperService/TasklistNewService.h"
 #import "CooperService/TaskNewService.h"
+#import "CustomButton.h"
 
 @interface TaskController : BaseViewController<UITableViewDelegate, UITableViewDataSource, TaskTableViewCellDelegate>
 {
@@ -32,6 +33,7 @@
     UIView *editBtn;
     UIView *syncBtn;
     UIView *addBtn;
+    CustomButton *doneEditingBtn;
 }
 
 @property (nonatomic, retain) NSString* currentTasklistId;

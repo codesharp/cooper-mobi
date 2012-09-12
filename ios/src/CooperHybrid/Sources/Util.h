@@ -79,7 +79,7 @@
 //加载文本
 #define LOADING_TITLE                   @"加载中"
 
-#define SYSTEM_REQUEST_TIMEOUT          30.0f
+//#define SYSTEM_REQUEST_TIMEOUT          30.0f
 //TODO:半个小时定时器更新一次
 #define TIMER_INTERVAL                  0.5 * 60 * 60
 //TODO:默认每天早上8点钟推送通知
@@ -114,6 +114,6 @@ typedef enum {
 } AccountRequestType;
 
 #define MAXLENGTH                       8
-#define AES_KEY                         @""
+//#define AES_KEY                         @""
 
 #endif

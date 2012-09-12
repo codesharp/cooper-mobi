@@ -10,4 +10,6 @@
 
 - (void)loginFinish;
 
+- (void)googleLoginFinish;
+
 @end

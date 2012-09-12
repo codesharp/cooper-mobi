@@ -20,11 +20,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSHTTPCookieStorage *sharedHTTPCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    if (NO)
+    
+    if ([[[ConstantClass instance] loginType] isEqualToString:@"anonymous"]
+        || [[[ConstantClass instance] loginType] isEqualToString:@"normal"]
+        || [[[ConstantClass instance] loginType] isEqualToString:@"google"])
     {
-        [[ConstantClass instance] setLoginType:@"normal"];
-        [[ConstantClass instance] setUsername:@"sunleepy@gmail.com"];
         //跳过登录
         [self loginFinish];
     }
@@ -93,6 +93,11 @@
         [tasklistViewController release];
     }
     [self.navigationController presentModalViewController:tasklistNavController animated:NO];
+}
+
+- (void)googleLoginFinish
+{
+    
 }
 
 @end
