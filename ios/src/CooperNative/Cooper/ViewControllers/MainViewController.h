@@ -11,10 +11,13 @@
 #import "BaseViewController.h"
 #import "BaseNavigationController.h"
 #import "TaskListViewController.h"
+#import "TaskOptionViewController.h"
 #import "LoginViewController.h"
 
 @interface MainViewController : BaseViewController<LoginViewDelegate,UITabBarControllerDelegate>
 
 @property (nonatomic, retain) BaseNavigationController *tasklistNavController;
+@property (nonatomic, retain) BaseNavigationController *taskOptionNavController;
 @property (nonatomic, retain) BaseNavigationController *loginViewNavController;
+
 @end

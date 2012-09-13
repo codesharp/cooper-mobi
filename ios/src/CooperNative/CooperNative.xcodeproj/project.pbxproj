@@ -103,6 +103,7 @@
 		18F09CAE15F9A9A000088568 /* libCooperRepository.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABDF15D2D59C00C7E8DA /* libCooperRepository.a */; };
 		18F09CAF15F9A9A000088568 /* libCooperService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABE515D2D5A800C7E8DA /* libCooperService.a */; };
 		18F09CB615F9D0F800088568 /* TaskController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F09CB515F9D0F800088568 /* TaskController.m */; };
+		18F456D2160233FE0081B8BA /* TaskOptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F456D1160233FE0081B8BA /* TaskOptionViewController.m */; };
 		18F5D48215F8A5FE004C5771 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F5D48115F8A5FD004C5771 /* CoreText.framework */; };
 		18F7BB2815F97F1B006E4BB7 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F7BB2715F97F1B006E4BB7 /* WebViewController.m */; };
 		18FAC24E15BF980D003F56B2 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC24C15BF980D003F56B2 /* edit.png */; };
@@ -338,6 +339,8 @@
 		18E2F89C15F4D9050062E57F /* CodesharpSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodesharpSDK.xcodeproj; path = ../../lib/CodesharpSDK/CodesharpSDK.xcodeproj; sourceTree = "<group>"; };
 		18F09CB415F9D0F800088568 /* TaskController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskController.h; path = ViewControllers/TaskController.h; sourceTree = "<group>"; };
 		18F09CB515F9D0F800088568 /* TaskController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskController.m; path = ViewControllers/TaskController.m; sourceTree = "<group>"; };
+		18F456D0160233FE0081B8BA /* TaskOptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskOptionViewController.h; path = ViewControllers/TaskOptionViewController.h; sourceTree = "<group>"; };
+		18F456D1160233FE0081B8BA /* TaskOptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskOptionViewController.m; path = ViewControllers/TaskOptionViewController.m; sourceTree = "<group>"; };
 		18F5D48115F8A5FD004C5771 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		18F7BB2615F97F1B006E4BB7 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = ViewControllers/WebViewController.h; sourceTree = "<group>"; };
 		18F7BB2715F97F1B006E4BB7 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = ViewControllers/WebViewController.m; sourceTree = "<group>"; };
@@ -565,6 +568,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		18F456CF160231F40081B8BA /* OptionViewController */ = {
+			isa = PBXGroup;
+			children = (
+				18F456D0160233FE0081B8BA /* TaskOptionViewController.h */,
+				18F456D1160233FE0081B8BA /* TaskOptionViewController.m */,
+			);
+			name = OptionViewController;
+			sourceTree = "<group>";
+		};
 		8C0C2F2015AE7AAF00283579 /* SBJSON */ = {
 			isa = PBXGroup;
 			children = (
@@ -655,6 +667,7 @@
 		EE396290159D34B30018B9EC /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				18F456CF160231F40081B8BA /* OptionViewController */,
 				1872E82415C2676000A8EA41 /* TasklistViewController */,
 				EEF30E8215A556DB00506A79 /* SettingViewController */,
 				EE87F7D215A40C2900DA8E7F /* MainViewController */,
@@ -1138,6 +1151,7 @@
 				18F7BB2815F97F1B006E4BB7 /* WebViewController.m in Sources */,
 				18F09CB615F9D0F800088568 /* TaskController.m in Sources */,
 				6AF47A4815FE336C006D4D3F /* GTMHTTPFetcherLogging.m in Sources */,
+				18F456D2160233FE0081B8BA /* TaskOptionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,6 +14,7 @@
 
 @synthesize tasklistNavController;
 @synthesize loginViewNavController;
+@synthesize taskOptionNavController;
 
 # pragma mark - UI相关
 
