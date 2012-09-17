@@ -28,7 +28,7 @@
     UIView *syncBtn;
     UIView *addBtn;
     
-    UITabBar *footTabBar;
+    UIView *statusView;
 }
 
 @property (nonatomic,retain) NSString* currentTeamId;
