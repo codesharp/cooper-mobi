@@ -54,7 +54,6 @@
     
     return [tasks autorelease];
 }
-
 - (NSMutableArray*)getAllTask:(NSString*)tasklistId
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -85,12 +84,11 @@
     
     return [tasks autorelease];
 }
-
 - (NSMutableArray*)getAllTaskByTemp
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
-    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName                                     inManagedObjectContext:context];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(accountId = nil)"];
     
@@ -107,7 +105,6 @@
     
     return [tasks autorelease];
 }
-
 - (Task*)getTaskById:(NSString*)taskId
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -138,12 +135,10 @@
     
     return task;
 }
-
 - (void)deleteTask:(Task *)task
 {
     [context deleteObject:task];
 }
-
 - (void)deleteAll:(NSString*)tasklistId
 {
     NSMutableArray *array = [self getAllTask:tasklistId];
@@ -156,7 +151,6 @@
         }
     }
 }
-
 - (void)saveTask:(NSString*)taskId
          subject:(NSString*)subject
   lastUpdateDate:(NSDate*)lastUpdateDate
@@ -189,7 +183,6 @@
                 isCommit:NO];
     }
 }
-
 - (void)addTask:(NSString *)subject 
      createDate:(NSDate*)createDate 
  lastUpdateDate:(NSDate*)lastUpdateDate 
@@ -222,7 +215,6 @@
     if(isCommit)
         [super commitData];
 }
-
 - (void)updateTask:(Task*)task 
            subject:(NSString *)subject 
     lastUpdateDate:(NSDate *)lastUpdateDate 
@@ -248,7 +240,6 @@
     if(isCommit)
         [super commitData];
 }
-
 - (void)updateTaskIdByNewId:(NSString *)oldId
                       newId:(NSString *)newId 
                  tasklistId:(NSString *)tasklistId
@@ -258,7 +249,6 @@
         return;
     task.id = newId;
 }
-
 - (void)updateTasklistIdByNewId:(NSString*)oldId
                           newId:(NSString*)newId
 {

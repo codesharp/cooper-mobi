@@ -31,7 +31,9 @@
     tasklistService = [[TasklistNewService alloc] init];
     taskService = [[TaskNewService alloc] init];
     
-    self.title = APP_TITLE;
+    self.title = @"个人任务";
+    
+    UITapGestureRecognizer *recognizer = nil;
     
     //任务列表View
     tasklistTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
@@ -42,24 +44,35 @@
     [self.view addSubview:tasklistTableView];
     
     //左上自定义导航
-    CustomToolbar *toolBar = [[CustomToolbar alloc] initWithFrame:CGRectMake(0, 0, 80, 45)];
+    CustomToolbar *toolBar = [[CustomToolbar alloc] initWithFrame:CGRectMake(0, 0, 120, 45)];
     
+    //左上后退按钮
+    backBtn = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 38, 45)];
+    UIImageView *backImageView = [[[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 27, 27)] autorelease];
+    UIImage *backImage = [UIImage imageNamed:BACK_IMAGE];
+    backImageView.image = backImage;
+    [backBtn addSubview:backImageView];
+    recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backToOption:)];
+    [backBtn addGestureRecognizer:recognizer];
+    [recognizer release];
+    [toolBar addSubview:backBtn];
+
     //左上编辑按钮
-    editBtn = [[InputPickerView alloc] initWithFrame:CGRectMake(0, 0, 38, 45)];
+    editBtn = [[InputPickerView alloc] initWithFrame:CGRectMake(40, 0, 38, 45)];
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 27, 27)];
     UIImage *editImage = [UIImage imageNamed:EDIT_IMAGE];
     imageView.image = editImage;
     [editBtn addSubview:imageView];
     [imageView release];
     
-    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addTasklist:)];
+    recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addTasklist:)];
     [editBtn addGestureRecognizer:recognizer];
     editBtn.delegate = self;
     [recognizer release];
     [toolBar addSubview:editBtn];
     
     //左上同步按钮
-    syncBtn = [[UIView alloc] initWithFrame:CGRectMake(40, 0, 38, 45)];
+    syncBtn = [[UIView alloc] initWithFrame:CGRectMake(80, 0, 38, 45)];
     UIImageView *settingImageView = [[[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 27, 27)] autorelease];
     UIImage *settingImage = [UIImage imageNamed:REFRESH_IMAGE];
     settingImageView.image = settingImage;
@@ -119,12 +132,13 @@
 
 - (void)dealloc
 {
-    RELEASE(self.tasklists);
+    RELEASE(tasklists);
     RELEASE(tasklistTableView);
     RELEASE(tasklistDao);
     RELEASE(taskDao);
     RELEASE(taskIdxDao);
     RELEASE(changeLogDao);
+    RELEASE(backBtn);
     RELEASE(editBtn);
     RELEASE(syncBtn);
     RELEASE(settingBtn);
@@ -205,16 +219,22 @@
     BaseNavigationController *setting_navViewController = [[[BaseNavigationController alloc] initWithRootViewController:settingViewController] autorelease];
     
     //后退按钮
-    UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    backBtn.frame = CGRectMake(5, 5, 25, 25);
-    [backBtn setBackgroundImage:[UIImage imageNamed:BACK_IMAGE] forState:UIControlStateNormal];
-    [backBtn addTarget: self action: @selector(goBack:) forControlEvents: UIControlEventTouchUpInside];
+    UIButton *btnBack = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnBack.frame = CGRectMake(5, 5, 25, 25);
+    [btnBack setBackgroundImage:[UIImage imageNamed:BACK_IMAGE] forState:UIControlStateNormal];
+    [btnBack addTarget: self action: @selector(goBack:) forControlEvents: UIControlEventTouchUpInside];
     
-    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnBack];
     settingViewController.navigationItem.leftBarButtonItem = backButtonItem;
     [backButtonItem release];
     
     [self.navigationController presentModalViewController:setting_navViewController animated:YES];
+}
+
+- (void)backToOption:(id)sender
+{
+    [Tools layerTransition:self.navigationController.view from:@"left"];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
 - (void)goBack:(id)sender

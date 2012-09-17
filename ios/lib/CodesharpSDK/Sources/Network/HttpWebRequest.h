@@ -31,13 +31,19 @@
                                  params:(NSMutableDictionary*)params
                                 headers:(NSMutableDictionary*)headers
                                 context:(NSMutableDictionary*)context;
+- (ASIHTTPRequest*)createGetRequest:(NSString*)url
+                             params:(NSMutableDictionary*)params
+                            headers:(NSMutableDictionary*)headers
+                            context:(NSMutableDictionary*)context;
 - (void)postAsync:(NSString*)url
            params:(NSMutableDictionary*)params
           headers:(NSMutableDictionary*)headers
           context:(NSMutableDictionary*)context
-         Delegate:(id)myDelegate;
-//- (void)postSync;
-//- (void)getAsync;
-//- (void)getSync;
+         delegate:(id)myDelegate;
+- (void)getAsync:(NSString*)url
+          params:(NSMutableDictionary*)params
+         headers:(NSMutableDictionary*)headers
+         context:(NSMutableDictionary*)context
+        delegate:(id)myDelegate;
 
 @end

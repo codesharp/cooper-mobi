@@ -1,21 +1,18 @@
 //
-//  TaskIdx.m
+//  Project.m
 //  CooperNative
 //
 //  Created by sunleepy on 12-9-14.
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
-#import "TaskIdx.h"
+#import "Project.h"
 
 
-@implementation TaskIdx
+@implementation Project
 
-@dynamic accountId;
-@dynamic by;
-@dynamic indexes;
-@dynamic key;
+@dynamic id;
 @dynamic name;
-@dynamic tasklistId;
+@dynamic teamId;
 
 @end

@@ -25,7 +25,7 @@
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
-    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName                                     inManagedObjectContext:context];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(accountId = nil)"];
     
@@ -42,7 +42,6 @@
     
     return [changeLogs autorelease];
 }
-
 - (NSMutableArray*) getAllChangeLog:(NSString*)tasklistId
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -73,7 +72,6 @@
     
     return changeLogs;
 }
-
 - (void)insertChangeLog:(NSNumber *)type 
                  dataid:(NSString *)dataid 
                    name:(NSString *)name 
@@ -92,27 +90,18 @@
     if([[ConstantClass instance] username].length > 0)
         changeLog.accountId = [[ConstantClass instance] username];
 }
-
-- (void)updateIsSend:(ChangeLog *)changeLog
-{
-    [changeLog setIsSend:[NSNumber numberWithInt:1]];
-}
-
 - (void)updateAllToSend:(NSString*)tasklistId
 {
     NSMutableArray *changeLogs = [self getAllChangeLog:tasklistId];
     for(ChangeLog *changeLog in changeLogs)
     {
-        //[self updateIsSend:changeLog];
         [self deleteChangLog:changeLog];
     }
 }
-
 - (void)deleteChangLog:(ChangeLog*)changeLog
 {
     [context deleteObject:changeLog];
 }
-
 - (void)updateTasklistIdByNewId:(NSString*)oldId newId:(NSString*)newId
 {
     NSMutableArray *changeLogs = [self getAllChangeLog:oldId];

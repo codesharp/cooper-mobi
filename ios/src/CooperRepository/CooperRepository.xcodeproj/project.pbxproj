@@ -31,6 +31,14 @@
 		1891AB9B15D2CE8B00C7E8DA /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891AB8F15D2CE8A00C7E8DA /* SBJsonParser.m */; };
 		1891AB9C15D2CE8B00C7E8DA /* SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 1891AB9015D2CE8A00C7E8DA /* SBJsonWriter.h */; };
 		1891AB9D15D2CE8B00C7E8DA /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891AB9115D2CE8A00C7E8DA /* SBJsonWriter.m */; };
+		6A18E56C1603345A00ED2042 /* TeamDao.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A18E56A1603345A00ED2042 /* TeamDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A18E56D1603345A00ED2042 /* TeamDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E56B1603345A00ED2042 /* TeamDao.m */; };
+		6A18E5711603358200ED2042 /* TeamMemberDao.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A18E56F1603358200ED2042 /* TeamMemberDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A18E5721603358200ED2042 /* TeamMemberDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E5701603358200ED2042 /* TeamMemberDao.m */; };
+		6A18E57816033C6A00ED2042 /* ProjectDao.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A18E57616033C6900ED2042 /* ProjectDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A18E57916033C6A00ED2042 /* ProjectDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E57716033C6A00ED2042 /* ProjectDao.m */; };
+		6A84F2A116070AF4000B62CB /* TagDao.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A84F29F16070AF4000B62CB /* TagDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A84F2A216070AF4000B62CB /* TagDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A84F2A016070AF4000B62CB /* TagDao.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +88,14 @@
 		1891AB9015D2CE8A00C7E8DA /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		1891AB9115D2CE8A00C7E8DA /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		18F5D48715F8ABBA004C5771 /* libCodesharpSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCodesharpSDK.a; path = "../../../../../../Library/Developer/Xcode/DerivedData/Cooper-dpcgbprapvdjmqcowtljkudanbng/Build/Products/Debug-iphoneos/libCodesharpSDK.a"; sourceTree = "<group>"; };
+		6A18E56A1603345A00ED2042 /* TeamDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamDao.h; path = Sources/Repositories/TeamDao.h; sourceTree = "<group>"; };
+		6A18E56B1603345A00ED2042 /* TeamDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamDao.m; path = Sources/Repositories/TeamDao.m; sourceTree = "<group>"; };
+		6A18E56F1603358200ED2042 /* TeamMemberDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamMemberDao.h; path = Sources/Repositories/TeamMemberDao.h; sourceTree = "<group>"; };
+		6A18E5701603358200ED2042 /* TeamMemberDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamMemberDao.m; path = Sources/Repositories/TeamMemberDao.m; sourceTree = "<group>"; };
+		6A18E57616033C6900ED2042 /* ProjectDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectDao.h; path = Sources/Repositories/ProjectDao.h; sourceTree = "<group>"; };
+		6A18E57716033C6A00ED2042 /* ProjectDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProjectDao.m; path = Sources/Repositories/ProjectDao.m; sourceTree = "<group>"; };
+		6A84F29F16070AF4000B62CB /* TagDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TagDao.h; path = Sources/Repositories/TagDao.h; sourceTree = "<group>"; };
+		6A84F2A016070AF4000B62CB /* TagDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TagDao.m; path = Sources/Repositories/TagDao.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +161,14 @@
 				1891A5F715D264DF00C7E8DA /* TasklistDao.m */,
 				1880B2C915D23ED700670DE6 /* RootDao.h */,
 				1880B2CA15D23ED700670DE6 /* RootDao.m */,
+				6A18E56A1603345A00ED2042 /* TeamDao.h */,
+				6A18E56B1603345A00ED2042 /* TeamDao.m */,
+				6A18E56F1603358200ED2042 /* TeamMemberDao.h */,
+				6A18E5701603358200ED2042 /* TeamMemberDao.m */,
+				6A18E57616033C6900ED2042 /* ProjectDao.h */,
+				6A18E57716033C6A00ED2042 /* ProjectDao.m */,
+				6A84F29F16070AF4000B62CB /* TagDao.h */,
+				6A84F2A016070AF4000B62CB /* TagDao.m */,
 			);
 			name = Repositories;
 			sourceTree = "<group>";
@@ -214,6 +238,10 @@
 				1891AB9815D2CE8B00C7E8DA /* SBJsonBase.h in Headers */,
 				1891AB9A15D2CE8B00C7E8DA /* SBJsonParser.h in Headers */,
 				1891AB9C15D2CE8B00C7E8DA /* SBJsonWriter.h in Headers */,
+				6A18E56C1603345A00ED2042 /* TeamDao.h in Headers */,
+				6A18E5711603358200ED2042 /* TeamMemberDao.h in Headers */,
+				6A18E57816033C6A00ED2042 /* ProjectDao.h in Headers */,
+				6A84F2A116070AF4000B62CB /* TagDao.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +323,10 @@
 				1891AB9915D2CE8B00C7E8DA /* SBJsonBase.m in Sources */,
 				1891AB9B15D2CE8B00C7E8DA /* SBJsonParser.m in Sources */,
 				1891AB9D15D2CE8B00C7E8DA /* SBJsonWriter.m in Sources */,
+				6A18E56D1603345A00ED2042 /* TeamDao.m in Sources */,
+				6A18E5721603358200ED2042 /* TeamMemberDao.m in Sources */,
+				6A18E57916033C6A00ED2042 /* ProjectDao.m in Sources */,
+				6A84F2A216070AF4000B62CB /* TagDao.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,7 +397,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR) \"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\"";
 			};
 			name = Debug;
 		};
@@ -385,7 +417,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR) \"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\"";
 			};
 			name = Release;
 		};

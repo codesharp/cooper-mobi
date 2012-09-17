@@ -25,6 +25,18 @@
 		18A92D9A15D2E5D600423A55 /* Tasklist.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A92D9215D2E5D600423A55 /* Tasklist.m */; };
 		18A92DC015D2EDC200423A55 /* ModelHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 18A92DBE15D2EDC200423A55 /* ModelHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18A92DC115D2EDC200423A55 /* ModelHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A92DBF15D2EDC200423A55 /* ModelHelper.m */; };
+		6A18E55B16032A0000ED2042 /* Comment.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A18E55116032A0000ED2042 /* Comment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A18E55C16032A0000ED2042 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E55216032A0000ED2042 /* Comment.m */; };
+		6A18E55D16032A0000ED2042 /* Project.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A18E55316032A0000ED2042 /* Project.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A18E55E16032A0000ED2042 /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E55416032A0000ED2042 /* Project.m */; };
+		6A18E55F16032A0000ED2042 /* TaskProjectRelationship.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A18E55516032A0000ED2042 /* TaskProjectRelationship.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A18E56016032A0000ED2042 /* TaskProjectRelationship.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E55616032A0000ED2042 /* TaskProjectRelationship.m */; };
+		6A18E56116032A0000ED2042 /* Team.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A18E55716032A0000ED2042 /* Team.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A18E56216032A0000ED2042 /* Team.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E55816032A0000ED2042 /* Team.m */; };
+		6A18E56316032A0000ED2042 /* TeamMember.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A18E55916032A0000ED2042 /* TeamMember.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A18E56416032A0000ED2042 /* TeamMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E55A16032A0000ED2042 /* TeamMember.m */; };
+		6A84F29C16070AAC000B62CB /* Tag.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A84F29A16070AAC000B62CB /* Tag.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A84F29D16070AAC000B62CB /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A84F29B16070AAC000B62CB /* Tag.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +77,18 @@
 		18A92D9215D2E5D600423A55 /* Tasklist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Tasklist.m; path = Sources/Models/Tasklist.m; sourceTree = "<group>"; };
 		18A92DBE15D2EDC200423A55 /* ModelHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelHelper.h; path = Sources/Utils/ModelHelper.h; sourceTree = "<group>"; };
 		18A92DBF15D2EDC200423A55 /* ModelHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelHelper.m; path = Sources/Utils/ModelHelper.m; sourceTree = "<group>"; };
+		6A18E55116032A0000ED2042 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Comment.h; path = Sources/Models/Comment.h; sourceTree = "<group>"; };
+		6A18E55216032A0000ED2042 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Comment.m; path = Sources/Models/Comment.m; sourceTree = "<group>"; };
+		6A18E55316032A0000ED2042 /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Project.h; path = Sources/Models/Project.h; sourceTree = "<group>"; };
+		6A18E55416032A0000ED2042 /* Project.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Project.m; path = Sources/Models/Project.m; sourceTree = "<group>"; };
+		6A18E55516032A0000ED2042 /* TaskProjectRelationship.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskProjectRelationship.h; path = Sources/Models/TaskProjectRelationship.h; sourceTree = "<group>"; };
+		6A18E55616032A0000ED2042 /* TaskProjectRelationship.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskProjectRelationship.m; path = Sources/Models/TaskProjectRelationship.m; sourceTree = "<group>"; };
+		6A18E55716032A0000ED2042 /* Team.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Team.h; path = Sources/Models/Team.h; sourceTree = "<group>"; };
+		6A18E55816032A0000ED2042 /* Team.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Team.m; path = Sources/Models/Team.m; sourceTree = "<group>"; };
+		6A18E55916032A0000ED2042 /* TeamMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamMember.h; path = Sources/Models/TeamMember.h; sourceTree = "<group>"; };
+		6A18E55A16032A0000ED2042 /* TeamMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamMember.m; path = Sources/Models/TeamMember.m; sourceTree = "<group>"; };
+		6A84F29A16070AAC000B62CB /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tag.h; path = Sources/Models/Tag.h; sourceTree = "<group>"; };
+		6A84F29B16070AAC000B62CB /* Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Tag.m; path = Sources/Models/Tag.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +143,18 @@
 		1880B24B15D2305C00670DE6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6A84F29A16070AAC000B62CB /* Tag.h */,
+				6A84F29B16070AAC000B62CB /* Tag.m */,
+				6A18E55116032A0000ED2042 /* Comment.h */,
+				6A18E55216032A0000ED2042 /* Comment.m */,
+				6A18E55316032A0000ED2042 /* Project.h */,
+				6A18E55416032A0000ED2042 /* Project.m */,
+				6A18E55516032A0000ED2042 /* TaskProjectRelationship.h */,
+				6A18E55616032A0000ED2042 /* TaskProjectRelationship.m */,
+				6A18E55716032A0000ED2042 /* Team.h */,
+				6A18E55816032A0000ED2042 /* Team.m */,
+				6A18E55916032A0000ED2042 /* TeamMember.h */,
+				6A18E55A16032A0000ED2042 /* TeamMember.m */,
 				18A92D8B15D2E5D600423A55 /* ChangeLog.h */,
 				18A92D8C15D2E5D600423A55 /* ChangeLog.m */,
 				18A92D8D15D2E5D600423A55 /* Task.h */,
@@ -185,6 +221,12 @@
 				18A92D9715D2E5D600423A55 /* TaskIdx.h in Headers */,
 				18A92D9915D2E5D600423A55 /* Tasklist.h in Headers */,
 				18A92DC015D2EDC200423A55 /* ModelHelper.h in Headers */,
+				6A18E55B16032A0000ED2042 /* Comment.h in Headers */,
+				6A18E55D16032A0000ED2042 /* Project.h in Headers */,
+				6A18E55F16032A0000ED2042 /* TaskProjectRelationship.h in Headers */,
+				6A18E56116032A0000ED2042 /* Team.h in Headers */,
+				6A18E56316032A0000ED2042 /* TeamMember.h in Headers */,
+				6A84F29C16070AAC000B62CB /* Tag.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +306,12 @@
 				18A92D9815D2E5D600423A55 /* TaskIdx.m in Sources */,
 				18A92D9A15D2E5D600423A55 /* Tasklist.m in Sources */,
 				18A92DC115D2EDC200423A55 /* ModelHelper.m in Sources */,
+				6A18E55C16032A0000ED2042 /* Comment.m in Sources */,
+				6A18E55E16032A0000ED2042 /* Project.m in Sources */,
+				6A18E56016032A0000ED2042 /* TaskProjectRelationship.m in Sources */,
+				6A18E56216032A0000ED2042 /* Team.m in Sources */,
+				6A18E56416032A0000ED2042 /* TeamMember.m in Sources */,
+				6A84F29D16070AAC000B62CB /* Tag.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,7 +380,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\" $(BUILT_PRODUCTS_DIR)";
 			};
 			name = Debug;
 		};
@@ -350,7 +398,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\" $(BUILT_PRODUCTS_DIR)";
 			};
 			name = Release;
 		};

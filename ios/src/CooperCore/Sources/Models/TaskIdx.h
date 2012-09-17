@@ -1,8 +1,8 @@
 //
 //  TaskIdx.h
-//  Cooper
+//  CooperNative
 //
-//  Created by sunleepy on 12-8-9.
+//  Created by sunleepy on 12-9-14.
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 

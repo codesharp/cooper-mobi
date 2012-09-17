@@ -6,10 +6,16 @@
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
-@interface TaskOptionViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+#import "BaseViewController.h"
+#import "TasklistViewController.h"
+#import "TeamViewController.h"
+
+@interface TaskOptionViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>
 {
     UITableView *taskOptionView;
     UIButton *settingBtn;
 }
+@property (nonatomic, retain) TasklistViewController *tasklistViewController;
+@property (nonatomic, retain) TeamViewController *teamViewController;
 
 @end

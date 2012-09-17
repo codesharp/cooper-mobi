@@ -98,10 +98,6 @@
 		18E2974815BCE99400DCED79 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18E2974715BCE99400DCED79 /* Config.plist */; };
 		18E2975815BD12F500DCED79 /* cooper.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E2975715BD12F500DCED79 /* cooper.png */; };
 		18E2975A15BD151800DCED79 /* loginbtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 18E2975915BD151800DCED79 /* loginbtn.png */; };
-		18F09CAC15F9A9A000088568 /* libCodesharpSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E2F8A115F4D9060062E57F /* libCodesharpSDK.a */; };
-		18F09CAD15F9A9A000088568 /* libCooperCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABD915D2D59400C7E8DA /* libCooperCore.a */; };
-		18F09CAE15F9A9A000088568 /* libCooperRepository.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABDF15D2D59C00C7E8DA /* libCooperRepository.a */; };
-		18F09CAF15F9A9A000088568 /* libCooperService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABE515D2D5A800C7E8DA /* libCooperService.a */; };
 		18F09CB615F9D0F800088568 /* TaskController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F09CB515F9D0F800088568 /* TaskController.m */; };
 		18F456D2160233FE0081B8BA /* TaskOptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F456D1160233FE0081B8BA /* TaskOptionViewController.m */; };
 		18F5D48215F8A5FE004C5771 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F5D48115F8A5FD004C5771 /* CoreText.framework */; };
@@ -109,6 +105,12 @@
 		18FAC24E15BF980D003F56B2 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC24C15BF980D003F56B2 /* edit.png */; };
 		18FAC25515BFA143003F56B2 /* btn_bg_green.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC25415BFA143003F56B2 /* btn_bg_green.png */; };
 		18FAC25A15BFAF50003F56B2 /* navigationbar_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC25915BFAF50003F56B2 /* navigationbar_bg.png */; };
+		6A18E52816030D7B00ED2042 /* TeamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E52716030D7B00ED2042 /* TeamViewController.m */; };
+		6A84F2A61607152B000B62CB /* TeamTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A84F2A51607152B000B62CB /* TeamTaskViewController.m */; };
+		6AA9EE801606D68D00A5B013 /* libCodesharpSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E2F8A115F4D9060062E57F /* libCodesharpSDK.a */; };
+		6AA9EE811606D68D00A5B013 /* libCooperCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABD915D2D59400C7E8DA /* libCooperCore.a */; };
+		6AA9EE821606D68D00A5B013 /* libCooperRepository.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABDF15D2D59C00C7E8DA /* libCooperRepository.a */; };
+		6AA9EE831606D68D00A5B013 /* libCooperService.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABE515D2D5A800C7E8DA /* libCooperService.a */; };
 		6AF47A4815FE336C006D4D3F /* GTMHTTPFetcherLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF47A4715FE336C006D4D3F /* GTMHTTPFetcherLogging.m */; };
 		8C0C2F2E15AE7AAF00283579 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8C0C2F2215AE7AAF00283579 /* LICENSE */; };
 		8C0C2F2F15AE7AAF00283579 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C0C2F2415AE7AAF00283579 /* NSObject+SBJSON.m */; };
@@ -164,33 +166,33 @@
 			remoteGlobalIDString = 1880B16415D229B000670DE6;
 			remoteInfo = CodesharpSDK;
 		};
-		18F09CA415F9A7EB00088568 /* PBXContainerItemProxy */ = {
+		6AA9EE781606D68600A5B013 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 18E2F89C15F4D9050062E57F /* CodesharpSDK.xcodeproj */;
+			containerPortal = 1891ABDA15D2D59C00C7E8DA /* CooperRepository.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 1880B16315D229B000670DE6;
-			remoteInfo = CodesharpSDK;
+			remoteGlobalIDString = 1880B23415D22EC700670DE6;
+			remoteInfo = CooperRepository;
 		};
-		18F09CA615F9A7EB00088568 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1891ABD415D2D59400C7E8DA /* CooperCore.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 1880B21615D22DAE00670DE6;
-			remoteInfo = CooperCore;
-		};
-		18F09CA815F9A7EB00088568 /* PBXContainerItemProxy */ = {
+		6AA9EE7A1606D68600A5B013 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1891ABE015D2D5A700C7E8DA /* CooperService.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 181D514915D193420035244D;
 			remoteInfo = CooperService;
 		};
-		18F09CAA15F9A7EB00088568 /* PBXContainerItemProxy */ = {
+		6AA9EE7C1606D68600A5B013 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1891ABDA15D2D59C00C7E8DA /* CooperRepository.xcodeproj */;
+			containerPortal = 1891ABD415D2D59400C7E8DA /* CooperCore.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 1880B23415D22EC700670DE6;
-			remoteInfo = CooperRepository;
+			remoteGlobalIDString = 1880B21615D22DAE00670DE6;
+			remoteInfo = CooperCore;
+		};
+		6AA9EE7E1606D68600A5B013 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18E2F89C15F4D9050062E57F /* CodesharpSDK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1880B16315D229B000670DE6;
+			remoteInfo = CodesharpSDK;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -347,6 +349,11 @@
 		18FAC24C15BF980D003F56B2 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
 		18FAC25415BFA143003F56B2 /* btn_bg_green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_bg_green.png; sourceTree = "<group>"; };
 		18FAC25915BFAF50003F56B2 /* navigationbar_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationbar_bg.png; sourceTree = "<group>"; };
+		6A18E52616030D7B00ED2042 /* TeamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamViewController.h; path = ViewControllers/TeamViewController.h; sourceTree = "<group>"; };
+		6A18E52716030D7B00ED2042 /* TeamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamViewController.m; path = ViewControllers/TeamViewController.m; sourceTree = "<group>"; };
+		6A18E5291603286A00ED2042 /* TaskModelV0_2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskModelV0_2.xcdatamodel; sourceTree = "<group>"; };
+		6A84F2A41607152B000B62CB /* TeamTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamTaskViewController.h; path = ViewControllers/TeamTaskViewController.h; sourceTree = "<group>"; };
+		6A84F2A51607152B000B62CB /* TeamTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamTaskViewController.m; path = ViewControllers/TeamTaskViewController.m; sourceTree = "<group>"; };
 		6AF47A4615FE336C006D4D3F /* GTMHTTPFetcherLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcherLogging.h; sourceTree = "<group>"; };
 		6AF47A4715FE336C006D4D3F /* GTMHTTPFetcherLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcherLogging.m; sourceTree = "<group>"; };
 		8C0C2F2115AE7AAF00283579 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -393,10 +400,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18F09CAC15F9A9A000088568 /* libCodesharpSDK.a in Frameworks */,
-				18F09CAD15F9A9A000088568 /* libCooperCore.a in Frameworks */,
-				18F09CAE15F9A9A000088568 /* libCooperRepository.a in Frameworks */,
-				18F09CAF15F9A9A000088568 /* libCooperService.a in Frameworks */,
+				6AA9EE801606D68D00A5B013 /* libCodesharpSDK.a in Frameworks */,
+				6AA9EE811606D68D00A5B013 /* libCooperCore.a in Frameworks */,
+				6AA9EE821606D68D00A5B013 /* libCooperRepository.a in Frameworks */,
+				6AA9EE831606D68D00A5B013 /* libCooperService.a in Frameworks */,
 				18F5D48215F8A5FE004C5771 /* CoreText.framework in Frameworks */,
 				18A92DBD15D2EA5600423A55 /* Security.framework in Frameworks */,
 				1835EFE715C10898004AF233 /* QuartzCore.framework in Frameworks */,
@@ -577,6 +584,17 @@
 			name = OptionViewController;
 			sourceTree = "<group>";
 		};
+		6A18E52416030D5400ED2042 /* TeamViewController */ = {
+			isa = PBXGroup;
+			children = (
+				6A18E52616030D7B00ED2042 /* TeamViewController.h */,
+				6A18E52716030D7B00ED2042 /* TeamViewController.m */,
+				6A84F2A41607152B000B62CB /* TeamTaskViewController.h */,
+				6A84F2A51607152B000B62CB /* TeamTaskViewController.m */,
+			);
+			name = TeamViewController;
+			sourceTree = "<group>";
+		};
 		8C0C2F2015AE7AAF00283579 /* SBJSON */ = {
 			isa = PBXGroup;
 			children = (
@@ -667,6 +685,7 @@
 		EE396290159D34B30018B9EC /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				6A18E52416030D5400ED2042 /* TeamViewController */,
 				18F456CF160231F40081B8BA /* OptionViewController */,
 				1872E82415C2676000A8EA41 /* TasklistViewController */,
 				EEF30E8215A556DB00506A79 /* SettingViewController */,
@@ -908,10 +927,10 @@
 			buildRules = (
 			);
 			dependencies = (
-				18F09CA515F9A7EB00088568 /* PBXTargetDependency */,
-				18F09CA715F9A7EB00088568 /* PBXTargetDependency */,
-				18F09CA915F9A7EB00088568 /* PBXTargetDependency */,
-				18F09CAB15F9A7EB00088568 /* PBXTargetDependency */,
+				6AA9EE791606D68600A5B013 /* PBXTargetDependency */,
+				6AA9EE7B1606D68600A5B013 /* PBXTargetDependency */,
+				6AA9EE7D1606D68600A5B013 /* PBXTargetDependency */,
+				6AA9EE7F1606D68600A5B013 /* PBXTargetDependency */,
 			);
 			name = Cooper;
 			productName = Cooper;
@@ -1152,6 +1171,8 @@
 				18F09CB615F9D0F800088568 /* TaskController.m in Sources */,
 				6AF47A4815FE336C006D4D3F /* GTMHTTPFetcherLogging.m in Sources */,
 				18F456D2160233FE0081B8BA /* TaskOptionViewController.m in Sources */,
+				6A18E52816030D7B00ED2042 /* TeamViewController.m in Sources */,
+				6A84F2A61607152B000B62CB /* TeamTaskViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1163,25 +1184,25 @@
 			name = CooperCore;
 			targetProxy = 18A16F5C15E35B5C00E80E72 /* PBXContainerItemProxy */;
 		};
-		18F09CA515F9A7EB00088568 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CodesharpSDK;
-			targetProxy = 18F09CA415F9A7EB00088568 /* PBXContainerItemProxy */;
-		};
-		18F09CA715F9A7EB00088568 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CooperCore;
-			targetProxy = 18F09CA615F9A7EB00088568 /* PBXContainerItemProxy */;
-		};
-		18F09CA915F9A7EB00088568 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CooperService;
-			targetProxy = 18F09CA815F9A7EB00088568 /* PBXContainerItemProxy */;
-		};
-		18F09CAB15F9A7EB00088568 /* PBXTargetDependency */ = {
+		6AA9EE791606D68600A5B013 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = CooperRepository;
-			targetProxy = 18F09CAA15F9A7EB00088568 /* PBXContainerItemProxy */;
+			targetProxy = 6AA9EE781606D68600A5B013 /* PBXContainerItemProxy */;
+		};
+		6AA9EE7B1606D68600A5B013 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CooperService;
+			targetProxy = 6AA9EE7A1606D68600A5B013 /* PBXContainerItemProxy */;
+		};
+		6AA9EE7D1606D68600A5B013 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CooperCore;
+			targetProxy = 6AA9EE7C1606D68600A5B013 /* PBXContainerItemProxy */;
+		};
+		6AA9EE7F1606D68600A5B013 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CodesharpSDK;
+			targetProxy = 6AA9EE7E1606D68600A5B013 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1291,7 +1312,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Li Ping (3F9L3G335D)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cooper/Cooper-Prefix.pch";
-				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)",
+					"\"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\"",
+				);
 				INFOPLIST_FILE = "Cooper/Cooper-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
@@ -1299,7 +1323,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DD257646-F75F-4C2C-81D0-B06F55844159";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR) \"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\"";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1310,7 +1334,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cooper/Cooper-Prefix.pch";
-				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)",
+					"\"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\"",
+				);
 				INFOPLIST_FILE = "Cooper/Cooper-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
@@ -1318,7 +1345,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR) \"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\"";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1359,9 +1386,10 @@
 		18A92DAA15D2E9B200423A55 /* TaskModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				6A18E5291603286A00ED2042 /* TaskModelV0_2.xcdatamodel */,
 				18A92DAB15D2E9B200423A55 /* TaskModel.xcdatamodel */,
 			);
-			currentVersion = 18A92DAB15D2E9B200423A55 /* TaskModel.xcdatamodel */;
+			currentVersion = 6A18E5291603286A00ED2042 /* TaskModelV0_2.xcdatamodel */;
 			path = TaskModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -52,12 +52,11 @@
 
     return [taskIdxs autorelease];
 }
-
 - (NSMutableArray*)getAllTaskIdxByTemp
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
-    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName                                     inManagedObjectContext:context];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(accountId = nil)"];
     
@@ -74,7 +73,6 @@
     
     return [taskIdxs autorelease];
 }
-
 - (TaskIdx*)getTaskIdxByKey:(NSString*)key tasklistId:(NSString *)tasklistId
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -107,7 +105,6 @@
 
     return idxs;
 }
-
 - (void)updateTaskIdx:(NSString *)taskId 
                 byKey:(NSString *)key 
            tasklistId:(NSString*)tasklistId
@@ -160,7 +157,6 @@
     [writer release];
     [parser release];
 }
-
 - (void)addTaskIdx:(NSString *)tid 
              byKey:(NSString *)key 
         tasklistId:(NSString*)tasklistId
@@ -220,7 +216,6 @@
     [writer release];
     [parser release];
 }
-
 - (void)addTaskIdx:(NSString *)by 
                key:(NSString *)key 
               name:(NSString *)name 
@@ -236,7 +231,6 @@
     if([[ConstantClass instance] username].length > 0)
         taskIdx.accountId = [[ConstantClass instance] username];
 }
-
 - (void)deleteTaskIndexsByTaskId:(NSString *)taskId 
                       tasklistId:(NSString *)tasklistId
 {
@@ -278,7 +272,6 @@
     [writer release];
     [parser release];
 }
-
 - (void)deleteAllTaskIdx:(NSString*)tasklistId
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -304,7 +297,6 @@
             [context deleteObject:taskIdx];
     }
 }
-
 - (void) adjustIndex:(NSString *)taskId 
        sourceTaskIdx:(TaskIdx *)sTaskIdx 
   destinationTaskIdx:(TaskIdx *)dTaskIdx 
@@ -329,7 +321,6 @@
     [writer release];
     [parser release];
 }
-
 - (void)saveIndex:(TaskIdx *)taskIdx 
          newIndex:(NSMutableArray *)indexArray
        tasklistId:(NSString *)tasklistId
@@ -387,7 +378,6 @@
     [writer release];
     [parser release];
 }
-
 - (void)updateTaskIdxByNewId:(NSString *)oldId 
                        newId:(NSString *)newId
                   tasklistId:(NSString *)tasklistId
@@ -417,7 +407,6 @@
     [parser release];
     [writer release];
 }
-
 - (void)updateTasklistIdByNewId:(NSString*)oldId 
                           newId:(NSString*)newId
 {

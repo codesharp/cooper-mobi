@@ -32,9 +32,10 @@ typedef Constant ConstantClass;
 #define TASK_GETBYPRIORITY_URL          @"/Personal/GetByPriority"
 //同步路径
 #define TASK_SYNC_URL                   @"/Personal/Sync"
+//获取所有团队
+#define GETTEAMS_URL                    @"/Team/GetTeams"
 //注销路径
 #define LOGOUT_URL                      @"/Account/Logout"
-
 //默认登录入口
 #define LOGIN_URL                       @"/Account/Login"
 //Google登录入口

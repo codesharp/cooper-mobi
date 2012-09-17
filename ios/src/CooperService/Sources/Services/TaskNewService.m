@@ -69,7 +69,7 @@
     [params setObject:tasklistId forKey:@"tasklistId"];
     
     HttpWebRequest *request = [[HttpWebRequest alloc] init];
-    [request postAsync:url params:params headers:nil context:context Delegate:delegate];
+    [request postAsync:url params:params headers:nil context:context delegate:delegate];
     [request release];
 }
 

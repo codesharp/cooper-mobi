@@ -21,7 +21,7 @@ delegate:(id)delegate
     NSLog(@"getTasklists服务路径: %@", url);
     
     HttpWebRequest *request = [[HttpWebRequest alloc] init];
-    [request postAsync:url params:nil headers:nil context:context Delegate:delegate];
+    [request postAsync:url params:nil headers:nil context:context delegate:delegate];
     [request release];
 }
 
@@ -122,7 +122,7 @@ delegate:(id)delegate
     NSLog(@"同步%@的任务列表外部路径: %@", tasklistId, url);
     
     HttpWebRequest *request = [[HttpWebRequest alloc] init];
-    [request postAsync:url params:params headers:nil context:context Delegate:delegate];
+    [request postAsync:url params:params headers:nil context:context delegate:delegate];
     [request release];
 }
 

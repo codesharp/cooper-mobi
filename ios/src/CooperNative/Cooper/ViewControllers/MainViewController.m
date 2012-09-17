@@ -86,14 +86,22 @@
 {
     NSLog(@"登录完毕");
     
-    //打开任务列表
-    if(tasklistNavController == nil)
+//    //打开任务列表
+//    if(tasklistNavController == nil)
+//    {
+//        TasklistViewController *tasklistViewController = [[TasklistViewController alloc] init];
+//        tasklistNavController = [[BaseNavigationController alloc] initWithRootViewController:tasklistViewController];
+//        [tasklistViewController release];
+//    }
+//    [self.navigationController presentModalViewController:tasklistNavController animated:NO];
+    
+    if(taskOptionNavController == nil)
     {
-        TasklistViewController *tasklistViewController = [[TasklistViewController alloc] init];
-        tasklistNavController = [[BaseNavigationController alloc] initWithRootViewController:tasklistViewController];
-        [tasklistViewController release];
+        TaskOptionViewController *taskOptionViewController = [[TaskOptionViewController alloc] init];
+        taskOptionNavController = [[BaseNavigationController alloc] initWithRootViewController:taskOptionViewController];
+        [taskOptionViewController release];
     }
-    [self.navigationController presentModalViewController:tasklistNavController animated:NO];
+    [self.navigationController presentModalViewController:taskOptionNavController animated:NO];
 }
 
 - (void)googleLoginFinish

@@ -58,7 +58,6 @@
     
     return [tasklists autorelease];
 }
-
 - (Tasklist*)getTasklistById:(NSString *)tasklistId
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -95,7 +94,6 @@
     
     return [tasklist autorelease];
 }
-
 - (NSMutableArray*)getAllTasklistByUserAndTemp
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -134,7 +132,6 @@
     
     return [tasklists autorelease];
 }
-
 - (NSMutableArray*)getAllTasklistByTemp
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -162,7 +159,6 @@
     
     return [tasklists autorelease];
 }
-
 - (NSMutableArray*)getAllTasklistByGuest
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -189,7 +185,6 @@
     
     return [tasklists autorelease];
 }
-
 - (void)updateTasklistIdByNewId:(NSString *)oldId
                           newId:(NSString *)newId 
 {
@@ -198,12 +193,10 @@
         return;
     tasklist.id = newId;
 }
-
 - (void)deleteTasklist:(Tasklist *)tasklist
 {
     [context deleteObject:tasklist];
 }
-
 - (void)deleteAll
 {
     NSMutableArray *array = [self getAllTasklist];
@@ -212,7 +205,6 @@
         for(Tasklist* tasklist in array)
             [self deleteTasklist:tasklist];
 }
-
 - (Tasklist*)addTasklist:(NSString *)id :(NSString *)name :(NSString*)type
 {
     Tasklist *tasklist = [ModelHelper create:tableName context:context];
@@ -224,7 +216,6 @@
         tasklist.accountId = [[ConstantClass instance] username];
     return tasklist;
 }
-
 - (void)adjustId:(NSString *)oldId withNewId:(NSString *)newId
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -251,7 +242,6 @@
     
     [fetchRequest release];
 }
-
 - (void)updateEditable:(NSNumber *)editable tasklistId:(NSString *)tasklistId
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];

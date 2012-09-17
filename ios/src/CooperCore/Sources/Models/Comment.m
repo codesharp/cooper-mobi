@@ -1,22 +1,20 @@
 //
-//  Tasklist.m
+//  Comment.m
 //  CooperNative
 //
 //  Created by sunleepy on 12-9-14.
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
-#import "Tasklist.h"
+#import "Comment.h"
 
 
-@implementation Tasklist
+@implementation Comment
 
-@dynamic accountId;
+@dynamic body;
 @dynamic createTime;
-@dynamic editable;
-@dynamic extensions;
+@dynamic creatorId;
 @dynamic id;
-@dynamic listType;
-@dynamic name;
+@dynamic taskId;
 
 @end

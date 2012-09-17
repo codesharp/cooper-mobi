@@ -25,6 +25,7 @@
 //    , HttpWebRequestDelegate
 >
 {
+    UIView *backBtn;
     InputPickerView *editBtn;
     UIView *syncBtn;
     UIButton *settingBtn;

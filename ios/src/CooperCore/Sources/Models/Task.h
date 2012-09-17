@@ -1,8 +1,8 @@
 //
 //  Task.h
-//  Cooper
+//  CooperNative
 //
-//  Created by sunleepy on 12-8-9.
+//  Created by sunleepy on 12-9-14.
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
@@ -13,8 +13,10 @@
 @interface Task : NSManagedObject
 
 @property (nonatomic, retain) NSString * accountId;
+@property (nonatomic, retain) NSString * assigneeId;
 @property (nonatomic, retain) NSString * body;
 @property (nonatomic, retain) NSDate * createDate;
+@property (nonatomic, retain) NSString * createMemberId;
 @property (nonatomic, retain) NSDate * dueDate;
 @property (nonatomic, retain) NSNumber * editable;
 @property (nonatomic, retain) NSString * id;
@@ -23,6 +25,9 @@
 @property (nonatomic, retain) NSString * priority;
 @property (nonatomic, retain) NSNumber * status;
 @property (nonatomic, retain) NSString * subject;
+@property (nonatomic, retain) NSString * tags;
 @property (nonatomic, retain) NSString * tasklistId;
+@property (nonatomic, retain) NSString * taskType;
+@property (nonatomic, retain) NSString * teamId;
 
 @end

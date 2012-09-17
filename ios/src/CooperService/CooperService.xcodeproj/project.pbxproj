@@ -39,6 +39,8 @@
 		1891ABB915D2CECE00C7E8DA /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1891ABAD15D2CECE00C7E8DA /* SBJsonWriter.m */; };
 		18A16F6715E3645400E80E72 /* VersionService.h in Headers */ = {isa = PBXBuildFile; fileRef = 18A16F6515E3645400E80E72 /* VersionService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		18A16F6815E3645400E80E72 /* VersionService.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A16F6615E3645400E80E72 /* VersionService.m */; };
+		6A18E56816032A6A00ED2042 /* TeamService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A18E56616032A6A00ED2042 /* TeamService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A18E56916032A6A00ED2042 /* TeamService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E56716032A6A00ED2042 /* TeamService.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +126,8 @@
 		1891ABAD15D2CECE00C7E8DA /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		18A16F6515E3645400E80E72 /* VersionService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VersionService.h; path = Sources/Services/VersionService.h; sourceTree = "<group>"; };
 		18A16F6615E3645400E80E72 /* VersionService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VersionService.m; path = Sources/Services/VersionService.m; sourceTree = "<group>"; };
+		6A18E56616032A6A00ED2042 /* TeamService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamService.h; path = Sources/Services/TeamService.h; sourceTree = "<group>"; };
+		6A18E56716032A6A00ED2042 /* TeamService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamService.m; path = Sources/Services/TeamService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +205,8 @@
 				1825345F15FB3AF40035D2DA /* TasklistNewService.m */,
 				1825346315FB71DD0035D2DA /* TaskNewService.h */,
 				1825346415FB71DD0035D2DA /* TaskNewService.m */,
+				6A18E56616032A6A00ED2042 /* TeamService.h */,
+				6A18E56716032A6A00ED2042 /* TeamService.m */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -289,6 +295,7 @@
 				18A16F6715E3645400E80E72 /* VersionService.h in Headers */,
 				1825346015FB3AF40035D2DA /* TasklistNewService.h in Headers */,
 				1825346515FB71DD0035D2DA /* TaskNewService.h in Headers */,
+				6A18E56816032A6A00ED2042 /* TeamService.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +402,7 @@
 				18A16F6815E3645400E80E72 /* VersionService.m in Sources */,
 				1825346115FB3AF40035D2DA /* TasklistNewService.m in Sources */,
 				1825346615FB71DD0035D2DA /* TaskNewService.m in Sources */,
+				6A18E56916032A6A00ED2042 /* TeamService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,7 +478,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\" $(BUILT_PRODUCTS_DIR)";
 			};
 			name = Debug;
 		};
@@ -485,7 +493,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
+				USER_HEADER_SEARCH_PATHS = "\"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\" $(BUILT_PRODUCTS_DIR)";
 			};
 			name = Release;
 		};
