@@ -29,6 +29,7 @@
     UIView *addBtn;
     
     UIView *statusView;
+    UILabel *filterLabel;
 }
 
 @property (nonatomic,retain) NSString* currentTeamId;

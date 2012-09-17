@@ -29,29 +29,29 @@
 {
     [super viewDidLoad];
     
-    statusView = [[UIView alloc] initWithFrame:CGRectMake(0, 374, 320, 44)];
-    statusView.backgroundColor = [UIColor redColor];
+    statusView = [[UIView alloc] initWithFrame:CGRectMake(0, 369, [Tools screenMaxWidth], 49)];
+    statusView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:TABBAR_BG_IMAGE]];
     [self.view addSubview:statusView];
 	
-//    //底部条
-//    CustomTabBarItem *tabBarItem = [[CustomTabBarItem alloc] init];
-//    [tabBarItem setTitle:@""];
-//    self.tabBarItem = tabBarItem;
-//    [tabBarItem release];
     
-//    CGRect frame = CGRectMake(0, 0, 320, 44);
-//	UIView *v = [[UIView alloc] initWithFrame:frame];
-//	UIColor *c = [[UIColor alloc] initWithRed:0.4 green:0.7 blue:0.3 alpha:1.0];
-//    v.backgroundColor = c;
-//    [c release];
-//	[self.tabBar insertSubview:v atIndex:0];
-//    [v release];
+    NSString* word = @"Project 1 - Tag:native hybrid";
+    CGSize size = [word sizeWithFont:[UIFont systemFontOfSize:12]];
+    filterLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+    filterLabel.text = word;
+    filterLabel.backgroundColor = [UIColor redColor];
+    [statusView addSubview:filterLabel];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+}
+
+- (void)dealloc
+{
+    [filterLabel release];
+    [statusView release];
+    [super dealloc];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
