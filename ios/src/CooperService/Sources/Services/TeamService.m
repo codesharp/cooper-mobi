@@ -27,7 +27,25 @@
           context:(NSMutableDictionary*)context
          delegate:(id)delegate
 {
-    NSString *url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:TEAMSYNC_URL];
+    NSString *url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:TEAMTASK_SYNC_URL];
+    NSLog(@"syncTasks服务路径: %@", url);
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:teamId forKey:@"teamId"];
+    if (projectId != nil)
+    {
+        [params setObject:projectId forKey:@"projectId"];
+    }
+    if (memberId != nil)
+    {
+        [params setObject:memberId forKey:@"memberId"];
+    }
+    if (tag != nil)
+    {
+        [params setObject:tag forKey:@"tag"];
+    }
+    
+    
 }
 - (void)getTasks:(NSString*)teamId
        projectId:(NSString*)projectId
