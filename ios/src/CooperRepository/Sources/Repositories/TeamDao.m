@@ -43,6 +43,32 @@
     
     return [teams autorelease];
 }
+- (Team*)getTeamById:(NSString*)teamId
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
+    
+    NSError *error = nil;
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(id = %@)", [NSString stringWithFormat:@"%@", teamId]];
+    [fetchRequest setPredicate:predicate];
+    
+    NSMutableArray *teams = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    if(error != nil)
+    {
+        NSLog(@"数据库错误异常: %@", [error description]);
+    }
+    
+    Team *team = nil;
+    if (teams.count > 0) {
+        team = [teams objectAtIndex:0];
+    }
+    
+    [fetchRequest release];
+    
+    return team;
+}
 - (void)addTeam:(NSString*)teamId :(NSString*)name
 {
     Team *team = [ModelHelper create:tableName context:context];

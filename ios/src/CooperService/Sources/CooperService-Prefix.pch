@@ -30,10 +30,14 @@ typedef Constant ConstantClass;
 #define TASKLISTS_SYNC_URL              @"/Personal/CreateTaskFolders"
 //优先级获取路径
 #define TASK_GETBYPRIORITY_URL          @"/Personal/GetByPriority"
-//同步路径
+//个人任务同步路径
 #define TASK_SYNC_URL                   @"/Personal/Sync"
+//团队任务同步路径
+#define TEAMTASK_SYNC_URL               @"/Team/Sync"
 //获取所有团队
 #define GETTEAMS_URL                    @"/Team/GetTeams"
+//获取指定团队的任务列表
+#define TeamTask_GETINCOMPLETEDBYPRIORITY_URL   @"/Team/GetIncompletedByPriority"
 //注销路径
 #define LOGOUT_URL                      @"/Account/Logout"
 //默认登录入口

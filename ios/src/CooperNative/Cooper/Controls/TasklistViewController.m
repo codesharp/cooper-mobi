@@ -17,6 +17,7 @@
 @implementation TasklistViewController
 
 @synthesize tasklists;
+@synthesize setting_navViewController;
 
 # pragma mark - UI相关
 
@@ -144,6 +145,7 @@
     RELEASE(settingBtn);
     RELEASE(tasklistService);
     RELEASE(taskService);
+    RELEASE(setting_navViewController);
     [super dealloc];
 }
 
@@ -210,25 +212,30 @@
 
 - (void)settingAction:(id)sender
 {
-    //设置
-    SettingViewController *settingViewController = [[SettingViewController alloc] initWithNibName:@"SettingViewController"
-                                                                                           bundle:nil
-                                                                                         setTitle:@"设置" 
-                                                                                         setImage:SETTING_IMAGE];
-    
-    BaseNavigationController *setting_navViewController = [[[BaseNavigationController alloc] initWithRootViewController:settingViewController] autorelease];
-    
-    //后退按钮
-    UIButton *btnBack = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnBack.frame = CGRectMake(5, 5, 25, 25);
-    [btnBack setBackgroundImage:[UIImage imageNamed:BACK_IMAGE] forState:UIControlStateNormal];
-    [btnBack addTarget: self action: @selector(goBack:) forControlEvents: UIControlEventTouchUpInside];
-    
-    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnBack];
-    settingViewController.navigationItem.leftBarButtonItem = backButtonItem;
-    [backButtonItem release];
-    
-    [self.navigationController presentModalViewController:setting_navViewController animated:YES];
+    if(setting_navViewController == nil)
+    {
+        //设置
+        SettingViewController *settingViewController = [[SettingViewController alloc] initWithNibName:@"SettingViewController" bundle:nil setTitle:@"设置" setImage:SETTING_IMAGE];
+        
+        setting_navViewController = [[BaseNavigationController alloc] initWithRootViewController:settingViewController];
+        
+        //后退按钮
+        UIButton *btnBack = [UIButton buttonWithType:UIButtonTypeCustom];
+        btnBack.frame = CGRectMake(5, 5, 25, 25);
+        [btnBack setBackgroundImage:[UIImage imageNamed:BACK_IMAGE] forState:UIControlStateNormal];
+        [btnBack addTarget: self action: @selector(goBack:) forControlEvents: UIControlEventTouchUpInside];
+        
+        UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnBack];
+        settingViewController.navigationItem.leftBarButtonItem = backButtonItem;
+        [self.navigationController presentModalViewController:setting_navViewController animated:YES];
+        
+        [backButtonItem release];
+        [settingViewController release];
+    }
+    else
+    {
+        [self.navigationController presentModalViewController:setting_navViewController animated:YES];
+    }
 }
 
 - (void)backToOption:(id)sender

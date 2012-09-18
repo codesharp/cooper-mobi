@@ -13,4 +13,11 @@
 - (void)getTeams:(NSMutableDictionary*)context
             delegate:(id)delegate;
 
+- (void)getTasks:(NSString*)teamId
+       projectId:(NSString*)projectId
+        memberId:(NSString*)memberId
+             tag:(NSString*)tag
+         context:(NSMutableDictionary*)context
+        delegate:(id)delegate;
+
 @end

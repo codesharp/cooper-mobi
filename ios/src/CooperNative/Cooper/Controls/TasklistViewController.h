@@ -8,6 +8,7 @@
 
 #import "InputPickerView.h"
 #import "BaseViewController.h"
+#import "BaseNavigationController.h"
 #import "CooperRepository/TasklistDao.h"
 #import "CooperRepository/TaskDao.h"
 #import "CooperRepository/TaskIdxDao.h"
@@ -42,5 +43,6 @@
 }
 
 @property (nonatomic, retain) NSMutableArray *tasklists;
+@property (nonatomic, retain) BaseNavigationController *setting_navViewController;
 
 @end

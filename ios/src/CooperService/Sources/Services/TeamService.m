@@ -20,5 +20,43 @@
     [request getAsync:url params:nil headers:nil context:context delegate:delegate];
     [request release];
 }
+- (void)syncTasks:(NSString*)teamId
+        projectId:(NSString*)projectId
+         memberId:(NSString*)memberId
+              tag:(NSString*)tag
+          context:(NSMutableDictionary*)context
+         delegate:(id)delegate
+{
+    NSString *url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:TEAMSYNC_URL];
+}
+- (void)getTasks:(NSString*)teamId
+       projectId:(NSString*)projectId
+        memberId:(NSString*)memberId
+             tag:(NSString*)tag
+         context:(NSMutableDictionary*)context
+        delegate:(id)delegate
+{
+    NSString *url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:TeamTask_GETINCOMPLETEDBYPRIORITY_URL];
+    NSLog(@"getIncompletedByPriority服务路径: %@", url);
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:teamId forKey:@"teamId"];
+    if (projectId != nil)
+    {
+        [params setObject:projectId forKey:@"projectId"];
+    }
+    if (memberId != nil)
+    {
+        [params setObject:memberId forKey:@"memberId"];
+    }
+    if (tag != nil)
+    {
+        [params setObject:tag forKey:@"tag"];
+    }
+    
+    HttpWebRequest *request = [[HttpWebRequest alloc] init];
+    [request postAsync:url params:params headers:nil context:context delegate:delegate];
+    [request release];
+}
 
 @end

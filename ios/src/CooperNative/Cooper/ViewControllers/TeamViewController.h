@@ -31,6 +31,7 @@
 }
 
 @property (nonatomic, retain) NSMutableArray *teams;
-@property (nonatomic, retain) BaseNavigationController *teamTaskNavController;
+@property (nonatomic, retain) BaseNavigationController *setting_navViewController;
+@property (nonatomic, retain) TeamTaskViewController *teamTaskViewController;
 
 @end

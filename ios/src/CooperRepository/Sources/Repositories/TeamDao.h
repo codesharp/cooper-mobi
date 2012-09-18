@@ -17,6 +17,8 @@
 
 //获取所有团队信息
 - (NSMutableArray*)getTeams;
+//通过指定的TeamId获取团队信息
+- (Team*)getTeamById:(NSString*)teamId;
 //添加团队的信息
 - (void)addTeam:(NSString*)teamId :(NSString*)name;
 //删除指定的团队

@@ -12,7 +12,8 @@
 @implementation TeamViewController
 
 @synthesize teams;
-@synthesize teamTaskNavController;
+@synthesize setting_navViewController;
+@synthesize teamTaskViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -92,7 +93,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -116,6 +116,8 @@
     [teamMemberDao release];
     [projectDao release];
     [tagDao release];
+    [setting_navViewController release];
+    [teamTaskViewController release];
     [super dealloc];
 }
 
@@ -168,17 +170,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //打开团队任务列表
-    //if (teamTaskNavController == nil)
-    //{
-        TeamTaskViewController *teamTaskViewController = [[TeamTaskViewController alloc] init];
-        //teamTaskNavController = [[BaseNavigationController alloc] initWithRootViewController:teamTaskViewController];
-        //[teamTaskViewController release];
-    //}
+    if (teamTaskViewController == nil)
+    {
+        teamTaskViewController = [[TeamTaskViewController alloc] init];
+    }
     
+    Team *team = [self.teams objectAtIndex:indexPath.row];
+    teamTaskViewController.currentTeamId = team.id;
     [Tools layerTransition:self.navigationController.view from:@"right"];
     [self.navigationController pushViewController:teamTaskViewController animated:NO];
-    [teamTaskViewController release];
-    
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -253,6 +254,39 @@
         
         [self getTeams:sender];
     }
+}
+
+- (void)settingAction:(id)sender
+{
+    if(setting_navViewController == nil)
+    {
+        //设置
+        SettingViewController *settingViewController = [[SettingViewController alloc] initWithNibName:@"SettingViewController" bundle:nil setTitle:@"设置" setImage:SETTING_IMAGE];
+        
+        setting_navViewController = [[BaseNavigationController alloc] initWithRootViewController:settingViewController];
+        
+        //后退按钮
+        UIButton *btnBack = [UIButton buttonWithType:UIButtonTypeCustom];
+        btnBack.frame = CGRectMake(5, 5, 25, 25);
+        [btnBack setBackgroundImage:[UIImage imageNamed:BACK_IMAGE] forState:UIControlStateNormal];
+        [btnBack addTarget: self action: @selector(goBack:) forControlEvents: UIControlEventTouchUpInside];
+        
+        UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnBack];
+        settingViewController.navigationItem.leftBarButtonItem = backButtonItem;
+        [self.navigationController presentModalViewController:setting_navViewController animated:YES];
+        
+        [backButtonItem release];
+        [settingViewController release];
+    }
+    else
+    {
+        [self.navigationController presentModalViewController:setting_navViewController animated:YES];
+    }
+}
+
+- (void)goBack:(id)sender
+{
+    [self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request
