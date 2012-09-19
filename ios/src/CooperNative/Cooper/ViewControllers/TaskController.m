@@ -309,13 +309,13 @@
                     
                     NSLog(@"任务旧值ID: %@ 变为新值ID:%@", oldId, newId);
                     
-                    [taskDao updateTaskIdByNewId:oldId newId:newId tasklistId:currentTasklistId];
+                    [taskDao updateTaskIdByNewId:oldId newId:newId];
                     [taskIdxDao updateTaskIdxByNewId:oldId newId:newId tasklistId:currentTasklistId];
                 }
             }
             
             //修正changeLog
-            [changeLogDao updateAllToSend:currentTasklistId];
+            [changeLogDao deleteChangeLogByTasklistId:currentTasklistId];
             [changeLogDao commitData];
             
             [[ConstantClass instance] setSortHasChanged:@""];

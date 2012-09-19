@@ -23,6 +23,8 @@
     return self;
 }
 
+#pragma mark - 个人任务相关
+
 - (NSMutableArray*)getAllTaskIdx:(NSString*)tasklistId
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -58,7 +60,7 @@
     
     NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(accountId = nil)"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(accountId = nil and teamId = nil)"];
     
     [fetchRequest setPredicate:predicate];
     
@@ -382,11 +384,11 @@
                        newId:(NSString *)newId
                   tasklistId:(NSString *)tasklistId
 
-{
+{   
+    NSMutableArray *array = [self getAllTaskIdx:tasklistId];
+    
     SBJsonParser *parser = [[SBJsonParser alloc] init];
     SBJsonWriter *writer = [[SBJsonWriter alloc] init];
-    
-    NSMutableArray *array = [self getAllTaskIdx:tasklistId];
     for(TaskIdx *taskIdx in array)
     {
         NSMutableArray *sIndexesArray = [parser objectWithString: taskIdx.indexes];
@@ -403,7 +405,6 @@
         }
         taskIdx.indexes = [writer stringWithObject:sIndexesArray];
     }
-    
     [parser release];
     [writer release];
 }
@@ -413,6 +414,98 @@
     NSMutableArray *taskIdxs = [self getAllTaskIdx:oldId];
     for (TaskIdx *taskIdx in taskIdxs) {
         taskIdx.tasklistId = newId;
+    }
+}
+
+#pragma mark - 团队任务相关
+
+- (void)addTeamTaskIdx:(NSString*)by
+                   key:(NSString*)key
+                  name:(NSString*)name
+               indexes:(NSString*)indexes
+                teamId:(NSString*)teamId
+             projectId:(NSString*)projectId
+              memberId:(NSString*)memberId
+                   tag:(NSString*)tag
+{
+    TaskIdx *taskIdx = [ModelHelper create:tableName context:context];
+    taskIdx.key = key;
+    taskIdx.by = by;
+    taskIdx.name = name;
+    taskIdx.indexes = indexes;
+    taskIdx.teamId = teamId;
+    taskIdx.projectId = projectId;
+    taskIdx.memberId = memberId;
+    taskIdx.tag = tag;
+}
+- (NSMutableArray*)getAllTaskIdxByTeam:(NSString*)teamId
+                             projectId:(NSString*)projectId
+                              memberId:(NSString*)memberId
+                                   tag:(NSString*)tag
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"((teamId = %@) and (projectId = %@) and (memberId = %@) and (tag = %@))"
+                              , teamId
+                              , projectId 
+                              , memberId 
+                              , tag ];
+    [fetchRequest setPredicate:predicate];
+    
+    NSSortDescriptor *sortDescriptor =  [[NSSortDescriptor alloc] initWithKey:@"key" ascending:YES];
+    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    NSError *error = nil;
+    NSMutableArray *taskIdxs = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    
+    [fetchRequest release];
+    
+    return [taskIdxs autorelease];
+}
+- (void)updateTaskIdxByNewIdAndTeam:(NSString*)oldId
+                              newId:(NSString*)newId
+                             teamId:(NSString*)teamId
+                          projectId:(NSString*)projectId
+                           memberId:(NSString*)memberId
+                                tag:(NSString*)tag
+{
+    NSMutableArray *array = [self getAllTaskIdxByTeam:teamId projectId:projectId memberId:memberId tag:tag];
+    
+    SBJsonParser *parser = [[SBJsonParser alloc] init];
+    SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+    for(TaskIdx *taskIdx in array)
+    {
+        NSMutableArray *sIndexesArray = [parser objectWithString: taskIdx.indexes];
+        int i = 0;
+        
+        for(NSString *taskId in sIndexesArray)
+        {
+            if([taskId isEqualToString: oldId])
+            {
+                [sIndexesArray replaceObjectAtIndex:i withObject:newId];
+                break;
+            }
+            i++;
+        }
+        taskIdx.indexes = [writer stringWithObject:sIndexesArray];
+    }
+    [parser release];
+    [writer release];
+}
+//删除指定的TaskIdx
+- (void)deleteAllByTeam:(NSString*)teamId
+              projectId:(NSString*)projectId
+               memberId:(NSString*)memberId
+                    tag:(NSString*)tag
+{
+    NSMutableArray *taskIdxs = [self getAllTaskIdxByTeam:teamId projectId:projectId memberId:memberId tag:tag];
+    if(taskIdxs.count > 0)
+    {
+        for(TaskIdx *taskIdx in taskIdxs)
+            [context deleteObject:taskIdx];
     }
 }
 

@@ -2,7 +2,7 @@
 //  Task.h
 //  CooperNative
 //
-//  Created by sunleepy on 12-9-14.
+//  Created by sunleepy on 12-9-19.
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
@@ -29,5 +29,6 @@
 @property (nonatomic, retain) NSString * tasklistId;
 @property (nonatomic, retain) NSString * taskType;
 @property (nonatomic, retain) NSString * teamId;
+@property (nonatomic, retain) NSString * projects;
 
 @end

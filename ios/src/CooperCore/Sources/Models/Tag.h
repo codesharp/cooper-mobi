@@ -2,7 +2,7 @@
 //  Tag.h
 //  CooperNative
 //
-//  Created by sunleepy on 12-9-17.
+//  Created by sunleepy on 12-9-19.
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
@@ -12,7 +12,7 @@
 
 @interface Tag : NSManagedObject
 
-@property (nonatomic, retain) NSString * id;
 @property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSString * teamId;
 
 @end

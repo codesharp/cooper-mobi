@@ -13,6 +13,8 @@
     NSString* tableName;
 }
 
+#pragma mark - 个人任务相关
+
 //通过本地临时获取所有的任务索引
 - (NSMutableArray*)getAllTaskIdxByTemp;
 //通过指定的tasklistId获取所有的任务索引
@@ -59,5 +61,34 @@
 //修改新的TasklistId
 - (void)updateTasklistIdByNewId:(NSString*)oldId 
                           newId:(NSString*)newId;
+
+#pragma mark - 团队任务相关
+
+//添加团队索引
+- (void)addTeamTaskIdx:(NSString *)by
+                   key:(NSString*)key
+                  name:(NSString*)name
+               indexes:(NSString*)indexes
+                teamId:(NSString*)teamId
+             projectId:(NSString*)projectId
+              memberId:(NSString*)memberId
+                   tag:(NSString*)tag;
+//获取团队索引
+- (NSMutableArray*)getAllTaskIdxByTeam:(NSString*)teamId
+                             projectId:(NSString*)projectId
+                              memberId:(NSString*)memberId
+                                   tag:(NSString*)tag;
+//更新索引
+- (void)updateTaskIdxByNewIdAndTeam:(NSString*)oldId
+                              newId:(NSString*)newId
+                             teamId:(NSString*)teamId
+                          projectId:(NSString*)projectId
+                           memberId:(NSString*)memberId
+                                tag:(NSString*)tag;
+//删除指定的TaskIdx
+- (void)deleteAllByTeam:(NSString*)teamId
+              projectId:(NSString*)projectId
+               memberId:(NSString*)memberId
+                    tag:(NSString*)tag;
 
 @end

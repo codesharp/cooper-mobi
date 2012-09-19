@@ -38,10 +38,9 @@
     NSMutableArray *teams = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
     if(error != nil)
         NSLog(@"数据库错误异常: %@", [error description]);
-    
     [fetchRequest release];
     
-    return [teams autorelease];
+    return teams;
 }
 - (Team*)getTeamById:(NSString*)teamId
 {

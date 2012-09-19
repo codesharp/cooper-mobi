@@ -2,7 +2,7 @@
 //  TaskIdx.h
 //  CooperNative
 //
-//  Created by sunleepy on 12-9-14.
+//  Created by sunleepy on 12-9-19.
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
@@ -18,5 +18,9 @@
 @property (nonatomic, retain) NSString * key;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * tasklistId;
+@property (nonatomic, retain) NSString * teamId;
+@property (nonatomic, retain) NSString * projectId;
+@property (nonatomic, retain) NSString * memberId;
+@property (nonatomic, retain) NSString * tag;
 
 @end

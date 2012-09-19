@@ -37,6 +37,8 @@
 		6A18E5721603358200ED2042 /* TeamMemberDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E5701603358200ED2042 /* TeamMemberDao.m */; };
 		6A18E57816033C6A00ED2042 /* ProjectDao.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A18E57616033C6900ED2042 /* ProjectDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6A18E57916033C6A00ED2042 /* ProjectDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E57716033C6A00ED2042 /* ProjectDao.m */; };
+		6A7D875E1609A7B7004C7C9C /* CommentDao.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A7D875C1609A7B6004C7C9C /* CommentDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6A7D875F1609A7B7004C7C9C /* CommentDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D875D1609A7B6004C7C9C /* CommentDao.m */; };
 		6A84F2A116070AF4000B62CB /* TagDao.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A84F29F16070AF4000B62CB /* TagDao.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6A84F2A216070AF4000B62CB /* TagDao.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A84F2A016070AF4000B62CB /* TagDao.m */; };
 /* End PBXBuildFile section */
@@ -94,6 +96,8 @@
 		6A18E5701603358200ED2042 /* TeamMemberDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamMemberDao.m; path = Sources/Repositories/TeamMemberDao.m; sourceTree = "<group>"; };
 		6A18E57616033C6900ED2042 /* ProjectDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProjectDao.h; path = Sources/Repositories/ProjectDao.h; sourceTree = "<group>"; };
 		6A18E57716033C6A00ED2042 /* ProjectDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProjectDao.m; path = Sources/Repositories/ProjectDao.m; sourceTree = "<group>"; };
+		6A7D875C1609A7B6004C7C9C /* CommentDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentDao.h; path = Sources/Repositories/CommentDao.h; sourceTree = "<group>"; };
+		6A7D875D1609A7B6004C7C9C /* CommentDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentDao.m; path = Sources/Repositories/CommentDao.m; sourceTree = "<group>"; };
 		6A84F29F16070AF4000B62CB /* TagDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TagDao.h; path = Sources/Repositories/TagDao.h; sourceTree = "<group>"; };
 		6A84F2A016070AF4000B62CB /* TagDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TagDao.m; path = Sources/Repositories/TagDao.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -169,6 +173,8 @@
 				6A18E57716033C6A00ED2042 /* ProjectDao.m */,
 				6A84F29F16070AF4000B62CB /* TagDao.h */,
 				6A84F2A016070AF4000B62CB /* TagDao.m */,
+				6A7D875C1609A7B6004C7C9C /* CommentDao.h */,
+				6A7D875D1609A7B6004C7C9C /* CommentDao.m */,
 			);
 			name = Repositories;
 			sourceTree = "<group>";
@@ -242,6 +248,7 @@
 				6A18E5711603358200ED2042 /* TeamMemberDao.h in Headers */,
 				6A18E57816033C6A00ED2042 /* ProjectDao.h in Headers */,
 				6A84F2A116070AF4000B62CB /* TagDao.h in Headers */,
+				6A7D875E1609A7B7004C7C9C /* CommentDao.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +334,7 @@
 				6A18E5721603358200ED2042 /* TeamMemberDao.m in Sources */,
 				6A18E57916033C6A00ED2042 /* ProjectDao.m in Sources */,
 				6A84F2A216070AF4000B62CB /* TagDao.m in Sources */,
+				6A7D875F1609A7B7004C7C9C /* CommentDao.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

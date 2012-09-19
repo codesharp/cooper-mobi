@@ -18,6 +18,7 @@
 @synthesize subjectLabel;
 @synthesize bodyLabel;
 @synthesize dueDateLabel;
+@synthesize assigneeNameLabel;
 @synthesize statusButton;
 @synthesize arrowButton;
 @synthesize leftView;
@@ -50,6 +51,11 @@
     [dueDateLabel setLineBreakMode:UILineBreakModeWordWrap];
     [dueDateLabel setFont:[UIFont systemFontOfSize:14]];
     [dueDateLabel setTextColor:APP_BACKGROUNDCOLOR];
+    
+    assigneeNameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    assigneeNameLabel.font = [UIFont systemFontOfSize:12];
+    assigneeNameLabel.textColor = APP_BACKGROUNDCOLOR;
+    [self.contentView addSubview:assigneeNameLabel];
     
     [self.contentView addSubview:subjectLabel];
     [self.contentView addSubview:bodyLabel];
@@ -114,8 +120,7 @@
                              name:@"iscompleted" 
                             value:task.status == [NSNumber numberWithInt:1] ? @"true" : @"false" 
                        tasklistId:task.tasklistId];
-    
-    
+       
     [taskDao commitData];
 }
 
@@ -124,6 +129,7 @@
     self.task = taskInfo;
     taskDao = [[TaskDao alloc] init];
     changeLogDao = [[ChangeLogDao alloc] init];
+    teamMemberDao = [[TeamMemberDao alloc] init];
     
     if([[task.status stringValue] isEqualToString:@"1"])
     {
@@ -175,13 +181,27 @@
     if(subjectLabelHeight == 0 && bodylines * 16 == 0)
         totalHeight = 50;
     else
-        totalHeight = subjectLabelHeight + bodylines * 16 + PADDING * 2;
+        totalHeight = subjectLabelHeight + bodylines * 16 ;
     
+    if(self.task.assigneeId != nil)
+    {
+        TeamMember *teamMember = [teamMemberDao getTeamMemberByTeamId:self.task.teamId
+                                                           assigneeId:self.task.assigneeId];
+        if(teamMember != nil)
+        {
+            assigneeNameLabel.text = teamMember.name;
+            assigneeNameLabel.frame = CGRectMake(50, totalHeight, [Tools screenMaxWidth], 30);
+            
+            NSLog(@"TeamMember: %@", teamMember.name);
+        }
+        
+        totalHeight += 30;
+    }
     if(totalHeight < 50)
         totalHeight = 50;
     [self setFrame:CGRectMake(0, 0, CONTENT_WIDTH + [Tools screenMaxWidth] - 320, totalHeight)];
     [leftView setFrame:CGRectMake(0, 0, 40, totalHeight)];
-    
+
 //    CGRect rightRect = rightView.frame;
 //    rightRect.size.height = totalHeight;
 //    [rightView setFrame:rightRect];
@@ -197,11 +217,13 @@
     [subjectLabel release];
     [bodyLabel release];
     [dueDateLabel release];
+    [assigneeNameLabel release];
     [leftView release];
     //[rightView release];
     [statusButton release];
     [changeLogDao release];
     [taskDao release];
+    [teamMemberDao release];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

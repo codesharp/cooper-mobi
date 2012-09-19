@@ -3,20 +3,19 @@
     <entity name="ChangeLog" representedClassName="ChangeLog" syncable="YES">
         <attribute name="accountId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="changeType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="dataid" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES" isSyncIdentityProperty="YES">
-            <userInfo/>
-        </attribute>
-        <attribute name="isSend" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="dataId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="memberId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="projectId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tasklistId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="teamId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Comment" representedClassName="Comment" syncable="YES">
         <attribute name="body" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="createTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="creatorId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="taskId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Project" representedClassName="Project" syncable="YES">
@@ -25,8 +24,8 @@
         <attribute name="teamId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Tag" representedClassName="Tag" syncable="YES">
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="teamId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Task" representedClassName="Task" syncable="YES">
         <attribute name="accountId" optional="YES" attributeType="String" syncable="YES"/>
@@ -40,6 +39,7 @@
         <attribute name="isPublic" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="lastUpdateDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="priority" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="projects" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="subject" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tags" optional="YES" attributeType="String" syncable="YES"/>
@@ -52,8 +52,12 @@
         <attribute name="by" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="indexes" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="memberId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="projectId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tag" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tasklistId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="teamId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Tasklist" representedClassName="Tasklist" syncable="YES">
         <attribute name="accountId" optional="YES" attributeType="String" syncable="YES"/>
@@ -63,10 +67,6 @@
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="listType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
-    <entity name="TaskProjectRelationship" representedClassName="TaskProjectRelationship" syncable="YES">
-        <attribute name="projectId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="taskId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Team" representedClassName="Team" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
@@ -79,15 +79,14 @@
         <attribute name="teamId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="ChangeLog" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Comment" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Project" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Task" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="TaskIdx" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Tasklist" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="TaskProjectRelationship" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Team" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="TeamMember" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Tag" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="ChangeLog" positionX="0" positionY="0" width="128" height="195"/>
+        <element name="Comment" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="Project" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="Tag" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="Task" positionX="0" positionY="0" width="128" height="315"/>
+        <element name="TaskIdx" positionX="0" positionY="0" width="128" height="195"/>
+        <element name="Tasklist" positionX="0" positionY="0" width="128" height="150"/>
+        <element name="Team" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="TeamMember" positionX="0" positionY="0" width="128" height="105"/>
     </elements>
 </model>

@@ -29,8 +29,6 @@
 		6A18E55C16032A0000ED2042 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E55216032A0000ED2042 /* Comment.m */; };
 		6A18E55D16032A0000ED2042 /* Project.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A18E55316032A0000ED2042 /* Project.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6A18E55E16032A0000ED2042 /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E55416032A0000ED2042 /* Project.m */; };
-		6A18E55F16032A0000ED2042 /* TaskProjectRelationship.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A18E55516032A0000ED2042 /* TaskProjectRelationship.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A18E56016032A0000ED2042 /* TaskProjectRelationship.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E55616032A0000ED2042 /* TaskProjectRelationship.m */; };
 		6A18E56116032A0000ED2042 /* Team.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A18E55716032A0000ED2042 /* Team.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6A18E56216032A0000ED2042 /* Team.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E55816032A0000ED2042 /* Team.m */; };
 		6A18E56316032A0000ED2042 /* TeamMember.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A18E55916032A0000ED2042 /* TeamMember.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -81,8 +79,6 @@
 		6A18E55216032A0000ED2042 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Comment.m; path = Sources/Models/Comment.m; sourceTree = "<group>"; };
 		6A18E55316032A0000ED2042 /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Project.h; path = Sources/Models/Project.h; sourceTree = "<group>"; };
 		6A18E55416032A0000ED2042 /* Project.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Project.m; path = Sources/Models/Project.m; sourceTree = "<group>"; };
-		6A18E55516032A0000ED2042 /* TaskProjectRelationship.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskProjectRelationship.h; path = Sources/Models/TaskProjectRelationship.h; sourceTree = "<group>"; };
-		6A18E55616032A0000ED2042 /* TaskProjectRelationship.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskProjectRelationship.m; path = Sources/Models/TaskProjectRelationship.m; sourceTree = "<group>"; };
 		6A18E55716032A0000ED2042 /* Team.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Team.h; path = Sources/Models/Team.h; sourceTree = "<group>"; };
 		6A18E55816032A0000ED2042 /* Team.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Team.m; path = Sources/Models/Team.m; sourceTree = "<group>"; };
 		6A18E55916032A0000ED2042 /* TeamMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamMember.h; path = Sources/Models/TeamMember.h; sourceTree = "<group>"; };
@@ -149,8 +145,6 @@
 				6A18E55216032A0000ED2042 /* Comment.m */,
 				6A18E55316032A0000ED2042 /* Project.h */,
 				6A18E55416032A0000ED2042 /* Project.m */,
-				6A18E55516032A0000ED2042 /* TaskProjectRelationship.h */,
-				6A18E55616032A0000ED2042 /* TaskProjectRelationship.m */,
 				6A18E55716032A0000ED2042 /* Team.h */,
 				6A18E55816032A0000ED2042 /* Team.m */,
 				6A18E55916032A0000ED2042 /* TeamMember.h */,
@@ -223,7 +217,6 @@
 				18A92DC015D2EDC200423A55 /* ModelHelper.h in Headers */,
 				6A18E55B16032A0000ED2042 /* Comment.h in Headers */,
 				6A18E55D16032A0000ED2042 /* Project.h in Headers */,
-				6A18E55F16032A0000ED2042 /* TaskProjectRelationship.h in Headers */,
 				6A18E56116032A0000ED2042 /* Team.h in Headers */,
 				6A18E56316032A0000ED2042 /* TeamMember.h in Headers */,
 				6A84F29C16070AAC000B62CB /* Tag.h in Headers */,
@@ -308,7 +301,6 @@
 				18A92DC115D2EDC200423A55 /* ModelHelper.m in Sources */,
 				6A18E55C16032A0000ED2042 /* Comment.m in Sources */,
 				6A18E55E16032A0000ED2042 /* Project.m in Sources */,
-				6A18E56016032A0000ED2042 /* TaskProjectRelationship.m in Sources */,
 				6A18E56216032A0000ED2042 /* Team.m in Sources */,
 				6A18E56416032A0000ED2042 /* TeamMember.m in Sources */,
 				6A84F29D16070AAC000B62CB /* Tag.m in Sources */,

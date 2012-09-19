@@ -28,7 +28,7 @@
                                               inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     
-    NSSortDescriptor *sortDescriptor =  [[NSSortDescriptor alloc] initWithKey:@"id"
+    NSSortDescriptor *sortDescriptor =  [[NSSortDescriptor alloc] initWithKey:@"name"
                                                                     ascending:YES];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     [fetchRequest setSortDescriptors:sortDescriptors];
@@ -41,7 +41,7 @@
     
     [fetchRequest release];
     
-    return [tags autorelease];
+    return tags;
 }
 - (void)addTag:(NSString *)tagName
 {

@@ -7,6 +7,11 @@
 //
 
 #import "TeamService.h"
+#import "SBJsonParser.h"
+#import "SBJsonWriter.h"
+#import "CooperCore/ChangeLog.h"
+#import "CooperCore/TaskIdx.h"
+#import "CooperRepository/ChangeLogDao.h"
 
 @implementation TeamService
 
@@ -45,7 +50,68 @@
         [params setObject:tag forKey:@"tag"];
     }
     
-    
+    ChangeLogDao *changeLogDao = [[ChangeLogDao alloc] init];
+
+    NSMutableArray *changeLogs = [changeLogDao getChangeLogByTeam:teamId projectId:projectId memberId:memberId tag:tag];
+
+    NSMutableArray *changeLogsArray = [NSMutableArray array];
+    for(ChangeLog *changeLog in changeLogs)
+    {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setObject:changeLog.changeType forKey:@"Type"];
+        [dict setObject:changeLog.dataId forKey:@"ID"];
+        [dict setObject:(changeLog.name == nil ? @"" : changeLog.name) forKey:@"Name"];
+        if([changeLog.name isEqualToString:@"isCompleted"])
+        {
+            [dict setObject:changeLog.value forKey:@"Value"];
+        }
+        else
+        {
+            [dict setObject:(changeLog.value == nil ? @"" : changeLog.value) forKey:@"Value"];
+        }
+        [changeLogsArray addObject:dict];
+    }
+
+    [changeLogDao release];
+
+    SBJsonParser *parser = [[SBJsonParser alloc] init];
+    SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+
+    NSMutableArray *taskIdxsArray = [NSMutableArray array];
+//    for(TaskIdx *taskIdx in taskIdxs)
+//    {
+//        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+//        [dict setObject:taskIdx.by forKey:@"By"];
+//        [dict setObject:taskIdx.key forKey:@"Key"];
+//        [dict setObject:taskIdx.name forKey:@"Name"];
+//        
+//        NSMutableArray *indexsArray = nil;
+//        if(!taskIdx.indexes)
+//            indexsArray = [NSMutableArray array];
+//        else {
+//            indexsArray = [parser objectWithString:taskIdx.indexes];
+//        }
+//        
+//        [dict setObject:indexsArray forKey:@"Indexs"];
+//        [taskIdxsArray addObject:dict];
+//    }
+
+    NSString* changeLogsJson = [changeLogsArray JSONRepresentation];
+    NSString* taskIdxsJson = [taskIdxsArray JSONRepresentation];
+
+    NSLog(@"changeLogs:%@", changeLogsJson);
+    NSLog(@"taskIdxs:%@", taskIdxsJson);
+
+    [parser release];
+    [writer release];
+
+    [params setObject:changeLogsJson forKey:@"changes"];
+    [params setObject:@"ByPriority" forKey:@"by"];
+    [params setObject:taskIdxsJson forKey:@"sorts"];
+
+    HttpWebRequest *request = [[HttpWebRequest alloc] init];
+    [request postAsync:url params:params headers:nil context:context delegate:delegate];
+    [request release];
 }
 - (void)getTasks:(NSString*)teamId
        projectId:(NSString*)projectId

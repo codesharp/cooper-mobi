@@ -10,6 +10,7 @@
 #import "CooperRepository/TaskDao.h"
 #import "CooperRepository/TaskIdxDao.h"
 #import "CooperRepository/ChangeLogDao.h"
+#import "CooperRepository/TeamMemberDao.h"
 
 @protocol TaskTableViewCellDelegate <NSObject>
 
@@ -21,14 +22,18 @@
 {
     TaskDao *taskDao;
     ChangeLogDao *changeLogDao;
+    TeamMemberDao *teamMemberDao;
 }
 
 - (void) setTaskInfo:(Task*)task;
+
 @property (nonatomic, retain) Task* task;
 
 @property (nonatomic, retain) UILabel *subjectLabel;
 @property (nonatomic, retain) UILabel *bodyLabel;
 @property (nonatomic, retain) UILabel *dueDateLabel;
+@property (nonatomic, retain) UILabel *assigneeNameLabel;
+
 @property (nonatomic, retain) UIButton *statusButton;
 @property (nonatomic, retain) UIButton *arrowButton;
 @property (nonatomic, retain) UIView *leftView;

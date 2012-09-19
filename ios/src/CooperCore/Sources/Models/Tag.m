@@ -2,7 +2,7 @@
 //  Tag.m
 //  CooperNative
 //
-//  Created by sunleepy on 12-9-17.
+//  Created by sunleepy on 12-9-19.
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
@@ -11,7 +11,7 @@
 
 @implementation Tag
 
-@dynamic id;
 @dynamic name;
+@dynamic teamId;
 
 @end

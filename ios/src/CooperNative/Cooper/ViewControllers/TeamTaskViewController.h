@@ -8,14 +8,20 @@
 
 #import "BaseViewController.h"
 #import "SettingViewController.h"
+#import "TaskViewDelegate.h"
+#import "TaskTableViewCell.h"
+#import "CustomButton.h"
 #import "CooperService/TeamService.h"
 #import "CooperRepository/TeamDao.h"
 #import "CooperRepository/TeamMemberDao.h"
 #import "CooperRepository/ProjectDao.h"
 #import "CooperRepository/TagDao.h"
-#import "CustomButton.h"
+#import "CooperRepository/TaskDao.h"
+#import "CooperRepository/TaskIdxDao.h"
+#import "CooperRepository/ChangeLogDao.h"
+#import "CooperRepository/CommentDao.h"
 
-@interface TeamTaskViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>
+@interface TeamTaskViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate,  TaskTableViewCellDelegate>
 {
     UITableView *taskView;
     
@@ -25,6 +31,10 @@
     TeamMemberDao *teamMemberDao;
     ProjectDao *projectDao;
     TagDao *tagDao;
+    TaskDao *taskDao;
+    TaskIdxDao *taskIdxDao;
+    ChangeLogDao *changeLogDao;
+    CommentDao *commentDao;
     
     UIView *editBtn;
     UIView *syncBtn;
@@ -36,7 +46,11 @@
     CustomButton *doneEditingBtn;
 }
 
-@property (nonatomic, retain) NSString* currentTeamId;
+@property (nonatomic, retain) NSString *currentTeamId;
+@property (nonatomic, retain) NSString *currentProjectId;
+@property (nonatomic, retain) NSString *currentMemberId;
+@property (nonatomic, retain) NSString *currentTag;
+
 @property (nonatomic, retain) NSMutableArray *taskIdxGroup;
 @property (nonatomic, retain) NSMutableArray *taskGroup;
 @property (nonatomic, retain) SettingViewController *settingViewController;

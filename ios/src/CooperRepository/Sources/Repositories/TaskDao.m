@@ -22,6 +22,8 @@
     return self;
 }
 
+#pragma mark - 个人任务相关
+
 - (NSMutableArray*)getTaskByToday
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -90,7 +92,7 @@
     
     NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(accountId = nil)"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(accountId = nil and teamId = nil)"];
     
     [fetchRequest setPredicate:predicate];
     
@@ -104,36 +106,6 @@
     [fetchRequest release];
     
     return [tasks autorelease];
-}
-- (Task*)getTaskById:(NSString*)taskId
-{
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
-    
-    NSError *error = nil;
-    
-    [fetchRequest setEntity:entity];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(id = %@)", [NSString stringWithFormat:@"%@", taskId]];
-    [fetchRequest setPredicate:predicate];
-    
-    NSMutableArray *tasks = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
-    if(error != nil)
-    {
-        NSLog(@"数据库错误异常: %@", [error description]);
-    }
-
-    Task *task = nil;
-    if (tasks.count == 0) {
-        task = [ModelHelper create:tableName context:context];
-    }
-    else {
-        task = (Task*)[tasks objectAtIndex:0];
-    }
-
-    [fetchRequest release];
-    
-    return task;
 }
 - (void)deleteTask:(Task *)task
 {
@@ -197,7 +169,6 @@
        isCommit:(BOOL)isCommit
 {
     Task *task = [ModelHelper create:tableName context:context];
-    //TODO:...
     task.subject = subject;
     task.createDate = createDate;
     task.lastUpdateDate = lastUpdateDate;
@@ -240,15 +211,6 @@
     if(isCommit)
         [super commitData];
 }
-- (void)updateTaskIdByNewId:(NSString *)oldId
-                      newId:(NSString *)newId 
-                 tasklistId:(NSString *)tasklistId
-{
-    Task *task = [self getTaskById:oldId];
-    if(task == nil)
-        return;
-    task.id = newId;
-}
 - (void)updateTasklistIdByNewId:(NSString*)oldId
                           newId:(NSString*)newId
 {
@@ -256,6 +218,115 @@
     for (Task *task in tasks) {
         task.tasklistId = newId;
     }
+}
+
+#pragma mark - 团队任务相关
+
+- (void)addTeamTask:(NSString*)subject
+         createDate:(NSDate*)createDate
+     lastUpdateDate:(NSDate*)lastUpdateDate
+               body:(NSString*)body
+           isPublic:(NSNumber*)isPublic
+             status:(NSNumber*)status
+           priority:(NSString*)priority
+             taskId:(NSString*)tid
+            dueDate:(NSDate*)dueDate
+           editable:(NSNumber*)editable
+     createMemberId:(NSString*)createMemberId
+         assigneeId:(NSString*)assigneeId
+           projects:(NSString*)projects
+               tags:(NSString*)tags
+             teamId:(NSString*)teamId
+{
+    Task *task = [ModelHelper create:tableName context:context];
+    task.subject = subject;
+    task.createDate = createDate;
+    task.lastUpdateDate = lastUpdateDate;
+    task.body = body;
+    task.isPublic = isPublic;
+    task.status = status;
+    task.priority = priority;
+    task.id = tid;
+    task.dueDate = dueDate;
+    task.editable = editable;
+    task.createMemberId = createMemberId;
+    task.assigneeId = assigneeId;
+    task.projects = projects;
+    task.tags = tags;
+    task.teamId = teamId;
+}
+- (NSMutableArray*)getTasksByTeam:(NSString*)teamId
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(teamId = %@)", teamId];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSMutableArray *tasks = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    if(error != nil)
+    {
+        NSLog(@"数据库错误异常: %@", [error description]);
+    }
+    
+    [fetchRequest release];
+    
+    return tasks;
+}
+- (void)deleteAllByTeam:(NSString*)teamId
+{
+    NSMutableArray *array = [self getTasksByTeam:teamId];
+    
+    if(array.count > 0)
+    {
+        for(Task* task in array)
+        {
+            [self deleteTask:task];
+        }
+    }
+}
+
+#pragma mark - 公共
+
+- (Task*)getTaskById:(NSString*)taskId
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
+    
+    NSError *error = nil;
+    
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(id = %@)", [NSString stringWithFormat:@"%@", taskId]];
+    [fetchRequest setPredicate:predicate];
+    
+    NSMutableArray *tasks = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    if(error != nil)
+    {
+        NSLog(@"数据库错误异常: %@", [error description]);
+    }
+    
+    Task *task = nil;
+    if (tasks.count == 0) {
+        task = [ModelHelper create:tableName context:context];
+    }
+    else {
+        task = (Task*)[tasks objectAtIndex:0];
+    }
+    
+    [fetchRequest release];
+    
+    return task;
+}
+- (void)updateTaskIdByNewId:(NSString *)oldId
+                      newId:(NSString *)newId
+{
+    Task *task = [self getTaskById:oldId];
+    if(task == nil)
+        return;
+    task.id = newId;
 }
 
 @end

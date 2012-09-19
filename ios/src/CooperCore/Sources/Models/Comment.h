@@ -2,7 +2,7 @@
 //  Comment.h
 //  CooperNative
 //
-//  Created by sunleepy on 12-9-14.
+//  Created by sunleepy on 12-9-19.
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
@@ -15,7 +15,6 @@
 @property (nonatomic, retain) NSString * body;
 @property (nonatomic, retain) NSDate * createTime;
 @property (nonatomic, retain) NSString * creatorId;
-@property (nonatomic, retain) NSString * id;
 @property (nonatomic, retain) NSString * taskId;
 
 @end

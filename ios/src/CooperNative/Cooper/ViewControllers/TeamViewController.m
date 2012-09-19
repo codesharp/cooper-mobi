@@ -176,7 +176,12 @@
     }
     
     Team *team = [self.teams objectAtIndex:indexPath.row];
+    
     teamTaskViewController.currentTeamId = team.id;
+    teamTaskViewController.currentProjectId = nil;
+    teamTaskViewController.currentMemberId = nil;
+    teamTaskViewController.currentTag = nil;
+    
     [Tools layerTransition:self.navigationController.view from:@"right"];
     [self.navigationController pushViewController:teamTaskViewController animated:NO];
 

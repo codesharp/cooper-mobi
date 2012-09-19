@@ -21,13 +21,15 @@
     return self;
 }
 
+#pragma mark - 个人任务相关
+
 - (NSMutableArray*)getAllChangeLogByTemp
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
     NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(accountId = nil)"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(accountId = nil and teamId = nil)"];
     
     [fetchRequest setPredicate:predicate];
     
@@ -73,7 +75,7 @@
     return changeLogs;
 }
 - (void)insertChangeLog:(NSNumber *)type 
-                 dataid:(NSString *)dataid 
+                 dataid:(NSString *)dataId 
                    name:(NSString *)name 
                   value:(NSString *)value
              tasklistId:(NSString *)tasklistId
@@ -81,16 +83,15 @@
     ChangeLog *changeLog = [ModelHelper create:tableName context:context];
 
     changeLog.changeType = type;
-    changeLog.dataid = dataid;
+    changeLog.dataId = dataId;
     changeLog.name = name;
     changeLog.value = value;
-    changeLog.isSend = [NSNumber numberWithInt:0];
     changeLog.tasklistId = tasklistId;
     
     if([[ConstantClass instance] username].length > 0)
         changeLog.accountId = [[ConstantClass instance] username];
 }
-- (void)updateAllToSend:(NSString*)tasklistId
+- (void)deleteChangeLogByTasklistId:(NSString*)tasklistId
 {
     NSMutableArray *changeLogs = [self getAllChangeLog:tasklistId];
     for(ChangeLog *changeLog in changeLogs)
@@ -107,6 +108,84 @@
     NSMutableArray *changeLogs = [self getAllChangeLog:oldId];
     for (ChangeLog *changeLog in changeLogs) {
         changeLog.tasklistId = newId;
+    }
+}
+
+#pragma mark - 团队任务相关
+
+- (NSMutableArray*)getChangeLogByTeam:(NSString *)teamId
+                            projectId:(NSString *)projectId
+                             memberId:(NSString *)memberId
+                                  tag:(NSString *)tag
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(teamId = %@ and projectId = %@ and memberId = %@ and tag = %@)"
+                              , teamId
+                              , projectId
+                              , memberId
+                              , tag];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSMutableArray *changeLogs = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    if(error != nil)
+    {
+        NSLog(@"数据库错误异常: %@", [error description]);
+    }
+    
+    [fetchRequest release];
+    
+    return changeLogs;
+}
+- (void)deleteChangeLogByTeam:(NSString*)teamId
+                    projectId:(NSString*)projectId
+                     memberId:(NSString*)memberId
+                          tag:(NSString*)tag
+{
+    NSMutableArray *changeLogs = [self getChangeLogByTeam:teamId
+                                                projectId:projectId
+                                                 memberId:memberId
+                                                      tag:tag];
+    for(ChangeLog *changeLog in changeLogs)
+    {
+        [self deleteChangLog:changeLog];
+    }
+}
+
+#pragma mark - 公共
+
+- (NSMutableArray*)getChangeLogByTaskId:(NSString*)taskId
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
+    
+    NSError *error = nil;
+    
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(dataId = %@)", taskId];
+    [fetchRequest setPredicate:predicate];
+    
+    NSMutableArray *changeLogs = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    if(error != nil)
+    {
+        NSLog(@"数据库错误异常: %@", [error description]);
+    }
+    
+    [fetchRequest release];
+    
+    return changeLogs;
+}
+- (void)updateTaskIdByNewId:(NSString*)oldId newId:(NSString*)newId
+{
+    NSMutableArray *changeLogs = [self getChangeLogByTaskId:oldId];
+    
+    for (ChangeLog *changeLog in changeLogs)
+    {
+        [self deleteChangLog:changeLog];
     }
 }
 

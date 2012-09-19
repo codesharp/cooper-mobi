@@ -39,7 +39,7 @@
     {
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         [dict setObject:changeLog.changeType forKey:@"Type"];
-        [dict setObject:changeLog.dataid forKey:@"ID"];
+        [dict setObject:changeLog.dataId forKey:@"ID"];
         [dict setObject:(changeLog.name == nil ? @"" : changeLog.name)forKey:@"Name"];
         if([changeLog.name isEqualToString:@"isCompleted"])
         {
