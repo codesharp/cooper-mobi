@@ -628,16 +628,22 @@
         settingViewController = [[SettingViewController alloc] initWithNibName:@"SettingViewController" bundle:nil]; 
     }
     
-    CATransition *animation = [CATransition animation];
-    animation.delegate = self;
-    animation.duration = 0.7;
-    animation.type = kCATransitionFade;
-    animation.timingFunction = UIViewAnimationCurveEaseInOut;
-    animation.subtype = kCATransitionFromRight;
-    [self.view.layer addAnimation:animation forKey:kCATransition];
-    
-    //[Tools layerTransition:self.navigationController.view from:@"right"];
+    [UIView beginAnimations:@"animation" context:nil];
     [self.navigationController pushViewController:settingViewController animated:NO];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.navigationController.view cache:NO];
+    [UIView setAnimationDuration:0.7];
+    [UIView commitAnimations];
+    
+//    CATransition *animation = [CATransition animation];
+//    animation.delegate = self;
+//    animation.duration = 0.7;
+//    animation.type = kCATransitionFade;
+//    animation.timingFunction = UIViewAnimationCurveEaseInOut;
+//    animation.subtype = kCATransitionFromRight;
+//    [self.view.layer addAnimation:animation forKey:kCATransition];
+//    
+//    //[Tools layerTransition:self.navigationController.view from:@"right"];
+//    [self.navigationController pushViewController:settingViewController animated:NO];
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request
