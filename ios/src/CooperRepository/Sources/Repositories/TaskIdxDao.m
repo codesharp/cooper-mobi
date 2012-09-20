@@ -508,5 +508,45 @@
             [context deleteObject:taskIdx];
     }
 }
+- (void)deleteTaskIndexsByTaskIdAndTeam:(NSString*)taskId
+                                 teamId:(NSString*)teamId
+                              projectId:(NSString*)projectId
+                               memberId:(NSString*)memberId
+                                    tag:(NSString*)tag
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(teamId = %@ and projectId = %@ and memberId = %@ and tag = %@)"
+                              , teamId
+                              , projectId
+                              , memberId
+                              , tag];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSMutableArray *taskIdxs = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    
+    SBJsonParser *parser = [[SBJsonParser alloc] init];
+    SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+    for(TaskIdx *taskIdx in taskIdxs)
+    {
+        BOOL isChanged = NO;
+        NSMutableArray *indexesArray = [parser objectWithString: taskIdx.indexes];
+        if([indexesArray containsObject:taskId])
+        {
+            [indexesArray removeObject:taskId];
+            isChanged = YES;
+        }
+        
+        if(isChanged)
+            taskIdx.indexes = [writer stringWithObject:indexesArray];
+    }
+    
+    [fetchRequest release];
+    [writer release];
+    [parser release];
+}
 
 @end

@@ -122,11 +122,13 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(teamId = %@ and projectId = %@ and memberId = %@ and tag = %@)"
-                              , teamId
-                              , projectId
-                              , memberId
-                              , tag];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(teamId = %@ and projectId = %@ and memberId = %@ and tag = %@)"
+//                              , teamId
+//                              , projectId
+//                              , memberId
+//                              , tag];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(teamId = %@)", teamId];
     [fetchRequest setPredicate:predicate];
     
     NSError *error = nil;
@@ -153,6 +155,26 @@
     {
         [self deleteChangLog:changeLog];
     }
+}
+- (void)insertChangeLogByTeam:(NSNumber*)type
+                       dataId:(NSString*)dataId
+                         name:(NSString*)name
+                        value:(NSString*)value
+                       teamId:(NSString*)teamId
+                    projectId:(NSString*)projectId
+                     memberId:(NSString*)memberId
+                          tag:(NSString*)tag
+{
+    ChangeLog *changeLog = [ModelHelper create:tableName context:context];
+    
+    changeLog.changeType = type;
+    changeLog.dataId = dataId;
+    changeLog.name = name;
+    changeLog.value = value;
+    changeLog.teamId = teamId;
+    changeLog.projectId = projectId;
+    changeLog.memberId = memberId;
+    changeLog.tag = tag;
 }
 
 #pragma mark - 公共

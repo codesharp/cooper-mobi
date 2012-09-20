@@ -28,10 +28,10 @@
                                               inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     
-    NSSortDescriptor *sortDescriptor =  [[NSSortDescriptor alloc] initWithKey:@"id"
-                                                                    ascending:YES];
-    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-    [fetchRequest setSortDescriptors:sortDescriptors];
+//    NSSortDescriptor *sortDescriptor =  [[NSSortDescriptor alloc] initWithKey:@"id"
+//                                                                    ascending:YES];
+//    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+//    [fetchRequest setSortDescriptors:sortDescriptors];
     
     NSError *error = nil;
     
@@ -43,20 +43,26 @@
     
     return [teamMembers autorelease];
 }
-- (void)addTeamMember:(NSString*)teamId
-                     :(NSString*)memberId
-                     :(NSString*)memberName
-                     :(NSString*)memberEmail
+- (NSMutableArray*)getListByTeamId:(NSString*)teamId
 {
-    TeamMember *teamMember = [ModelHelper create:tableName context:context];
-    teamMember.teamId = teamId;
-    teamMember.id = memberId;
-    teamMember.name = memberName;
-    teamMember.email = memberEmail;
-}
-- (NSMutableArray*)getListByTeamId
-{
-    return nil;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
+    
+    NSError *error = nil;
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(teamId = %@)", teamId];
+    [fetchRequest setPredicate:predicate];
+    
+    NSMutableArray *teamMembers = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    if(error != nil)
+    {
+        NSLog(@"数据库错误异常: %@", [error description]);
+    }
+    
+    [fetchRequest release];
+    
+    return teamMembers;
 }
 - (TeamMember*)getTeamMemberByTeamId:(NSString*)teamId
                         assigneeId:(NSString*)assigneeId
@@ -84,6 +90,17 @@
     [fetchRequest release];
     
     return teamMember;
+}
+- (void)addTeamMember:(NSString*)teamId
+                     :(NSString*)memberId
+                     :(NSString*)memberName
+                     :(NSString*)memberEmail
+{
+    TeamMember *teamMember = [ModelHelper create:tableName context:context];
+    teamMember.teamId = teamId;
+    teamMember.id = memberId;
+    teamMember.name = memberName;
+    teamMember.email = memberEmail;
 }
 - (void)deleteTeamMember:(TeamMember*)teamMember
 {

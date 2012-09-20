@@ -181,6 +181,7 @@
     teamTaskViewController.currentProjectId = nil;
     teamTaskViewController.currentMemberId = nil;
     teamTaskViewController.currentTag = nil;
+    teamTaskViewController.needSync = YES;
     
     [Tools layerTransition:self.navigationController.view from:@"right"];
     [self.navigationController pushViewController:teamTaskViewController animated:NO];
@@ -327,21 +328,26 @@
                     NSString *memberEmail = [membersDict objectForKey:@"email"];
                     
                     [teamMemberDao addTeamMember:teamId :memberId :memberName :memberEmail];
+                    [teamMemberDao commitData];
                 }
+
                 for (NSMutableDictionary *projectsDict in projectsArray)
                 {
                     NSString *projectId = [projectsDict objectForKey:@"id"];
                     NSString *projectName = [projectsDict objectForKey:@"name"];
                     
                     [projectDao addProject:teamId :projectId :projectName];
+                    [projectDao commitData];
                 }
+                
+                
                 for (NSString *tagName in tagsArray)
                 {
-                    [tagDao addTag:tagName];
+                    [tagDao addTag:tagName teamId:teamId];
+                    [tagDao commitData];
                 }
-                
+                     
                 [teamDao addTeam:teamId :name];
-                
                 [teamDao commitData];
             }
             

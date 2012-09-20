@@ -17,6 +17,11 @@
 
 //获取所有项目信息
 - (NSMutableArray*)getProjects;
+//通过指定的TeamId获取项目信息
+- (NSMutableArray*)getListByTeamId:(NSString*)teamId;
+//通过指定的TeamId和ProjectId获取项目信息
+- (Project*)getProjectByTeamId:(NSString*)teamId
+                     projectId:(NSString*)projectId;
 //添加项目
 - (void)addProject:(NSString*)teamId
                   :(NSString*)projectId

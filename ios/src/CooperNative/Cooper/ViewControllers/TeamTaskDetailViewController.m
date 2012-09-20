@@ -1,17 +1,14 @@
 //
-//  TaskDetailViewController.m
-//  Cooper
+//  TeamTaskDetailViewController.m
+//  CooperNative
 //
-//  Created by Ping Li on 12-7-24.
+//  Created by sunleepy on 12-9-20.
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
-#import "TaskDetailViewController.h"
-#import "CooperRepository/TaskDao.h"
-#import "CooperRepository/TaskIdxDao.h"
-#import "CooperRepository/ChangeLogDao.h"
+#import "TeamTaskDetailViewController.h"
 
-@implementation TaskDetailViewController
+@implementation TeamTaskDetailViewController
 
 @synthesize task;
 @synthesize dueDateLabel;
@@ -21,16 +18,31 @@
 @synthesize bodyLabel;
 @synthesize commentTextField;
 @synthesize delegate;
-@synthesize currentTasklistId;
+@synthesize currentTeamId;
 
-- (id)init
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super init];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        //[self initContentView];
     }
     return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    taskDao = [[TaskDao alloc] init];
+    taskIdxDao = [[TaskIdxDao alloc] init];
+    changeLogDao = [[ChangeLogDao alloc] init];
+    
+    [self initContentView];
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
 }
 
 - (void)dealloc
@@ -43,15 +55,12 @@
     [detailView reloadData];
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-        self.title = @"任务查看";
-    }
-    return self;
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
+#pragma mark - 自定义动作
 
 - (void)initContentView
 {
@@ -106,8 +115,6 @@
 	[navController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
     
 	[self presentModalViewController:navController animated:YES];
-    
-    //    [[UIApplication sharedApplication] openURL:[link URL]];
 }
 
 - (void)goBack:(id)sender
@@ -130,57 +137,31 @@
 
 - (void) editTask:(id)sender
 {
-    TaskDetailEditViewController *editController = [[[TaskDetailEditViewController alloc] init] autorelease];
-    editController.delegate = self;
-    editController.task = task;
-    editController.currentTasklistId = currentTasklistId;
-    UINavigationController *navigationController = [[[UINavigationController alloc] autorelease] initWithRootViewController:editController];
-    if(MODEL_VERSION >= 5.0)
-    {
-        [navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE] forBarMetrics:UIBarMetricsDefault];
-    }
-    else {
-        UIImageView *imageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE]] autorelease];
-        [imageView setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], 44)];
-        [navigationController.navigationBar addSubview:imageView];
-        //[imageView release];
-    }
-    
-    [self.navigationController presentModalViewController:navigationController animated:YES];
+//    TaskDetailEditViewController *editController = [[[TaskDetailEditViewController alloc] init] autorelease];
+//    editController.delegate = self;
+//    editController.task = task;
+//    editController.currentTasklistId = currentTasklistId;
+//    UINavigationController *navigationController = [[[UINavigationController alloc] autorelease] initWithRootViewController:editController];
+//    if(MODEL_VERSION >= 5.0)
+//    {
+//        [navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE] forBarMetrics:UIBarMetricsDefault];
+//    }
+//    else {
+//        UIImageView *imageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE]] autorelease];
+//        [imageView setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], 44)];
+//        [navigationController.navigationBar addSubview:imageView];
+//        //[imageView release];
+//    }
+//    
+//    [self.navigationController presentModalViewController:navigationController animated:YES];
 }
 
 - (void)loadTaskData
 {
-    [delegate loadTaskData];
+    //[delegate loadTaskData];
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    taskDao = [[TaskDao alloc] init];
-    taskIdxDao = [[TaskIdxDao alloc] init];
-    changeLogDao = [[ChangeLogDao alloc] init];
-    
-    [self initContentView];
-}
-
-
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    RELEASE(taskDao);
-    RELEASE(taskIdxDao);
-    RELEASE(changeLogDao);
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
+#pragma mark - TableView 事件源
 
 //获取TableView的分区数
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -390,47 +371,47 @@
 
 - (void)tableViewCell:(DateLabel *)label didEndEditingWithDate:(NSDate *)value
 {
-    [self.dueDateLabel setTitle:[NSString stringWithFormat:@"%@    >", [Tools ShortNSDateToNSString:value]] forState:UIControlStateNormal];
-    
-    task.dueDate = value;
-    
-    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0]
-                           dataid:self.task.id
-                             name:@"duetime"
-                            value:[Tools ShortNSDateToNSString:value]
-                       tasklistId:currentTasklistId];
-    
-    [taskDao commitData];
-    
-    CGSize size = CGSizeMake(320,10000);
-    CGSize labelsize = [dueDateLabel.titleLabel.text sizeWithFont:dueDateLabel.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
-    [dueDateLabel setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
-    
-    [delegate loadTaskData];
+//    [self.dueDateLabel setTitle:[NSString stringWithFormat:@"%@    >", [Tools ShortNSDateToNSString:value]] forState:UIControlStateNormal];
+//    
+//    task.dueDate = value;
+//    
+//    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0]
+//                           dataid:self.task.id
+//                             name:@"duetime"
+//                            value:[Tools ShortNSDateToNSString:value]
+//                       tasklistId:currentTasklistId];
+//    
+//    [taskDao commitData];
+//    
+//    CGSize size = CGSizeMake(320,10000);
+//    CGSize labelsize = [dueDateLabel.titleLabel.text sizeWithFont:dueDateLabel.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
+//    [dueDateLabel setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
+//    
+//    [delegate loadTaskData];
 }
 
 - (void)tableViewCell:(PriorityButton *)button didEndEditingWithValue:(NSString *)value
 {
-    [self.priorityButton setTitle:[NSString stringWithFormat:@"%@    >", value] forState:UIControlStateNormal];
-    
-    task.priority = [self getPriorityKey:value];
-    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0]
-                           dataid:self.task.id
-                             name:@"priority"
-                            value:task.priority
-                       tasklistId:currentTasklistId];
-    [taskIdxDao updateTaskIdx:self.task.id
-                        byKey:self.task.priority
-                   tasklistId:currentTasklistId
-                     isCommit:NO];
-    
-    [taskDao commitData];
-    
-    CGSize size = CGSizeMake(320,10000);
-    CGSize labelsize = [priorityButton.titleLabel.text sizeWithFont:priorityButton.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
-    [priorityButton setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
-    
-    [delegate loadTaskData];
+//    [self.priorityButton setTitle:[NSString stringWithFormat:@"%@    >", value] forState:UIControlStateNormal];
+//    
+//    task.priority = [self getPriorityKey:value];
+//    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0]
+//                           dataid:self.task.id
+//                             name:@"priority"
+//                            value:task.priority
+//                       tasklistId:currentTasklistId];
+//    [taskIdxDao updateTaskIdx:self.task.id
+//                        byKey:self.task.priority
+//                   tasklistId:currentTasklistId
+//                     isCommit:NO];
+//    
+//    [taskDao commitData];
+//    
+//    CGSize size = CGSizeMake(320,10000);
+//    CGSize labelsize = [priorityButton.titleLabel.text sizeWithFont:priorityButton.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
+//    [priorityButton setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
+//    
+//    [delegate loadTaskData];
 }
 
 - (void)selectDueDate
@@ -445,42 +426,42 @@
 
 - (void)switchStatus
 {
-    if([[task.editable stringValue] isEqualToString:[[NSNumber numberWithInt:0] stringValue]])
-        return;
-    
-    bool isfinish;
-    if([statusButton.titleLabel.text isEqualToString:@"未完成    >"])
-    {
-        [statusButton setTitle:@"完成    >" forState:UIControlStateNormal];
-        [statusButton setBackgroundImage:[UIImage imageNamed:@"btn_bg_green.png"] forState:UIControlStateNormal];
-        [statusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        
-        isfinish = YES;
-        
-    }
-    else
-    {
-        [statusButton setTitle:@"未完成    >" forState:UIControlStateNormal];
-        [statusButton setBackgroundImage:[UIImage imageNamed:@"btn_bg_gray.png"] forState:UIControlStateNormal];
-        [statusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        
-        isfinish = NO;
-    }
-    
-    self.task.status = [NSNumber numberWithInt: isfinish ? 1 : 0];
-    
-    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0]
-                           dataid:self.task.id name:@"iscompleted"
-                            value:isfinish ? @"true" : @"false"
-                       tasklistId:currentTasklistId];
-    
-    [taskDao commitData];
-    
-    CGSize size = CGSizeMake(320,10000);
-    CGSize labelsize = [statusButton.titleLabel.text sizeWithFont:statusButton.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
-    [statusButton setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
-    
-    [delegate loadTaskData];
+//    if([[task.editable stringValue] isEqualToString:[[NSNumber numberWithInt:0] stringValue]])
+//        return;
+//    
+//    bool isfinish;
+//    if([statusButton.titleLabel.text isEqualToString:@"未完成    >"])
+//    {
+//        [statusButton setTitle:@"完成    >" forState:UIControlStateNormal];
+//        [statusButton setBackgroundImage:[UIImage imageNamed:@"btn_bg_green.png"] forState:UIControlStateNormal];
+//        [statusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//        
+//        isfinish = YES;
+//        
+//    }
+//    else
+//    {
+//        [statusButton setTitle:@"未完成    >" forState:UIControlStateNormal];
+//        [statusButton setBackgroundImage:[UIImage imageNamed:@"btn_bg_gray.png"] forState:UIControlStateNormal];
+//        [statusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//        
+//        isfinish = NO;
+//    }
+//    
+//    self.task.status = [NSNumber numberWithInt: isfinish ? 1 : 0];
+//    
+//    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0]
+//                           dataid:self.task.id name:@"iscompleted"
+//                            value:isfinish ? @"true" : @"false"
+//                       tasklistId:currentTasklistId];
+//    
+//    [taskDao commitData];
+//    
+//    CGSize size = CGSizeMake(320,10000);
+//    CGSize labelsize = [statusButton.titleLabel.text sizeWithFont:statusButton.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
+//    [statusButton setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
+//    
+//    [delegate loadTaskData];
 }
 
 //- (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section

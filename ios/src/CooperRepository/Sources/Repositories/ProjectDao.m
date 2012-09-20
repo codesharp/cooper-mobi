@@ -27,10 +27,10 @@
                                               inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     
-    NSSortDescriptor *sortDescriptor =  [[NSSortDescriptor alloc] initWithKey:@"id"
-                                                                    ascending:YES];
-    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-    [fetchRequest setSortDescriptors:sortDescriptors];
+//    NSSortDescriptor *sortDescriptor =  [[NSSortDescriptor alloc] initWithKey:@"id"
+//                                                                    ascending:YES];
+//    NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+//    [fetchRequest setSortDescriptors:sortDescriptors];
     
     NSError *error = nil;
     
@@ -41,6 +41,56 @@
     [fetchRequest release];
     
     return [projects autorelease];
+}
+- (NSMutableArray*)getListByTeamId:(NSString*)teamId
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
+    
+    NSError *error = nil;
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(teamId = %@)", teamId];
+    [fetchRequest setPredicate:predicate];
+    
+    NSMutableArray *projects = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    if(error != nil)
+    {
+        NSLog(@"数据库错误异常: %@", [error description]);
+    }
+    
+    [fetchRequest release];
+    
+    return projects;
+}
+- (Project*)getProjectByTeamId:(NSString*)teamId
+                     projectId:(NSString*)projectId
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
+    
+    
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(teamId = %@ and id = %@)", teamId, projectId];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSMutableArray *projects = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    if(error != nil)
+    {
+        NSLog(@"数据库错误异常: %@", [error description]);
+    }
+    
+    Project *project = nil;
+    if(projects.count > 0)
+    {
+        project = [projects objectAtIndex:0];
+    }
+    
+    [fetchRequest release];
+    
+    return project;
 }
 - (void)addProject:(NSString*)teamId
                   :(NSString*)projectId

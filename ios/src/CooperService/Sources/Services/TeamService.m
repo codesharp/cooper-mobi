@@ -37,18 +37,18 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:teamId forKey:@"teamId"];
-    if (projectId != nil)
-    {
-        [params setObject:projectId forKey:@"projectId"];
-    }
-    if (memberId != nil)
-    {
-        [params setObject:memberId forKey:@"memberId"];
-    }
-    if (tag != nil)
-    {
-        [params setObject:tag forKey:@"tag"];
-    }
+//    if (projectId != nil)
+//    {
+//        [params setObject:projectId forKey:@"projectId"];
+//    }
+//    if (memberId != nil)
+//    {
+//        [params setObject:memberId forKey:@"memberId"];
+//    }
+//    if (tag != nil)
+//    {
+//        [params setObject:tag forKey:@"tag"];
+//    }
     
     ChangeLogDao *changeLogDao = [[ChangeLogDao alloc] init];
 

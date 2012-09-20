@@ -14,11 +14,14 @@
 @implementation TeamTaskViewController
 
 @synthesize settingViewController;
+@synthesize teamTaskFilterViewController;
+@synthesize teamTaskDetailViewController;
 
 @synthesize currentTeamId;
 @synthesize currentProjectId;
 @synthesize currentMemberId;
 @synthesize currentTag;
+@synthesize needSync;
 
 @synthesize taskIdxGroup;
 @synthesize taskGroup;
@@ -41,17 +44,14 @@
     taskDao = [[TaskDao alloc] init];
     taskIdxDao = [[TaskIdxDao alloc] init];
     changeLogDao = [[ChangeLogDao alloc] init];
+    teamMemberDao = [[TeamMemberDao alloc] init];
+    projectDao = [[ProjectDao alloc] init];
     
     statusView = [[UIView alloc] initWithFrame:CGRectMake(0, 369, [Tools screenMaxWidth], 49)];
     statusView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:TABBAR_BG_IMAGE]];
     [self.view addSubview:statusView];
 	
     filterLabel = [[UILabel alloc] init];
-//    NSString* word = @"Project:Cooper Tag:native hybrid Member:萧玄 侯昆 何望";
-//    CGSize size = [word sizeWithFont:filterLabel.font constrainedToSize:CGSizeMake(240, 10000) lineBreakMode:UILineBreakModeWordWrap];
-//    CGFloat labelHeight = size.height;
-//    NSInteger lines = labelHeight / 16;
-//    filterLabel.numberOfLines = lines;
     filterLabel.textColor = [UIColor whiteColor];
     filterLabel.backgroundColor = [UIColor clearColor];
     [statusView addSubview:filterLabel];
@@ -87,7 +87,7 @@
         UIImage *settingImage = [UIImage imageNamed:REFRESH_IMAGE];
         settingImageView.image = settingImage;
         [syncBtn addSubview:settingImageView];
-        UITapGestureRecognizer *recognizer2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(sync:)];
+        UITapGestureRecognizer *recognizer2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(forceSync:)];
         [syncBtn addGestureRecognizer:recognizer2];
         [recognizer2 release];
         [toolBar addSubview:syncBtn];
@@ -123,8 +123,6 @@
     self.navigationItem.rightBarButtonItem = addButtonItem;
     
     [self initContentView];
-    
-    [self sync:nil];
 }
 
 - (void)viewDidUnload
@@ -136,21 +134,13 @@
 {
     [self loadTaskData];
     
-    Team *team = [teamDao getTeamById:currentTeamId];
-    
-//    NSString* word = team.name;
-//    CGSize size = [word sizeWithFont:filterLabel.font constrainedToSize:CGSizeMake(240, 10000) lineBreakMode:UILineBreakModeWordWrap];
-//    CGFloat labelHeight = size.height;
-//    NSInteger lines = labelHeight / 16;
-//    filterLabel.numberOfLines = lines;
-//
-//    filterLabel.frame = CGRectMake(5, 5, 280, size.height);
-//    filterLabel.text = word;
-    
+    Team *team = [teamDao getTeamById:currentTeamId]; 
     if(team != nil)
     {
         self.title = team.name;
     }
+    
+    [self sync:nil];
 }
 
 - (void)dealloc
@@ -158,6 +148,8 @@
     [filterLabel release];
     [statusView release];
     [settingViewController release];
+    [teamTaskFilterViewController release];
+    [teamTaskDetailViewController release];
     [taskView release];
     [teamService release];
     [teamDao release];
@@ -239,7 +231,6 @@
     NSLog(@"fromIndexPath.section-row:%d-%d,toIndexPath.section-row:%d-%d",fromIndexPath.section, fromIndexPath.row, toIndexPath.section, toIndexPath.row);
 }
 
-
 - (NSIndexPath *)moveTableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
 {
 	if ([sourceIndexPath section] != [proposedDestinationIndexPath section]) {
@@ -262,8 +253,6 @@
 
 -(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //Task *task = [[self.taskGroup objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    
     [[tableView cellForRowAtIndexPath:indexPath] setSelected:YES animated:YES];
     
     return indexPath;
@@ -276,8 +265,6 @@
     [titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
     [titleLabel setTextColor:[UIColor grayColor]];
     
-    //int count = [[self.taskGroup objectAtIndex:section] count];
-    //TODO:...
     if(section == 0)
         titleLabel.text = [NSString stringWithFormat:@"  %@", PRIORITY_TITLE_1];
     else if(section == 1)
@@ -313,7 +300,6 @@
     return YES;
 }
 
-
 //点击右侧箭号
 - (void) tableView:(UITableView*)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
@@ -323,37 +309,33 @@
 //点击标准编辑按钮
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (editingStyle == UITableViewCellEditingStyleDelete) {
-//        
-//        Task *t = [[self.taskGroup objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-//        if(t.editable == [NSNumber numberWithInt:0])
-//        {
-//            [Tools msg:@"该任务无法删除" HUD:self.HUD];
-//            return;
-//        }
-//        [changeLogDao insertChangeLog:[NSNumber numberWithInt:1]
-//                               dataid:t.id
-//                                 name:@""
-//                                value:@""
-//                           tasklistId:currentTasklistId];
-//        [taskIdxDao deleteTaskIndexsByTaskId:t.id
-//                                  tasklistId:currentTasklistId];
-//        [taskDao deleteTask:t];
-//        
-//        [taskDao commitData];
-//        [t release];
-//        
-//        [[self.taskGroup objectAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
-//        
-//        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
-//    }
-//    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-//        
-//        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-//        
-//    }   else {
-//        
-//    }
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        Task *t = [[self.taskGroup objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        if(t.editable == [NSNumber numberWithInt:0])
+        {
+            [Tools msg:@"该任务无法删除" HUD:self.HUD];
+            return;
+        }
+        
+        [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:1]
+                                     dataId:t.id
+                                       name:@""
+                                      value:@""
+                                     teamId:currentTeamId
+                                  projectId:currentProjectId
+                                   memberId:currentMemberId
+                                        tag:currentTag];
+        [taskIdxDao deleteTaskIndexsByTaskIdAndTeam:t.id teamId:currentTeamId projectId:currentProjectId memberId:currentMemberId tag:currentTag];
+        [taskDao deleteTask:t];
+        
+        [taskDao commitData];
+        [t release];
+        
+        [[self.taskGroup objectAtIndex:indexPath.section] removeObjectAtIndex:indexPath.row];
+        
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+    }
 }
 
 -(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
@@ -396,8 +378,6 @@
 //分区标题输出
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    //int count = [[self.taskGroup objectAtIndex:section] count];
-    //TODO:...
     if(section == 0)
         return [NSString stringWithFormat:@"  %@", PRIORITY_TITLE_1];
     else if(section == 1)
@@ -431,23 +411,20 @@
 //点击单元格事件
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    
-//    TaskDetailViewController *detailController = [[[TaskDetailViewController alloc] init] autorelease];
-//    Task *task = [[self.taskGroup objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-//    //    if(task.editable == [NSNumber numberWithInt:0])
-//    //    {
-//    //        [Tools msg:@"该任务无法编辑" HUD:HUD];
-//    //        return;
-//    //    }
-//    detailController.task = task;
-//    detailController.currentTasklistId = currentTasklistId;
-//    
-//    [detailController setHidesBottomBarWhenPushed:YES];
-//    detailController.delegate = self;
-//    
-//    [Tools layerTransition:self.navigationController.view from:@"right"];
-//    [self.navigationController pushViewController:detailController animated:NO];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (teamTaskDetailViewController == nil) {
+        teamTaskDetailViewController = [[TeamTaskDetailViewController alloc] init];
+    }
+    Task *task = [[self.taskGroup objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    teamTaskDetailViewController.task = task;
+    //taskDetailViewController.currentTasklistId = currentTasklistId;
+    
+    //[teamTaskDetailViewController setHidesBottomBarWhenPushed:YES];
+    //taskDetailViewController.delegate = self;
+    
+    [Tools layerTransition:self.navigationController.view from:@"right"];
+    [self.navigationController pushViewController:teamTaskDetailViewController animated:NO];
 }
 
 #pragma mark - 动作相关事件
@@ -572,18 +549,29 @@
 //    }
 }
 
+- (void)forceSync:(id)sender
+{
+    self.needSync = YES;
+    [self sync:sender];
+}
+
 //同步任务
 - (void)sync:(id)sender
 {
-    self.HUD = [Tools process:LOADING_TITLE view:self.view];
-    
-    NSMutableDictionary *context = [NSMutableDictionary dictionary];
-    [context setObject:@"SyncTasks" forKey:REQUEST_TYPE];
-    [teamService syncTasks:currentTeamId
-                 projectId:currentProjectId
-                  memberId:currentMemberId
-                       tag:currentTag
-                   context:context delegate:self];
+    if(self.needSync == YES)
+    {
+        self.HUD = [Tools process:LOADING_TITLE view:self.view];
+        
+        NSMutableDictionary *context = [NSMutableDictionary dictionary];
+        [context setObject:@"SyncTasks" forKey:REQUEST_TYPE];
+        [teamService syncTasks:currentTeamId
+                     projectId:currentProjectId
+                      memberId:currentMemberId
+                           tag:currentTag
+                       context:context delegate:self];
+        
+        self.needSync = NO;
+    }
 }
 
 - (void)changeEditing:(id)sender
@@ -623,27 +611,20 @@
 
 - (void)settingAction:(id)sender
 {
-    if(settingViewController == nil)
+    if(teamTaskFilterViewController == nil)
     {
-        settingViewController = [[SettingViewController alloc] initWithNibName:@"SettingViewController" bundle:nil]; 
+        teamTaskFilterViewController = [[TeamTaskFilterViewController alloc] init];
     }
     
+    teamTaskFilterViewController.currentTeamId = currentTeamId;
+    teamTaskFilterViewController.delegate = self;
+    
     [UIView beginAnimations:@"animation" context:nil];
-    [self.navigationController pushViewController:settingViewController animated:NO];
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.navigationController.view cache:NO];
     [UIView setAnimationDuration:0.7];
     [UIView commitAnimations];
     
-//    CATransition *animation = [CATransition animation];
-//    animation.delegate = self;
-//    animation.duration = 0.7;
-//    animation.type = kCATransitionFade;
-//    animation.timingFunction = UIViewAnimationCurveEaseInOut;
-//    animation.subtype = kCATransitionFromRight;
-//    [self.view.layer addAnimation:animation forKey:kCATransition];
-//    
-//    //[Tools layerTransition:self.navigationController.view from:@"right"];
-//    [self.navigationController pushViewController:settingViewController animated:NO];
+    [self.navigationController pushViewController:teamTaskFilterViewController animated:NO];
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request
@@ -707,7 +688,7 @@
             NSDictionary *dict = [[request responseString] JSONValue];        
             if(dict)
             {
-                NSString *team_editable = [dict objectForKey:@"Editable"];
+//                NSString *team_editable = [dict objectForKey:@"Editable"];
                 
 //                //TODO:更新Team的可编辑状态
 //                [teamDao updateEditable:[NSNumber numberWithInt:[team_editable integerValue]] teamId:currentTeamId];
@@ -816,6 +797,61 @@
             [Tools failed:self.HUD];
         }
     }
+}
+
+#pragma mark - TaskTaskViewDelegate相关委托方法
+
+- (void)startSync:(NSString*)teamId
+        projectId:(NSString*)projectId
+         memberId:(NSString*)memberId
+              tag:(NSString*)tag
+{
+    currentTeamId = teamId;
+    currentProjectId = projectId;
+    currentMemberId = memberId;
+    currentTag = tag;
+    
+    [self showStatusBarText];
+    
+    self.needSync = YES;
+    [self sync:nil];
+}
+
+- (void)showStatusBarText
+{
+    NSString *word = @"";
+    if(currentProjectId != nil)
+    {
+        Project *project = [projectDao getProjectByTeamId:currentTeamId projectId:currentProjectId];
+        if(project != nil)
+        {
+            word = [NSString stringWithFormat:@"Project: %@", project.name];
+        }
+    }
+    else if(currentMemberId != nil)
+    {
+        TeamMember *teamMember = [teamMemberDao getTeamMemberByTeamId:currentTeamId assigneeId:currentMemberId];
+        if(teamMember != nil)
+        {
+            word = [NSString stringWithFormat:@"Member: %@", teamMember.name];
+        }
+    }
+    else if(currentTag != nil)
+    {
+        Tag *tag = [tagDao getTagByTeamId:currentTeamId tag:currentTag];
+        if(tag != nil)
+        {
+            word = [NSString stringWithFormat:@"Tag: %@", tag.name];
+        }
+    }
+    CGSize size = [word sizeWithFont:filterLabel.font constrainedToSize:CGSizeMake(240, 10000) lineBreakMode:UILineBreakModeWordWrap];
+    CGFloat labelHeight = size.height;
+    NSInteger lines = labelHeight / 16;
+    filterLabel.numberOfLines = lines;
+    filterLabel.autoresizingMask =  UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    
+    filterLabel.frame = CGRectMake(5, lines * 5 + 5, 280, size.height);
+    filterLabel.text = word;
 }
 
 @end

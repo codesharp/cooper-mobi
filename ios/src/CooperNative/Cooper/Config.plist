@@ -5,7 +5,7 @@
 	<key>username</key>
 	<string>用户名</string>
 	<key>env_path</key>
-	<string>https://cooper.apphb.com</string>
+	<string>http://debug.incooper.net</string>
 	<key>skip_btn_text</key>
 	<string>跳过</string>
 	<key>login_btn_text</key>

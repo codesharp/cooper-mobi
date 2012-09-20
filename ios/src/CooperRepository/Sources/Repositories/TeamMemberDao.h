@@ -18,7 +18,7 @@
 //获取所有
 - (NSMutableArray*)getTeamMembers;
 //通过团队编号获取成员列表
-- (NSMutableArray*)getListByTeamId;
+- (NSMutableArray*)getListByTeamId:(NSString*)teamId;
 //通过团队编号和AssigneeId获取成员
 - (TeamMember*)getTeamMemberByTeamId:(NSString*)teamId
                           assigneeId:(NSString*)assigneeId;

@@ -8,7 +8,10 @@
 
 #import "BaseViewController.h"
 #import "SettingViewController.h"
+#import "TeamTaskFilterViewController.h"
+#import "TeamTaskDetailViewController.h"
 #import "TaskViewDelegate.h"
+#import "TeamTaskViewDelegate.h"
 #import "TaskTableViewCell.h"
 #import "CustomButton.h"
 #import "CooperService/TeamService.h"
@@ -21,7 +24,7 @@
 #import "CooperRepository/ChangeLogDao.h"
 #import "CooperRepository/CommentDao.h"
 
-@interface TeamTaskViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate,  TaskTableViewCellDelegate>
+@interface TeamTaskViewController : BaseViewController<TeamTaskViewDelegate, UITableViewDataSource, UITableViewDelegate, TaskTableViewCellDelegate>
 {
     UITableView *taskView;
     
@@ -51,8 +54,12 @@
 @property (nonatomic, retain) NSString *currentMemberId;
 @property (nonatomic, retain) NSString *currentTag;
 
+@property (nonatomic, assign) BOOL needSync;
+
 @property (nonatomic, retain) NSMutableArray *taskIdxGroup;
 @property (nonatomic, retain) NSMutableArray *taskGroup;
 @property (nonatomic, retain) SettingViewController *settingViewController;
+@property (nonatomic, retain) TeamTaskFilterViewController *teamTaskFilterViewController;
+@property (nonatomic, retain) TeamTaskDetailViewController *teamTaskDetailViewController;
 
 @end

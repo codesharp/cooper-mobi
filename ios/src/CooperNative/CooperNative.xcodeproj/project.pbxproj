@@ -106,6 +106,9 @@
 		18FAC25515BFA143003F56B2 /* btn_bg_green.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC25415BFA143003F56B2 /* btn_bg_green.png */; };
 		18FAC25A15BFAF50003F56B2 /* navigationbar_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC25915BFAF50003F56B2 /* navigationbar_bg.png */; };
 		6A18E52816030D7B00ED2042 /* TeamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E52716030D7B00ED2042 /* TeamViewController.m */; };
+		6A7D87B8160AAB93004C7C9C /* TeamTaskFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D87B7160AAB93004C7C9C /* TeamTaskFilterViewController.m */; };
+		6A7D87C1160AE51B004C7C9C /* TeamTaskFilterLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D87C0160AE51B004C7C9C /* TeamTaskFilterLabel.m */; };
+		6A7D87C4160B5536004C7C9C /* TeamTaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D87C3160B5535004C7C9C /* TeamTaskDetailViewController.m */; };
 		6A84F2A61607152B000B62CB /* TeamTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A84F2A51607152B000B62CB /* TeamTaskViewController.m */; };
 		6AA9EE801606D68D00A5B013 /* libCodesharpSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E2F8A115F4D9060062E57F /* libCodesharpSDK.a */; };
 		6AA9EE811606D68D00A5B013 /* libCooperCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABD915D2D59400C7E8DA /* libCooperCore.a */; };
@@ -352,6 +355,13 @@
 		6A18E52616030D7B00ED2042 /* TeamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamViewController.h; path = ViewControllers/TeamViewController.h; sourceTree = "<group>"; };
 		6A18E52716030D7B00ED2042 /* TeamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamViewController.m; path = ViewControllers/TeamViewController.m; sourceTree = "<group>"; };
 		6A18E5291603286A00ED2042 /* TaskModelV0_2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskModelV0_2.xcdatamodel; sourceTree = "<group>"; };
+		6A7D87B6160AAB93004C7C9C /* TeamTaskFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamTaskFilterViewController.h; path = ViewControllers/TeamTaskFilterViewController.h; sourceTree = "<group>"; };
+		6A7D87B7160AAB93004C7C9C /* TeamTaskFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamTaskFilterViewController.m; path = ViewControllers/TeamTaskFilterViewController.m; sourceTree = "<group>"; };
+		6A7D87BB160AAD6F004C7C9C /* TeamTaskViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamTaskViewDelegate.h; path = ViewControllers/TeamTaskViewDelegate.h; sourceTree = "<group>"; };
+		6A7D87BF160AE51B004C7C9C /* TeamTaskFilterLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamTaskFilterLabel.h; path = Controls/TeamTaskFilterLabel.h; sourceTree = "<group>"; };
+		6A7D87C0160AE51B004C7C9C /* TeamTaskFilterLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamTaskFilterLabel.m; path = Controls/TeamTaskFilterLabel.m; sourceTree = "<group>"; };
+		6A7D87C2160B5535004C7C9C /* TeamTaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamTaskDetailViewController.h; path = ViewControllers/TeamTaskDetailViewController.h; sourceTree = "<group>"; };
+		6A7D87C3160B5535004C7C9C /* TeamTaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamTaskDetailViewController.m; path = ViewControllers/TeamTaskDetailViewController.m; sourceTree = "<group>"; };
 		6A84F2A41607152B000B62CB /* TeamTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamTaskViewController.h; path = ViewControllers/TeamTaskViewController.h; sourceTree = "<group>"; };
 		6A84F2A51607152B000B62CB /* TeamTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamTaskViewController.m; path = ViewControllers/TeamTaskViewController.m; sourceTree = "<group>"; };
 		6AF47A4615FE336C006D4D3F /* GTMHTTPFetcherLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcherLogging.h; sourceTree = "<group>"; };
@@ -591,6 +601,11 @@
 				6A18E52716030D7B00ED2042 /* TeamViewController.m */,
 				6A84F2A41607152B000B62CB /* TeamTaskViewController.h */,
 				6A84F2A51607152B000B62CB /* TeamTaskViewController.m */,
+				6A7D87B6160AAB93004C7C9C /* TeamTaskFilterViewController.h */,
+				6A7D87B7160AAB93004C7C9C /* TeamTaskFilterViewController.m */,
+				6A7D87BB160AAD6F004C7C9C /* TeamTaskViewDelegate.h */,
+				6A7D87C2160B5535004C7C9C /* TeamTaskDetailViewController.h */,
+				6A7D87C3160B5535004C7C9C /* TeamTaskDetailViewController.m */,
 			);
 			name = TeamViewController;
 			sourceTree = "<group>";
@@ -757,6 +772,8 @@
 				1868A4CD15F752F700762733 /* InputPickerView.h */,
 				1868A4CE15F752F700762733 /* InputPickerView.m */,
 				1868A4D015F7544200762733 /* InputPickerDelegate.h */,
+				6A7D87BF160AE51B004C7C9C /* TeamTaskFilterLabel.h */,
+				6A7D87C0160AE51B004C7C9C /* TeamTaskFilterLabel.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -1173,6 +1190,9 @@
 				18F456D2160233FE0081B8BA /* TaskOptionViewController.m in Sources */,
 				6A18E52816030D7B00ED2042 /* TeamViewController.m in Sources */,
 				6A84F2A61607152B000B62CB /* TeamTaskViewController.m in Sources */,
+				6A7D87B8160AAB93004C7C9C /* TeamTaskFilterViewController.m in Sources */,
+				6A7D87C1160AE51B004C7C9C /* TeamTaskFilterLabel.m in Sources */,
+				6A7D87C4160B5536004C7C9C /* TeamTaskDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

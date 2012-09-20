@@ -48,6 +48,15 @@
                     projectId:(NSString*)projectId
                      memberId:(NSString*)memberId
                           tag:(NSString*)tag;
+//添加团队任务的改变记录
+- (void)insertChangeLogByTeam:(NSNumber*)type
+                       dataId:(NSString*)dataId
+                         name:(NSString*)name
+                        value:(NSString*)value
+                       teamId:(NSString*)teamId
+                    projectId:(NSString*)projectId
+                     memberId:(NSString*)memberId
+                          tag:(NSString*)tag;
 
 #pragma mark - 公共
 

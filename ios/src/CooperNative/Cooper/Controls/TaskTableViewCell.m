@@ -115,12 +115,25 @@
         task.status = [NSNumber numberWithInt:1];  
     }
     
-    [changeLogDao insertChangeLog:[NSNumber numberWithInt:0] 
-                           dataid:task.id 
-                             name:@"iscompleted" 
-                            value:task.status == [NSNumber numberWithInt:1] ? @"true" : @"false" 
-                       tasklistId:task.tasklistId];
-       
+    if(self.task.tasklistId != nil)
+    {
+        [changeLogDao insertChangeLog:[NSNumber numberWithInt:0]
+                               dataid:task.id
+                                 name:@"iscompleted"
+                                value:task.status == [NSNumber numberWithInt:1] ? @"true" : @"false"
+                           tasklistId:task.tasklistId];
+    }
+    else if(self.task.teamId != nil)
+    {
+        [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
+                                     dataId:task.id name:@"iscompleted"
+                                      value:task.status == [NSNumber numberWithInt:1] ? @"true" : @"false"
+                                     teamId:self.task.teamId
+                                  projectId:nil
+                                   memberId:nil
+                                        tag:nil];
+    }
+        
     [taskDao commitData];
 }
 
@@ -191,8 +204,6 @@
         {
             assigneeNameLabel.text = teamMember.name;
             assigneeNameLabel.frame = CGRectMake(50, totalHeight, [Tools screenMaxWidth], 30);
-            
-            NSLog(@"TeamMember: %@", teamMember.name);
         }
         
         totalHeight += 30;

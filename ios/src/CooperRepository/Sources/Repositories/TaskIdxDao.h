@@ -90,5 +90,11 @@
               projectId:(NSString*)projectId
                memberId:(NSString*)memberId
                     tag:(NSString*)tag;
+//删除指定的TaskIdx中的Indexs值
+- (void)deleteTaskIndexsByTaskIdAndTeam:(NSString*)taskId
+                                 teamId:(NSString*)teamId
+                              projectId:(NSString*)projectId
+                               memberId:(NSString*)memberId
+                                    tag:(NSString*)tag;
 
 @end
