@@ -46,6 +46,7 @@
     changeLogDao = [[ChangeLogDao alloc] init];
     teamMemberDao = [[TeamMemberDao alloc] init];
     projectDao = [[ProjectDao alloc] init];
+    commentDao = [[CommentDao alloc] init];
     
     statusView = [[UIView alloc] initWithFrame:CGRectMake(0, 369, [Tools screenMaxWidth], 49)];
     statusView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:TABBAR_BG_IMAGE]];
@@ -247,8 +248,15 @@
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSLog(@"手指撮动了");
-    return UITableViewCellEditingStyleDelete;
+    Task *task = [[self.taskGroup objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    if(![[task.editable stringValue] isEqualToString:[[NSNumber numberWithInt:0] stringValue]])
+    {
+        return UITableViewCellEditingStyleDelete;
+    }
+    else
+    {
+        return UITableViewCellEditingStyleNone;
+    }
 }
 
 -(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -311,13 +319,7 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        Task *t = [[self.taskGroup objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        if(t.editable == [NSNumber numberWithInt:0])
-        {
-            [Tools msg:@"该任务无法删除" HUD:self.HUD];
-            return;
-        }
-        
+        Task *t = [[self.taskGroup objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];    
         [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:1]
                                      dataId:t.id
                                        name:@""
@@ -418,7 +420,10 @@
     }
     Task *task = [[self.taskGroup objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     teamTaskDetailViewController.task = task;
-    //taskDetailViewController.currentTasklistId = currentTasklistId;
+    teamTaskDetailViewController.currentTeamId = currentTeamId;
+    teamTaskDetailViewController.currentProjectId = currentProjectId;
+    teamTaskDetailViewController.currentMemberId = currentMemberId;
+    teamTaskDetailViewController.currentTag = currentTag;
     
     //[teamTaskDetailViewController setHidesBottomBarWhenPushed:YES];
     //taskDetailViewController.delegate = self;
@@ -547,6 +552,35 @@
 //        taskView.hidden = NO;
 //        emptyView.hidden = YES;
 //    }
+}
+
+- (void)addTask:(id)sender
+{
+    TeamTaskDetailEditViewController *teamTaskDetailEditViewController = [[TeamTaskDetailEditViewController alloc] init];
+    BaseNavigationController *teamTaskDetailEdit_NavController = [[BaseNavigationController alloc] initWithRootViewController:teamTaskDetailEditViewController];
+    
+    teamTaskDetailEditViewController.task = nil;
+    teamTaskDetailEditViewController.currentTeamId = currentTeamId;
+    teamTaskDetailEditViewController.currentProjectId = currentProjectId;
+    teamTaskDetailEditViewController.currentMemberId = currentMemberId;
+    teamTaskDetailEditViewController.currentTag = currentTag;
+    teamTaskDetailEditViewController.delegate = self;
+    
+    if(MODEL_VERSION >= 5.0)
+    {
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE] forBarMetrics:UIBarMetricsDefault];
+    }
+    else {
+        UIImageView *imageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE]] autorelease];
+        [imageView setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], 44)];
+        [self.navigationController.navigationBar addSubview:imageView];
+        //[imageView release];
+    }
+    
+    [self.navigationController presentModalViewController:teamTaskDetailEdit_NavController animated:YES];
+    
+    [teamTaskDetailEditViewController release];
+    [teamTaskDetailEdit_NavController release];
 }
 
 - (void)forceSync:(id)sender
@@ -705,7 +739,8 @@
                 NSArray *taskIdxs =[dict objectForKey:@"Sorts"];
                 
                 [taskDao deleteAllByTeam:currentTeamId];
-                [taskIdxDao deleteAllByTeam:currentTeamId projectId:currentProjectId memberId:currentMemberId tag:currentTag]; 
+                [taskIdxDao deleteAllByTeam:currentTeamId projectId:currentProjectId memberId:currentMemberId tag:currentTag];
+                [commentDao deleteAll];
                 
                 [taskIdxDao commitData];
                 
@@ -741,15 +776,19 @@
                     NSMutableArray *tagsArray = [taskDict objectForKey:@"Tags"];
                     NSString *tags = [tagsArray JSONRepresentation];
 
-//                    NSMutableArray *commentsArray = [taskDict objectForKey:@"Comments"];
-//                    for (NSMutableDictionary *commentDict in commentsArray)
-//                    {
-//                        NSMutableDictionary *comment_creatorDict = [commentDict objectForKey:@"creator"];
-//                        NSString *comment_creatorId = [comment_creatorDict objectForKey:@"id"];
-//                        NSString *comment_createTimeString = [commentDict objectForKey:@"createTime"];
-//                        NSString *comment_body = [commentDict objectForKey:@"body"];
-//                        [commentDao addComment:taskId creatorId:comment_creatorId createTime:comment_createTimeString body:comment_body];
-//                    }
+                    NSMutableArray *commentsArray = [taskDict objectForKey:@"Comments"];
+                    for (NSMutableDictionary *commentDict in commentsArray)
+                    {
+                        NSMutableDictionary *comment_creatorDict = [commentDict objectForKey:@"creator"];
+                        NSString *comment_creatorId = [comment_creatorDict objectForKey:@"id"];
+                        NSString *comment_createTimeString = [commentDict objectForKey:@"createTime"];
+                        NSString *comment_body = [commentDict objectForKey:@"body"];
+                        [commentDao addComment:taskId
+                                     creatorId:comment_creatorId
+                                    createTime:[Tools NSStringToNSDate:comment_createTimeString]
+                                          body:comment_body];
+                        [commentDao commitData];
+                    }
                     
                     [taskDao addTeamTask:subject
                           createDate:[NSDate date]

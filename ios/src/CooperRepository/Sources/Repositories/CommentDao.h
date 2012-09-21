@@ -14,4 +14,17 @@
 {
     NSString* tableName;
 }
+
+- (NSMutableArray*)getListByTaskId:(NSString*)taskId;
+- (NSMutableArray*)getComments;
+- (void)deleteComment:(Comment*)comment;
+- (void)deleteAll;
+- (void)addComment:(NSString*)taskId
+         creatorId:(NSString*)creatorId
+        createTime:(NSDate*)createTime
+              body:(NSString*)body;
+- (void)addComment:(NSString*)taskId
+        createTime:(NSDate*)createTime
+              body:(NSString*)body;
+
 @end

@@ -65,6 +65,33 @@
     return teamMembers;
 }
 - (TeamMember*)getTeamMemberByTeamId:(NSString*)teamId
+                                   name:(NSString*)name
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
+    
+    NSError *error = nil;
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(teamId = %@ and name = %@)", teamId, name];
+    [fetchRequest setPredicate:predicate];
+    
+    NSMutableArray *teamMembers = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    if(error != nil)
+    {
+        NSLog(@"数据库错误异常: %@", [error description]);
+    }
+    
+    TeamMember *teamMember = nil;
+    if (teamMembers.count > 0) {
+        teamMember = [teamMembers objectAtIndex:0];
+    }
+    
+    [fetchRequest release];
+    
+    return teamMember;
+}
+- (TeamMember*)getTeamMemberByTeamId:(NSString*)teamId
                         assigneeId:(NSString*)assigneeId
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];

@@ -96,7 +96,7 @@
                 [cell.textLabel setTextColor:[UIColor grayColor]];
                 [cell.textLabel setFont:[UIFont boldSystemFontOfSize:16]];
                 
-                teamTaskFilterLabel = [[TeamTaskFilterLabel alloc] initWithFrame:CGRectMake(110, 8, 150, 30)];
+                teamTaskFilterLabel = [[TeamTaskFilterLabel alloc] initWithFrame:CGRectMake(110, 8, [Tools screenMaxWidth] - 110, 30)];
                 teamTaskFilterLabel.text = @"默认";
                 teamTaskFilterLabel.backgroundColor = [UIColor clearColor];
                 teamTaskFilterLabel.userInteractionEnabled = YES;
@@ -126,7 +126,7 @@
         if(!cell)
         {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FilterOptionCell"] autorelease];
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            cell.accessoryType = UITableViewCellAccessoryNone;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         if(indexPath.row == currentIndex)

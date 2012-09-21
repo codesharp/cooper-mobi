@@ -85,6 +85,22 @@
              teamId:(NSString*)teamId;
 //通过指定团队条件获取团队任务
 - (NSMutableArray*)getTasksByTeam:(NSString*)teamId;
+//更新团队任务
+- (void)updateTaskByTeam:(Task*)task
+                 subject:(NSString *)subject
+          lastUpdateDate:(NSDate *)lastUpdateDate
+                    body:(NSString *)body
+                isPublic:(NSNumber *)isPublic
+                  status:(NSNumber *)status
+                priority:(NSString *)priority
+                 dueDate:(NSDate *)dueDate
+                assignee:(NSString*)assignee
+                projects:(NSString*)projects
+                    tags:(NSString*)tags
+                  teamId:(NSString*)teamId
+               projectId:(NSString*)projectId
+                memberId:(NSString*)memberId
+                     tag:(NSString*)tag;
 //删除指定的TeamTask
 - (void)deleteAllByTeam:(NSString*)teamId;
 

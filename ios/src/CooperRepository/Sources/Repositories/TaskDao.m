@@ -275,6 +275,34 @@
     
     return tasks;
 }
+- (void)updateTaskByTeam:(Task*)task
+                 subject:(NSString *)subject
+          lastUpdateDate:(NSDate *)lastUpdateDate
+                    body:(NSString *)body
+                isPublic:(NSNumber *)isPublic
+                  status:(NSNumber *)status
+                priority:(NSString *)priority
+                 dueDate:(NSDate *)dueDate
+                assignee:(NSString*)assignee
+                projects:(NSString*)projects
+                    tags:(NSString*)tags
+                  teamId:(NSString*)teamId
+               projectId:(NSString*)projectId
+                memberId:(NSString*)memberId
+                     tag:(NSString*)tag
+{
+    task.subject = subject;
+    task.lastUpdateDate = lastUpdateDate;
+    task.body = body;
+    task.isPublic = isPublic;
+    task.status = status;
+    task.priority = priority;
+    task.dueDate = dueDate;
+    task.assigneeId = assignee;
+    task.projects = projects;
+    task.tags = tags;
+    task.teamId = teamId;
+}
 - (void)deleteAllByTeam:(NSString*)teamId
 {
     NSMutableArray *array = [self getTasksByTeam:teamId];

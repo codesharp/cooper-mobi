@@ -13,4 +13,7 @@
          memberId:(NSString*)memberId
               tag:(NSString*)tag;
 
+
+- (void)loadTaskData;
+
 @end

@@ -65,6 +65,13 @@
 #pragma mark - 团队任务相关
 
 //添加团队索引
+- (void)addTaskIdxByTeam:(NSString *)tid
+                   byKey:(NSString *)key
+                  teamId:(NSString*)teamId
+               projectId:(NSString*)projectId
+                memberId:(NSString*)memberId
+                     tag:(NSString*)tag;
+//添加团队索引
 - (void)addTeamTaskIdx:(NSString *)by
                    key:(NSString*)key
                   name:(NSString*)name
@@ -96,5 +103,12 @@
                               projectId:(NSString*)projectId
                                memberId:(NSString*)memberId
                                     tag:(NSString*)tag;
+//修改指定的TaskIdx
+- (void)updateTaskIdxByTeam:(NSString *)taskId
+                      byKey:(NSString *)key
+                     teamId:(NSString*)teamId
+                  projectId:(NSString*)projectId
+                   memberId:(NSString*)memberId
+                        tag:(NSString*)tag;
 
 @end

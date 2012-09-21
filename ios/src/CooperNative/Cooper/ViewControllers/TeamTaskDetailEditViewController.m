@@ -1,37 +1,36 @@
 //
-//  TeamTaskDetailViewController.m
+//  TeamTaskDetailEditViewController.m
 //  CooperNative
 //
-//  Created by sunleepy on 12-9-20.
+//  Created by sunleepy on 12-9-21.
 //  Copyright (c) 2012年 codesharp. All rights reserved.
 //
 
-#import "TeamTaskDetailViewController.h"
+#import "TeamTaskDetailEditViewController.h"
+#import "CustomButton.h"
 
-@implementation TeamTaskDetailViewController
+@implementation TeamTaskDetailEditViewController
 
 @synthesize task;
 @synthesize dueDateLabel;
 @synthesize priorityButton;
 @synthesize statusButton;
-@synthesize subjectLabel;
-@synthesize bodyLabel;
-@synthesize commentTextField;
+@synthesize bodyScrollView;
+@synthesize subjectTextField;
+@synthesize bodyTextView;
+@synthesize bodyCell;
 @synthesize delegate;
 @synthesize currentTeamId;
 @synthesize currentProjectId;
 @synthesize currentMemberId;
 @synthesize currentTag;
-@synthesize teamTaskOptionViewController;
-@synthesize teamTaskDetailEdit_NavController;
-@synthesize teamTaskDetailEditViewController;
 @synthesize taskCommentArray;
+@synthesize teamTaskOptionViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -39,7 +38,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+	
     taskDao = [[TaskDao alloc] init];
     taskIdxDao = [[TaskIdxDao alloc] init];
     changeLogDao = [[ChangeLogDao alloc] init];
@@ -47,6 +46,10 @@
     projectDao = [[ProjectDao alloc] init];
     tagDao = [[TagDao alloc] init];
     commentDao = [[CommentDao alloc] init];
+    
+    currentDueDate = nil;
+    currentStatus = 0;
+    currentPriority = @"0";
     
     [self initContentView];
 }
@@ -72,25 +75,46 @@
     [assigneeView release];
     [projectView release];
     [tagView release];
-    [footerView release];
     
     [dueDateLabel release];
     [priorityButton release];
     [statusButton release];
-    [subjectLabel release];
-    [bodyLabel release];
-    [commentTextField release];
+    
+    [bodyTextView release];
+    [bodyScrollView release];
+    [subjectTextField release];
     
     [teamTaskOptionViewController release];
-    [teamTaskDetailEdit_NavController release];
-    [teamTaskDetailEditViewController release];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    taskCommentArray = [commentDao getListByTaskId:task.id];
+    [super viewWillAppear:animated];
     
     [detailView reloadData];
+    
+    viewCenter = self.view.center;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillShowNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -102,7 +126,7 @@
 
 - (void)initContentView
 {
-    self.title = @"任务查看";
+    self.title = @"任务编辑";
     
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [backBtn setFrame:CGRectMake(5, 5, 25, 25)];
@@ -111,23 +135,15 @@
     UIBarButtonItem *backButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtn] autorelease];
     self.navigationItem.leftBarButtonItem = backButtonItem;
     
-    UIButton *editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [editBtn setFrame:CGRectMake(0, 10, 27, 27)];
-    [editBtn setBackgroundImage:[UIImage imageNamed:EDIT_IMAGE] forState:UIControlStateNormal];
-    [editBtn addTarget: self action: @selector(editTask:) forControlEvents: UIControlEventTouchUpInside];
-    UIBarButtonItem *editButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:editBtn] autorelease];
-    self.navigationItem.rightBarButtonItem = editButtonItem;
+    CustomButton *saveTaskBtn = [[[CustomButton alloc] initWithFrame:CGRectMake(5,5,50,30) image:[UIImage imageNamed:@"btn_center.png"]] autorelease];
+    saveTaskBtn.layer.cornerRadius = 6.0f;
+    [saveTaskBtn.layer setMasksToBounds:YES];
+    [saveTaskBtn addTarget:self action:@selector(saveTask:) forControlEvents:UIControlEventTouchUpInside];
+    [saveTaskBtn setTitle:@"确定" forState:UIControlStateNormal];
+    UIBarButtonItem *saveButton = [[[UIBarButtonItem alloc] initWithCustomView:saveTaskBtn] autorelease];
+    self.navigationItem.rightBarButtonItem = saveButton;
     
-    if(![[task.editable stringValue] isEqualToString:[[NSNumber numberWithInt:0] stringValue]])
-    {
-        editBtn.hidden = NO;
-    }
-    else
-    {
-        editBtn.hidden = YES;
-    }
-    
-    CGRect tableViewRect = CGRectMake(0, 0, [Tools screenMaxWidth], [Tools screenMaxHeight] - 44 - 20);
+    CGRect tableViewRect = CGRectMake(0, 0, [Tools screenMaxWidth], [Tools screenMaxHeight]);
     UITableView* tempTableView = [[[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStylePlain] autorelease];
     tempTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [tempTableView setBackgroundColor:[UIColor whiteColor]];
@@ -139,24 +155,12 @@
     [footer release];
     
     detailView = tempTableView;
-    detailView.delegate = self;
-    detailView.dataSource = self;
+    
     [detailView setAllowsSelection:NO];
     
     [self.view addSubview: detailView];
-    
-    UIView *tabbar = [[UIView alloc] initWithFrame:CGRectMake(0, 376, 320, 40)];
-    tabbar.backgroundColor = APP_BACKGROUNDCOLOR;
-    commentTextField = [[CommentTextField alloc] init];
-    commentTextField.frame = CGRectMake(5, 5, 310, 30);
-    commentTextField.backgroundColor = [UIColor whiteColor];
-    commentTextField.placeholder = @"发表评论";
-    commentTextField.font = [UIFont systemFontOfSize:14];
-    commentTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    commentTextField.delegate = self;
-    [tabbar addSubview:commentTextField];
-    [self.view addSubview:tabbar];
-    [tabbar release];
+    detailView.delegate = self;
+    detailView.dataSource = self;
 }
 
 - (void)textView:(JSCoreTextView *)textView linkTapped:(AHMarkedHyperlink *)link
@@ -172,54 +176,13 @@
 
 - (void)goBack:(id)sender
 {
-    [commentTextField resignFirstResponder];
+    [delegate loadTaskData];
     
-    CATransition* transition = [CATransition animation];
-    transition.duration = 0.3;
-    transition.type = kCATransitionPush;
-    transition.subtype = kCATransitionFromLeft;
-    
-    [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-    [self.navigationController popViewControllerAnimated:NO];
-}
-
-- (void) sendComment:(NSString *)value
-{
-    [commentDao addComment:task.id createTime:[NSDate date] body:value];
-    [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:2] dataId:task.id name:@"comments" value:value teamId:currentTeamId projectId:currentProjectId memberId:currentMemberId tag:currentTag];
-    [changeLogDao commitData];
-    
-    taskCommentArray = [commentDao getListByTaskId:task.id];
-    [detailView reloadData];
-}
-
-- (void) editTask:(id)sender
-{
-    if(teamTaskDetailEdit_NavController == nil)
-    {
-        teamTaskDetailEditViewController = [[TeamTaskDetailEditViewController alloc] init];   
-        teamTaskDetailEdit_NavController = [[BaseNavigationController alloc] initWithRootViewController:teamTaskDetailEditViewController];
-    }
-    
-    teamTaskDetailEditViewController.task = task;
-    teamTaskDetailEditViewController.currentTeamId = currentTeamId;
-    teamTaskDetailEditViewController.currentProjectId = currentProjectId;
-    teamTaskDetailEditViewController.currentMemberId = currentMemberId;
-    teamTaskDetailEditViewController.currentTag = currentTag;
-    teamTaskDetailEditViewController.delegate = self;
-    
-    if(MODEL_VERSION >= 5.0)
-    {
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE] forBarMetrics:UIBarMetricsDefault];
-    }
+    if(self.task == nil)
+        [self.navigationController dismissModalViewControllerAnimated:YES];
     else {
-        UIImageView *imageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE]] autorelease];
-        [imageView setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], 44)];
-        [self.navigationController.navigationBar addSubview:imageView];
-        //[imageView release];
+        [self.navigationController dismissModalViewControllerAnimated:YES];
     }
-    
-    [self.navigationController presentModalViewController:teamTaskDetailEdit_NavController animated:YES];
 }
 
 - (void)loadTaskData
@@ -237,7 +200,7 @@
 //获取在制定的分区编号下的纪录数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 8 + taskCommentArray.count;
+    return 8;
 }
 //填充单元格
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -317,7 +280,10 @@
                         [self.dueDateLabel setTitle:@"请选择    >" forState:UIControlStateNormal];
                     }
                     else
+                    {
                         [self.dueDateLabel setTitle:[NSString stringWithFormat:@"%@    >", [Tools ShortNSDateToNSString:task.dueDate]] forState:UIControlStateNormal];
+                        currentDueDate = [task.dueDate copy];
+                    }
                 }
                 
                 CGSize size = CGSizeMake([Tools screenMaxWidth],10000);
@@ -335,7 +301,7 @@
                     [cell.textLabel setTextColor:[UIColor grayColor]];[cell.textLabel setFont:[UIFont boldSystemFontOfSize:16]];
                     
                     priorityButton = [[PriorityButton alloc] initWithFrame:CGRectZero];
-
+                    
                     if(![[task.editable stringValue] isEqualToString: [[NSNumber numberWithInt:0] stringValue]])
                     {
                         UITapGestureRecognizer *recog = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectPriority)];
@@ -355,6 +321,7 @@
                 if(self.task != nil)
                 {
                     [priorityButton setTitle: [NSString stringWithFormat:@"%@    >", [self getPriorityValue:task.priority]] forState:UIControlStateNormal];
+                    oldPriority = [task.priority copy];
                 }
                 
                 CGSize size = CGSizeMake([Tools screenMaxWidth],10000);
@@ -386,9 +353,16 @@
                     [cell.contentView addSubview:assigneeView];
                 }
                 
-                TeamMember *teamMember = [teamMemberDao getTeamMemberByTeamId:currentTeamId assigneeId:task.assigneeId];
+                if(task != nil)
+                {
+                    currentAssigneeId = task.assigneeId;
+                }
+                
+                TeamMember *teamMember = [teamMemberDao getTeamMemberByTeamId:currentTeamId assigneeId:currentAssigneeId];
                 if(teamMember != nil)
                 {
+                    currentAssigneeId = teamMember.id;
+                    
                     CustomButton *memberBtn = [[CustomButton alloc] initWithFrame:CGRectZero image:[UIImage imageNamed:@"btn_bg_gray.png"]];
                     memberBtn.userInteractionEnabled = NO;
                     [memberBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -396,10 +370,10 @@
                     CGSize size = CGSizeMake([Tools screenMaxWidth],10000);
                     CGSize labelsize = [memberBtn.titleLabel.text sizeWithFont:priorityButton.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
                     CGFloat labelsizeHeight = labelsize.height + 10;
-                    memberBtn.frame = CGRectMake(0, 8, labelsize.width + 40, labelsizeHeight);         
-                    [assigneeView addSubview:memberBtn];  
+                    memberBtn.frame = CGRectMake(0, 8, labelsize.width + 40, labelsizeHeight);
+                    [assigneeView addSubview:memberBtn];
                     [memberBtn release];
-                             
+                    
                     assigneeView.frame = CGRectMake(110, 0, [Tools screenMaxWidth] - 110, labelsizeHeight);
                     
                     [cell setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], labelsizeHeight + 15)];
@@ -412,8 +386,8 @@
                     [assigneeView addSubview:label];
                     [label release];
                     
-                    assigneeView.frame = CGRectMake(110, 0, [Tools screenMaxWidth] - 110, 44);  
-                }
+                    assigneeView.frame = CGRectMake(110, 0, [Tools screenMaxWidth] - 110, 44);
+                }  
             }
             else if(indexPath.row == 4)
             {
@@ -439,9 +413,14 @@
                     [cell.contentView addSubview:projectView];
                 }
                 
-                if(task.projects != nil)
+                if(task != nil)
                 {
-                    NSMutableArray *projectArray = [task.projects JSONValue];
+                    currentProjects = task.projects;
+                }
+                
+                if(currentProjects != nil)
+                {
+                    NSMutableArray *projectArray = [currentProjects JSONValue];
                     if(projectArray.count == 0)
                     {
                         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 8, 120, 30)];
@@ -510,9 +489,14 @@
                     [cell.contentView addSubview:tagView];
                 }
                 
-                if(task.tags != nil)
+                if(task != nil)
                 {
-                    NSMutableArray *tagArray = [task.tags JSONValue];
+                    currentTags = task.tags;
+                }
+                
+                if(currentTags != nil)
+                {
+                    NSMutableArray *tagArray = [currentTags JSONValue];
                     if(tagArray.count == 0)
                     {
                         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 8, 120, 30)];
@@ -554,121 +538,72 @@
                     [label release];
                     
                     tagView.frame = CGRectMake(110, 0, [Tools screenMaxWidth] - 110, 44);
-                }
+                    }
             }
             else if(indexPath.row == 6)
             {
-                cell = [tableView dequeueReusableCellWithIdentifier:@"SubjectBodyCell"];
-                
-                NSString *font = @"Helvetica";
-                CGFloat size = 18.0;
-                CGFloat paddingTop = 10.0;
-                CGFloat paddingLeft = 10.0;
-                
+                cell = [tableView dequeueReusableCellWithIdentifier:@"SubjectCell"];
                 if(!cell)
                 {
-                    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"SubjectBodyCell"] autorelease];
+                    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"SubjectCell"] autorelease];
+                    cell.textLabel.text = @"标题:";
+                    [cell.textLabel setTextColor:[UIColor grayColor]];[cell.textLabel setFont:[UIFont boldSystemFontOfSize:16]];
                     
-                    self.subjectLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-                    subjectLabel.userInteractionEnabled = YES;
-                    [subjectLabel setLineBreakMode:UILineBreakModeWordWrap];
-                    [subjectLabel setFont:[UIFont boldSystemFontOfSize:16]];
-                    [cell addSubview:subjectLabel];
-                    
-                    bodyLabel = [[[JSCoreTextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 240)] autorelease];
-                    [bodyLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-                    [bodyLabel setDelegate:self];
-                    [bodyLabel setFontName:font];
-                    [bodyLabel setFontSize:size];
-                    [bodyLabel setHighlightColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
-                    [bodyLabel setBackgroundColor:[UIColor whiteColor]];
-                    [bodyLabel setPaddingTop:paddingTop];
-                    [bodyLabel setPaddingLeft:paddingLeft];
-                    [bodyLabel setLinkColor:APP_BACKGROUNDCOLOR];
-                    
-                    [cell addSubview:bodyLabel];
+                    subjectTextField = [[UITextField alloc] initWithFrame:CGRectMake(110, 10, [Tools screenMaxWidth] - 120, 25)];
+                    subjectTextField.userInteractionEnabled = YES;
+                    [subjectTextField setReturnKeyType:UIReturnKeyDone];
+                    [subjectTextField setTextAlignment:UITextAlignmentLeft];
+                    [subjectTextField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+                    [subjectTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
+                    [subjectTextField setPlaceholder:@"标题"];
+                    [subjectTextField addTarget:self action:@selector(textFieldDoneEditing:) forControlEvents:UIControlEventEditingDidEndOnExit];
+                    [cell.contentView addSubview:subjectTextField];
                 }
                 
-                if(task.subject != nil)
+                if(task != nil)
                 {
-                    subjectLabel.text = task.subject;
+                    subjectTextField.text = task.subject;
                 }
-                if(task.body != nil)
-                {
-                    bodyLabel.text = task.body;
-                }
-                
-                CGSize subjectLabelSize = [subjectLabel.text sizeWithFont:subjectLabel.font
-                                                        constrainedToSize:CGSizeMake(280 + [Tools screenMaxWidth] - 320, 10000)
-                                                            lineBreakMode:UILineBreakModeWordWrap];
-                
-                CGFloat subjectLabelHeight = subjectLabelSize.height + 20;
-                
-                int subjectlines = subjectLabelHeight / 16;
-                int totalLabelHeight = subjectLabelHeight;
-                [subjectLabel setFrame:CGRectMake(20, 5, 280 + [Tools screenMaxWidth] - 320, totalLabelHeight)];
-                [subjectLabel setNumberOfLines:subjectlines];
-                
-                CGFloat bodyLabelHeight = [JSCoreTextView measureFrameHeightForText:bodyLabel.text
-                                                                           fontName:font
-                                                                           fontSize:size
-                                                                 constrainedToWidth:bodyLabel.frame.size.width - (paddingLeft * 2)
-                                                                         paddingTop:paddingTop
-                                                                        paddingLeft:paddingLeft];
-                CGRect textFrame = [bodyLabel frame];
-                textFrame.size.height = bodyLabelHeight;
-                textFrame.origin.y = totalLabelHeight;
-                [bodyLabel setFrame:textFrame];
-                
-                totalLabelHeight += bodyLabelHeight + 10;
-                [cell setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], totalLabelHeight)];
             }
             else if(indexPath.row == 7)
             {
-                cell = [tableView dequeueReusableCellWithIdentifier:@"TaskCreatorCell"];
+                cell = [tableView dequeueReusableCellWithIdentifier:@"BodyCell"];
                 if(!cell)
                 {
-                    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"TaskCreatorCell"] autorelease];
+                    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"BodyCell"] autorelease];
                     
-                    TeamMember *taskCreator = [teamMemberDao getTeamMemberByTeamId:currentTeamId assigneeId:task.createMemberId];
-                    if(taskCreator != nil)
-                    {
-                        cell.textLabel.text = [NSString stringWithFormat:@"%@ 创建了任务", taskCreator.name];
-                        cell.detailTextLabel.text = [Tools NSDateToNSString:task.createDate];
-                    }
+                    bodyTextView = [[BodyTextView alloc] initWithFrame:self.view.frame];
+                    bodyTextView.userInteractionEnabled = YES;
+                    [bodyTextView setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+                    [bodyTextView setAutocorrectionType:UITextAutocorrectionTypeNo];
+                    bodyTextView.returnKeyType = UIReturnKeyDefault;
+                    bodyTextView.keyboardType = UIReturnKeyDone;
+                    bodyTextView.scrollEnabled = YES;
+                    bodyTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+                    bodyTextView.delegate = self;
+                    [bodyTextView setFont:[UIFont systemFontOfSize:16]];
+                    
+                    bodyScrollView = [[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 240)] autorelease];
+                    [bodyScrollView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+                    [bodyScrollView setContentSize:bodyTextView.frame.size];
+                    [bodyScrollView addSubview:bodyTextView];
+                    
+                    [cell addSubview:bodyScrollView];
+                    
+                    bodyCell = cell;
                 }
-            }
-            else
-            {
-                cell = [tableView dequeueReusableCellWithIdentifier:@"TaskCommentCell"];
                 
-                if(!cell)
+                if(task != nil)
                 {
-                    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"TaskCommentCell"] autorelease];
-                    
-                    Comment *comment = [taskCommentArray objectAtIndex:indexPath.row - 8];
-                    if(comment != nil)
-                    {
-                        if(comment.creatorId != nil)
-                        {
-                            TeamMember *commentor = [teamMemberDao getTeamMemberByTeamId:currentTeamId assigneeId:comment.creatorId];
-                            if(commentor != nil)
-                            {
-                                cell.textLabel.text = [NSString stringWithFormat:@"%@ 发表了评论", commentor.name];    
-                            }
-                        }
-                        else
-                        {
-                            NSString *commentorName = [[ConstantClass instance] username];
-                            cell.textLabel.text = [NSString stringWithFormat:@"%@ 发表了评论", commentorName];
-                        }
-                        cell.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
-                        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@\n - %@"
-                                                     , comment.body
-                                                     , [Tools NSDateToNSString:comment.createTime]];
-                        
-                    }
+                    bodyTextView.text = task.body;
                 }
+                
+                int totalheight = bodyTextView.contentSize.height;
+                //            if(bodyTextView.contentSize.height < 300)
+                //            {
+                //                totalheight = 300;
+                //            }
+                [cell setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], totalheight + 200)];
             }
         }
     }
@@ -686,17 +621,21 @@
 {
     [self.dueDateLabel setTitle:[NSString stringWithFormat:@"%@    >", [Tools ShortNSDateToNSString:value]] forState:UIControlStateNormal];
     
-    task.dueDate = value;
-    
-    [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
-                                 dataId:self.task.id
-                                   name:@"duetime"
-                                  value:[Tools ShortNSDateToNSString:value]
-                                 teamId:currentTeamId
-                              projectId:currentProjectId
-                               memberId:currentMemberId
-                                    tag:currentTag];
-    [taskDao commitData];
+    currentDueDate = [value copy];
+    if(task != nil)
+    {
+        task.dueDate = value;
+        
+        [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
+                                     dataId:self.task.id
+                                       name:@"duetime"
+                                      value:[Tools ShortNSDateToNSString:value]
+                                     teamId:currentTeamId
+                                  projectId:currentProjectId
+                                   memberId:currentMemberId
+                                        tag:currentTag];
+        [taskDao commitData];
+    }
     
     CGSize size = CGSizeMake(320,10000);
     CGSize labelsize = [dueDateLabel.titleLabel.text sizeWithFont:dueDateLabel.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
@@ -709,28 +648,37 @@
 {
     [self.priorityButton setTitle:[NSString stringWithFormat:@"%@    >", value] forState:UIControlStateNormal];
     
-    task.priority = [self getPriorityKey:value];
-    [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
-                                 dataId:self.task.id
-                                   name:@"priority"
-                                  value:task.priority
+    currentPriority = [self getPriorityKey:value];
+    if(task != nil)
+    {
+        task.priority = [self getPriorityKey:value];
+        [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
+                                     dataId:self.task.id
+                                       name:@"priority"
+                                      value:task.priority
+                                     teamId:currentTeamId
+                                  projectId:currentProjectId
+                                   memberId:currentMemberId
+                                        tag:currentTag];
+        [taskIdxDao updateTaskIdxByTeam:self.task.id
+                                  byKey:self.task.priority
                                  teamId:currentTeamId
                               projectId:currentProjectId
                                memberId:currentMemberId
                                     tag:currentTag];
-    [taskIdxDao updateTaskIdxByTeam:self.task.id
-                              byKey:self.task.priority
-                             teamId:currentTeamId
-                          projectId:currentProjectId
-                           memberId:currentMemberId
-                                tag:currentTag];
-    [taskDao commitData];
-    
+        [taskDao commitData];
+    }
+
     CGSize size = CGSizeMake(320,10000);
     CGSize labelsize = [priorityButton.titleLabel.text sizeWithFont:priorityButton.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
     [priorityButton setFrame:CGRectMake(110, 8, labelsize.width + 40, labelsize.height + 10)];
     
     [delegate loadTaskData];
+}
+
+-(void)textFieldDoneEditing:(id)sender
+{
+    [sender resignFirstResponder];
 }
 
 - (void)selectDueDate
@@ -741,6 +689,11 @@
 - (void)selectPriority
 {
     [self.priorityButton becomeFirstResponder];
+}
+
+- (BOOL)taskIsFinish
+{
+    return [statusButton.titleLabel.text isEqualToString:@"完成    >"];
 }
 
 - (void)switchStatus
@@ -767,16 +720,19 @@
         isfinish = NO;
     }
     
-    self.task.status = [NSNumber numberWithInt: isfinish ? 1 : 0];
-    
-    [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
-                                 dataId:self.task.id name:@"iscompleted"
-                                  value:isfinish ? @"true" : @"false"
-                                 teamId:currentTeamId
-                              projectId:currentProjectId
-                               memberId:currentMemberId
-                                    tag:currentTag];
-    [taskDao commitData];
+    currentStatus = [NSNumber numberWithInt: isfinish ? 1 : 0];
+    if(task != nil)
+    {
+        self.task.status = [NSNumber numberWithInt: isfinish ? 1 : 0];
+        [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
+                                     dataId:self.task.id name:@"iscompleted"
+                                      value:isfinish ? @"true" : @"false"
+                                     teamId:currentTeamId
+                                  projectId:currentProjectId
+                                   memberId:currentMemberId
+                                        tag:currentTag];
+        [taskDao commitData];
+    }
     
     CGSize size = CGSizeMake(320,10000);
     CGSize labelsize = [statusButton.titleLabel.text sizeWithFont:statusButton.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
@@ -799,7 +755,8 @@
     teamTaskOptionViewController.currentProjectId = currentProjectId;
     teamTaskOptionViewController.currentMemberId = currentMemberId;
     teamTaskOptionViewController.currentTag = currentTag;
-
+    teamTaskOptionViewController.delegate = self;
+    
     [Tools layerTransition:self.navigationController.view from:@"right"];
     [self.navigationController pushViewController:teamTaskOptionViewController animated:NO];
 }
@@ -818,6 +775,7 @@
     teamTaskOptionViewController.currentProjectId = currentProjectId;
     teamTaskOptionViewController.currentMemberId = currentMemberId;
     teamTaskOptionViewController.currentTag = currentTag;
+    teamTaskOptionViewController.delegate = self;
     
     [Tools layerTransition:self.navigationController.view from:@"right"];
     [self.navigationController pushViewController:teamTaskOptionViewController animated:NO];
@@ -837,9 +795,264 @@
     teamTaskOptionViewController.currentProjectId = currentProjectId;
     teamTaskOptionViewController.currentMemberId = currentMemberId;
     teamTaskOptionViewController.currentTag = currentTag;
+    teamTaskOptionViewController.delegate = self;
     
     [Tools layerTransition:self.navigationController.view from:@"right"];
     [self.navigationController pushViewController:teamTaskOptionViewController animated:NO];
+}
+
+- (void)saveTask:(id)sender
+{
+    if(self.task == nil)
+    {
+        NSString *guid = [Tools stringWithUUID];
+        
+        NSString *id = [NSString stringWithFormat:@"temp_%@", guid];
+        
+        NSDate *currentDate = [NSDate date];
+        
+        [taskDao addTeamTask:subjectTextField.text
+                  createDate:currentDate
+              lastUpdateDate:currentDate
+                        body:bodyTextView.text
+                    isPublic:[Tools BOOLToNSNumber:YES]
+                      status:currentStatus
+                    priority:currentPriority
+                      taskId:id
+                     dueDate:currentDueDate
+                    editable:[NSNumber numberWithInt:1]
+              createMemberId:nil
+                  assigneeId:currentAssigneeId
+                    projects:currentProjects
+                        tags:currentTags
+                      teamId:currentTeamId];
+        
+        [taskIdxDao addTaskIdxByTeam:id
+                               byKey:currentPriority
+                              teamId:currentTeamId
+                           projectId:currentProjectId
+                            memberId:currentMemberId
+                                 tag:currentTag];
+        
+        //insert changelog
+        [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
+                                     dataId:id
+                                       name:@"subject"
+                                      value:subjectTextField.text
+                                     teamId:currentTeamId
+                                  projectId:currentProjectId
+                                   memberId:currentMemberId
+                                        tag:currentTag];
+        [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
+                                     dataId:id
+                                       name:@"body"
+                                      value:bodyTextView.text
+                                     teamId:currentTeamId
+                                  projectId:currentProjectId
+                                   memberId:currentMemberId
+                                        tag:currentTag];
+        [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
+                                     dataId:id
+                                       name:@"priority"
+                                      value:currentPriority
+                                     teamId:currentTeamId
+                                  projectId:currentProjectId
+                                   memberId:currentMemberId
+                                        tag:currentTag];
+        [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
+                                     dataId:id
+                                       name:@"duetime"
+                                      value:[Tools NSDateToNSString:currentDueDate]
+                                     teamId:currentTeamId
+                                  projectId:currentProjectId
+                                   memberId:currentMemberId
+                                        tag:currentTag];
+        [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
+                                    dataId:id
+                                      name:@"iscompleted"
+                                     value:[self taskIsFinish] ? @"true" : @"false"
+                                    teamId:currentTeamId
+                                 projectId:currentProjectId
+                                  memberId:currentMemberId
+                                       tag:currentTag];
+        
+        if(currentAssigneeId != nil)
+        {       
+            [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
+                                         dataId:id
+                                           name:@"assigneeid"
+                                          value:currentAssigneeId
+                                         teamId:currentTeamId
+                                      projectId:currentProjectId
+                                       memberId:currentMemberId
+                                            tag:currentTag];
+        }
+        if(currentProjects != nil)
+        {
+            NSMutableArray *currentProjectArray = [currentProjects JSONValue];
+            for (NSMutableDictionary *currentProjectDict in currentProjectArray)
+            {    
+                [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:2]
+                                             dataId:id
+                                               name:@"projects"
+                                              value:[currentProjectDict objectForKey:@"id"]
+                                             teamId:currentTeamId
+                                          projectId:currentProjectId
+                                           memberId:currentMemberId
+                                                tag:currentTag];
+            }
+        }
+        if(currentTags != nil)
+        {
+            NSMutableArray *currentTagArray = [currentTags JSONValue];
+            for (NSString *currentTagName in currentTagArray)
+            {
+                [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:2]
+                                             dataId:id
+                                               name:@"tags"
+                                              value:currentTagName
+                                             teamId:currentTeamId
+                                          projectId:currentProjectId
+                                           memberId:currentMemberId
+                                                tag:currentTag];
+            }
+        }
+        
+        [taskDao commitData];
+    }
+    else
+    {
+        [taskDao updateTaskByTeam:self.task
+                          subject:subjectTextField.text
+                   lastUpdateDate:[NSDate date]
+                             body:bodyTextView.text
+                         isPublic:[Tools BOOLToNSNumber:YES]
+                           status:currentStatus
+                         priority:currentPriority
+                          dueDate:currentDueDate
+                         assignee:currentAssigneeId
+                         projects:currentProjects
+                             tags:currentTags
+                           teamId:currentTeamId
+                        projectId:currentProjectId
+                         memberId:currentMemberId
+                              tag:currentTag];
+        
+        if(![oldPriority isEqualToString:currentPriority])
+        {
+            [taskIdxDao updateTaskIdxByTeam:self.task.id
+                                      byKey:self.task.priority
+                                     teamId:currentTeamId
+                                  projectId:currentProjectId
+                                   memberId:currentMemberId
+                                        tag:currentTag];
+        }
+        
+        //update changelog
+        [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
+                                     dataId:self.task.id
+                                       name:@"subject"
+                                      value:subjectTextField.text
+                                     teamId:currentTeamId
+                                  projectId:currentProjectId
+                                   memberId:currentMemberId
+                                        tag:currentTag];
+        [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
+                                     dataId:self.task.id
+                                       name:@"body"
+                                      value:bodyTextView.text
+                                     teamId:currentTeamId
+                                  projectId:currentProjectId
+                                   memberId:currentMemberId
+                                        tag:currentTag];
+        [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
+                                     dataId:self.task.id
+                                       name:@"priority"
+                                      value:currentPriority
+                                     teamId:currentTeamId
+                                  projectId:currentProjectId
+                                   memberId:currentMemberId
+                                        tag:currentTag];
+        [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
+                                     dataId:self.task.id
+                                       name:@"duetime"
+                                      value:[Tools NSDateToNSString:currentDueDate]
+                                     teamId:currentTeamId
+                                  projectId:currentProjectId
+                                   memberId:currentMemberId
+                                        tag:currentTag];
+        [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
+                                     dataId:self.task.id
+                                       name:@"iscompleted"
+                                      value:[self taskIsFinish] ? @"true" : @"false"
+                                     teamId:currentTeamId
+                                  projectId:currentProjectId
+                                   memberId:currentMemberId
+                                        tag:currentTag];
+        
+        [taskDao commitData];
+    }
+    
+    [self goBack:nil];
+}
+
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    NSLog(@"height:%f",textView.contentSize.height);
+    
+    CGFloat totalheight = bodyTextView.contentSize.height;
+    
+    //    CGPoint center = viewCenter;
+    
+    //    float height = 116.0 + [Tools screenMaxHeight] - 480;
+    //    if(totalheight > height)
+    //    {
+    //        CGFloat line = (totalheight - height) / 50.0;
+    //
+    //
+    //        center.y -= 256 + 50 * line;
+    //        center.y += 120.0f;
+    //        self.view.center = center;
+    //    }
+    //    else {
+    //        center.y -= 256;
+    //        center.y += 120.0f;
+    //        self.view.center = center;
+    //    }
+    
+    //TODO:目前是无效的，后面处理
+    [bodyScrollView setContentSize:bodyTextView.contentSize];
+    
+    CGRect rect = bodyCell.frame;
+    rect.size.height = totalheight;
+    bodyCell.frame = rect;
+    
+    return YES;
+}
+
+- (void)keyboardWillShow:(NSNotification *)aNotification
+{
+	CGRect keyboardRect = [[[aNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    NSTimeInterval animationDuration =
+	[[[aNotification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    CGPoint center = viewCenter;
+    NSLog(@"key:%f", keyboardRect.size.height);
+    center.y -= keyboardRect.size.height;
+    center.y += 120.0f;
+    self.view.center = center;
+    [UIView setAnimationDuration:animationDuration];
+    [UIView commitAnimations];
+}
+
+- (void)keyboardWillHide:(NSNotification *)aNotification
+{
+    NSTimeInterval animationDuration =
+	[[[aNotification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    self.view.center = viewCenter;
+    [UIView setAnimationDuration:animationDuration];
+    [UIView commitAnimations];
 }
 
 - (NSString*)getPriorityKey:(NSString*)priorityValue
@@ -861,6 +1074,19 @@
     else if([priorityKey isEqualToString:@"2"])
         return PRIORITY_TITLE_3;
     return PRIORITY_TITLE_1;
+}
+
+- (void)modifyAssignee:(NSString*)assignee
+{
+    currentAssigneeId = assignee;
+}
+- (void)modifyProjects:(NSString*)projects
+{
+    currentProjects = projects;
+}
+- (void)modifyTags:(NSString*)tags
+{
+    currentTags = tags;
 }
 
 @end

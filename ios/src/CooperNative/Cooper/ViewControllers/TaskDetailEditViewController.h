@@ -21,7 +21,7 @@
 @interface TaskDetailEditViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate,DateLabelDelegate,PriorityButtonDelegate>
 {
     UITableView *detailView;
-     NSString *oldPriority;
+    NSString *oldPriority;
     
     TaskDao *taskDao;
     TaskIdxDao *taskIdxDao;

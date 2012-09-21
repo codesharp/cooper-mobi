@@ -41,7 +41,7 @@
         [addCommentTextField setReturnKeyType:UIReturnKeyDone];
         [addCommentTextField setFont:[UIFont systemFontOfSize:14]];
         [addCommentTextField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-        [addCommentTextField addTarget:self action:@selector(addCommentAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
+        [addCommentTextField addTarget:self action:@selector(done:) forControlEvents:UIControlEventEditingDidEndOnExit];
         
         CustomButton *customButton = [[CustomButton alloc] initWithFrame:CGRectMake(260 + [Tools screenMaxWidth] - 320, 5, 55, 30) image:[UIImage imageNamed:@"btn_center.png"]];
         customButton.layer.cornerRadius = 6.0f;
@@ -63,8 +63,17 @@
     return inputAccessoryView;
 }
 
+- (void)done:(id)sender
+{
+    [self resignFirstResponder];
+}
+
 - (void)addCommentAction:(id)sender {
-    //TODO:发送评论
+    if([addCommentTextField.text length] < 5)
+    {
+        [Tools alert:@"评论字数至少5个字符"];
+        return;
+    }
     [delegate sendComment:addCommentTextField.text];
     addCommentTextField.text = @"";
     [self resignFirstResponder];

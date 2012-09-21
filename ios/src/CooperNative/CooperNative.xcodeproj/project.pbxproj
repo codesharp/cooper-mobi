@@ -109,6 +109,8 @@
 		6A7D87B8160AAB93004C7C9C /* TeamTaskFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D87B7160AAB93004C7C9C /* TeamTaskFilterViewController.m */; };
 		6A7D87C1160AE51B004C7C9C /* TeamTaskFilterLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D87C0160AE51B004C7C9C /* TeamTaskFilterLabel.m */; };
 		6A7D87C4160B5536004C7C9C /* TeamTaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D87C3160B5535004C7C9C /* TeamTaskDetailViewController.m */; };
+		6A7D87C7160C0AEA004C7C9C /* TeamTaskOptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D87C6160C0AE9004C7C9C /* TeamTaskOptionViewController.m */; };
+		6A7D87CA160C6499004C7C9C /* TeamTaskDetailEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D87C9160C6498004C7C9C /* TeamTaskDetailEditViewController.m */; };
 		6A84F2A61607152B000B62CB /* TeamTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A84F2A51607152B000B62CB /* TeamTaskViewController.m */; };
 		6AA9EE801606D68D00A5B013 /* libCodesharpSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18E2F8A115F4D9060062E57F /* libCodesharpSDK.a */; };
 		6AA9EE811606D68D00A5B013 /* libCooperCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1891ABD915D2D59400C7E8DA /* libCooperCore.a */; };
@@ -362,6 +364,11 @@
 		6A7D87C0160AE51B004C7C9C /* TeamTaskFilterLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamTaskFilterLabel.m; path = Controls/TeamTaskFilterLabel.m; sourceTree = "<group>"; };
 		6A7D87C2160B5535004C7C9C /* TeamTaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamTaskDetailViewController.h; path = ViewControllers/TeamTaskDetailViewController.h; sourceTree = "<group>"; };
 		6A7D87C3160B5535004C7C9C /* TeamTaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamTaskDetailViewController.m; path = ViewControllers/TeamTaskDetailViewController.m; sourceTree = "<group>"; };
+		6A7D87C5160C0AE8004C7C9C /* TeamTaskOptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamTaskOptionViewController.h; path = ViewControllers/TeamTaskOptionViewController.h; sourceTree = "<group>"; };
+		6A7D87C6160C0AE9004C7C9C /* TeamTaskOptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamTaskOptionViewController.m; path = ViewControllers/TeamTaskOptionViewController.m; sourceTree = "<group>"; };
+		6A7D87C8160C6496004C7C9C /* TeamTaskDetailEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamTaskDetailEditViewController.h; path = ViewControllers/TeamTaskDetailEditViewController.h; sourceTree = "<group>"; };
+		6A7D87C9160C6498004C7C9C /* TeamTaskDetailEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamTaskDetailEditViewController.m; path = ViewControllers/TeamTaskDetailEditViewController.m; sourceTree = "<group>"; };
+		6A7D87CB160C7301004C7C9C /* TeamTaskDetailEditViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamTaskDetailEditViewDelegate.h; path = ViewControllers/TeamTaskDetailEditViewDelegate.h; sourceTree = "<group>"; };
 		6A84F2A41607152B000B62CB /* TeamTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamTaskViewController.h; path = ViewControllers/TeamTaskViewController.h; sourceTree = "<group>"; };
 		6A84F2A51607152B000B62CB /* TeamTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamTaskViewController.m; path = ViewControllers/TeamTaskViewController.m; sourceTree = "<group>"; };
 		6AF47A4615FE336C006D4D3F /* GTMHTTPFetcherLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcherLogging.h; sourceTree = "<group>"; };
@@ -606,6 +613,11 @@
 				6A7D87BB160AAD6F004C7C9C /* TeamTaskViewDelegate.h */,
 				6A7D87C2160B5535004C7C9C /* TeamTaskDetailViewController.h */,
 				6A7D87C3160B5535004C7C9C /* TeamTaskDetailViewController.m */,
+				6A7D87C5160C0AE8004C7C9C /* TeamTaskOptionViewController.h */,
+				6A7D87C6160C0AE9004C7C9C /* TeamTaskOptionViewController.m */,
+				6A7D87C8160C6496004C7C9C /* TeamTaskDetailEditViewController.h */,
+				6A7D87C9160C6498004C7C9C /* TeamTaskDetailEditViewController.m */,
+				6A7D87CB160C7301004C7C9C /* TeamTaskDetailEditViewDelegate.h */,
 			);
 			name = TeamViewController;
 			sourceTree = "<group>";
@@ -1193,6 +1205,8 @@
 				6A7D87B8160AAB93004C7C9C /* TeamTaskFilterViewController.m in Sources */,
 				6A7D87C1160AE51B004C7C9C /* TeamTaskFilterLabel.m in Sources */,
 				6A7D87C4160B5536004C7C9C /* TeamTaskDetailViewController.m in Sources */,
+				6A7D87C7160C0AEA004C7C9C /* TeamTaskOptionViewController.m in Sources */,
+				6A7D87CA160C6499004C7C9C /* TeamTaskDetailEditViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

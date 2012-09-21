@@ -419,6 +419,61 @@
 
 #pragma mark - 团队任务相关
 
+- (void)addTaskIdxByTeam:(NSString *)tid
+                   byKey:(NSString *)key
+                  teamId:(NSString*)teamId
+               projectId:(NSString*)projectId
+                memberId:(NSString*)memberId
+                     tag:(NSString*)tag
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(key = %@ and teamId = %@ and projectId = %@ and memberId = %@ and tag = %@)"
+                              , key
+                              , teamId
+                              , projectId
+                              , memberId
+                              , tag];
+    [fetchRequest setPredicate:predicate];
+    
+    [fetchRequest setEntity:entity];
+    
+    SBJsonParser *parser = [[SBJsonParser alloc] init];
+    SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+    
+    NSError *error = nil;
+    NSMutableArray *taskIdxs = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    
+    TaskIdx *taskIdx = nil;
+    NSMutableArray *indexesArray = nil;
+    if(taskIdxs.count == 0)
+    {
+        taskIdx = [ModelHelper create:@"TaskIdx" context:context];
+        taskIdx.by = @"priority";
+        taskIdx.key = key;
+        taskIdx.name = [key isEqualToString:@"0"] ? (PRIORITY_TITLE_1) : ([key isEqualToString:@"1"] ?PRIORITY_TITLE_2 : PRIORITY_TITLE_3);
+        indexesArray = [NSMutableArray array];
+    }
+    else
+    {
+        taskIdx = [taskIdxs objectAtIndex:0];
+        if(!taskIdx.indexes)
+            indexesArray = [NSMutableArray array];
+        else
+            indexesArray = [parser objectWithString: taskIdx.indexes];
+    }
+    [indexesArray addObject:tid];
+    taskIdx.indexes = [writer stringWithObject:indexesArray];
+    taskIdx.teamId = teamId;
+    taskIdx.projectId = projectId;
+    taskIdx.memberId = memberId;
+    taskIdx.tag = tag;
+    
+    [fetchRequest release];
+    [writer release];
+    [parser release];
+}
 - (void)addTeamTaskIdx:(NSString*)by
                    key:(NSString*)key
                   name:(NSString*)name
@@ -540,6 +595,53 @@
             isChanged = YES;
         }
         
+        if(isChanged)
+            taskIdx.indexes = [writer stringWithObject:indexesArray];
+    }
+    
+    [fetchRequest release];
+    [writer release];
+    [parser release];
+}
+- (void)updateTaskIdxByTeam:(NSString *)taskId
+                      byKey:(NSString *)key
+                     teamId:(NSString*)teamId
+                  projectId:(NSString*)projectId
+                   memberId:(NSString*)memberId
+                        tag:(NSString*)tag
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(teamId = %@ and projectId = %@ and memberId = %@ and tag = %@)"
+                              , teamId
+                              , projectId
+                              , memberId
+                              , tag];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSMutableArray *taskIdxs = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    
+    SBJsonParser *parser = [[SBJsonParser alloc] init];
+    SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+    for(TaskIdx *taskIdx in taskIdxs)
+    {
+        BOOL isChanged = NO;
+        NSMutableArray *indexesArray = [parser objectWithString: taskIdx.indexes];
+        if([indexesArray containsObject:taskId])
+        {
+            [indexesArray removeObject:taskId];
+            isChanged = YES;
+        }
+        
+        if([taskIdx.key isEqualToString:key])
+        {
+            
+            [indexesArray addObject:taskId];
+            isChanged = YES;
+        }
         if(isChanged)
             taskIdx.indexes = [writer stringWithObject:indexesArray];
     }
