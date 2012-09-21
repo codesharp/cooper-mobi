@@ -30,7 +30,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -48,7 +47,7 @@
     projectDao = [[ProjectDao alloc] init];
     commentDao = [[CommentDao alloc] init];
     
-    statusView = [[UIView alloc] initWithFrame:CGRectMake(0, 369, [Tools screenMaxWidth], 49)];
+    statusView = [[UIView alloc] initWithFrame:CGRectMake(0, [Tools screenMaxHeight] - 111, [Tools screenMaxWidth], 49)];
     statusView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:TABBAR_BG_IMAGE]];
     [self.view addSubview:statusView];
 	
@@ -191,7 +190,6 @@
 {
     static NSString *CellIdentifier = @"TaskTableViewCell";
     TaskTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
     if (!cell)
 	{
         cell = [[TaskTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -202,7 +200,6 @@
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    //cell.editingAccessoryType = UITableViewCellEditingStyleDelete;
     cell.showsReorderControl = YES;
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     UIView *selectedView = [[UIView alloc] initWithFrame:cell.frame];
@@ -229,7 +226,7 @@
         [[self.taskGroup objectAtIndex:toIndexPath.section] insertObject:task atIndex:toIndexPath.row];
     }
     
-    NSLog(@"fromIndexPath.section-row:%d-%d,toIndexPath.section-row:%d-%d",fromIndexPath.section, fromIndexPath.row, toIndexPath.section, toIndexPath.row);
+//    NSLog(@"fromIndexPath.section-row:%d-%d,toIndexPath.section-row:%d-%d",fromIndexPath.section, fromIndexPath.row, toIndexPath.section, toIndexPath.row);
 }
 
 - (NSIndexPath *)moveTableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
@@ -425,9 +422,6 @@
     teamTaskDetailViewController.currentMemberId = currentMemberId;
     teamTaskDetailViewController.currentTag = currentTag;
     
-    //[teamTaskDetailViewController setHidesBottomBarWhenPushed:YES];
-    //taskDetailViewController.delegate = self;
-    
     [Tools layerTransition:self.navigationController.view from:@"right"];
     [self.navigationController pushViewController:teamTaskDetailViewController animated:NO];
 }
@@ -500,58 +494,40 @@
     
     [taskView reloadData];
     
-//    if(taskGroup.count == 0)
-//    {
-//        taskView.hidden = YES;
-//        
-//        if (!emptyView)
-//        {
-//            if([currentTasklistId isEqualToString:@"ifree"]
-//               || [currentTasklistId isEqualToString:@"github"]
-//               || [currentTasklistId isEqualToString:@"wf"])
-//            {
-//                UIView *tempemptyView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, [Tools screenMaxWidth], 100)];
-//                tempemptyView.backgroundColor = [UIColor whiteColor];
-//                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(80 + (([Tools screenMaxWidth] - 320) / 2.0), 0, 200, 30)];
-//                label.text = @"当前任务列表无法编辑";
-//                label.font = [UIFont boldSystemFontOfSize:16];
-//                //label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
-//                [tempemptyView addSubview:label];
-//                emptyView = tempemptyView;
-//                [self.view addSubview:emptyView];
-//                [tempemptyView release];
-//            }
-//            else
-//            {
-//                UIView *tempemptyView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, [Tools screenMaxWidth], 100)];
-//                tempemptyView.backgroundColor = [UIColor whiteColor];
-//                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(80 + (([Tools screenMaxWidth] - 320) / 2.0), 0, 200, 30)];
-//                label.text = @"点击这里新增第一个任务";
-//                label.font = [UIFont boldSystemFontOfSize:16];
-//                //label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
-//                [tempemptyView addSubview:label];
-//                
-//                CustomButton *addFirstBtn = [[[CustomButton alloc] initWithFrame:CGRectMake(110 + (([Tools screenMaxWidth] - 320) / 2.0), 50,100,30) image:[UIImage imageNamed:@"btn_center.png"]] autorelease];
-//                addFirstBtn.layer.cornerRadius = 6.0f;
-//                [addFirstBtn.layer setMasksToBounds:YES];
-//                [addFirstBtn addTarget:self action:@selector(addTask:) forControlEvents:UIControlEventTouchUpInside];
-//                [addFirstBtn setTitle:@"开始添加" forState:UIControlStateNormal];
-//                [tempemptyView addSubview:addFirstBtn];
-//                emptyView = tempemptyView;
-//                [self.view addSubview:emptyView];
-//                
-//                [tempemptyView release];
-//            }
-//        }
-//        else
-//        {
-//            emptyView.hidden = NO;
-//        }
-//    }
-//    else {
-//        taskView.hidden = NO;
-//        emptyView.hidden = YES;
-//    }
+    if(taskGroup.count == 0)
+    {
+        taskView.hidden = YES;
+        
+        if (!emptyView)
+        {
+            UIView *tempemptyView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, [Tools screenMaxWidth], 100)];
+            tempemptyView.backgroundColor = [UIColor whiteColor];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(80 + (([Tools screenMaxWidth] - 320) / 2.0), 0, 200, 30)];
+            label.text = @"点击这里新增第一个任务";
+            label.font = [UIFont boldSystemFontOfSize:16];
+            //label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
+            [tempemptyView addSubview:label];
+            
+            CustomButton *addFirstBtn = [[[CustomButton alloc] initWithFrame:CGRectMake(110 + (([Tools screenMaxWidth] - 320) / 2.0), 50,100,30) image:[UIImage imageNamed:@"btn_center.png"]] autorelease];
+            addFirstBtn.layer.cornerRadius = 6.0f;
+            [addFirstBtn.layer setMasksToBounds:YES];
+            [addFirstBtn addTarget:self action:@selector(addTask:) forControlEvents:UIControlEventTouchUpInside];
+            [addFirstBtn setTitle:@"开始添加" forState:UIControlStateNormal];
+            [tempemptyView addSubview:addFirstBtn];
+            emptyView = tempemptyView;
+            [self.view addSubview:emptyView];
+            
+            [tempemptyView release];
+        }
+        else
+        {
+            emptyView.hidden = NO;
+        }
+    }
+    else {
+        taskView.hidden = NO;
+        emptyView.hidden = YES;
+    }
 }
 
 - (void)addTask:(id)sender

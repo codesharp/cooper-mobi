@@ -84,10 +84,21 @@
     [teamTaskOptionViewController release];
     [teamTaskDetailEdit_NavController release];
     [teamTaskDetailEditViewController release];
+    
+    [editBtn release];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    if(![[task.editable stringValue] isEqualToString:[[NSNumber numberWithInt:0] stringValue]])
+    {
+        editBtn.hidden = NO;
+    }
+    else
+    {
+        editBtn.hidden = YES;
+    }
+    
     taskCommentArray = [commentDao getListByTaskId:task.id];
     
     [detailView reloadData];
@@ -111,21 +122,12 @@
     UIBarButtonItem *backButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:backBtn] autorelease];
     self.navigationItem.leftBarButtonItem = backButtonItem;
     
-    UIButton *editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [editBtn setFrame:CGRectMake(0, 10, 27, 27)];
     [editBtn setBackgroundImage:[UIImage imageNamed:EDIT_IMAGE] forState:UIControlStateNormal];
     [editBtn addTarget: self action: @selector(editTask:) forControlEvents: UIControlEventTouchUpInside];
     UIBarButtonItem *editButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:editBtn] autorelease];
     self.navigationItem.rightBarButtonItem = editButtonItem;
-    
-    if(![[task.editable stringValue] isEqualToString:[[NSNumber numberWithInt:0] stringValue]])
-    {
-        editBtn.hidden = NO;
-    }
-    else
-    {
-        editBtn.hidden = YES;
-    }
     
     CGRect tableViewRect = CGRectMake(0, 0, [Tools screenMaxWidth], [Tools screenMaxHeight] - 44 - 20);
     UITableView* tempTableView = [[[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStylePlain] autorelease];
@@ -145,10 +147,10 @@
     
     [self.view addSubview: detailView];
     
-    UIView *tabbar = [[UIView alloc] initWithFrame:CGRectMake(0, 376, 320, 40)];
+    UIView *tabbar = [[UIView alloc] initWithFrame:CGRectMake(0, [Tools screenMaxHeight] - 104, [Tools screenMaxWidth], 40)];
     tabbar.backgroundColor = APP_BACKGROUNDCOLOR;
     commentTextField = [[CommentTextField alloc] init];
-    commentTextField.frame = CGRectMake(5, 5, 310, 30);
+    commentTextField.frame = CGRectMake(5, 5, [Tools screenMaxWidth] - 10, 30);
     commentTextField.backgroundColor = [UIColor whiteColor];
     commentTextField.placeholder = @"发表评论";
     commentTextField.font = [UIFont systemFontOfSize:14];

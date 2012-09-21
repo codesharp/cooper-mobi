@@ -215,7 +215,7 @@
 
 - (void)tableViewCell:(TeamTaskFilterLabel *)label didEndEditingWithValue:(NSString *)value
 {
-    label.text = value;
+    [self doneFilterCallback:label withValue:value];
 }
 
 - (void)doneFilterCallback:(TeamTaskFilterLabel*)label withValue:(NSString*)value

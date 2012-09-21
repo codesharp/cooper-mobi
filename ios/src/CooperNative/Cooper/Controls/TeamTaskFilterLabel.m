@@ -184,9 +184,13 @@
     NSString* value = [values objectAtIndex:row];
     
     currentValue = value;
-//    if (delegate && [delegate respondsToSelector:@selector(tableViewCell:didEndEditingWithValue:)]) {
-//        [delegate tableViewCell:self didEndEditingWithValue:value];
-//    }
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        if (delegate && [delegate respondsToSelector:@selector(tableViewCell:didEndEditingWithValue:)]) {
+            [delegate tableViewCell:self didEndEditingWithValue:value];
+        }
+    }
+
 }
 
 @end

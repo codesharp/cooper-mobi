@@ -69,15 +69,16 @@
     UIBarButtonItem *editButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:editBtn] autorelease];
     self.navigationItem.rightBarButtonItem = editButtonItem;
     
-    if([[task.editable stringValue] isEqualToString:[[NSNumber numberWithInt:0] stringValue]])
+    if(![[task.editable stringValue] isEqualToString:[[NSNumber numberWithInt:0] stringValue]])
+    {
+        editBtn.hidden = NO;
+    }
+    else
     {
         editBtn.hidden = YES;
     }
-    else {
-        editBtn.hidden = NO;
-    }
     
-    CGRect tableViewRect = CGRectMake(0, 0, [Tools screenMaxWidth], 1200);
+    CGRect tableViewRect = CGRectMake(0, 0, [Tools screenMaxWidth], [Tools screenMaxHeight] - 20);
     UITableView* tempTableView = [[[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStylePlain] autorelease];
     //[tempTableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLineEtched];
     //tempTableView.scrollEnabled = NO;
@@ -209,7 +210,14 @@
                 [cell.textLabel setTextColor:[UIColor grayColor]];[cell.textLabel setFont:[UIFont boldSystemFontOfSize:16]];
                 
                 statusButton = [[CustomButton alloc] initWithFrame:CGRectZero image:[UIImage imageNamed:@"btn_bg_gray.png"]];
-                statusButton.userInteractionEnabled = YES;
+                if(![[task.editable stringValue] isEqualToString:[[NSNumber numberWithInt:0] stringValue]])
+                {
+                    statusButton.userInteractionEnabled = YES;
+                }
+                else
+                {
+                    statusButton.userInteractionEnabled = NO;
+                }
                 
                 [statusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                 
@@ -240,7 +248,14 @@
                 [cell.textLabel setTextColor:[UIColor grayColor]];[cell.textLabel setFont:[UIFont boldSystemFontOfSize:16]];
                 
                 dueDateLabel = [[DateLabel alloc] initWithFrame:CGRectZero];
-                dueDateLabel.userInteractionEnabled = YES;
+                if(![[task.editable stringValue] isEqualToString:[[NSNumber numberWithInt:0] stringValue]])
+                {
+                    dueDateLabel.userInteractionEnabled = YES;
+                }
+                else
+                {
+                    dueDateLabel.userInteractionEnabled = NO;
+                }  
                 
                 if(![[task.editable stringValue] isEqualToString:[[NSNumber numberWithInt:0] stringValue]])
                 {
@@ -274,7 +289,6 @@
                 [cell.textLabel setTextColor:[UIColor grayColor]];[cell.textLabel setFont:[UIFont boldSystemFontOfSize:16]];
                 
                 priorityButton = [[PriorityButton alloc] initWithFrame:CGRectZero];
-                priorityButton.userInteractionEnabled = YES;
                 
                 if(![[task.editable stringValue] isEqualToString: [[NSNumber numberWithInt:0] stringValue]])
                 {
@@ -282,6 +296,11 @@
                     [priorityButton addGestureRecognizer:recog];
                     priorityButton.delegate = self;
                     [recog release];
+                    priorityButton.userInteractionEnabled = YES;
+                }
+                else
+                {
+                    priorityButton.userInteractionEnabled = NO;
                 }
                 
                 [priorityButton setTitle:[NSString stringWithFormat:@"%@    >",PRIORITY_TITLE_1] forState:UIControlStateNormal];
@@ -361,9 +380,8 @@
             textFrame.origin.y = totalLabelHeight;
             [bodyLabel setFrame:textFrame];
             
-            totalLabelHeight += bodyLabelHeight + 800;
-            
-            [cell setFrame:CGRectMake(0, 0, [Tools screenMaxWidth],totalLabelHeight)];
+            totalLabelHeight += bodyLabelHeight + 10;
+            [cell setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], totalLabelHeight)];
         }
         else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"UnknownCell"];

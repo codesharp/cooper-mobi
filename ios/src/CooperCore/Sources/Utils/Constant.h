@@ -18,9 +18,10 @@
 @property (nonatomic,assign) NSString *loginType;
 @property (nonatomic,retain) NSString *rootPath;
 @property (nonatomic,retain) NSMutableArray *recentlyIds;
+@property (nonatomic,retain) NSMutableArray *recentlyTeamIds;
 @property (nonatomic,assign) bool isLocalPush;
-@property (nonatomic,retain) NSString* tempCreateTasklistId;
-@property (nonatomic,retain) NSString* tempCreateTasklistName;
+@property (nonatomic,retain) NSString *tempCreateTasklistId;
+@property (nonatomic,retain) NSString *tempCreateTasklistName;
 
 + (id)instance;
 

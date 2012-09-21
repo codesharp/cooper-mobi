@@ -519,8 +519,15 @@
 //}
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSLog(@"手指撮动了");
-    return UITableViewCellEditingStyleDelete;
+    Task *task = [[self.taskGroup objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    if(![[task.editable stringValue] isEqualToString:[[NSNumber numberWithInt:0] stringValue]])
+    {
+        return UITableViewCellEditingStyleDelete;
+    }
+    else
+    {
+        return UITableViewCellEditingStyleNone;
+    }
 }
 
 -(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath

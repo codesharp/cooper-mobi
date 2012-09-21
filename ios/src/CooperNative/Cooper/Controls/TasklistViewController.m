@@ -47,19 +47,25 @@
     //左上自定义导航
     CustomToolbar *toolBar = [[CustomToolbar alloc] initWithFrame:CGRectMake(0, 0, 120, 45)];
     
-    //左上后退按钮
-    backBtn = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 38, 45)];
-    UIImageView *backImageView = [[[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 27, 27)] autorelease];
-    UIImage *backImage = [UIImage imageNamed:BACK_IMAGE];
-    backImageView.image = backImage;
-    [backBtn addSubview:backImageView];
-    recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backToOption:)];
-    [backBtn addGestureRecognizer:recognizer];
-    [recognizer release];
-    [toolBar addSubview:backBtn];
+    int left = 0;
+    if(![[[ConstantClass instance] loginType] isEqualToString:@"anonymous"])
+    { 
+        //左上后退按钮
+        backBtn = [[UIView alloc] initWithFrame:CGRectMake(left, 0, 38, 45)];
+        UIImageView *backImageView = [[[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 27, 27)] autorelease];
+        UIImage *backImage = [UIImage imageNamed:BACK_IMAGE];
+        backImageView.image = backImage;
+        [backBtn addSubview:backImageView];
+        recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backToOption:)];
+        [backBtn addGestureRecognizer:recognizer];
+        [recognizer release];
+        [toolBar addSubview:backBtn];
+        
+        left += 40;
+    }
 
     //左上编辑按钮
-    editBtn = [[InputPickerView alloc] initWithFrame:CGRectMake(40, 0, 38, 45)];
+    editBtn = [[InputPickerView alloc] initWithFrame:CGRectMake(left, 0, 38, 45)];
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 27, 27)];
     UIImage *editImage = [UIImage imageNamed:EDIT_IMAGE];
     imageView.image = editImage;

@@ -38,6 +38,8 @@
     ProjectDao *projectDao;
     TagDao *tagDao;
     CommentDao *commentDao;
+    
+    UIButton *editBtn;
 }
 
 @property(nonatomic,assign) id<TeamTaskViewDelegate> delegate;

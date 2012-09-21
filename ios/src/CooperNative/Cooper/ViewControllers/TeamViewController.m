@@ -19,7 +19,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -121,26 +120,71 @@
     [super dealloc];
 }
 
-# pragma mark - UI相关
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+# pragma mark - TableView 数据源
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if([[[ConstantClass instance] recentlyTeamIds] count] > 0)
+        return 2;
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if([[[ConstantClass instance] recentlyTeamIds] count] > 0)
+    {
+        if(section == 0)
+        {
+            NSMutableArray *recentlyTeamIds = (NSMutableArray*)[[ConstantClass instance] recentlyTeamIds];
+            
+            int count = 0;
+            for(int i = 0; i < teams.count; i++)
+            {
+                Team* t = (Team*)[teams objectAtIndex:i];
+                if([recentlyTeamIds containsObject:t.id])
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+        else if(section == 1)
+            return self.teams.count;
+        else
+            return 0;
+    }
     return self.teams.count;
 }
 
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return @"";
+    if([[[ConstantClass instance] recentlyTeamIds] count] > 0)
+    {
+        if(section == 0)
+        {
+            return @"最近查看";
+        }
+        else
+        {
+            return @"所有团队";
+        }
+    }
+    else
+    {
+        if(self.teams.count > 0)
+        {
+            return @"所有团队";
+        }
+        else
+        {
+            return @"";
+        }
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -161,23 +205,96 @@
         [selectedView release];
     }
     
-    Team* team = [self.teams objectAtIndex:indexPath.row];
-    cell.textLabel.text = team.name;
+    //如果包含最近点击的任务列表
+    if([[[ConstantClass instance] recentlyTeamIds] count] > 0)
+    {
+        if(indexPath.section == 0)
+        {
+            NSMutableArray *recentlyTeamIds = (NSMutableArray*)[[ConstantClass instance] recentlyTeamIds];
+            
+            NSString* teamId = [recentlyTeamIds objectAtIndex:indexPath.row];
+            for(int i = 0; i < teams.count; i++)
+            {
+                Team* t = (Team*)[teams objectAtIndex:i];
+                if([teamId isEqualToString: t.id])
+                {
+                    cell.textLabel.text = t.name;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            Team* team = [teams objectAtIndex:indexPath.row];
+            cell.textLabel.text = team.name;
+        }
+    }
+    else
+    {
+        Team* team = [teams objectAtIndex:indexPath.row];
+        cell.textLabel.text = team.name;
+    }
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //点击产生的最近团队记录，目前只保留4条记录，算法需要优化
+    NSString *teamId;
+    NSMutableArray *recentlyTeamIds = (NSMutableArray*)[[ConstantClass instance] recentlyTeamIds];
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    NSString* name = cell.textLabel.text;
+    for(int i = 0; i < teams.count; i++)
+    {
+        Team* t = (Team*)[teams objectAtIndex:i];
+        if([t.name isEqualToString:name])
+        {
+            teamId = t.id;
+            break;
+        }
+    }
+    
+    if(recentlyTeamIds.count == 0)
+    {
+        recentlyTeamIds = [NSMutableArray array];
+        [recentlyTeamIds addObject:teamId];
+    }
+    else {
+        if([recentlyTeamIds containsObject:teamId])
+        {
+            [recentlyTeamIds removeObject:teamId];
+        }
+        [recentlyTeamIds insertObject:teamId atIndex:0];
+    }
+    
+    NSMutableArray *array = [NSMutableArray array];
+    int i = 0;
+    for(NSString* r in recentlyTeamIds)
+    {
+        [array addObject:r];
+        i++;
+        if(i > RECENTLYTEAM_COUNT - 1)
+            break;
+    }
+    
+    [[ConstantClass instance] setRecentlyTeamIds:array];
+    [ConstantClass saveToCache];
+    
+    ///////////////////////////////////////////////
+    
+    NSLog(@"当前选择的团队编号: %@", teamId);
+    
     //打开团队任务列表
     if (teamTaskViewController == nil)
     {
         teamTaskViewController = [[TeamTaskViewController alloc] init];
     }
     
-    Team *team = [self.teams objectAtIndex:indexPath.row];
+    //Team *team = [self.teams objectAtIndex:indexPath.row];
     
-    teamTaskViewController.currentTeamId = team.id;
+    teamTaskViewController.currentTeamId = teamId;
     teamTaskViewController.currentProjectId = nil;
     teamTaskViewController.currentMemberId = nil;
     teamTaskViewController.currentTag = nil;
@@ -253,13 +370,7 @@
 
 - (void)syncTeam:(id)sender
 {
-    //登录用户进行同步
-    if([[ConstantClass instance] username].length > 0)
-    {
-        self.HUD = [Tools process:LOADING_TITLE view:self.view];
-        
-        [self getTeams:sender];
-    }
+    [self getTeams:sender];
 }
 
 - (void)settingAction:(id)sender

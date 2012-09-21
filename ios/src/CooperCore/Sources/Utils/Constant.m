@@ -18,6 +18,7 @@
 @synthesize loginType;
 @synthesize rootPath;
 @synthesize recentlyIds;
+@synthesize recentlyTeamIds;
 @synthesize isLocalPush;
 @synthesize tempCreateTasklistId;
 @synthesize tempCreateTasklistName;
@@ -41,6 +42,7 @@
         isLocalPush = NO;
         rootPath = @"";
         recentlyIds = nil;
+        recentlyTeamIds = nil;
         return self;
 	}
 	return nil;
@@ -59,6 +61,11 @@
     {
         [[ConstantClass instance] setRecentlyIds:recentlyIds];
     }
+    id recentlyTeamIds = [Cache getCacheByKey:@"recentlyTeamIds"];
+    if([Cache getCacheByKey:@"recentlyTeamIds"] != nil)
+    {
+        [[ConstantClass instance] setRecentlyTeamIds:recentlyTeamIds];
+    }
 }
 
 + (void)saveToCache {
@@ -69,6 +76,7 @@
     [Cache setCacheObject:[[ConstantClass instance] username] ForKey:@"username"];
     [Cache setCacheObject:[[ConstantClass instance] rootPath] ForKey:@"rootPath"];
     [Cache setCacheObject:[[ConstantClass instance] recentlyIds] ForKey:@"recentlyIds"];
+    [Cache setCacheObject:[[ConstantClass instance] recentlyTeamIds] ForKey:@"recentlyTeamIds"];
     [Cache setCacheObject:[NSNumber numberWithFloat:[[ConstantClass instance] isLocalPush]] ForKey:@"isLocalPush"];
     
     [Cache saveToDisk];
@@ -80,21 +88,22 @@
     [Cache saveToDisk];
 }
 
-+ (void)saveRecentlyIdsToCache
-{
-    [Cache setCacheObject:[[ConstantClass instance] recentlyIds] ForKey:@"recentlyIds"];
-    [Cache saveToDisk];
-}
-
-+ (void)saveIsLocalPushToCache
-{
-    [Cache setCacheObject:[NSNumber numberWithFloat:[[ConstantClass instance] isLocalPush]] ForKey:@"isLocalPush"];
-    [Cache saveToDisk];
-}
 + (void)saveSortHasChangedToCache
 {
     [Cache setCacheObject:[NSNumber numberWithFloat:[[ConstantClass instance] isLocalPush]] ForKey:@"sortHasChanged"];
     [Cache saveToDisk];
 }
+
+//+ (void)saveRecentlyIdsToCache
+//{
+//    [Cache setCacheObject:[[ConstantClass instance] recentlyIds] ForKey:@"recentlyIds"];
+//    [Cache saveToDisk];
+//}
+//
+//+ (void)saveIsLocalPushToCache
+//{
+//    [Cache setCacheObject:[NSNumber numberWithFloat:[[ConstantClass instance] isLocalPush]] ForKey:@"isLocalPush"];
+//    [Cache saveToDisk];
+//}
 
 @end

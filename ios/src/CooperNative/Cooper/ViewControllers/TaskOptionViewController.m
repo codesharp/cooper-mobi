@@ -7,12 +7,18 @@
 //
 
 #import "TaskOptionViewController.h"
+#import "SettingViewController.h"
+#import "TaskController.h"
 
 @implementation TaskOptionViewController
 
 @synthesize tasklistViewController;
 @synthesize teamViewController;
 @synthesize setting_navViewController;
+@synthesize teamTaskViewController;
+
+@synthesize tasklists;
+@synthesize teams;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,6 +31,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    tasklistDao = [[TasklistDao alloc] init];
+    teamDao = [[TeamDao alloc] init];
     
     self.title = @"类型选择";
     
@@ -42,12 +51,33 @@
     [settingBtn addTarget: self action: @selector(settingAction:) forControlEvents: UIControlEventTouchUpInside];
     UIBarButtonItem *settingButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingBtn];
     self.navigationItem.rightBarButtonItem = settingButtonItem;
-    [settingButtonItem release];
+    [settingButtonItem release]; 
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    NSInteger rTasklistIdCount = [[[ConstantClass instance] recentlyIds] count];
+    NSInteger rTeamIdCount = [[[ConstantClass instance] recentlyTeamIds] count];
+    if(rTasklistIdCount + rTeamIdCount > 0)
+    {
+        tasklists = [tasklistDao getAllTasklist];
+        teams = [teamDao getTeams];
+    }
+    if(tasklists == nil)
+    {
+        tasklists = [NSMutableArray array];
+    }
+    if(teams == nil)
+    {
+        teams = [NSMutableArray array];
+    }
+    
+    [taskOptionView reloadData];
 }
 
 - (void)dealloc
@@ -57,6 +87,10 @@
     [tasklistViewController release];
     [setting_navViewController release];
     [teamViewController release];
+    [tasklistDao release];
+    [teamDao release];
+//    [tasklists release];
+//    [teams release];
     [super dealloc];
 }
 
@@ -67,17 +101,50 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    NSInteger rTasklistIdCount = [[[ConstantClass instance] recentlyIds] count];
+    NSInteger rTeamIdCount = [[[ConstantClass instance] recentlyTeamIds] count];
+    if(rTasklistIdCount + rTeamIdCount > 0)
+        return 2;
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSInteger rTasklistIdCount = [[[ConstantClass instance] recentlyIds] count];
+    NSInteger rTeamIdCount = [[[ConstantClass instance] recentlyTeamIds] count];
+    if(rTasklistIdCount + rTeamIdCount > 0)
+    {
+        if(section == 0)
+        {
+            return rTasklistIdCount + rTeamIdCount;
+        }
+        else if(section == 1)
+            return 2;
+        else
+            return 0;
+    }
     return 2;
 }
 
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return @"";
+    NSInteger rTasklistIdCount = [[[ConstantClass instance] recentlyIds] count];
+    NSInteger rTeamIdCount = [[[ConstantClass instance] recentlyTeamIds] count];
+    if(rTasklistIdCount + rTeamIdCount > 0)
+    {
+        if(section == 0)
+        {
+            return @"最近查看";
+        }
+        else
+        {
+            return @"";
+        }
+    }
+    else
+    {
+        return @"";
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -98,7 +165,58 @@
         [selectedView release];
     }
     
-    if(indexPath.section == 0)
+    NSInteger rTasklistIdCount = [[[ConstantClass instance] recentlyIds] count];
+    NSInteger rTeamIdCount = [[[ConstantClass instance] recentlyTeamIds] count];
+    if(rTasklistIdCount + rTeamIdCount > 0)
+    {
+        if(indexPath.section == 0)
+        {
+            tasklists = [tasklistDao getAllTasklist];
+            teams = [teamDao getTeams];
+            
+            NSMutableArray *recentlyIds = (NSMutableArray*)[[ConstantClass instance] recentlyIds];
+            if(indexPath.row < recentlyIds.count)
+            {
+                NSString* tasklistId = [recentlyIds objectAtIndex:indexPath.row];
+                for(int i = 0; i < tasklists.count; i++)
+                {
+                    Tasklist* t = (Tasklist*)[tasklists objectAtIndex:i];
+                    if([tasklistId isEqualToString: t.id])
+                    {
+                        cell.textLabel.text = t.name;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                NSMutableArray *recentlyTeamIds = (NSMutableArray*)[[ConstantClass instance] recentlyTeamIds];
+                
+                NSString* teamId = [recentlyTeamIds objectAtIndex:indexPath.row - recentlyIds.count];
+                for(int i = 0; i < teams.count; i++)
+                {
+                    Team* t = (Team*)[teams objectAtIndex:i];
+                    if([teamId isEqualToString: t.id])
+                    {
+                        cell.textLabel.text = t.name;
+                        break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            if(indexPath.row == 0)
+            {
+                cell.textLabel.text = @"个人任务";
+            }
+            else if(indexPath.row == 1)
+            {
+                cell.textLabel.text = @"团队任务";
+            }
+        }
+    }
+    else
     {
         if(indexPath.row == 0)
         {
@@ -110,12 +228,171 @@
         }
     }
     
+//    if(indexPath.section == 0)
+//    {
+//        if(indexPath.row == 0)
+//        {
+//            cell.textLabel.text = @"个人任务";
+//        }
+//        else if(indexPath.row == 1)
+//        {
+//            cell.textLabel.text = @"团队任务";
+//        }
+//    }
+    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.section == 0)
+    NSInteger rTasklistIdCount = [[[ConstantClass instance] recentlyIds] count];
+    NSInteger rTeamIdCount = [[[ConstantClass instance] recentlyTeamIds] count];
+    if(rTasklistIdCount + rTeamIdCount > 0)
+    {
+        if(indexPath.section == 0)
+        {
+            tasklists = [tasklistDao getAllTasklist];
+            teams = [teamDao getTeams];
+            
+            NSMutableArray *recentlyIds = (NSMutableArray*)[[ConstantClass instance] recentlyIds];
+            if(indexPath.row < recentlyIds.count)
+            {
+                NSString* tasklistId = [recentlyIds objectAtIndex:indexPath.row];
+                for(int i = 0; i < tasklists.count; i++)
+                {
+                    Tasklist* t = (Tasklist*)[tasklists objectAtIndex:i];
+                    if([tasklistId isEqualToString: t.id])
+                    {
+                        //切换到任务界面
+                        
+                        //个人任务
+                        TaskController *taskViewController = [[[TaskController alloc] initWithNibName:@"TaskController"
+                                                                                               bundle:nil
+                                                                                             setTitle:@"个人任务"
+                                                                                             setImage:@"task.png"] autorelease];
+                        taskViewController.currentTasklistId = tasklistId;
+                        
+                        //已完成
+                        TaskController *completeTaskViewController = [[[TaskController alloc] initWithNibName:@"TaskController"
+                                                                                                       bundle:nil
+                                                                                                     setTitle:@"已完成"
+                                                                                                     setImage:@"complete.png"] autorelease];
+                        completeTaskViewController.filterStatus = @"1";         //完成状态设置为1
+                        completeTaskViewController.currentTasklistId = tasklistId;
+                        
+                        //未完成
+                        TaskController *incompleteTaskViewController = [[[TaskController alloc] initWithNibName:@"TaskController"
+                                                                                                         bundle:nil
+                                                                                                       setTitle:@"未完成"
+                                                                                                       setImage:@"incomplete.png"] autorelease];
+                        incompleteTaskViewController.filterStatus = @"0";       //未完成状态设置为0
+                        incompleteTaskViewController.currentTasklistId = tasklistId;
+                        
+                        //设置
+                        SettingViewController *settingViewController = [[SettingViewController alloc] initWithNibName:@"SettingViewController"
+                                                                                                               bundle:nil
+                                                                                                             setTitle:@"设置"
+                                                                                                             setImage:SETTING_IMAGE];
+                        
+                        UITabBarController *tabBarController = [[[UITabBarController alloc] init] autorelease];
+                        
+                        [tabBarController.navigationItem setHidesBackButton:YES];
+                        if(MODEL_VERSION > 5.0)
+                        {
+                            [tabBarController.tabBar setBackgroundImage:[UIImage imageNamed:TABBAR_BG_IMAGE]];
+                            [tabBarController.tabBar setSelectionIndicatorImage:[UIImage imageNamed:@"tabbar_selectedbg.png"]];
+                        }
+                        else {
+                            UIImageView *imageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:TABBAR_BG_IMAGE]] autorelease];
+                            [imageView setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], 49)];
+                            [tabBarController.tabBar insertSubview:imageView atIndex:0];
+                        }
+                        
+                        tabBarController.viewControllers = [NSArray arrayWithObjects:taskViewController, completeTaskViewController, incompleteTaskViewController, settingViewController, nil];
+                        tabBarController.delegate = self;
+                        
+                        for (UIView *view in tabBarController.tabBar.subviews)
+                        {      
+                            if ([NSStringFromClass([view class]) isEqualToString:@"UITabBarButton"])
+                            {
+                                for (UIView *subview in view.subviews)
+                                {                  
+                                    if ([subview isKindOfClass:[UILabel class]])
+                                    {
+                                        UILabel *label = (UILabel *)subview;
+                                        
+                                        [label setTextColor:[UIColor whiteColor]];
+                                    }
+                                }
+                            }
+                        } 
+                        
+                        [Tools layerTransition:self.navigationController.view from:@"right"];
+                        [self.navigationController pushViewController:tabBarController animated:NO];
+                        
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                NSMutableArray *recentlyTeamIds = (NSMutableArray*)[[ConstantClass instance] recentlyTeamIds];
+                
+                NSString* teamId = [recentlyTeamIds objectAtIndex:indexPath.row - recentlyIds.count];
+                for(int i = 0; i < teams.count; i++)
+                {
+                    Team* t = (Team*)[teams objectAtIndex:i];
+                    if([teamId isEqualToString: t.id])
+                    {
+                        //打开团队任务列表
+                        if (teamTaskViewController == nil)
+                        {
+                            teamTaskViewController = [[TeamTaskViewController alloc] init];
+                        }
+                        
+                        teamTaskViewController.currentTeamId = teamId;
+                        teamTaskViewController.currentProjectId = nil;
+                        teamTaskViewController.currentMemberId = nil;
+                        teamTaskViewController.currentTag = nil;
+                        teamTaskViewController.needSync = YES;
+                        
+                        [Tools layerTransition:self.navigationController.view from:@"right"];
+                        [self.navigationController pushViewController:teamTaskViewController animated:NO];
+                        
+                        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+                        
+                        break;
+                    }
+                }
+            }
+        }
+        else if(indexPath.section == 1)
+        {
+            if(indexPath.row == 0)
+            {
+                //打开个人任务列表
+                if (tasklistViewController == nil)
+                {
+                    tasklistViewController = [[TasklistViewController alloc] init];
+                }
+                [Tools layerTransition:self.navigationController.view from:@"right"];
+                [self.navigationController pushViewController:tasklistViewController animated:NO];
+            }
+            else if(indexPath.row == 1)
+            {
+                //打开团队任务列表
+                if(teamViewController == nil)
+                {
+                    teamViewController = [[TeamViewController alloc] init];
+                }
+                [Tools layerTransition:self.navigationController.view from:@"right"];
+                [self.navigationController pushViewController:teamViewController animated:NO];
+            }
+            
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        }
+    }
+    else
     {
         if(indexPath.row == 0)
         {
@@ -123,7 +400,7 @@
             if (tasklistViewController == nil)
             {
                 tasklistViewController = [[TasklistViewController alloc] init];
-            }        
+            }
             [Tools layerTransition:self.navigationController.view from:@"right"];
             [self.navigationController pushViewController:tasklistViewController animated:NO];
         }

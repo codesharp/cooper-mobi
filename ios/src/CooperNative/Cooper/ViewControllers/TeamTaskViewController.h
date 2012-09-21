@@ -26,6 +26,7 @@
 
 @interface TeamTaskViewController : BaseViewController<TeamTaskViewDelegate, UITableViewDataSource, UITableViewDelegate, TaskTableViewCellDelegate>
 {
+    UIView *emptyView;
     UITableView *taskView;
     
     TeamService *teamService;

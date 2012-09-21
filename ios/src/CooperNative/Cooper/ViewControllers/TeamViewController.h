@@ -15,6 +15,8 @@
 #import "CooperRepository/ProjectDao.h"
 #import "CooperRepository/TagDao.h"
 
+#define RECENTLYTEAM_COUNT  4
+
 @interface TeamViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>
 {
     UIView *backBtn;
