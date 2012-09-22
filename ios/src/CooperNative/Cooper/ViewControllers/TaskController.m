@@ -155,12 +155,11 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     CGRect tableViewRect = CGRectMake(0, 0, [Tools screenMaxWidth], [Tools screenMaxHeight] - 49 - 64);
-    UITableView* tempTableView = [[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStylePlain];
+    UITableView* tempTableView = [[[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStylePlain] autorelease];
     [tempTableView setBackgroundColor:[UIColor whiteColor]];
     
     //去掉底部空白
-    UIView *footer =
-    [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+    UIView *footer = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
     tempTableView.tableFooterView = footer;
     
     taskView = tempTableView;
@@ -177,7 +176,6 @@
     }
     
     [self.view addSubview: taskView];
-    [tempTableView release];
 }
 
 #pragma mark - 动作相关事件

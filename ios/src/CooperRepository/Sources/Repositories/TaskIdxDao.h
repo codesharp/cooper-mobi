@@ -110,5 +110,15 @@
                   projectId:(NSString*)projectId
                    memberId:(NSString*)memberId
                         tag:(NSString*)tag;
+//调整索引
+- (void) adjustIndexByTeam:(NSString *)taskId
+             sourceTaskIdx:(TaskIdx *)sTaskIdx
+        destinationTaskIdx:(TaskIdx *)dTaskIdx
+            sourceIndexRow:(NSNumber*)sourceIndexRow
+              destIndexRow:(NSNumber*)destIndexRow
+                    teamId:(NSString*)teamId
+                 projectId:(NSString*)projectId
+                  memberId:(NSString*)memberId
+                       tag:(NSString*)tag;
 
 @end

@@ -284,8 +284,7 @@
     tempTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
     //去掉底部空白
-    UIView *footer =
-    [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+    UIView *footer = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
     tempTableView.tableFooterView = footer;
     
     filterView = tempTableView;
@@ -311,8 +310,7 @@
         [tempTableView setBackgroundColor:[UIColor whiteColor]];
         
         //去掉底部空白
-        UIView *footer =
-        [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+        UIView *footer = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
         tempTableView.tableFooterView = footer;
         filterOptionView = tempTableView;
         filterOptionView.delegate = self;

@@ -204,18 +204,14 @@
     [tempTableView setBackgroundColor:[UIColor whiteColor]];
     
     //去掉底部空白
-    UIView *footer =
-    [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+    UIView *footer = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
     tempTableView.tableFooterView = footer;
-    [footer release];
     
     optionView = tempTableView;
     optionView.delegate = self;
     optionView.dataSource = self;
     
     [self.view addSubview:optionView];
-    
-    [tempTableView release];
 }
 
 - (void)loadOptionData

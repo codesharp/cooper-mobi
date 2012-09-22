@@ -148,8 +148,7 @@
 
 + (void)clearFootBlank:(UITableView *)tableView
 {
-    UIView *footer =
-    [[UIView alloc] initWithFrame:CGRectZero];
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
     tableView.tableFooterView = footer;
     [footer release];
 }

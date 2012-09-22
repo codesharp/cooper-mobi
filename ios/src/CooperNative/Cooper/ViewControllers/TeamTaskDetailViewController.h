@@ -40,6 +40,8 @@
     CommentDao *commentDao;
     
     UIButton *editBtn;
+    
+    CGPoint viewCenter;
 }
 
 @property(nonatomic,assign) id<TeamTaskViewDelegate> delegate;

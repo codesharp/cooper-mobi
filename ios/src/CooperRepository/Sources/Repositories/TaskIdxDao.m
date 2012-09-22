@@ -308,17 +308,15 @@
 {
     SBJsonParser *parser = [[SBJsonParser alloc] init];
     SBJsonWriter *writer = [[SBJsonWriter alloc] init];
-    
 
-        NSMutableArray *sIndexesArray = [parser objectWithString: sTaskIdx.indexes];
-        if([sIndexesArray containsObject:taskId])
-            [sIndexesArray removeObject:taskId];
-        sTaskIdx.indexes = [writer stringWithObject:sIndexesArray];  
-        
-        NSMutableArray *dIndexesArray = [parser objectWithString: dTaskIdx.indexes];
-        [dIndexesArray insertObject:taskId atIndex:[destIndexRow integerValue]];
-        dTaskIdx.indexes = [writer stringWithObject:dIndexesArray];
-        
+    NSMutableArray *sIndexesArray = [parser objectWithString: sTaskIdx.indexes];
+    if([sIndexesArray containsObject:taskId])
+        [sIndexesArray removeObject:taskId];
+    sTaskIdx.indexes = [writer stringWithObject:sIndexesArray];  
+    
+    NSMutableArray *dIndexesArray = [parser objectWithString: dTaskIdx.indexes];
+    [dIndexesArray insertObject:taskId atIndex:[destIndexRow integerValue]];
+    dTaskIdx.indexes = [writer stringWithObject:dIndexesArray];
 
     [writer release];
     [parser release];
@@ -647,6 +645,31 @@
     }
     
     [fetchRequest release];
+    [writer release];
+    [parser release];
+}
+- (void) adjustIndexByTeam:(NSString *)taskId
+             sourceTaskIdx:(TaskIdx *)sTaskIdx
+        destinationTaskIdx:(TaskIdx *)dTaskIdx
+            sourceIndexRow:(NSNumber*)sourceIndexRow
+              destIndexRow:(NSNumber*)destIndexRow
+                    teamId:(NSString*)teamId
+                 projectId:(NSString*)projectId
+                  memberId:(NSString*)memberId
+                       tag:(NSString*)tag
+{
+    SBJsonParser *parser = [[SBJsonParser alloc] init];
+    SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+    
+    NSMutableArray *sIndexesArray = [parser objectWithString: sTaskIdx.indexes];
+    if([sIndexesArray containsObject:taskId])
+        [sIndexesArray removeObject:taskId];
+    sTaskIdx.indexes = [writer stringWithObject:sIndexesArray];
+    
+    NSMutableArray *dIndexesArray = [parser objectWithString: dTaskIdx.indexes];
+    [dIndexesArray insertObject:taskId atIndex:[destIndexRow integerValue]];
+    dTaskIdx.indexes = [writer stringWithObject:dIndexesArray];
+    
     [writer release];
     [parser release];
 }

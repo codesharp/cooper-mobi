@@ -102,6 +102,29 @@
     taskCommentArray = [commentDao getListByTaskId:task.id];
     
     [detailView reloadData];
+    
+    viewCenter = self.view.center;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillShowNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -135,10 +158,8 @@
     [tempTableView setBackgroundColor:[UIColor whiteColor]];
     
     //去掉底部空白
-    UIView *footer =
-    [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+    UIView *footer = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
     tempTableView.tableFooterView = footer;
-    [footer release];
     
     detailView = tempTableView;
     detailView.delegate = self;
@@ -210,16 +231,16 @@
     teamTaskDetailEditViewController.currentTag = currentTag;
     teamTaskDetailEditViewController.delegate = self;
     
-    if(MODEL_VERSION >= 5.0)
-    {
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE] forBarMetrics:UIBarMetricsDefault];
-    }
-    else {
-        UIImageView *imageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE]] autorelease];
-        [imageView setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], 44)];
-        [self.navigationController.navigationBar addSubview:imageView];
-        //[imageView release];
-    }
+//    if(MODEL_VERSION >= 5.0)
+//    {
+//        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE] forBarMetrics:UIBarMetricsDefault];
+//    }
+//    else {
+//        UIImageView *imageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE]] autorelease];
+//        [imageView setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], 44)];
+//        [self.navigationController.navigationBar addSubview:imageView];
+//        //[imageView release];
+//    }
     
     [self.navigationController presentModalViewController:teamTaskDetailEdit_NavController animated:YES];
 }
@@ -631,12 +652,13 @@
                 if(!cell)
                 {
                     cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"TaskCreatorCell"] autorelease];
+                    cell.textLabel.font = [UIFont systemFontOfSize:14];
                     
                     TeamMember *taskCreator = [teamMemberDao getTeamMemberByTeamId:currentTeamId assigneeId:task.createMemberId];
                     if(taskCreator != nil)
                     {
                         cell.textLabel.text = [NSString stringWithFormat:@"%@ 创建了任务", taskCreator.name];
-                        cell.detailTextLabel.text = [Tools NSDateToNSString:task.createDate];
+                        cell.detailTextLabel.text = [NSString stringWithFormat:@" - %@", [Tools NSDateToNSString:task.createDate]];
                     }
                 }
             }
@@ -647,6 +669,7 @@
                 if(!cell)
                 {
                     cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"TaskCommentCell"] autorelease];
+                    cell.textLabel.font = [UIFont systemFontOfSize:14];
                     
                     Comment *comment = [taskCommentArray objectAtIndex:indexPath.row - 8];
                     if(comment != nil)
@@ -665,10 +688,15 @@
                             cell.textLabel.text = [NSString stringWithFormat:@"%@ 发表了评论", commentorName];
                         }
                         cell.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
-                        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@\n - %@"
-                                                     , comment.body
-                                                     , [Tools NSDateToNSString:comment.createTime]];
-                        
+                        NSString *word = [NSString stringWithFormat:@"%@\n - %@"
+                                          , comment.body
+                                          , [Tools NSDateToNSString:comment.createTime]];
+                        cell.detailTextLabel.text = word;
+                        CGSize detailTextLabelSize = [cell.detailTextLabel.text sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake([Tools screenMaxWidth], 10000) lineBreakMode:UILineBreakModeWordWrap];
+                        CGFloat detailTextLabelHeight = detailTextLabelSize.height;
+                        int subjectlines = detailTextLabelHeight / 14;
+                        cell.detailTextLabel.numberOfLines = subjectlines;
+                        [cell setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], detailTextLabelHeight + 40)];
                     }
                 }
             }
@@ -842,6 +870,32 @@
     
     [Tools layerTransition:self.navigationController.view from:@"right"];
     [self.navigationController pushViewController:teamTaskOptionViewController animated:NO];
+}
+
+- (void)keyboardWillShow:(NSNotification *)aNotification
+{
+	CGRect keyboardRect = [[[aNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    NSTimeInterval animationDuration =
+	[[[aNotification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    CGPoint center = viewCenter;
+    NSLog(@"key:%f", keyboardRect.size.height);
+    center.y -= keyboardRect.size.height;
+    detailView.frame = CGRectMake(0, 0, [Tools screenMaxWidth], [Tools screenMaxHeight] - 124);
+    center.y += 60.0f;
+    self.view.center = center;
+    [UIView setAnimationDuration:animationDuration];
+    [UIView commitAnimations];
+}
+
+- (void)keyboardWillHide:(NSNotification *)aNotification
+{
+    NSTimeInterval animationDuration =
+	[[[aNotification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    self.view.center = viewCenter;
+    [UIView setAnimationDuration:animationDuration];
+    [UIView commitAnimations];
 }
 
 - (NSString*)getPriorityKey:(NSString*)priorityValue

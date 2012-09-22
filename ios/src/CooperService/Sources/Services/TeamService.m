@@ -12,6 +12,7 @@
 #import "CooperCore/ChangeLog.h"
 #import "CooperCore/TaskIdx.h"
 #import "CooperRepository/ChangeLogDao.h"
+#import "CooperRepository/TaskIdxDao.h"
 
 @implementation TeamService
 
@@ -51,6 +52,7 @@
 //    }
     
     ChangeLogDao *changeLogDao = [[ChangeLogDao alloc] init];
+    TaskIdxDao *taskIdxDao = [[TaskIdxDao alloc] init];
 
     NSMutableArray *changeLogs = [changeLogDao getChangeLogByTeam:teamId projectId:projectId memberId:memberId tag:tag];
 
@@ -77,24 +79,35 @@
     SBJsonParser *parser = [[SBJsonParser alloc] init];
     SBJsonWriter *writer = [[SBJsonWriter alloc] init];
 
+    NSMutableArray *taskIdxs = nil;
+    if([[[ConstantClass instance] sortHasChanged] isEqualToString:@"true"])
+    {
+        taskIdxs = [taskIdxDao getAllTaskIdxByTeam:teamId projectId:projectId memberId:memberId tag:tag];
+    }
+    else
+    {
+        taskIdxs = [NSMutableArray array];
+    }
+
     NSMutableArray *taskIdxsArray = [NSMutableArray array];
-//    for(TaskIdx *taskIdx in taskIdxs)
-//    {
-//        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-//        [dict setObject:taskIdx.by forKey:@"By"];
-//        [dict setObject:taskIdx.key forKey:@"Key"];
-//        [dict setObject:taskIdx.name forKey:@"Name"];
-//        
-//        NSMutableArray *indexsArray = nil;
-//        if(!taskIdx.indexes)
-//            indexsArray = [NSMutableArray array];
-//        else {
-//            indexsArray = [parser objectWithString:taskIdx.indexes];
-//        }
-//        
-//        [dict setObject:indexsArray forKey:@"Indexs"];
-//        [taskIdxsArray addObject:dict];
-//    }
+    for(TaskIdx *taskIdx in taskIdxs)
+    {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setObject:taskIdx.by forKey:@"By"];
+        [dict setObject:taskIdx.key forKey:@"Key"];
+        [dict setObject:taskIdx.name forKey:@"Name"];
+        
+        NSMutableArray *indexsArray = nil;
+        if(!taskIdx.indexes)
+            indexsArray = [NSMutableArray array];
+        else {
+            indexsArray = [parser objectWithString:taskIdx.indexes];
+        }
+        
+        [dict setObject:indexsArray forKey:@"Indexs"];
+        [taskIdxsArray addObject:dict];
+    }
+    [taskIdxDao release];
 
     NSString* changeLogsJson = [changeLogsArray JSONRepresentation];
     NSString* taskIdxsJson = [taskIdxsArray JSONRepresentation];

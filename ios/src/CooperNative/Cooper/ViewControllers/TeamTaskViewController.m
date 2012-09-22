@@ -226,7 +226,7 @@
         [[self.taskGroup objectAtIndex:toIndexPath.section] insertObject:task atIndex:toIndexPath.row];
     }
     
-//    NSLog(@"fromIndexPath.section-row:%d-%d,toIndexPath.section-row:%d-%d",fromIndexPath.section, fromIndexPath.row, toIndexPath.section, toIndexPath.row);
+    NSLog(@"fromIndexPath.section-row:%d-%d,toIndexPath.section-row:%d-%d",fromIndexPath.section, fromIndexPath.row, toIndexPath.section, toIndexPath.row);
 }
 
 - (NSIndexPath *)moveTableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
@@ -339,40 +339,44 @@
 
 -(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
-//    if(filterStatus == nil)
-//    {
-//        NSMutableArray *sourceArray = [self.taskGroup objectAtIndex:sourceIndexPath.section];
-//        NSMutableArray *destArray = [self.taskGroup objectAtIndex:destinationIndexPath.section];
-//        Task *task = [sourceArray objectAtIndex:sourceIndexPath.row];
-//        [sourceArray removeObjectAtIndex:sourceIndexPath.row];
-//        [destArray insertObject:task atIndex:destinationIndexPath.row];
-//        
-//        TaskIdx *sTaskIdx = [self.taskIdxGroup objectAtIndex:sourceIndexPath.section];
-//        TaskIdx *dTaskIdx = [self.taskIdxGroup objectAtIndex:destinationIndexPath.section];
-//        
-//        task.priority = dTaskIdx.key;
-//        if(sTaskIdx != dTaskIdx)
-//        {
-//            NSLog(@"sTaskIdx != dTaskIdx");
-//            [changeLogDao insertChangeLog:[NSNumber numberWithInt:0]
-//                                   dataid:task.id
-//                                     name:@"priority"
-//                                    value:task.priority
-//                               tasklistId:currentTasklistId];
-//        }
-//        NSLog(@"sourceIndexPath:%d, toIndexPath:%d", sourceIndexPath.row, destinationIndexPath.row);
-//        
-//        [taskIdxDao adjustIndex:task.id
-//                  sourceTaskIdx: sTaskIdx
-//             destinationTaskIdx: dTaskIdx
-//                 sourceIndexRow:[NSNumber numberWithInteger:sourceIndexPath.row]
-//                   destIndexRow:[NSNumber numberWithInteger:destinationIndexPath.row]
-//                     tasklistId:currentTasklistId];
-//        [taskDao commitData];
-//        
-//        [[ConstantClass instance] setSortHasChanged:@"true"];
-//        [ConstantClass saveSortHasChangedToCache];
-//    }
+        NSMutableArray *sourceArray = [self.taskGroup objectAtIndex:sourceIndexPath.section];
+        NSMutableArray *destArray = [self.taskGroup objectAtIndex:destinationIndexPath.section];
+        Task *task = [sourceArray objectAtIndex:sourceIndexPath.row];
+        [sourceArray removeObjectAtIndex:sourceIndexPath.row];
+        [destArray insertObject:task atIndex:destinationIndexPath.row];
+        
+        TaskIdx *sTaskIdx = [self.taskIdxGroup objectAtIndex:sourceIndexPath.section];
+        TaskIdx *dTaskIdx = [self.taskIdxGroup objectAtIndex:destinationIndexPath.section];
+        
+        task.priority = dTaskIdx.key;
+        if(sTaskIdx != dTaskIdx)
+        {
+            NSLog(@"sTaskIdx != dTaskIdx");
+            [changeLogDao insertChangeLogByTeam:[NSNumber numberWithInt:0]
+                                         dataId:task.id
+                                           name:@"priority"
+                                          value:task.priority
+                                         teamId:currentTeamId
+                                      projectId:currentProjectId
+                                       memberId:currentMemberId
+                                            tag:currentTag];
+        }
+        NSLog(@"sourceIndexPath:%d, toIndexPath:%d", sourceIndexPath.row, destinationIndexPath.row);
+        
+    
+        [taskIdxDao adjustIndexByTeam:task.id
+                        sourceTaskIdx: sTaskIdx
+                   destinationTaskIdx: dTaskIdx
+                       sourceIndexRow:[NSNumber numberWithInteger:sourceIndexPath.row]
+                         destIndexRow:[NSNumber numberWithInteger:destinationIndexPath.row]
+                               teamId:currentTeamId
+                            projectId:currentProjectId
+                             memberId:currentMemberId
+                                  tag:currentTag];
+        [taskDao commitData];
+        
+        [[ConstantClass instance] setSortHasChanged:@"true"];
+        [ConstantClass saveSortHasChangedToCache];
 }
 //分区标题输出
 - (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -433,12 +437,11 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     CGRect tableViewRect = CGRectMake(0, 0, [Tools screenMaxWidth], [Tools screenMaxHeight] - 49 - 64);
-    UITableView* tempTableView = [[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStylePlain];
+    UITableView* tempTableView = [[[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStylePlain] autorelease];
     [tempTableView setBackgroundColor:[UIColor whiteColor]];
     
     //去掉底部空白
-    UIView *footer =
-    [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+    UIView *footer = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
     tempTableView.tableFooterView = footer;
     
     taskView = tempTableView;
@@ -449,13 +452,12 @@
 //                               && ![currentTasklistId isEqualToString:@"wf"]
 //                               && ![currentTasklistId isEqualToString:@"github"]))
 //    {
-//        UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(changeEditing:)];
-//        [taskView addGestureRecognizer:longPressGesture];
-//        [longPressGesture release];
+        UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(changeEditing:)];
+        [taskView addGestureRecognizer:longPressGesture];
+        [longPressGesture release];
 //    }
     
     [self.view addSubview: taskView];
-    [tempTableView release];
 }
 
 - (void)loadTaskData
@@ -542,16 +544,16 @@
     teamTaskDetailEditViewController.currentTag = currentTag;
     teamTaskDetailEditViewController.delegate = self;
     
-    if(MODEL_VERSION >= 5.0)
-    {
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE] forBarMetrics:UIBarMetricsDefault];
-    }
-    else {
-        UIImageView *imageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE]] autorelease];
-        [imageView setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], 44)];
-        [self.navigationController.navigationBar addSubview:imageView];
-        //[imageView release];
-    }
+//    if(MODEL_VERSION >= 5.0)
+//    {
+//        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE] forBarMetrics:UIBarMetricsDefault];
+//    }
+//    else {
+//        UIImageView *imageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:NAVIGATIONBAR_BG_IMAGE]] autorelease];
+//        [imageView setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], 44)];
+//        [self.navigationController.navigationBar addSubview:imageView];
+//        //[imageView release];
+//    }
     
     [self.navigationController presentModalViewController:teamTaskDetailEdit_NavController animated:YES];
     
@@ -674,6 +676,9 @@
             //修正changeLog
             [changeLogDao deleteChangeLogByTeam:currentTeamId projectId:currentProjectId memberId:currentMemberId tag:currentTag];
             [changeLogDao commitData];
+            
+            [[ConstantClass instance] setSortHasChanged:@""];
+            [ConstantClass saveSortHasChangedToCache];
             
             NSMutableDictionary *context = [NSMutableDictionary dictionary];
             [context setObject:@"GetTasks" forKey:REQUEST_TYPE];

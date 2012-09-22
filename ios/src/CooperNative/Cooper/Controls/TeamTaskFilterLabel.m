@@ -40,7 +40,17 @@
 	} else {
 		if (!inputAccessoryView) {
 			inputAccessoryView = [[UIToolbar alloc] init];
-			inputAccessoryView.barStyle = UIBarStyleBlackTranslucent;
+
+            if(MODEL_VERSION > 5.0)
+            {
+                [inputAccessoryView setBackgroundImage:[UIImage imageNamed:TABBAR_BG_IMAGE] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+            }
+            else
+            {
+                UIImageView *imageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:TABBAR_BG_IMAGE]] autorelease];
+                [imageView setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], 49)];
+                [inputAccessoryView insertSubview:imageView atIndex:0];
+            }    
 			inputAccessoryView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 			[inputAccessoryView sizeToFit];
 			CGRect frame = inputAccessoryView.frame;
@@ -85,7 +95,7 @@
         frame.size = pickerSize;
         self.picker.frame = frame;
         popoverController.popoverContentSize = pickerSize;
-        //TODO:...
+        
         [popoverController presentPopoverFromRect:CGRectMake(self.frame.origin.x - 550, self.frame.origin.y, self.frame.size.width, self.frame.size.height) inView:self permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         // resign the current first responder
         for (UIView *subview in self.superview.subviews) {
