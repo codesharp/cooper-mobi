@@ -2,19 +2,4 @@
 <Bucket
    type = "0"
    version = "1.0">
-   <FileBreakpoints>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "src/CooperNative/Cooper/ViewControllers/TeamTaskDetailEditViewController.m"
-         timestampString = "369972451.126114"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1041"
-         endingLineNumber = "1041"
-         landmarkName = "-keyboardWillShow:"
-         landmarkType = "5">
-      </FileBreakpoint>
-   </FileBreakpoints>
 </Bucket>

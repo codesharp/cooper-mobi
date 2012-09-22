@@ -287,6 +287,8 @@
         {
             [[ConstantClass instance] setLoginType:@""];
             [[ConstantClass instance] setUsername:@""];
+            [[ConstantClass instance] setRecentlyIds:nil];
+            [[ConstantClass instance] setRecentlyTeamIds:nil];
             
             [ConstantClass saveToCache];
             

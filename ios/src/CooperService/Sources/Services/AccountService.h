@@ -21,8 +21,13 @@
 + (void)googleLogin:(NSString*)refreshToken
             context:(NSMutableDictionary*)context
            delegate:(id)delegate;
-+ (void)googleLogin:(NSString *)error code:(NSString*)code state:(NSString*)state mobi:(NSString*)mobi joke:(NSString*)joke delegate:(id)delegate;
-
++ (void)googleLogin:(NSString *)error
+               code:(NSString*)code
+              state:(NSString*)state
+               mobi:(NSString*)mobi
+               joke:(NSString*)joke
+            context:(NSMutableDictionary*)context 
+           delegate:(id)delegate;
 + (void)logout:(NSMutableDictionary*)context 
       delegate:(id)delegate;
 

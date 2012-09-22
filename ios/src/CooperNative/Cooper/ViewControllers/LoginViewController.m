@@ -256,7 +256,6 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
 #endif
         {
             self.HUD = [Tools process:@"登录中" view:self.view];
-            //[Tools showHUD:@"登录中" view:self.view HUD:self.HUD];
 
             NSMutableDictionary *context = [NSMutableDictionary dictionary];
             [context setObject:@"LOGIN" forKey:REQUEST_TYPE];
@@ -282,9 +281,6 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
 
 - (void)skip:(id)sender
 {
-    //    requestType = GoogleLoginValue;
-    //    [AccountService googleLogin:@"" code:@"4/-s8utkRJ-3-zRzgIq54tYGSdcxg1.giR6or0tRtscuJJVnL49Cc9ifIjrcQI" state:@"login" delegate:self];
-    //    
     //自动保存用户登录
     [[ConstantClass instance] setLoginType:@"anonymous"];
     [ConstantClass saveToCache];
@@ -361,7 +357,6 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
             [ConstantClass saveToCache];
             
             [self dismissModalViewControllerAnimated:NO];
-            
             [delegate loginFinish];
         }
         else
@@ -376,10 +371,20 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     
 }
 
-- (void)googleLoginFinish
+- (void)googleLoginFinish:(NSArray*)array
 {
-    [self dismissModalViewControllerAnimated:NO];
-    [delegate loginFinish];
+    NSString *codeQuery = [array objectAtIndex:1];
+    NSArray *patams = [codeQuery componentsSeparatedByString:@"="];
+    NSString *code = [patams objectAtIndex:0];
+    if([code isEqualToString:@"code"])
+    {
+        self.HUD = [Tools process:@"登录中" view:self.view];
+        NSMutableDictionary *context = [NSMutableDictionary dictionary];
+        [context setObject:@"GOOGLELOGIN" forKey:REQUEST_TYPE];
+        
+        NSString *anthCode = [patams objectAtIndex:1];
+        [AccountService googleLogin:@"" code:anthCode state:@"login" mobi:@"true" joke:@"false" context:context delegate:self];
+    }
 }
 
 #ifdef __ALI_VERSION__

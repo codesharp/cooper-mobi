@@ -62,7 +62,8 @@
                code:(NSString*)code 
               state:(NSString*)state 
                mobi:(NSString*)mobi 
-               joke:(NSString*)joke 
+               joke:(NSString*)joke
+            context:(NSMutableDictionary *)context 
            delegate:(id)delegate
 {
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
@@ -74,7 +75,7 @@
     
     NSString* url = [[[ConstantClass instance] rootPath] stringByAppendingFormat:GOOGLE_LOGIN_URL];
     NSLog(@"正在进行登录请求: %@", url);
-    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:nil addHeaders:nil];
+    [NetworkManager doAsynchronousPostRequest:url Delegate:delegate data:data WithInfo:context addHeaders:nil];
 }
 
 + (void)logout:(NSMutableDictionary*)context 

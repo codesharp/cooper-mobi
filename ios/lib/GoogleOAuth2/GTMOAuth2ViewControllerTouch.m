@@ -754,14 +754,17 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     NSArray *array = [query componentsSeparatedByString:@"&"];
     if(array.count == 2)
     {
-        NSString *codeQuery = [array objectAtIndex:1];
-        NSArray *patams = [codeQuery componentsSeparatedByString:@"="];
-        NSString *code = [patams objectAtIndex:0];
-        if([code isEqualToString:@"code"])
-        {
-            NSString *anthCode = [patams objectAtIndex:1];
-            [AccountService googleLogin:@"" code:anthCode state:@"login" mobi:@"true" joke:@"false" delegate:self];
-        }
+        [self popView];
+        [loginDelegate googleLoginFinish:array];
+        
+//        NSString *codeQuery = [array objectAtIndex:1];
+//        NSArray *patams = [codeQuery componentsSeparatedByString:@"="];
+//        NSString *code = [patams objectAtIndex:0];
+//        if([code isEqualToString:@"code"])
+//        {
+//            NSString *anthCode = [patams objectAtIndex:1];
+//            [AccountService googleLogin:@"" code:anthCode state:@"login" mobi:@"true" joke:@"false" delegate:self];
+//        }
     }
     
     NSString *title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];

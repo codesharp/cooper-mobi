@@ -10,6 +10,6 @@
 
 - (void)loginFinish;
 
-- (void)googleLoginFinish;
+- (void)googleLoginFinish:(NSArray*)array;
 
 @end
