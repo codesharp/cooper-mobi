@@ -374,13 +374,22 @@
                         
                         NSString *editable = (NSString*)[taskDict objectForKey:@"Editable"];
                         
-                        
                         NSDate *due = nil;
                         if([taskDict objectForKey:@"DueTime"] != [NSNull null])
                             due = [Tools NSStringToShortNSDate:[taskDict objectForKey:@"DueTime"]];
                         
+                        NSString *createDateString = [taskDict objectForKey:@"CreateTime"];
+                        NSDate *createDate = nil;
+                        if(createDateString != [NSNull null])
+                        {
+                            createDate = [Tools NSStringToNSDate:createDateString];
+                        }
+                        else
+                        {
+                            createDate = [NSDate date];
+                        }
                         [taskDao addTask:subject
-                              createDate:[NSDate date]
+                              createDate:createDate
                           lastUpdateDate:[NSDate date]
                                     body:body
                                 isPublic:[NSNumber numberWithInt:1]
