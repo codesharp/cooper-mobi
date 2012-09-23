@@ -23,6 +23,7 @@
     UIView *syncBtn;
     UIButton *settingBtn;
     UITableView *teamTableView;
+    UIView *emptyView;
     
     TeamService *teamService;
     

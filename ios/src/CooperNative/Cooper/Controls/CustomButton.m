@@ -18,15 +18,22 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
-        //UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"task_s.png"]];
-        
-        //[self addSubview:imageView];
-        
         self.layer.cornerRadius = 14.0f;
         self.layer.masksToBounds = YES;
         self.titleLabel.font = [UIFont boldSystemFontOfSize:14];
-        [self setBackgroundImage:image forState:UIControlStateNormal];     
+        [self setBackgroundImage:image forState:UIControlStateNormal];
+    }
+    return self;
+}
+
+- (id)initWithFrame:(CGRect)frame color:(UIColor*)color
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.layer.cornerRadius = 14.0f;
+        self.layer.masksToBounds = YES;
+        self.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+        self.backgroundColor = color;
     }
     return self;
 }

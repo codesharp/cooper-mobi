@@ -25,6 +25,8 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
 #endif
 @synthesize auth = mAuth;
 
+
+
 #pragma mark - UI相关
 
 - (void)viewDidLoad
@@ -36,7 +38,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     NSString* googlelogin_btn_text = [[[SysConfig instance] keyValue] objectForKey:@"googlelogin_btn_text"];
     
 #ifndef __ALI_VERSION__
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake([Tools screenMaxWidth] / 16.0, 180, 100, 30)];
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake([Tools screenMaxWidth] / 16.0, 240, 100, 30)];
     label1.text = @"没有账号？";
     label1.backgroundColor = [UIColor clearColor];
     label1.textColor = [UIColor grayColor];
@@ -44,7 +46,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     [self.view addSubview:label1];
     [label1 release];
     
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake([Tools screenMaxWidth] / 16.0, 210, 50, 30)];
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake([Tools screenMaxWidth] / 16.0, 260, 50, 30)];
     label2.text = @"请到";
     label2.backgroundColor = [UIColor clearColor];
     label2.textColor = [UIColor grayColor];
@@ -52,7 +54,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     [self.view addSubview:label2];
     [label2 release];
     
-    UILabel *label3 = [[UILabel alloc] initWithFrame:CGRectMake([Tools screenMaxWidth] / 16.0 + 40, 210, 100, 30)];
+    UILabel *label3 = [[UILabel alloc] initWithFrame:CGRectMake([Tools screenMaxWidth] / 16.0 + 40, 260, 100, 30)];
     label3.text = @"incooper.net";
     label3.backgroundColor = [UIColor clearColor];
     label3.textColor = APP_BACKGROUNDCOLOR;
@@ -60,7 +62,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     [self.view addSubview:label3];
     [label3 release];
     
-    UILabel *label4 = [[UILabel alloc] initWithFrame:CGRectMake([Tools screenMaxWidth] / 16.0 + 140, 210, 100, 30)];
+    UILabel *label4 = [[UILabel alloc] initWithFrame:CGRectMake([Tools screenMaxWidth] / 16.0 + 140, 260, 100, 30)];
     label4.text = @"注册！";
     label4.backgroundColor = [UIColor clearColor];
     label4.textColor = [UIColor grayColor];
@@ -70,14 +72,16 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
 #endif
     
     //登录View
-#ifdef __ALI_VERSION__
-    float loginIpadHeight = 150;
-    float loginIphoneHeight = 120;
-#else
+#ifndef __ALI_VERSION__
     float loginIpadHeight = 100;
     float loginIphoneHeight = 100;
+    float googleLoginHeight = 50;
+#else
+    float loginIpadHeight = 150;
+    float loginIphoneHeight = 120;
+    float googleLoginHeight = 0;
 #endif
-    self.loginTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 80, [Tools screenMaxWidth], [Tools isPad] ? loginIpadHeight : loginIphoneHeight) style:UITableViewStyleGrouped];
+    self.loginTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 90 + googleLoginHeight, [Tools screenMaxWidth], [Tools isPad] ? loginIpadHeight : loginIphoneHeight) style:UITableViewStyleGrouped];
     self.loginTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:APP_BACKGROUNDIMAGE]];
     self.loginTableView.allowsSelection = NO;
     self.loginTableView.delegate = self;
@@ -88,7 +92,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     [self.view addSubview:self.loginTableView];
     
     //登录按钮
-    self.btnLogin = [[CustomButton alloc] initWithFrame:CGRectMake([Tools screenMaxWidth] - 150 - [Tools screenMaxWidth] / 16.0, 250, 70, 40)
+    self.btnLogin = [[CustomButton alloc] initWithFrame:CGRectMake([Tools screenMaxWidth] - 150 - [Tools screenMaxWidth] / 16.0, 250 + googleLoginHeight, 70, 40)
                                                   image:[UIImage imageNamed:@"btn_center.png"]];
     self.btnLogin.layer.cornerRadius = 10.0f;
     self.btnLogin.layer.masksToBounds = YES;
@@ -102,7 +106,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     
     //跳过按钮
     self.btnSkip = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    self.btnSkip.frame = CGRectMake([Tools screenMaxWidth] - 70 - [Tools screenMaxWidth] / 16.0, 250, 70, 40);
+    self.btnSkip.frame = CGRectMake([Tools screenMaxWidth] - 70 - [Tools screenMaxWidth] / 16.0, 250 + googleLoginHeight, 70, 40);
     self.btnSkip.layer.cornerRadius = 6.0f;
     self.btnSkip.layer.masksToBounds = YES;
     [self.btnSkip addTarget:self 
@@ -124,8 +128,7 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     
 #ifndef __ALI_VERSION__
     //使用谷歌登录
-    self.btnGoogleLogin = [[CustomButton alloc] initWithFrame:CGRectMake([Tools screenMaxWidth] - 260 - [Tools screenMaxWidth] / 16.0, 250, 100, 40)
-                                                        image:[UIImage imageNamed:@"btn_center.png"]];
+    self.btnGoogleLogin = [[CustomButton alloc] initWithFrame:CGRectMake(10 + ([Tools isPad] ? 30 : 0), 100, [Tools screenMaxWidth] - 2 * (10 + ([Tools isPad] ? 30 : 0)), 40) color:[UIColor colorWithRed:91.0/255 green:181.0/255 blue:91.0/255 alpha:1]];
     self.btnGoogleLogin.layer.cornerRadius = 10.0f;
     self.btnGoogleLogin.layer.masksToBounds = YES;
     [self.btnGoogleLogin addTarget:self 
@@ -140,31 +143,6 @@ static NSString *const kKeychainItemName = @"CooperKeychain";
     googleClientId = [[[SysConfig instance] keyValue] objectForKey:@"googleClientId"];
     googleClientSecret = [[[SysConfig instance] keyValue] objectForKey:@"googleClientSecret"];
 #endif
-    
-//    GTMOAuth2Authentication *auth = nil;
-//    
-//    auth = [GTMOAuth2ViewControllerTouch authForGoogleFromKeychainForName:kKeychainItemName 
-//                                                                 clientID:googleClientId
-//                                                             clientSecret:googleClientSecret];
-//    
-//    NSLog(@"persistenceResponseString:%@ \r\n serviceProvider:%@ \r\n userEmail:%@ \r\n accessToken:%@ \r\n expirationDate:%@ \r\n refreshToken:%@ \r\n code:%@ \r\n error:%@"
-//          , auth.persistenceResponseString
-//          , auth.serviceProvider
-//          , auth.userEmail
-//          , auth.accessToken
-//          , [auth.expirationDate description]
-//          , auth.refreshToken
-//          , auth.code
-//          , auth.errorString);
-//    self.auth = auth;
-//    
-//    if (auth.canAuthorize) {
-//        NSLog(@"auth success!");
-//    } else {
-//        NSLog(@"auth failed!");
-//    }
-    
-    //    [AccountService googleLogin:@"" code:@"4/7XphY2aqMy36JCy4BTFAdxgF3wKq.wne-l9DssfccuJJVnL49Cc--C5P3cQI" refreshToken:@"" state:@"login" mobi:@"true" delegate:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

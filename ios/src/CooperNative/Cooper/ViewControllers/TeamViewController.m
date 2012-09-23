@@ -43,6 +43,16 @@
     teamTableView.dataSource = self;
     teamTableView.delegate = self;
     [self.view addSubview:teamTableView];
+    teamTableView.hidden =YES;
+    
+    emptyView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, [Tools screenMaxWidth], 30)];
+    emptyView.backgroundColor = [UIColor whiteColor];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(80 + (([Tools screenMaxWidth] - 320) / 2.0), 0, 200, 30)];
+    label.text = @"当前你没有加入任何团队";
+    label.font = [UIFont boldSystemFontOfSize:16];
+    [emptyView addSubview:label];
+    [self.view addSubview:emptyView];
+    emptyView.hidden = YES;
     
     UITapGestureRecognizer *recognizer = nil;
     //左上自定义导航
@@ -111,6 +121,7 @@
     [syncBtn release];
     [settingBtn release];
     [teamTableView release];
+    [emptyView release];
     [teamDao release];
     [teamMemberDao release];
     [projectDao release];
@@ -326,40 +337,18 @@
     NSLog(@"开始初始化所有团队数据");
     
     self.teams = [teamDao getTeams];
-//    
-//    //如果未登录用户并且无列表增加一条默认列表
-//    if(tasklists.count == 0
-//       && [[ConstantClass instance] username].length == 0)
-//    {
-//        Tasklist *tasklist = [tasklistDao addTasklist:@"0" :@"默认列表" :@"personal"];
-//        [tasklistDao commitData];
-//        
-//        //添加
-//        [tasklists addObject:tasklist];
-//    }
-//    
-//    NSMutableArray *newRecentlyIds = [NSMutableArray array];
-//    for(NSString *recentlyId in [[ConstantClass instance] recentlyIds])
-//    {
-//        int i = 0;
-//        for(i = 0; i < tasklists.count; i++)
-//        {
-//            Tasklist *tasklist = [tasklists objectAtIndex:i];
-//            if([tasklist.id isEqualToString:recentlyId])
-//            {
-//                break;
-//            }
-//        }
-//        if(i < tasklists.count)
-//        {
-//            [newRecentlyIds addObject: recentlyId];
-//        }
-//    }
-//    
-//    [[ConstantClass instance] setRecentlyIds:newRecentlyIds];
-//    [ConstantClass saveToCache];
-    
-    [teamTableView reloadData];
+
+    if(self.teams.count == 0)
+    {
+        teamTableView.hidden = YES;
+        emptyView.hidden = NO;
+    }
+    else
+    {
+        teamTableView.hidden = NO;
+        emptyView.hidden = YES;
+        [teamTableView reloadData];
+    }
 }
 
 - (void)backToOption:(id)sender

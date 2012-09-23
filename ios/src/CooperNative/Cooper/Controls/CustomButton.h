@@ -9,5 +9,6 @@
 @interface CustomButton : UIButton 
 
 - (id)initWithFrame:(CGRect)frame image:(UIImage*)image;
+- (id)initWithFrame:(CGRect)frame color:(UIColor*)color;
 
 @end

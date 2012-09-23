@@ -46,6 +46,7 @@
     teamMemberDao = [[TeamMemberDao alloc] init];
     projectDao = [[ProjectDao alloc] init];
     commentDao = [[CommentDao alloc] init];
+    tagDao = [[TagDao alloc] init];
     
     statusView = [[UIView alloc] initWithFrame:CGRectMake(0, [Tools screenMaxHeight] - 111, [Tools screenMaxWidth], 49)];
     statusView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:TABBAR_BG_IMAGE]];
@@ -157,6 +158,7 @@
     [taskDao release];
     [changeLogDao release];
     [commentDao release];
+    [tagDao release];
     [editBtn release];
     [syncBtn release];
     [addBtn release];
@@ -845,7 +847,7 @@
         Project *project = [projectDao getProjectByTeamId:currentTeamId projectId:currentProjectId];
         if(project != nil)
         {
-            word = [NSString stringWithFormat:@"Project: %@", project.name];
+            word = [NSString stringWithFormat:@"项目: %@", project.name];
         }
     }
     else if(currentMemberId != nil)
@@ -853,15 +855,15 @@
         TeamMember *teamMember = [teamMemberDao getTeamMemberByTeamId:currentTeamId assigneeId:currentMemberId];
         if(teamMember != nil)
         {
-            word = [NSString stringWithFormat:@"Member: %@", teamMember.name];
+            word = [NSString stringWithFormat:@"执行人: %@", teamMember.name];
         }
     }
     else if(currentTag != nil)
     {
-        Tag *tag = [tagDao getTagByTeamId:currentTeamId tag:currentTag];
+        Tag *tag = [tagDao getTagByTeamId:currentTeamId name:currentTag];
         if(tag != nil)
         {
-            word = [NSString stringWithFormat:@"Tag: %@", tag.name];
+            word = [NSString stringWithFormat:@"标签: %@", tag.name];
         }
     }
     CGSize size = [word sizeWithFont:filterLabel.font constrainedToSize:CGSizeMake(240, 10000) lineBreakMode:UILineBreakModeWordWrap];

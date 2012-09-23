@@ -64,7 +64,7 @@
     
     return tags;
 }
-- (Tag*)getTagByTeamId:(NSString*)teamId tag:(NSString*)name
+- (Tag*)getTagByTeamId:(NSString*)teamId name:(NSString*)name
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:tableName inManagedObjectContext:context];
@@ -72,7 +72,7 @@
     NSError *error = nil;
     [fetchRequest setEntity:entity];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(teamId = %@ and name = %@)", name];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(teamId = %@ and name = %@)", teamId, name];
     [fetchRequest setPredicate:predicate];
     
     NSMutableArray *tags = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];

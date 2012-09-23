@@ -27,14 +27,24 @@
 {
     self = [super init];
     if (self) {
-        // Custom initialization
-        //[self initContentView];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [detailView release];
+    [taskDao release];
+    [taskIdxDao release];
+    [changeLogDao release];
+    
+    [dueDateLabel release];
+    [priorityButton release];
+    [statusButton release];
+    [subjectLabel release];
+    [bodyLabel release];
+    [commentTextField release];
+    
     [super dealloc];
 }
 
