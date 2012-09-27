@@ -744,27 +744,12 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
                  webView:webView
                     kind:kGTMOAuth2WebViewFinished];
     
-    //NSURLRequest *r = webView.request;
-    //NSDictionary *headers = [r allHTTPHeaderFields];
-    //NSLog(@"webView finish header: %@", [headers description]);
-    
-    //NSLog(@"webView finish url: %@", r.URL.absoluteString);
-    
     NSString *query = webView.request.URL.query;
     NSArray *array = [query componentsSeparatedByString:@"&"];
     if(array.count == 2)
     {
         [self popView];
         [loginDelegate googleLoginFinish:array];
-        
-//        NSString *codeQuery = [array objectAtIndex:1];
-//        NSArray *patams = [codeQuery componentsSeparatedByString:@"="];
-//        NSString *code = [patams objectAtIndex:0];
-//        if([code isEqualToString:@"code"])
-//        {
-//            NSString *anthCode = [patams objectAtIndex:1];
-//            [AccountService googleLogin:@"" code:anthCode state:@"login" mobi:@"true" joke:@"false" delegate:self];
-//        }
     }
     
     NSString *title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
