@@ -11,6 +11,8 @@
     <RootNamespace>Cooper.MobileApp</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>CooperMobileApp</AssemblyName>
+    <ReleaseVersion>0.2</ReleaseVersion>
+    <SynchReleaseVersion>False</SynchReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>True</DebugSymbols>
@@ -90,30 +92,22 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="ViewControllers\Cooper_MobileAppViewController.cs" />
-    <Compile Include="ViewControllers\Cooper_MobileAppViewController.designer.cs">
-      <DependentUpon>Cooper_MobileAppViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ViewControllers\LoginViewController.cs" />
-    <Compile Include="ViewControllers\LoginViewController.designer.cs">
+    <Compile Include="ViewControllers\BaseViewController.cs" />
+    <Compile Include="ViewControllers\LoginViewControllers\LoginViewController.cs" />
+    <Compile Include="ViewControllers\LoginViewControllers\LoginViewController.designer.cs">
       <DependentUpon>LoginViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewControllers\MainViewController.cs" />
-    <Compile Include="ViewControllers\MainViewController.designer.cs">
-      <DependentUpon>MainViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ViewControllers\BaseViewController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="ViewControllers\Cooper_MobileAppViewController_iPad.xib" />
-    <InterfaceDefinition Include="ViewControllers\Cooper_MobileAppViewController_iPhone.xib" />
-    <InterfaceDefinition Include="ViewControllers\LoginViewController.xib" />
-    <InterfaceDefinition Include="ViewControllers\MainViewController.xib" />
+    <InterfaceDefinition Include="ViewControllers\LoginViewControllers\LoginViewController_iPhone.xib" />
+    <InterfaceDefinition Include="ViewControllers\LoginViewControllers\LoginViewController_iPad.xib" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Images\" />
     <Folder Include="ViewControllers\" />
+    <Folder Include="ViewControllers\LoginViewControllers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Default.png" />

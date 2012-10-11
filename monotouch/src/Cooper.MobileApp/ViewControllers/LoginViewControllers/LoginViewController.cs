@@ -1,3 +1,4 @@
+
 using System;
 using System.Drawing;
 
@@ -6,14 +7,14 @@ using MonoTouch.UIKit;
 
 namespace Cooper.MobileApp
 {
-	public partial class Cooper_MobileAppViewController : UIViewController
+	public partial class LoginViewController : UIViewController
 	{
 		static bool UserInterfaceIdiomIsPhone {
 			get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
 		}
 
-		public Cooper_MobileAppViewController ()
-			: base (UserInterfaceIdiomIsPhone ? "Cooper_MobileAppViewController_iPhone" : "Cooper_MobileAppViewController_iPad", null)
+		public LoginViewController ()
+			: base (UserInterfaceIdiomIsPhone ? "LoginViewController_iPhone" : "LoginViewController_iPad", null)
 		{
 		}
 		
@@ -28,8 +29,9 @@ namespace Cooper.MobileApp
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			
-			// Perform any additional setup after loading the view, typically from a nib.
+
+			this.label1.Frame = new RectangleF(20, 240, 100, 30);
+			this.View.AddSubview(this.label1);
 		}
 		
 		public override void ViewDidUnload ()
