@@ -38,6 +38,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Compile Include="Common.cs" />
+    <Compile Include="Tools.cs" />
   </ItemGroup>
 </Project>

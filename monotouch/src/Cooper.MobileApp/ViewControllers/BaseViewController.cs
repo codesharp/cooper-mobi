@@ -1,5 +1,6 @@
 using System;
 using MonoTouch.UIKit;
+using MonoTouch.Foundation;
 
 namespace Cooper.MobileApp
 {
@@ -18,8 +19,8 @@ namespace Cooper.MobileApp
 		{
 		}
 
-		public BaseViewController (string nibName)
-			: base(nibName, null)
+		public BaseViewController (string nibName, NSBundle bundle)
+			: base(nibName, bundle)
 		{
 		}
 
@@ -34,6 +35,8 @@ namespace Cooper.MobileApp
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
+			this.View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile("images/bg-line.png"));
 		}
 		
 		public override void ViewDidUnload ()

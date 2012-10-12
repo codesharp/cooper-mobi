@@ -11,8 +11,6 @@
     <RootNamespace>Cooper.MobileApp</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>CooperMobileApp</AssemblyName>
-    <ReleaseVersion>0.2</ReleaseVersion>
-    <SynchReleaseVersion>False</SynchReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>True</DebugSymbols>
@@ -114,6 +112,7 @@
     <Content Include="Images\Default~ipad.png" />
     <Content Include="Images\icon.png" />
     <Content Include="Images\icon%402x.png" />
+    <Content Include="Images\bg-line.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default.png" />
