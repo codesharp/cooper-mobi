@@ -619,6 +619,7 @@
 
 - (void)back:(id)sender
 {
+    RELEASE(teamTaskFilterViewController);
     [Tools layerTransition:self.navigationController.view from:@"left"];
     [self.navigationController popViewControllerAnimated:NO];
 }

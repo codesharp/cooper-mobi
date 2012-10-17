@@ -50,7 +50,6 @@
 {
     [super dealloc];
     [teamTaskFilterLabel release];
-    [filterView release];
     [filterOptionView release];
     [scrollView release];
     [teamMemberDao release];

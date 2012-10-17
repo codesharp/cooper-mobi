@@ -372,6 +372,9 @@
                         NSNumber *status = [NSNumber numberWithInt:[isCompleted integerValue]];
                         NSString *priority = [NSString stringWithFormat:@"%@", [taskDict objectForKey:@"Priority"]];
                         
+                        NSMutableArray *tagsArray = [taskDict objectForKey:@"Tags"];
+                        NSString *tags = [tagsArray JSONRepresentation];
+                        
                         NSString *editable = (NSString*)[taskDict objectForKey:@"Editable"];
                         
                         NSDate *due = nil;
@@ -395,10 +398,11 @@
                                 isPublic:[NSNumber numberWithInt:1]
                                   status:status
                                 priority:priority
-                                  taskid:taskId
+                                  taskId:taskId
                                  dueDate:due
                                 editable:[NSNumber numberWithInt:[editable integerValue]]
                               tasklistId:currentTasklistId
+                                    tags:tags
                                 isCommit:NO];
                     }
                     

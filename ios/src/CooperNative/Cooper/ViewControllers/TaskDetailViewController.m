@@ -22,6 +22,7 @@
 @synthesize commentTextField;
 @synthesize delegate;
 @synthesize currentTasklistId;
+@synthesize teamTaskOptionViewController;
 
 - (id)init
 {
@@ -44,6 +45,8 @@
     [subjectLabel release];
     [bodyLabel release];
     [commentTextField release];
+    
+    [teamTaskOptionViewController release];
     
     [super dealloc];
 }
@@ -198,7 +201,7 @@
 //获取在制定的分区编号下的纪录数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return 5;
 }
 //填充单元格
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -325,6 +328,76 @@
         }
         else if(indexPath.row == 3)
         {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"TagCell"];
+            if(!cell)
+            {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"TagCell"] autorelease];
+                cell.textLabel.text = @"标签:";
+                [cell.textLabel setTextColor:[UIColor grayColor]];[cell.textLabel setFont:[UIFont boldSystemFontOfSize:16]];
+                
+                tagView = [[UIView alloc] initWithFrame:CGRectZero];
+                if(![[task.editable stringValue] isEqualToString:[[NSNumber numberWithInt:0] stringValue]])
+                {
+                    tagView.userInteractionEnabled = YES;
+                }
+                else
+                {
+                    tagView.userInteractionEnabled = NO;
+                }
+                UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectTag:)];
+                [tagView addGestureRecognizer:recognizer];
+                [recognizer release];
+                [cell.contentView addSubview:tagView];
+            }
+            
+            if(task.tags != nil)
+            {
+                NSMutableArray *tagArray = [task.tags JSONValue];
+                if(tagArray.count == 0)
+                {
+                    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 8, 120, 30)];
+                    label.textColor = [UIColor grayColor];
+                    label.text = @"none";
+                    [tagView addSubview:label];
+                    [label release];
+                    
+                    tagView.frame = CGRectMake(110, 0, [Tools screenMaxWidth] - 110, 44);
+                }
+                else
+                {
+                    CGFloat totalHeight = 0;
+                    for (NSString *tagName in tagArray)
+                    {
+                        CustomButton *tagBtn = [[CustomButton alloc] initWithFrame:CGRectZero image:[UIImage imageNamed:@"btn_bg_gray.png"]];
+                        tagBtn.userInteractionEnabled = NO;
+                        [tagBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                        [tagBtn setTitle:tagName forState:UIControlStateNormal];
+                        CGSize size = CGSizeMake([Tools screenMaxWidth], 10000);
+                        CGSize labelsize = [tagBtn.titleLabel.text sizeWithFont:priorityButton.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
+                        CGFloat labelsizeHeight = labelsize.height + 10;
+                        tagBtn.frame = CGRectMake(0, 8 + totalHeight, labelsize.width + 40, labelsizeHeight);
+                        [tagView addSubview:tagBtn];
+                        [tagBtn release];
+                        
+                        totalHeight += labelsizeHeight + (tagArray.count > 1 ? 5 : 0);
+                    }
+                    tagView.frame = CGRectMake(110, 0, [Tools screenMaxWidth] - 110, totalHeight);
+                    [cell setFrame:CGRectMake(0, 0, [Tools screenMaxWidth], totalHeight + 15)];
+                }
+            }
+            else
+            {
+                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 8, 120, 30)];
+                label.textColor = [UIColor grayColor];
+                label.text = @"none";
+                [tagView addSubview:label];
+                [label release];
+                
+                tagView.frame = CGRectMake(110, 0, [Tools screenMaxWidth] - 110, 44);
+            }
+        }
+        else if(indexPath.row == 4)
+        {
             cell = [tableView dequeueReusableCellWithIdentifier:@"SubjectBodyCell"];
             
             NSString *font = @"Helvetica";
@@ -405,12 +478,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.section == 0 && indexPath.row == 3)
-    {
-        UITableViewCell *cell = (UITableViewCell*)[self tableView:tableView cellForRowAtIndexPath:indexPath];
-        return cell.frame.size.height;
-    }
-    return 44.0f;
+    UITableViewCell *cell = (UITableViewCell*)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+    return cell.frame.size.height;
 }
 
 - (void)tableViewCell:(DateLabel *)label didEndEditingWithDate:(NSDate *)value
@@ -568,6 +637,25 @@
 //    }
 //    return footerView;
 //}
+
+- (void)selectTag:(id)sender
+{
+    if (teamTaskOptionViewController == nil)
+    {
+        teamTaskOptionViewController = [[TeamTaskOptionViewController alloc] init];
+    }
+    
+    teamTaskOptionViewController.currentTask = task;
+    teamTaskOptionViewController.selectMultiple = YES;
+    teamTaskOptionViewController.optionType = 4;
+//    teamTaskOptionViewController.currentTeamId = currentTeamId;
+//    teamTaskOptionViewController.currentProjectId = currentProjectId;
+//    teamTaskOptionViewController.currentMemberId = currentMemberId;
+//    teamTaskOptionViewController.currentTag = currentTag;
+    
+    [Tools layerTransition:self.navigationController.view from:@"right"];
+    [self.navigationController pushViewController:teamTaskOptionViewController animated:NO];
+}
 
 - (NSString*)getPriorityKey:(NSString*)priorityValue
 {

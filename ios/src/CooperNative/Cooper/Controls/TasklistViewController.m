@@ -19,6 +19,8 @@
 @synthesize tasklists;
 @synthesize setting_navViewController;
 
+#define DISPLAY_RECENTLY_TASKLIST_COUNT 5
+
 # pragma mark - UI相关
 
 - (void)loadView
@@ -428,7 +430,12 @@
                         NSString *priority = [NSString stringWithFormat:@"%@", [taskDict objectForKey:@"Priority"]];
                         
                         NSString *editable = (NSString*)[taskDict objectForKey:@"Editable"];
-                        
+                        NSMutableArray *tagsArray = [taskDict objectForKey:@"Tags"];
+                        NSString *tags = nil;
+                        if(tagsArray != [NSNull null])
+                        {
+                           tags = [tagsArray JSONRepresentation]; 
+                        }
                         
                         NSDate *due = nil;
                         if([taskDict objectForKey:@"DueTime"] != [NSNull null])
@@ -451,10 +458,11 @@
                                 isPublic:[NSNumber numberWithInt:1]
                                   status:status
                                 priority:priority
-                                  taskid:taskId
+                                  taskId:taskId
                                  dueDate:due
                                 editable:[NSNumber numberWithInt:[editable integerValue]]
                               tasklistId:currentTasklistId
+                                    tags:tags
                                 isCommit:NO];
                     }
                     
@@ -544,14 +552,16 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if([[[ConstantClass instance] recentlyIds] count] > 0)
+    if(tasklists.count >= DISPLAY_RECENTLY_TASKLIST_COUNT
+       && [[[ConstantClass instance] recentlyIds] count] > 0)
         return 2;
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if([[[ConstantClass instance] recentlyIds] count] > 0)
+    if(tasklists.count >= DISPLAY_RECENTLY_TASKLIST_COUNT
+       && [[[ConstantClass instance] recentlyIds] count] > 0)
     {
         if(section == 0)
         {
@@ -579,7 +589,8 @@
 
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if([[[ConstantClass instance] recentlyIds] count] > 0)
+    if(tasklists.count >= DISPLAY_RECENTLY_TASKLIST_COUNT
+       && [[[ConstantClass instance] recentlyIds] count] > 0)
     {
         if(section == 0)
         {
@@ -621,7 +632,8 @@
     }
     
     //如果包含最近点击的任务列表
-    if([[[ConstantClass instance] recentlyIds] count] > 0)
+    if(tasklists.count >= DISPLAY_RECENTLY_TASKLIST_COUNT
+       && [[[ConstantClass instance] recentlyIds] count] > 0)
     {
         if(indexPath.section == 0)
         {

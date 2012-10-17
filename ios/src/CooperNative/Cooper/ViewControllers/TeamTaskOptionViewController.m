@@ -288,6 +288,28 @@
             }
         }
     }
+    else if(optionType == 4)
+    {
+        if(currentTask.tags != nil)
+        {
+            NSMutableArray *tagArray = [currentTask.tags JSONValue];
+            if(tagArray.count > 0)
+            {
+//                for (NSInteger j = 0; j < tagArray.count; j++)
+//                {
+//                    NSString *tagName = [tagArray objectAtIndex:j];
+//                    
+//                    if([tag.name isEqualToString:tagName])
+//                    {
+//                        currentIndexs = [[NSString stringWithFormat:@"%@%@"
+//                                          , currentIndexs
+//                                          , [NSString stringWithFormat:@"%d,", i]] copy];
+//                        break;
+//                    }
+//                }
+            }
+        }
+    }
     
     [optionView reloadData];
 }

@@ -10,10 +10,12 @@
 #import "CodesharpSDK/JSCoreTextView.h"
 #import "WebViewController.h"
 #import "BaseNavigationController.h"
+#import "TeamTaskOptionViewController.h"
 
 @interface TaskDetailViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, CommentTextFieldDelegate, TaskViewDelegate, DateLabelDelegate, PriorityButtonDelegate>
 {
     UITableView *detailView;
+    UIView *tagView;
 //    UIView *footerView;
     
     TaskDao *taskDao;
@@ -30,6 +32,7 @@
 @property (retain, nonatomic) JSCoreTextView *bodyLabel;
 @property (retain, nonatomic) CommentTextField *commentTextField;
 @property (retain, nonatomic) NSString* currentTasklistId;
+@property (retain, nonatomic) TeamTaskOptionViewController *teamTaskOptionViewController;
 
 - (void) initContentView;
 

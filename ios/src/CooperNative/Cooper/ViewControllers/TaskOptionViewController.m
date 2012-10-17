@@ -183,7 +183,7 @@
                     Tasklist* t = (Tasklist*)[tasklists objectAtIndex:i];
                     if([tasklistId isEqualToString: t.id])
                     {
-                        cell.textLabel.text = t.name;
+                        cell.textLabel.text = [NSString stringWithFormat:@"【个】%@", t.name];
                         break;
                     }
                 }
@@ -198,7 +198,7 @@
                     Team* t = (Team*)[teams objectAtIndex:i];
                     if([teamId isEqualToString: t.id])
                     {
-                        cell.textLabel.text = t.name;
+                        cell.textLabel.text = [NSString stringWithFormat:@"【团】%@", t.name];
                         break;
                     }
                 }

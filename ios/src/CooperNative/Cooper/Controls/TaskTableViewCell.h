@@ -33,6 +33,7 @@
 @property (nonatomic, retain) UILabel *bodyLabel;
 @property (nonatomic, retain) UILabel *dueDateLabel;
 @property (nonatomic, retain) UILabel *assigneeNameLabel;
+@property (nonatomic, retain) UILabel *tagsLabel;
 
 @property (nonatomic, retain) UIButton *statusButton;
 @property (nonatomic, retain) UIButton *arrowButton;

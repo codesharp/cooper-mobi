@@ -94,6 +94,10 @@ namespace Cooper.MobileApp
 			}
 		}
 
+		class TableSource : UITableViewSource
+		{
+		}
+
 		#endregion
 	}
 }

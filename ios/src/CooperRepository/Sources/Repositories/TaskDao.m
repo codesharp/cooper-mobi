@@ -133,13 +133,26 @@
          dueDate:(NSDate *)dueDate
         editable:(NSNumber *)editable
       tasklistId:(NSString*)tasklistId
+            tags:(NSString*)tags
 {
     Task *task = [self getTaskById:taskId];
 
     if(task.id.length == 0)
     {
         NSDate *currentDate = [NSDate date];
-        [self addTask:subject createDate:currentDate lastUpdateDate:lastUpdateDate body:body isPublic:isPublic status:status priority:priority taskid:taskId dueDate:dueDate editable:editable tasklistId:tasklistId isCommit:NO];
+        [self addTask:subject
+           createDate:currentDate
+       lastUpdateDate:lastUpdateDate
+                 body:body
+             isPublic:isPublic
+               status:status
+             priority:priority
+               taskId:taskId
+              dueDate:dueDate
+             editable:editable
+           tasklistId:tasklistId
+                 tags:tags 
+             isCommit:NO];
     }
     else 
     {
@@ -151,7 +164,8 @@
                   status:status 
                 priority:priority 
                  dueDate:dueDate 
-              tasklistId:tasklistId 
+              tasklistId:tasklistId
+                    tags:tags
                 isCommit:NO];
     }
 }
@@ -162,10 +176,11 @@
        isPublic:(NSNumber *)isPublic 
          status:(NSNumber *)status 
        priority:(NSString *)priority 
-         taskid:(NSString *)tid 
+         taskId:(NSString *)tid 
         dueDate:(NSDate *)dueDate
        editable:(NSNumber *)editable
      tasklistId:(NSString*)tasklistId
+           tags:(NSString*)tags
        isCommit:(BOOL)isCommit
 {
     Task *task = [ModelHelper create:tableName context:context];
@@ -180,6 +195,7 @@
     task.dueDate = dueDate;
     task.editable = editable;
     task.tasklistId = tasklistId;
+    task.tags = tags;
     if([[ConstantClass instance] username].length > 0)
         task.accountId = [[ConstantClass instance] username];
     
@@ -195,6 +211,7 @@
           priority:(NSString *)priority 
            dueDate:(NSDate *)dueDate
         tasklistId:(NSString*)tasklistId
+              tags:(NSString*)tags
           isCommit:(BOOL)isCommit
 {
     task.subject = subject;
@@ -205,6 +222,7 @@
     task.priority = priority;
     task.dueDate = dueDate;
     task.tasklistId = tasklistId;
+    task.tags = tags;
     if([[ConstantClass instance] username].length > 0)
         task.accountId = [[ConstantClass instance] username];
     

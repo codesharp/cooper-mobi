@@ -36,7 +36,8 @@
         priority:(NSString *)priority 
          dueDate:(NSDate *)dueDate
         editable:(NSNumber *)editable
-      tasklistId:(NSString*)tasklistId;
+      tasklistId:(NSString*)tasklistId
+            tags:(NSString*)tags;
 //添加任务
 - (void)addTask:(NSString*)subject 
      createDate:(NSDate*)createDate 
@@ -45,10 +46,11 @@
        isPublic:(NSNumber*)isPublic 
          status:(NSNumber*)status 
        priority:(NSString*)priority 
-         taskid:(NSString*)tid 
+         taskId:(NSString*)tid 
         dueDate:(NSDate*)dueDate 
        editable:(NSNumber*)editable
      tasklistId:(NSString*)tasklistId
+           tags:(NSString*)tags
        isCommit:(BOOL)isCommit;
 //更新任务
 - (void)updateTask:(Task*)task
@@ -60,6 +62,7 @@
           priority:(NSString*)priority 
            dueDate:(NSDate*)dueDate 
         tasklistId:(NSString*)tasklistId
+              tags:(NSString*)tags
           isCommit:(BOOL)isCommit;
 //更新新的TasklistId
 - (void)updateTasklistIdByNewId:(NSString*)oldId

@@ -128,10 +128,11 @@
                 isPublic:[Tools BOOLToNSNumber:YES] 
                   status:[Tools BOOLToNSNumber:[self taskIsFinish]] 
                 priority:self.currentPriority 
-                  taskid:id
+                  taskId:id
                  dueDate:self.currentDueDate 
                 editable:[NSNumber numberWithInt:1]
               tasklistId:currentTasklistId
+                    tags:@"[]"
                 isCommit:NO];
         
         [taskIdxDao addTaskIdx:id 
@@ -178,6 +179,7 @@
                    priority:self.currentPriority 
                     dueDate:self.currentDueDate
                  tasklistId:self.currentTasklistId
+                       tags:@"[]"
                    isCommit:NO];
         
         if(![oldPriority isEqualToString:self.currentPriority])

@@ -369,6 +369,7 @@
 		6A7D87C8160C6496004C7C9C /* TeamTaskDetailEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamTaskDetailEditViewController.h; path = ViewControllers/TeamTaskDetailEditViewController.h; sourceTree = "<group>"; };
 		6A7D87C9160C6498004C7C9C /* TeamTaskDetailEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamTaskDetailEditViewController.m; path = ViewControllers/TeamTaskDetailEditViewController.m; sourceTree = "<group>"; };
 		6A7D87CB160C7301004C7C9C /* TeamTaskDetailEditViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamTaskDetailEditViewDelegate.h; path = ViewControllers/TeamTaskDetailEditViewDelegate.h; sourceTree = "<group>"; };
+		6A8310BD162BB9A5004F1DED /* TaskModelV0_2_1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskModelV0_2_1.xcdatamodel; sourceTree = "<group>"; };
 		6A84F2A41607152B000B62CB /* TeamTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamTaskViewController.h; path = ViewControllers/TeamTaskViewController.h; sourceTree = "<group>"; };
 		6A84F2A51607152B000B62CB /* TeamTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamTaskViewController.m; path = ViewControllers/TeamTaskViewController.m; sourceTree = "<group>"; };
 		6AF47A4615FE336C006D4D3F /* GTMHTTPFetcherLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcherLogging.h; sourceTree = "<group>"; };
@@ -1355,7 +1356,7 @@
 				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8B6BD206-EF00-42E1-860B-4373CA962F86";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1C194B28-3154-4EE8-B82D-3D415F8E6809";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR) \"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts\"";
 				WRAPPER_EXTENSION = app;
@@ -1365,6 +1366,7 @@
 		EE39628F159D343C0018B9EC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Li Ping";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cooper/Cooper-Prefix.pch";
@@ -1421,9 +1423,10 @@
 			isa = XCVersionGroup;
 			children = (
 				6A18E5291603286A00ED2042 /* TaskModelV0_2.xcdatamodel */,
+				6A8310BD162BB9A5004F1DED /* TaskModelV0_2_1.xcdatamodel */,
 				18A92DAB15D2E9B200423A55 /* TaskModel.xcdatamodel */,
 			);
-			currentVersion = 6A18E5291603286A00ED2042 /* TaskModelV0_2.xcdatamodel */;
+			currentVersion = 6A8310BD162BB9A5004F1DED /* TaskModelV0_2_1.xcdatamodel */;
 			path = TaskModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

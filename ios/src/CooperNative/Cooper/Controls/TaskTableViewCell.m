@@ -19,6 +19,7 @@
 @synthesize bodyLabel;
 @synthesize dueDateLabel;
 @synthesize assigneeNameLabel;
+@synthesize tagsLabel;
 @synthesize statusButton;
 @synthesize arrowButton;
 @synthesize leftView;
@@ -57,10 +58,17 @@
     assigneeNameLabel.font = [UIFont systemFontOfSize:12];
     assigneeNameLabel.textColor = APP_BACKGROUNDCOLOR;
     
+    tagsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    [tagsLabel setLineBreakMode:UILineBreakModeWordWrap];
+    tagsLabel.font = [UIFont systemFontOfSize:12];
+    tagsLabel.textColor = [UIColor redColor];
+    tagsLabel.textAlignment = UITextAlignmentRight;
+    
     [self.contentView addSubview:subjectLabel];
     [self.contentView addSubview:bodyLabel];
     [self.contentView addSubview:dueDateLabel];
     [self.contentView addSubview:assigneeNameLabel];
+    [self.contentView addSubview:tagsLabel];
     
     self.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 30)];
     
@@ -207,9 +215,23 @@
         } 
     }
     
+    NSLog(@"tags:%@", self.task.tags);
+    NSMutableArray *tagsArray = [self.task.tags JSONValue];
+    int tagHeight = 0;
+    if(tagsArray.count > 0)
+    {
+        tagHeight += 20;
+        tagsLabel.frame = CGRectMake(50, totalHeight + PADDING + tagHeight, [Tools screenMaxWidth] - 50 - 20, 12);
+        NSString *tags = @"";
+        for (NSString *tag in tagsArray) {
+            tags = [NSString stringWithFormat:@"%@ %@", tags, tag];
+        }
+        tagsLabel.text = tags;
+    }
+    
 //    NSLog(@"height:%f,subject:%@", totalHeight, task.subject);
-    [self setFrame:CGRectMake(0, 0, CONTENT_WIDTH + [Tools screenMaxWidth] - 320, totalHeight + 22)];
-    [leftView setFrame:CGRectMake(0, 0, 40, totalHeight + 22)];
+    [self setFrame:CGRectMake(0, 0, CONTENT_WIDTH + [Tools screenMaxWidth] - 320, totalHeight + 22 + tagHeight)];
+    [leftView setFrame:CGRectMake(0, 0, 40, totalHeight + 22 + tagHeight)];
 }
 
 - (void)dealloc
@@ -219,6 +241,7 @@
     [bodyLabel release];
     [dueDateLabel release];
     [assigneeNameLabel release];
+    [tagsLabel release];
     [leftView release];
     //[rightView release];
     [statusButton release];

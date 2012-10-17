@@ -15,6 +15,8 @@
 @synthesize setting_navViewController;
 @synthesize teamTaskViewController;
 
+#define DISPLAY_RECENTLY_TEAM_COUNT 5
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -140,14 +142,16 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if([[[ConstantClass instance] recentlyTeamIds] count] > 0)
+    if(teams.count >= DISPLAY_RECENTLY_TEAM_COUNT
+       && [[[ConstantClass instance] recentlyTeamIds] count] > 0)
         return 2;
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if([[[ConstantClass instance] recentlyTeamIds] count] > 0)
+    if(teams.count >= DISPLAY_RECENTLY_TEAM_COUNT
+       && [[[ConstantClass instance] recentlyTeamIds] count] > 0)
     {
         if(section == 0)
         {
@@ -174,7 +178,8 @@
 
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if([[[ConstantClass instance] recentlyTeamIds] count] > 0)
+    if(teams.count >= DISPLAY_RECENTLY_TEAM_COUNT
+       && [[[ConstantClass instance] recentlyTeamIds] count] > 0)
     {
         if(section == 0)
         {
@@ -217,7 +222,8 @@
     }
     
     //如果包含最近点击的任务列表
-    if([[[ConstantClass instance] recentlyTeamIds] count] > 0)
+    if(teams.count >= DISPLAY_RECENTLY_TEAM_COUNT
+       && [[[ConstantClass instance] recentlyTeamIds] count] > 0)
     {
         if(indexPath.section == 0)
         {
