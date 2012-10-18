@@ -11,9 +11,6 @@
    <Group
       location = "container:"
       name = "&#28151;&#21512;&#27169;&#24335;">
-      <FileRef
-         location = "group:src/CooperHybrid/CooperHybrid.xcodeproj">
-      </FileRef>
    </Group>
    <Group
       location = "container:"

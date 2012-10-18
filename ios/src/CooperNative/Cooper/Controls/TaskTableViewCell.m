@@ -164,27 +164,37 @@
     CGFloat totalHeight = 0;
     
     subjectLabel.text = task.subject; 
-    CGSize subjectLabelSize = [subjectLabel.text sizeWithFont:subjectLabel.font 
-                                    constrainedToSize:CGSizeMake(CONTENT_WIDTH + [Tools screenMaxWidth] - 320, MAX_HEIGHT)
-                                        lineBreakMode:UILineBreakModeWordWrap];
+    CGSize subjectLabelSize = [subjectLabel.text sizeWithFont:subjectLabel.font
+                                            constrainedToSize:CGSizeMake(self.bounds.size.width - 50, MAX_HEIGHT)
+                                                lineBreakMode:UILineBreakModeWordWrap];
     CGFloat subjectLabelHeight = subjectLabelSize.height;
     int subjectlines = subjectLabelHeight / 16;
-    subjectLabel.frame = CGRectMake(50, PADDING, CONTENT_WIDTH + [Tools screenMaxWidth] - 320, subjectLabelHeight);
+    subjectLabel.frame = CGRectMake(50, PADDING, self.bounds.size.width - 50, subjectLabelHeight);
     subjectLabel.numberOfLines = subjectlines; 
     totalHeight += subjectLabelHeight + PADDING;
     
     bodyLabel.text = task.body;  
-    CGSize bodyLabelSize = [bodyLabel.text sizeWithFont:bodyLabel.font 
-                                            constrainedToSize:CGSizeMake(CONTENT_WIDTH + [Tools screenMaxWidth] - 320, MAX_HEIGHT) 
-                                                lineBreakMode:UILineBreakModeWordWrap];
-    CGFloat bodyLabelHeight = bodyLabelSize.height; 
-    int bodylines = bodyLabelHeight / 14;
-    if(bodylines > 3)
+    CGSize bodyLabelSize = [bodyLabel.text sizeWithFont:bodyLabel.font
+                                      constrainedToSize:CGSizeMake(self.bounds.size.width - 50, MAX_HEIGHT)
+                                          lineBreakMode:UILineBreakModeWordWrap];
+    CGFloat bodyLabelHeight = bodyLabelSize.height;
+    if(bodyLabelHeight == 0.0f)
     {
-        bodylines = 3;
+        
     }
-    bodyLabel.frame = CGRectMake(50, totalHeight + PADDING, CONTENT_WIDTH + [Tools screenMaxWidth] - 320, bodylines * 14);
-    bodyLabel.numberOfLines = bodylines;
+    else
+    {
+        int bodylines = bodyLabelHeight / 14;
+        
+        if(bodylines > 3)
+        {
+            bodylines = 3;
+        }
+        bodyLabel.frame = CGRectMake(50, totalHeight + PADDING, self.bounds.size.width - 50, bodylines * 14);
+        bodyLabel.numberOfLines = bodylines;
+        
+        totalHeight += bodylines * 14 + PADDING;
+    }
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"M-dd"];
@@ -194,44 +204,74 @@
         [dueDateLabel setFrame:CGRectMake(260  + [Tools screenMaxWidth] - 320, PADDING, 80, 20)];
     }
     
-    totalHeight += PADDING + bodylines * 14;
-    
 //    if(subjectLabelHeight == 0 && bodylines * 16 == 0)
 //        totalHeight = 50;
 //    else
 //        totalHeight = subjectLabelHeight + bodylines * 16 ;
     
-    if(totalHeight < 50)
-        totalHeight = 50;
+//    if(totalHeight < 50)
+//        totalHeight = 50;
     
-    assigneeNameLabel.frame = CGRectMake(50, totalHeight + PADDING, [Tools screenMaxWidth], 12);
+    
     if(self.task.assigneeId != nil)
-    {
+    {  
         TeamMember *teamMember = [teamMemberDao getTeamMemberByTeamId:self.task.teamId
                                                            assigneeId:self.task.assigneeId];
         if(teamMember != nil)
         {
             assigneeNameLabel.text = teamMember.name;
-        } 
+            
+            CGSize assigneeLabelSize = [assigneeNameLabel.text sizeWithFont:assigneeNameLabel.font
+                                                          constrainedToSize:CGSizeMake(self.bounds.size.width - 50, MAX_HEIGHT)
+                                                              lineBreakMode:UILineBreakModeWordWrap];
+            CGFloat assigneeLabelHeight = assigneeLabelSize.height;
+            if(assigneeLabelHeight == 0.0f)
+            {
+            }
+            else
+            {
+                int assigneelines = assigneeLabelHeight / 12;
+                
+                assigneeNameLabel.frame = CGRectMake(50, totalHeight + PADDING, self.bounds.size.width - 50, assigneeLabelHeight);
+                assigneeNameLabel.numberOfLines = assigneelines;
+                totalHeight += assigneeLabelHeight + PADDING;
+            }
+        }
     }
     
-    NSLog(@"tags:%@", self.task.tags);
     NSMutableArray *tagsArray = [self.task.tags JSONValue];
-    int tagHeight = 0;
+//    int tagHeight = 20;
     if(tagsArray.count > 0)
     {
-        tagHeight += 20;
-        tagsLabel.frame = CGRectMake(50, totalHeight + PADDING + tagHeight, [Tools screenMaxWidth] - 50 - 20, 12);
+        //tagsLabel.frame = CGRectMake(50, totalHeight + PADDING, self.bounds.size.width - 50 - 20, 12);
         NSString *tags = @"";
         for (NSString *tag in tagsArray) {
             tags = [NSString stringWithFormat:@"%@ %@", tags, tag];
         }
         tagsLabel.text = tags;
+        CGSize tagsLabelSize = [tagsLabel.text sizeWithFont:tagsLabel.font
+                                          constrainedToSize:CGSizeMake(self.bounds.size.width - 50, MAX_HEIGHT)
+                                              lineBreakMode:UILineBreakModeWordWrap];
+        CGFloat tagsLabelHeight = tagsLabelSize.height;
+        if(tagsLabelHeight == 0.0f)
+        {
+            
+        }
+        else
+        {
+            int tagslines = tagsLabelHeight / 12;
+            
+            tagsLabel.frame = CGRectMake(50, totalHeight + PADDING, self.bounds.size.width - 50, tagsLabelHeight);
+            tagsLabel.numberOfLines = tagslines;
+            totalHeight += tagsLabelHeight + PADDING;
+        }
     }
     
-//    NSLog(@"height:%f,subject:%@", totalHeight, task.subject);
-    [self setFrame:CGRectMake(0, 0, CONTENT_WIDTH + [Tools screenMaxWidth] - 320, totalHeight + 22 + tagHeight)];
-    [leftView setFrame:CGRectMake(0, 0, 40, totalHeight + 22 + tagHeight)];
+//    if(totalHeight < 50)
+//        totalHeight = 50;
+    
+    [self setFrame:CGRectMake(0, 0, self.bounds.size.width, totalHeight)];
+    [leftView setFrame:CGRectMake(0, 0, 40, totalHeight)];
 }
 
 - (void)dealloc
