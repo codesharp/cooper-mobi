@@ -11,8 +11,8 @@
 @interface InputPickerView : UIView
 {
     UIView *inputAccessoryView;
-    
     UITextField *textField;
 }
 @property (nonatomic, assign) id <InputPickerDelegate> delegate;
+@property (nonatomic, retain) NSString *placeHolderText;
 @end

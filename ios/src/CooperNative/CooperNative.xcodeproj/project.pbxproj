@@ -106,6 +106,9 @@
 		18FAC25515BFA143003F56B2 /* btn_bg_green.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC25415BFA143003F56B2 /* btn_bg_green.png */; };
 		18FAC25A15BFAF50003F56B2 /* navigationbar_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC25915BFAF50003F56B2 /* navigationbar_bg.png */; };
 		6A18E52816030D7B00ED2042 /* TeamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E52716030D7B00ED2042 /* TeamViewController.m */; };
+		6A5BA8CF1634E309008BA305 /* FillLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5BA8CC1634E309008BA305 /* FillLabel.m */; };
+		6A5BA8D01634E309008BA305 /* FillLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5BA8CE1634E309008BA305 /* FillLabelView.m */; };
+		6A5BA8D316352519008BA305 /* TaskTagsOptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5BA8D216352519008BA305 /* TaskTagsOptionViewController.m */; };
 		6A7D87B8160AAB93004C7C9C /* TeamTaskFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D87B7160AAB93004C7C9C /* TeamTaskFilterViewController.m */; };
 		6A7D87C1160AE51B004C7C9C /* TeamTaskFilterLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D87C0160AE51B004C7C9C /* TeamTaskFilterLabel.m */; };
 		6A7D87C4160B5536004C7C9C /* TeamTaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D87C3160B5535004C7C9C /* TeamTaskDetailViewController.m */; };
@@ -357,6 +360,12 @@
 		6A18E52616030D7B00ED2042 /* TeamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamViewController.h; path = ViewControllers/TeamViewController.h; sourceTree = "<group>"; };
 		6A18E52716030D7B00ED2042 /* TeamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamViewController.m; path = ViewControllers/TeamViewController.m; sourceTree = "<group>"; };
 		6A18E5291603286A00ED2042 /* TaskModelV0_2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskModelV0_2.xcdatamodel; sourceTree = "<group>"; };
+		6A5BA8CB1634E309008BA305 /* FillLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FillLabel.h; path = Controls/FillLabel.h; sourceTree = "<group>"; };
+		6A5BA8CC1634E309008BA305 /* FillLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FillLabel.m; path = Controls/FillLabel.m; sourceTree = "<group>"; };
+		6A5BA8CD1634E309008BA305 /* FillLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FillLabelView.h; path = Controls/FillLabelView.h; sourceTree = "<group>"; };
+		6A5BA8CE1634E309008BA305 /* FillLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FillLabelView.m; path = Controls/FillLabelView.m; sourceTree = "<group>"; };
+		6A5BA8D116352518008BA305 /* TaskTagsOptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskTagsOptionViewController.h; path = ViewControllers/TaskTagsOptionViewController.h; sourceTree = "<group>"; };
+		6A5BA8D216352519008BA305 /* TaskTagsOptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskTagsOptionViewController.m; path = ViewControllers/TaskTagsOptionViewController.m; sourceTree = "<group>"; };
 		6A7D87B6160AAB93004C7C9C /* TeamTaskFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamTaskFilterViewController.h; path = ViewControllers/TeamTaskFilterViewController.h; sourceTree = "<group>"; };
 		6A7D87B7160AAB93004C7C9C /* TeamTaskFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamTaskFilterViewController.m; path = ViewControllers/TeamTaskFilterViewController.m; sourceTree = "<group>"; };
 		6A7D87BB160AAD6F004C7C9C /* TeamTaskViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamTaskViewDelegate.h; path = ViewControllers/TeamTaskViewDelegate.h; sourceTree = "<group>"; };
@@ -623,6 +632,17 @@
 			name = TeamViewController;
 			sourceTree = "<group>";
 		};
+		6A5BA8C91634E292008BA305 /* Labels */ = {
+			isa = PBXGroup;
+			children = (
+				6A5BA8CB1634E309008BA305 /* FillLabel.h */,
+				6A5BA8CC1634E309008BA305 /* FillLabel.m */,
+				6A5BA8CD1634E309008BA305 /* FillLabelView.h */,
+				6A5BA8CE1634E309008BA305 /* FillLabelView.m */,
+			);
+			name = Labels;
+			sourceTree = "<group>";
+		};
 		8C0C2F2015AE7AAF00283579 /* SBJSON */ = {
 			isa = PBXGroup;
 			children = (
@@ -754,6 +774,8 @@
 				1810152315C04BAF00D67C06 /* TaskDetailViewController.m */,
 				1835EFD515C0CF99004AF233 /* TaskDetailEditViewController.h */,
 				1835EFD615C0CF99004AF233 /* TaskDetailEditViewController.m */,
+				6A5BA8D116352518008BA305 /* TaskTagsOptionViewController.h */,
+				6A5BA8D216352519008BA305 /* TaskTagsOptionViewController.m */,
 			);
 			name = DetailViewController;
 			sourceTree = "<group>";
@@ -761,6 +783,7 @@
 		EE3962A7159D48D80018B9EC /* Controls */ = {
 			isa = PBXGroup;
 			children = (
+				6A5BA8C91634E292008BA305 /* Labels */,
 				1838AADD15C7E06E003EC484 /* TableViews */,
 				1810152D15C04C0600D67C06 /* Cells */,
 				1810149015C0489400D67C06 /* CustomButton.h */,
@@ -1208,6 +1231,9 @@
 				6A7D87C4160B5536004C7C9C /* TeamTaskDetailViewController.m in Sources */,
 				6A7D87C7160C0AEA004C7C9C /* TeamTaskOptionViewController.m in Sources */,
 				6A7D87CA160C6499004C7C9C /* TeamTaskDetailEditViewController.m in Sources */,
+				6A5BA8CF1634E309008BA305 /* FillLabel.m in Sources */,
+				6A5BA8D01634E309008BA305 /* FillLabelView.m in Sources */,
+				6A5BA8D316352519008BA305 /* TaskTagsOptionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

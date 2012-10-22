@@ -22,7 +22,7 @@
 @synthesize commentTextField;
 @synthesize delegate;
 @synthesize currentTasklistId;
-@synthesize teamTaskOptionViewController;
+@synthesize taskTagsOptionViewController;
 
 - (id)init
 {
@@ -46,7 +46,7 @@
     [bodyLabel release];
     [commentTextField release];
     
-    [teamTaskOptionViewController release];
+    [taskTagsOptionViewController release];
     
     [super dealloc];
 }
@@ -640,21 +640,23 @@
 
 - (void)selectTag:(id)sender
 {
-    if (teamTaskOptionViewController == nil)
+    if (taskTagsOptionViewController == nil)
     {
-        teamTaskOptionViewController = [[TeamTaskOptionViewController alloc] init];
+        taskTagsOptionViewController = [[TaskTagsOptionViewController alloc] init];
     }
     
-    teamTaskOptionViewController.currentTask = task;
-    teamTaskOptionViewController.selectMultiple = YES;
-    teamTaskOptionViewController.optionType = 4;
+    taskTagsOptionViewController.currentTask = task;
+    
+//    teamTaskOptionViewController.currentTask = task;
+//    teamTaskOptionViewController.selectMultiple = YES;
+//    teamTaskOptionViewController.optionType = 4;
 //    teamTaskOptionViewController.currentTeamId = currentTeamId;
 //    teamTaskOptionViewController.currentProjectId = currentProjectId;
 //    teamTaskOptionViewController.currentMemberId = currentMemberId;
 //    teamTaskOptionViewController.currentTag = currentTag;
     
     [Tools layerTransition:self.navigationController.view from:@"right"];
-    [self.navigationController pushViewController:teamTaskOptionViewController animated:NO];
+    [self.navigationController pushViewController:taskTagsOptionViewController animated:NO];
 }
 
 - (NSString*)getPriorityKey:(NSString*)priorityValue

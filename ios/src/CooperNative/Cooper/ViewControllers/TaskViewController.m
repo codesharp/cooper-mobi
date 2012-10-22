@@ -330,10 +330,11 @@
                                 isPublic:[NSNumber numberWithInt:1]
                                   status:status
                                 priority:priority
-                                  taskid:taskId
+                                  taskId:taskId
                                  dueDate:due
                                 editable:[NSNumber numberWithInt:[editable integerValue]]
                               tasklistId:currentTasklistId
+                                    tags:@"[]"
                                 isCommit:NO];
                     }
                     

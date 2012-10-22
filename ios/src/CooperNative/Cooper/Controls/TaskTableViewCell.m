@@ -7,6 +7,7 @@
 //
 
 #import "TaskTableViewCell.h"
+#import "FillLabelView.h"
 
 #define PADDING         5.0f
 #define CONTENT_WIDTH   200.0f
@@ -204,15 +205,6 @@
         [dueDateLabel setFrame:CGRectMake(260  + [Tools screenMaxWidth] - 320, PADDING, 80, 20)];
     }
     
-//    if(subjectLabelHeight == 0 && bodylines * 16 == 0)
-//        totalHeight = 50;
-//    else
-//        totalHeight = subjectLabelHeight + bodylines * 16 ;
-    
-//    if(totalHeight < 50)
-//        totalHeight = 50;
-    
-    
     if(self.task.assigneeId != nil)
     {  
         TeamMember *teamMember = [teamMemberDao getTeamMemberByTeamId:self.task.teamId
@@ -227,6 +219,7 @@
             CGFloat assigneeLabelHeight = assigneeLabelSize.height;
             if(assigneeLabelHeight == 0.0f)
             {
+                
             }
             else
             {
@@ -240,38 +233,23 @@
     }
     
     NSMutableArray *tagsArray = [self.task.tags JSONValue];
-//    int tagHeight = 20;
     if(tagsArray.count > 0)
     {
-        //tagsLabel.frame = CGRectMake(50, totalHeight + PADDING, self.bounds.size.width - 50 - 20, 12);
-        NSString *tags = @"";
-        for (NSString *tag in tagsArray) {
-            tags = [NSString stringWithFormat:@"%@ %@", tags, tag];
-        }
-        tagsLabel.text = tags;
-        CGSize tagsLabelSize = [tagsLabel.text sizeWithFont:tagsLabel.font
-                                          constrainedToSize:CGSizeMake(self.bounds.size.width - 50, MAX_HEIGHT)
-                                              lineBreakMode:UILineBreakModeWordWrap];
-        CGFloat tagsLabelHeight = tagsLabelSize.height;
-        if(tagsLabelHeight == 0.0f)
-        {
-            
-        }
-        else
-        {
-            int tagslines = tagsLabelHeight / 12;
-            
-            tagsLabel.frame = CGRectMake(50, totalHeight + PADDING, self.bounds.size.width - 50, tagsLabelHeight);
-            tagsLabel.numberOfLines = tagslines;
-            totalHeight += tagsLabelHeight + PADDING;
-        }
+        FillLabelView *fillLabelView = [[FillLabelView alloc] initWithFrame:CGRectMake(150, totalHeight + PADDING, self.bounds.size.width - 150, 0)];
+        //fillLabelView.layer.borderWidth = 1.0f;
+        //fillLabelView.layer.borderColor = [[UIColor blueColor] CGColor];
+        [fillLabelView bindTags:tagsArray];
+        [self.contentView addSubview:fillLabelView];
+        [fillLabelView release];
+        
+        totalHeight += fillLabelView.frame.size.height + PADDING;
     }
     
-//    if(totalHeight < 50)
-//        totalHeight = 50;
+    if(totalHeight < 50)
+        totalHeight = 50;
     
-    [self setFrame:CGRectMake(0, 0, self.bounds.size.width, totalHeight)];
-    [leftView setFrame:CGRectMake(0, 0, 40, totalHeight)];
+    [self setFrame:CGRectMake(0, 0, self.bounds.size.width, totalHeight + PADDING)];
+    [leftView setFrame:CGRectMake(0, 0, 40, totalHeight + PADDING)];
 }
 
 - (void)dealloc
