@@ -68,6 +68,7 @@
 
     //左上编辑按钮
     editBtn = [[InputPickerView alloc] initWithFrame:CGRectMake(left, 0, 38, 45)];
+    editBtn.placeHolderText = @"任务表名称";
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 27, 27)];
     UIImage *editImage = [UIImage imageNamed:EDIT_IMAGE];
     imageView.image = editImage;

@@ -10,7 +10,7 @@
 #import "InputPickerView.h"
 #import "CooperCore/Task.h"
 
-@interface TaskTagsOptionViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>
+@interface TaskTagsOptionViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, InputPickerDelegate>
 {
     UITableView *tagsView;
     InputPickerView *editBtn;

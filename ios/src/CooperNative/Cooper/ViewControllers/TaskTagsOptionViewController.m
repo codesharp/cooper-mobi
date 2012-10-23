@@ -26,7 +26,7 @@
 {
     [super viewDidLoad];
     
-    tagsArray = [currentTask.tags JSONValue];
+    tagsArray = [[currentTask.tags JSONValue] copy];
 	
     [self initContentView];
 }
@@ -143,6 +143,7 @@
     self.navigationItem.leftBarButtonItem = backButtonItem;
     
     editBtn = [[InputPickerView alloc] initWithFrame:CGRectMake(0, 0, 38, 45)];
+    editBtn.placeHolderText = @"标签名称";
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 10, 27, 27)];
     UIImage *editImage = [UIImage imageNamed:EDIT_IMAGE];
     imageView.image = editImage;
@@ -186,6 +187,30 @@
 //    [tagsArray addObject:@"demo"];
 //    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tagsArray.count inSection:0];
 //    [tagsView insertRowsAtIndexPaths:tagsArray withRowAnimation:UITableViewRowAnimationTop];
+}
+- (void)send:(NSString *)tagName
+{
+    NSLog(@"add tag: %@", tagName);
+
+    tagsArray = [currentTask.tags JSONValue];
+    [tagsArray addObject:tagName];
+    
+    [editBtn resignFirstResponder];
+    
+    [tagsView reloadData];
+    
+//    NSString *guid = [Tools stringWithUUID];
+//    NSString *tasklistId = [NSString stringWithFormat:@"temp_%@", guid];
+//    
+//    NSString *tasklistname = name;
+//    NSString *tasklisttype = @"personal";
+//    
+//    [tasklistDao addTasklist:tasklistId :tasklistname :tasklisttype];
+//    [tasklistDao commitData];
+//    
+//    //[editBtn resignFirstResponder];
+//    
+//    [self loadTasklistData];
 }
 
 @end

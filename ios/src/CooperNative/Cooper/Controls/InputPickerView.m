@@ -12,6 +12,7 @@
 @implementation InputPickerView
 
 @synthesize delegate;
+@synthesize placeHolderText;
 
 - (UIView *)inputAccessoryView {
     //[textField performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.3];
@@ -28,7 +29,8 @@
         textField = [[[UITextField alloc] init] autorelease];
         [textField setFrame:CGRectMake(5, 5, 250 + [Tools screenMaxWidth] - 320, 30)];
         [textField setBackgroundColor:[UIColor whiteColor]];
-        [textField setPlaceholder:@"任务表名称"];
+        //[textField setPlaceholder:@"任务表名称"];
+        [textField setPlaceholder:placeHolderText];
         [textField setAutocorrectionType:UITextAutocorrectionTypeNo];
         [textField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
         //[textField setReturnKeyType:UIReturnKeyDone];
@@ -61,7 +63,8 @@
 - (void)doneAction:(id)sender {
     if([textField.text length] == 0)
     {
-        [Tools alert:@"请输入任务表名称"];
+        NSString *msg = [NSString stringWithFormat:@"请输入%@", placeHolderText];
+        [Tools alert:msg];
         return;
     }
     //TODO:发送评论
