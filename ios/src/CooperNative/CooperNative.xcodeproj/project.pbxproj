@@ -34,7 +34,6 @@
 		1810151D15C04B9A00D67C06 /* PriorityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810151B15C04B9A00D67C06 /* PriorityViewController.m */; };
 		1810151E15C04B9A00D67C06 /* PriorityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1810151C15C04B9A00D67C06 /* PriorityViewController.xib */; };
 		1810152615C04BAF00D67C06 /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810152315C04BAF00D67C06 /* TaskDetailViewController.m */; };
-		1810152B15C04BC100D67C06 /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810152815C04BC100D67C06 /* TaskViewController.m */; };
 		1810152C15C04BC100D67C06 /* TaskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1810152915C04BC100D67C06 /* TaskViewController.xib */; };
 		181DD88315C80F3300FB2ED5 /* BodyTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 181DD88215C80F3300FB2ED5 /* BodyTextView.m */; };
 		1835EFD115C0CA59004AF233 /* incomplete.png in Resources */ = {isa = PBXBuildFile; fileRef = 1835EFCE15C0CA59004AF233 /* incomplete.png */; };
@@ -106,6 +105,8 @@
 		18FAC25515BFA143003F56B2 /* btn_bg_green.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC25415BFA143003F56B2 /* btn_bg_green.png */; };
 		18FAC25A15BFAF50003F56B2 /* navigationbar_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 18FAC25915BFAF50003F56B2 /* navigationbar_bg.png */; };
 		6A18E52816030D7B00ED2042 /* TeamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A18E52716030D7B00ED2042 /* TeamViewController.m */; };
+		6A56EF471637E5FB00370A3F /* personal.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A56EF451637E5FB00370A3F /* personal.png */; };
+		6A56EF481637E5FB00370A3F /* team.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A56EF461637E5FB00370A3F /* team.png */; };
 		6A5BA8CF1634E309008BA305 /* FillLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5BA8CC1634E309008BA305 /* FillLabel.m */; };
 		6A5BA8D01634E309008BA305 /* FillLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5BA8CE1634E309008BA305 /* FillLabelView.m */; };
 		6A5BA8D316352519008BA305 /* TaskTagsOptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5BA8D216352519008BA305 /* TaskTagsOptionViewController.m */; };
@@ -252,8 +253,6 @@
 		1810151C15C04B9A00D67C06 /* PriorityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PriorityViewController.xib; path = ViewControllers/PriorityViewController.xib; sourceTree = "<group>"; };
 		1810152215C04BAF00D67C06 /* TaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskDetailViewController.h; path = ViewControllers/TaskDetailViewController.h; sourceTree = "<group>"; };
 		1810152315C04BAF00D67C06 /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskDetailViewController.m; path = ViewControllers/TaskDetailViewController.m; sourceTree = "<group>"; };
-		1810152715C04BC000D67C06 /* TaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskViewController.h; path = ViewControllers/TaskViewController.h; sourceTree = "<group>"; };
-		1810152815C04BC100D67C06 /* TaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskViewController.m; path = ViewControllers/TaskViewController.m; sourceTree = "<group>"; };
 		1810152915C04BC100D67C06 /* TaskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TaskViewController.xib; path = ViewControllers/TaskViewController.xib; sourceTree = "<group>"; };
 		1810152A15C04BC100D67C06 /* TaskViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskViewDelegate.h; path = ViewControllers/TaskViewDelegate.h; sourceTree = "<group>"; };
 		181DD88115C80F3300FB2ED5 /* BodyTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BodyTextView.h; path = Controls/BodyTextView.h; sourceTree = "<group>"; };
@@ -360,6 +359,9 @@
 		6A18E52616030D7B00ED2042 /* TeamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeamViewController.h; path = ViewControllers/TeamViewController.h; sourceTree = "<group>"; };
 		6A18E52716030D7B00ED2042 /* TeamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TeamViewController.m; path = ViewControllers/TeamViewController.m; sourceTree = "<group>"; };
 		6A18E5291603286A00ED2042 /* TaskModelV0_2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskModelV0_2.xcdatamodel; sourceTree = "<group>"; };
+		6A56EF451637E5FB00370A3F /* personal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = personal.png; sourceTree = "<group>"; };
+		6A56EF461637E5FB00370A3F /* team.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = team.png; sourceTree = "<group>"; };
+		6A56EF491637F2E500370A3F /* TaskDetailEditViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TaskDetailEditViewDelegate.h; path = ViewControllers/TaskDetailEditViewDelegate.h; sourceTree = "<group>"; };
 		6A5BA8CB1634E309008BA305 /* FillLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FillLabel.h; path = Controls/FillLabel.h; sourceTree = "<group>"; };
 		6A5BA8CC1634E309008BA305 /* FillLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FillLabel.m; path = Controls/FillLabel.m; sourceTree = "<group>"; };
 		6A5BA8CD1634E309008BA305 /* FillLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FillLabelView.h; path = Controls/FillLabelView.h; sourceTree = "<group>"; };
@@ -757,8 +759,6 @@
 		EE396291159D34DA0018B9EC /* TaskViewController */ = {
 			isa = PBXGroup;
 			children = (
-				1810152715C04BC000D67C06 /* TaskViewController.h */,
-				1810152815C04BC100D67C06 /* TaskViewController.m */,
 				1810152915C04BC100D67C06 /* TaskViewController.xib */,
 				1810152A15C04BC100D67C06 /* TaskViewDelegate.h */,
 				18F09CB415F9D0F800088568 /* TaskController.h */,
@@ -776,6 +776,7 @@
 				1835EFD615C0CF99004AF233 /* TaskDetailEditViewController.m */,
 				6A5BA8D116352518008BA305 /* TaskTagsOptionViewController.h */,
 				6A5BA8D216352519008BA305 /* TaskTagsOptionViewController.m */,
+				6A56EF491637F2E500370A3F /* TaskDetailEditViewDelegate.h */,
 			);
 			name = DetailViewController;
 			sourceTree = "<group>";
@@ -888,6 +889,8 @@
 		EEF30E6515A5569100506A79 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6A56EF451637E5FB00370A3F /* personal.png */,
+				6A56EF461637E5FB00370A3F /* team.png */,
 				18409FA115C196BD00639DEE /* bg-line.png */,
 				18409FA215C196BD00639DEE /* complete-small.png */,
 				18409FA315C196BD00639DEE /* incomplete-small.png */,
@@ -1124,6 +1127,8 @@
 				18A92DA715D2E97400423A55 /* icon.png in Resources */,
 				18A92DA815D2E97400423A55 /* icon@2x.png in Resources */,
 				18A92DBB15D2EA2800423A55 /* GTMOAuth2ViewTouch.xib in Resources */,
+				6A56EF471637E5FB00370A3F /* personal.png in Resources */,
+				6A56EF481637E5FB00370A3F /* team.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1197,7 +1202,6 @@
 				1810151815C04B8800D67C06 /* LoginViewController.m in Sources */,
 				1810151D15C04B9A00D67C06 /* PriorityViewController.m in Sources */,
 				1810152615C04BAF00D67C06 /* TaskDetailViewController.m in Sources */,
-				1810152B15C04BC100D67C06 /* TaskViewController.m in Sources */,
 				1886CCA515C06482002346A1 /* DateLabel.m in Sources */,
 				1886CCAB15C0733B002346A1 /* PriorityButton.m in Sources */,
 				1835EFD715C0CF99004AF233 /* TaskDetailEditViewController.m in Sources */,

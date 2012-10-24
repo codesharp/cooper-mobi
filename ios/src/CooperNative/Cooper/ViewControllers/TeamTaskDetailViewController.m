@@ -556,7 +556,7 @@
                             [tagBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                             [tagBtn setTitle:tagName forState:UIControlStateNormal];
                             CGSize size = CGSizeMake([Tools screenMaxWidth], 10000);
-                            CGSize labelsize = [tagBtn.titleLabel.text sizeWithFont:priorityButton.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
+                            CGSize labelsize = [tagBtn.titleLabel.text sizeWithFont:tagBtn.titleLabel.font constrainedToSize:size lineBreakMode:UILineBreakModeWordWrap];
                             CGFloat labelsizeHeight = labelsize.height + 10;
                             tagBtn.frame = CGRectMake(0, 8 + totalHeight, labelsize.width + 40, labelsizeHeight);
                             [tagView addSubview:tagBtn];

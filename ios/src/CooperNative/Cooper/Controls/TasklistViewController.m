@@ -646,6 +646,7 @@
                 Tasklist* l = (Tasklist*)[tasklists objectAtIndex:i];
                 if([tasklistId isEqualToString: l.id])
                 {
+                    cell.imageView.image = [UIImage imageNamed:@"personal.png"];
                     cell.textLabel.text = l.name;
                     break;
                 }
@@ -654,11 +655,13 @@
         else 
         {
             Tasklist* tasklist = [tasklists objectAtIndex:indexPath.row];
+            cell.imageView.image = [UIImage imageNamed:@"personal.png"];
             cell.textLabel.text = tasklist.name;
         }
     }
     else {
         Tasklist* tasklist = [tasklists objectAtIndex:indexPath.row];
+        cell.imageView.image = [UIImage imageNamed:@"personal.png"];
         cell.textLabel.text = tasklist.name;
     }
     

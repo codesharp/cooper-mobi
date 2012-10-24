@@ -10,8 +10,10 @@
 
 @implementation TaskTagsOptionViewController
 
+@synthesize currentTasklistId;
 @synthesize currentTask;
 @synthesize tagsArray;
+@synthesize delegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,15 +28,15 @@
 {
     [super viewDidLoad];
     
-    tagsArray = [[currentTask.tags JSONValue] copy];
-	
+    taskDao = [[TaskDao alloc] init];
+    changeLogDao = [[ChangeLogDao alloc] init];
+
     [self initContentView];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (void)dealloc
@@ -42,6 +44,8 @@
     [super dealloc];
     
     [tagsView release];
+    [taskDao release];
+    [changeLogDao release];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -87,46 +91,52 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if(selectMultiple)
-//    {
-//        UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
-//        if (newCell.accessoryType == UITableViewCellAccessoryNone)
-//        {
-//            newCell.accessoryType = UITableViewCellAccessoryCheckmark;
-//        }
-//        else
-//        {
-//            newCell.accessoryType = UITableViewCellAccessoryNone;
-//        }
-//    }
-//    else
-//    {
-//        if([currentIndexs isEqualToString:@""])
-//        {
-//            UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
-//            if (newCell.accessoryType == UITableViewCellAccessoryNone)
-//            {
-//                newCell.accessoryType = UITableViewCellAccessoryCheckmark;
-//            }
-//        }
-//        else
-//        {
-//            NSInteger currentIndex = [currentIndexs integerValue];
-//            NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:currentIndex inSection:0];
-//            
-//            UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
-//            if (newCell.accessoryType == UITableViewCellAccessoryNone)
-//            {
-//                newCell.accessoryType = UITableViewCellAccessoryCheckmark;
-//            }
-//            UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:oldIndexPath];
-//            if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark)
-//            {
-//                oldCell.accessoryType = UITableViewCellAccessoryNone;
-//            }
-//        }
-//        currentIndexs = [[NSString stringWithFormat:@"%d", indexPath.row] copy];
-//    }
+
+}
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+- (NSString*)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"删除";
+}
+//点击标准编辑按钮
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        NSString *tag = [[tagsArray objectAtIndex:indexPath.row] copy];
+   
+        [tagsArray removeObjectAtIndex:indexPath.row];
+        
+        if(currentTask != nil)
+        {
+            currentTask.tags = [tagsArray JSONRepresentation];
+            [changeLogDao insertChangeLog:[NSNumber numberWithInt:1]
+                                   dataid:currentTask.id
+                                     name:@"tags"
+                                    value:tag
+                               tasklistId:currentTasklistId];
+            
+            [taskDao commitData];
+        }
+        [delegate modifyTags:[[tagsArray JSONRepresentation] copy]];
+ 
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+    }
+    else if (editingStyle == UITableViewCellEditingStyleInsert)
+    {
+ 
+    }
+    else
+    {
+        
+    }
 }
 
 #pragma mark - 自定义方法
@@ -155,10 +165,6 @@
     editBtn.delegate = self;
     [recognizer release];
     
-//    UIButton *editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [editBtn setFrame:CGRectMake(0, 10, 27, 27)];
-//    [editBtn setBackgroundImage:[UIImage imageNamed:EDIT_IMAGE] forState:UIControlStateNormal];
-//    [editBtn addTarget: self action: @selector(addTag:) forControlEvents: UIControlEventTouchUpInside];
     UIBarButtonItem *editButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:editBtn] autorelease];
     self.navigationItem.rightBarButtonItem = editButtonItem;
 
@@ -184,33 +190,36 @@
 - (void)addTag:(id)sender
 {
     [editBtn becomeFirstResponder];
-//    [tagsArray addObject:@"demo"];
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:tagsArray.count inSection:0];
-//    [tagsView insertRowsAtIndexPaths:tagsArray withRowAnimation:UITableViewRowAnimationTop];
 }
 - (void)send:(NSString *)tagName
 {
-    NSLog(@"add tag: %@", tagName);
-
-    tagsArray = [currentTask.tags JSONValue];
+    NSLog(@"添加标签: %@", tagName);
+    
+    for (NSString *tag in tagsArray)
+    {
+        if([tag caseInsensitiveCompare:tagName] == NSOrderedSame)
+        {
+            [editBtn resignFirstResponder];
+            return;
+        }
+    }
     [tagsArray addObject:tagName];
-    
     [editBtn resignFirstResponder];
-    
     [tagsView reloadData];
     
-//    NSString *guid = [Tools stringWithUUID];
-//    NSString *tasklistId = [NSString stringWithFormat:@"temp_%@", guid];
-//    
-//    NSString *tasklistname = name;
-//    NSString *tasklisttype = @"personal";
-//    
-//    [tasklistDao addTasklist:tasklistId :tasklistname :tasklisttype];
-//    [tasklistDao commitData];
-//    
-//    //[editBtn resignFirstResponder];
-//    
-//    [self loadTasklistData];
+    if(currentTask != nil)
+    {
+        currentTask.tags = [tagsArray JSONRepresentation];
+        
+        [changeLogDao insertChangeLog:[NSNumber numberWithInt:2]
+                               dataid:currentTask.id
+                                 name:@"tags"
+                                value:tagName
+                           tasklistId:currentTasklistId];
+        
+        [taskDao commitData];
+    }
+    [delegate modifyTags:[[tagsArray JSONRepresentation] copy]];
 }
 
 @end

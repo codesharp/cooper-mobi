@@ -645,15 +645,9 @@
         taskTagsOptionViewController = [[TaskTagsOptionViewController alloc] init];
     }
     
+    taskTagsOptionViewController.currentTasklistId = currentTasklistId;
     taskTagsOptionViewController.currentTask = task;
-    
-//    teamTaskOptionViewController.currentTask = task;
-//    teamTaskOptionViewController.selectMultiple = YES;
-//    teamTaskOptionViewController.optionType = 4;
-//    teamTaskOptionViewController.currentTeamId = currentTeamId;
-//    teamTaskOptionViewController.currentProjectId = currentProjectId;
-//    teamTaskOptionViewController.currentMemberId = currentMemberId;
-//    teamTaskOptionViewController.currentTag = currentTag;
+    taskTagsOptionViewController.tagsArray = [task.tags JSONValue];
     
     [Tools layerTransition:self.navigationController.view from:@"right"];
     [self.navigationController pushViewController:taskTagsOptionViewController animated:NO];

@@ -17,10 +17,15 @@
 #import "CooperRepository/TaskDao.h"
 #import "CooperRepository/TaskIdxDao.h"
 #import "CooperRepository/ChangeLogDao.h"
+#import "TaskTagsOptionViewController.h"
+#import "TaskDetailEditViewDelegate.h"
 
-@interface TaskDetailEditViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate,DateLabelDelegate,PriorityButtonDelegate>
+@interface TaskDetailEditViewController : BaseViewController<UITableViewDelegate, UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate,DateLabelDelegate,PriorityButtonDelegate,TaskDetailEditViewDelegate>
 {
     UITableView *detailView;
+    UIView *tagView;
+    NSString *currentTags;
+    
     NSString *oldPriority;
     
     TaskDao *taskDao;
@@ -43,5 +48,6 @@
 @property (retain, nonatomic) CustomButton *statusButton;
 @property (retain, nonatomic) NSString* currentTasklistId;
 @property (retain, nonatomic) UITableViewCell *bodyCell;
+@property (retain, nonatomic) TaskTagsOptionViewController *taskTagsOptionViewController;
 
 @end

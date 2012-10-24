@@ -235,6 +235,7 @@
                 Team* t = (Team*)[teams objectAtIndex:i];
                 if([teamId isEqualToString: t.id])
                 {
+                    cell.imageView.image = [UIImage imageNamed:@"team.png"];
                     cell.textLabel.text = t.name;
                     break;
                 }
@@ -243,12 +244,14 @@
         else
         {
             Team* team = [teams objectAtIndex:indexPath.row];
+            cell.imageView.image = [UIImage imageNamed:@"team.png"];
             cell.textLabel.text = team.name;
         }
     }
     else
     {
         Team* team = [teams objectAtIndex:indexPath.row];
+        cell.imageView.image = [UIImage imageNamed:@"team.png"];
         cell.textLabel.text = team.name;
     }
     

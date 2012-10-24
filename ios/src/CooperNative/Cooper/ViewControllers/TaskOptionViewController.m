@@ -183,7 +183,8 @@
                     Tasklist* t = (Tasklist*)[tasklists objectAtIndex:i];
                     if([tasklistId isEqualToString: t.id])
                     {
-                        cell.textLabel.text = [NSString stringWithFormat:@"【个】%@", t.name];
+                        cell.imageView.image = [UIImage imageNamed:@"personal.png"];
+                        cell.textLabel.text = [NSString stringWithFormat:@"%@", t.name];
                         break;
                     }
                 }
@@ -198,7 +199,8 @@
                     Team* t = (Team*)[teams objectAtIndex:i];
                     if([teamId isEqualToString: t.id])
                     {
-                        cell.textLabel.text = [NSString stringWithFormat:@"【团】%@", t.name];
+                        cell.imageView.image = [UIImage imageNamed:@"team.png"];
+                        cell.textLabel.text = [NSString stringWithFormat:@"%@", t.name];
                         break;
                     }
                 }
