@@ -34,7 +34,7 @@
 
 - (void)dealloc
 {
-    [detailView release];
+//    [detailView release];
     [taskDao release];
     [taskIdxDao release];
     [changeLogDao release];
@@ -415,7 +415,7 @@
                 [subjectLabel setFont:[UIFont boldSystemFontOfSize:16]];
                 [cell addSubview:subjectLabel];
                 
-                bodyLabel = [[[JSCoreTextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 240)] autorelease];
+                bodyLabel = [[JSCoreTextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 240)];
                 [bodyLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
                 [bodyLabel setDelegate:self];
                 [bodyLabel setFontName:font];

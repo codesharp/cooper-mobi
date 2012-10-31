@@ -68,7 +68,7 @@
     [tagDao release];
     [commentDao release];
     
-    [detailView release];
+//    [detailView release];
     [assigneeView release];
     [projectView release];
     [tagView release];
@@ -598,7 +598,7 @@
                     [subjectLabel setFont:[UIFont boldSystemFontOfSize:16]];
                     [cell addSubview:subjectLabel];
                     
-                    bodyLabel = [[[JSCoreTextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 240)] autorelease];
+                    bodyLabel = [[JSCoreTextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 240)];
                     [bodyLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
                     [bodyLabel setDelegate:self];
                     [bodyLabel setFontName:font];
