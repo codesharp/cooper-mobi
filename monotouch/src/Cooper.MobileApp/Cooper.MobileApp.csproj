@@ -96,6 +96,8 @@
       <DependentUpon>LoginViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewControllers\MainViewController.cs" />
+    <Compile Include="Controls\DomainLabel.cs" />
+    <Compile Include="Controls\CustomButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="ViewControllers\LoginViewControllers\LoginViewController_iPhone.xib" />
@@ -106,6 +108,7 @@
     <Folder Include="Images\" />
     <Folder Include="ViewControllers\" />
     <Folder Include="ViewControllers\LoginViewControllers\" />
+    <Folder Include="Controls\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Default.png" />
@@ -113,6 +116,37 @@
     <Content Include="Images\icon.png" />
     <Content Include="Images\icon%402x.png" />
     <Content Include="Images\bg-line.png" />
+    <Content Include="Images\incomplete.png" />
+    <Content Include="Images\incomplete-small.png" />
+    <Content Include="Images\list.png" />
+    <Content Include="Images\loginbtn.png" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\navigationbar_bg.png" />
+    <Content Include="Images\personal.png" />
+    <Content Include="Images\refresh.png" />
+    <Content Include="Images\sectionTitlebg.png" />
+    <Content Include="Images\setting.png" />
+    <Content Include="Images\setting-small.png" />
+    <Content Include="Images\sync.png" />
+    <Content Include="Images\tabbar_bg.png" />
+    <Content Include="Images\tabbar_selectedbg.png" />
+    <Content Include="Images\task.png" />
+    <Content Include="Images\tasklist.png" />
+    <Content Include="Images\team.png" />
+    <Content Include="Images\add.png" />
+    <Content Include="Images\arowright.png" />
+    <Content Include="Images\back.png" />
+    <Content Include="Images\bg.png" />
+    <Content Include="Images\btn_bg.png" />
+    <Content Include="Images\btn_bg_gray.png" />
+    <Content Include="Images\btn_bg_green.png" />
+    <Content Include="Images\btn_center.png" />
+    <Content Include="Images\complete.png" />
+    <Content Include="Images\complete-small.png" />
+    <Content Include="Images\cooper.png" />
+    <Content Include="Images\edit.png" />
+    <Content Include="Images\Google-logo.png" />
+    <Content Include="Images\uncomplete.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default.png" />
