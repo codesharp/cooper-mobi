@@ -20,7 +20,7 @@ var index = {
     login: function()
     {
         var userName = 'sunleepy@gmail.com';
-        var password = '2510997261';
+        var password = 'xxxxxxx';
 
         index.validateUser(userName, password);
         
